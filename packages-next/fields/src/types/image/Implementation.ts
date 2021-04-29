@@ -4,6 +4,9 @@ import { ImageData, KeystoneContext, BaseKeystoneList } from '@keystone-next/typ
 import { Implementation } from '../../Implementation';
 import { handleImageData } from './handle-image-input';
 
+const MISSING_CONFIG_ERROR =
+  'Images context is undefined, this most likely means that you havent configurd keystone with a file config, see https://next.keystonejs.com/apis/config#images for details';
+
 export class ImageImplementation<P extends string> extends Implementation<P> {
   get _supportsUnique() {
     return false;
@@ -43,13 +46,13 @@ export class ImageImplementation<P extends string> extends Implementation<P> {
       ImageFieldOutput: {
         src(data: ImageData, _args: any, context: KeystoneContext) {
           if (!context.images) {
-            throw new Error('Image context is undefined');
+            throw new Error(MISSING_CONFIG_ERROR);
           }
           return context.images.getSrc(data.mode, data.id, data.extension);
         },
         ref(data: ImageData, _args: any, context: KeystoneContext) {
           if (!context.images) {
-            throw new Error('Image context is undefined');
+            throw new Error(MISSING_CONFIG_ERROR);
           }
           return getImageRef(data.mode, data.id, data.extension);
         },
