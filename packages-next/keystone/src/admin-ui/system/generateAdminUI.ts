@@ -102,7 +102,10 @@ export const generateAdminUI = async (
       const outputFilename = Path.join(projectAdminPath, 'pages', filename);
       const path = Path.relative(Path.dirname(outputFilename), Path.join(userPagesDir, filename));
       const importPath = serializePathForImport(path);
-      await fs.outputFile(outputFilename, `export { default } from ${importPath}`);
+      await fs.outputFile(
+        outputFilename,
+        `export { default } from ${importPath}\nexport * from ${importPath}`
+      );
     })
   );
 };
