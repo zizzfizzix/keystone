@@ -22,6 +22,7 @@ export function Announce({ children, ...props }: AnnounceProps) {
           textDecoration: 'underline',
         },
       }}
+      data-test="announce"
       {...props}
     >
       <Wrapper>{children}</Wrapper>

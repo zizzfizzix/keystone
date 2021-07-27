@@ -19,6 +19,7 @@ export function Wrapper({ as: Tag = 'div', ...props }: WrapperProps) {
         paddingLeft: ['var(--space-xlarge)', 'var(--space-xlarge)', null, '3rem'],
         paddingRight: ['var(--space-xlarge)', 'var(--space-xlarge)', null, '3rem'],
       })}
+      data-test="wrapper"
       {...props}
     />
   );
