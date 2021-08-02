@@ -6,8 +6,9 @@ export const CompanyLogo = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     css={css`
-      width: 4rem;
-      height: 2rem;
+      width: 15rem;
+      height: 4rem;
+      margin-top: 0.25rem;
     `}
   >
     <g filter="url(#filter0_d)">

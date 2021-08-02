@@ -78,14 +78,15 @@ export const NyanCat = () => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 320 180"
       css={css`
-        width: 10rem;
+        width: 20rem;
+        margin-top: 0.5rem;
       `}
     >
       <defs>
-        <radialGradient id="BackgroundGradient">
+        {/* <radialGradient id="BackgroundGradient">
           <stop offset="0%" stop-color="#005093" />
           <stop offset="100%" stop-color="#002953" />
-        </radialGradient>
+        </radialGradient> */}
 
         <g id="sparkle" transform="scale(2)" stroke="white">
           <Global

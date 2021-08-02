@@ -1,16 +1,16 @@
 /** @jsx jsx */
 import Link from 'next/link';
-import { NyanCat } from './NyanCat';
-// import { CompanyLogo } from './CompanyLogo';
 import { jsx, H3 } from '@keystone-ui/core';
+import { NyanCat } from './NyanCat';
+import { CompanyLogo } from './CompanyLogo';
 
 export const CustomLogo = () => {
   return (
     <H3>
       <Link href="/" passHref>
         <a>
-          {/* <CompanyLogo /> */}
           <NyanCat />
+          {/* <CompanyLogo /> */}
         </a>
       </Link>
     </H3>
