@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import Link from 'next/link';
-import nyancat from './nyancat.svg';
+import { NyanCat } from './NyanCat';
+// import { CompanyLogo } from './CompanyLogo';
 import { jsx, H3 } from '@keystone-ui/core';
 
 export const CustomLogo = () => {
@@ -8,8 +9,8 @@ export const CustomLogo = () => {
     <H3>
       <Link href="/" passHref>
         <a>
-          <img src={nyancat} alt="" />
-          {/* LegendBoulder After */}
+          {/* <CompanyLogo /> */}
+          <NyanCat />
         </a>
       </Link>
     </H3>
