@@ -1,6 +1,7 @@
-import { CorsOptions } from 'cors';
-import type { GraphQLSchema } from 'graphql';
 import type { Config } from 'apollo-server-express';
+import { CorsOptions } from 'cors';
+import express from 'express';
+import type { GraphQLSchema } from 'graphql';
 
 import type { AssetMode, KeystoneContext } from '..';
 
@@ -131,14 +132,15 @@ export type ServerConfig = {
   maxFileSize?: number;
   /** Health check configuration. Set to `true` to add a basic `/_healthcheck` route, or specify the path and data explicitly */
   healthCheck?: HealthCheckConfig | true;
+  /** Hook to extend the Express App that Keystone creates */
+  extendExpressApp?: (app: express.Express) => void;
 };
 
 // config.graphql
 
 export type GraphQLConfig = {
-  // FIXME: We currently hardcode `/api/graphql` in a bunch of places
-  // We should be able to use config.graphql.path to set this path.
-  // path?: string;
+  // The path of the GraphQL API endpoint. Default: '/api/graphql'.
+  path?: string;
   queryLimits?: {
     maxTotalResults?: number;
   };
@@ -238,14 +240,15 @@ export type KeystoneCloudConfig = {
 export type { ListHooks, ListAccessControl, FieldAccessControl };
 
 export type {
-  FieldCreateAccessArgs,
-  FieldReadAccessArgs,
-  FieldUpdateAccessArgs,
+  FieldCreateItemAccessArgs,
+  FieldReadItemAccessArgs,
+  FieldUpdateItemAccessArgs,
   IndividualFieldAccessControl,
-  CreateAccessControl,
-  ReadListAccessControl,
-  DeleteListAccessControl,
-  UpdateListAccessControl,
+  CreateListItemAccessControl,
+  UpdateListItemAccessControl,
+  DeleteListItemAccessControl,
+  ListOperationAccessControl,
+  ListFilterAccessControl,
 } from './access-control';
 export type { CommonFieldConfig } from './fields';
 export type { CacheHintArgs, IdFieldConfig } from './lists';
