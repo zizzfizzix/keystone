@@ -5,7 +5,6 @@ import {
   image,
   password,
   relationship,
-  // select,
   text,
   select,
   checkbox,
@@ -23,11 +22,10 @@ export const User = list({
     billingAddress: relationship({ ref: 'UserAddress' }),
     pages: relationship({ ref: 'Page.author', many: true }),
     posts: relationship({ ref: 'Post.author', many: true }),
-    // cart: relationship({ ref: 'Cart.owner' }),
     orders: relationship({ ref: 'Order.customer' }),
     orderNotes: relationship({ ref: 'OrderNote.author', many: true }),
     reviews: relationship({ ref: 'Review.reviewer', many: true }),
-    // avatar
+    avatar: image(),
   },
 });
 
@@ -44,15 +42,23 @@ export const UserAddress = list({
     streetNumber: text(),
     suburb: text(),
     postcode: text(),
-    // state: select(),
-    // country: select(),
+    state: select({
+      options: ['NSW', 'SA', 'VIC', 'ACT', 'NT', 'TAS', 'WA'],
+    }),
+    country: select({
+      options: ['Australia'],
+    }),
   },
 });
 
 export const Category = list({
   fields: {
     title: text(),
-    summary: text(),
+    summary: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     image: relationship({ ref: 'Image' }),
     products: relationship({ ref: 'Product.category', many: true }),
     posts: relationship({ ref: 'Post.category', many: true }),
@@ -65,7 +71,11 @@ export const Image = list({
   fields: {
     image: image(),
     title: text(),
-    description: text(),
+    description: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     altText: text(),
   },
 });
@@ -83,7 +93,11 @@ export const Order = list({
 export const OrderNote = list({
   fields: {
     title: text(),
-    note: text(),
+    note: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     author: relationship({ ref: 'User.orderNotes' }),
     order: relationship({ ref: 'Order.notes' }),
   },
@@ -109,7 +123,11 @@ export const Product = list({
     price: float({ validation: { isRequired: true } }),
     stock: integer(),
     discount: float(),
-    description: text(),
+    description: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     featureImage: relationship({ ref: 'Image' }),
     category: relationship({ ref: 'Category.products', many: true }),
     shippingZones: relationship({ ref: 'ShippingZone.products', many: true }),
@@ -201,7 +219,12 @@ export const ShippingMethod = list({
 export const Review = list({
   fields: {
     title: text(),
-    // rating: select({}),
+    rating: select({
+      ui: {
+        displayMode: 'segmented-control',
+      },
+      options: ['0', '1', '2', '3', '4', '5'],
+    }),
     // content: document(),
     reviewer: relationship({ ref: 'User.reviews' }),
     product: relationship({ ref: 'Product.reviews' }),
@@ -211,10 +234,18 @@ export const Review = list({
 export const Post = list({
   fields: {
     title: text(),
-    summary: text(),
+    summary: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     featureImage: relationship({ ref: 'Image' }),
     metaTitle: text(),
-    metaDescription: text(),
+    metaDescription: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     metaImage: relationship({ ref: 'Image' }),
     // content: document(),
     author: relationship({ ref: 'User.posts' }),
@@ -230,7 +261,11 @@ export const Page = list({
     title: text(),
     featureImage: relationship({ ref: 'Image' }),
     metaTitle: text(),
-    metaDescription: text(),
+    metaDescription: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     metaImage: relationship({ ref: 'Image' }),
     // content: document(),
     author: relationship({ ref: 'User.pages' }),

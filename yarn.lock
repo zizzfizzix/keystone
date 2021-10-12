@@ -1803,6 +1803,21 @@
   resolved "https://registry.yarnpkg.com/@josephg/resolvable/-/resolvable-1.0.1.tgz#69bc4db754d79e1a2f17a650d3466e038d94a5eb"
   integrity sha512-CtzORUwWTTOTqfVtHaKRJ0I1kNQd1bpn3sUh8I3nJDVY+5/M/Oe1DnEWzPQvqq/xPIIkzzzIP7mfCoAjFRvDhg==
 
+"@keystone-next/auth@33.0.0":
+  version "33.0.0"
+  resolved "https://registry.yarnpkg.com/@keystone-next/auth/-/auth-33.0.0.tgz#d09a5e38ebd6f87b0a05747ec2e259cb9127ad1b"
+  integrity sha512-u/rTowJfihp80p0vI4bq6QbtWIV4w++o78iUsxTYVVoHE/7oof1ekA67cfsS1BBx/X2zddyLp+7X/vWGyZMppw==
+  dependencies:
+    "@babel/runtime" "^7.15.4"
+    "@graphql-tools/schema" "^8.2.0"
+    "@keystone-ui/button" "^5.0.1"
+    "@keystone-ui/core" "^3.2.0"
+    "@keystone-ui/fields" "^5.0.0"
+    "@keystone-ui/notice" "^4.1.0"
+    cross-fetch "^3.1.4"
+    fast-deep-equal "^3.1.3"
+    graphql "^15.6.0"
+
 "@keystone-next/types@^25.0.0":
   version "25.0.0"
   resolved "https://registry.yarnpkg.com/@keystone-next/types/-/types-25.0.0.tgz#e191486fddad66d1d03908771340d67f1d6a8ddf"
@@ -3879,11 +3894,6 @@ babel-plugin-polyfill-regenerator@^0.2.2:
   integrity sha512-Goy5ghsc21HgPDFtzRkSirpZVW35meGoTmTOb2bxqdl60ghub4xOidgNTHaZfQ2FaxQsKmwvXtOAkcIS4SMBWg==
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.2.2"
-
-babel-plugin-remove-graphql-queries@2.7.2:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-remove-graphql-queries/-/babel-plugin-remove-graphql-queries-2.7.2.tgz#101c8b26567e35c217e817e892135a9a04a5a805"
-  integrity sha512-kkIqi2+oZ7YCLbZbrhOGxPA/HuWpfvzRUxbD75SHqwxl9fZVWSLQhOUl72GEpAuEt4MeCEguKpMX100oDN3MQA==
 
 babel-plugin-syntax-jsx@^6.18.0:
   version "6.18.0"
@@ -6957,7 +6967,7 @@ graphql-upload@^12.0.0:
     isobject "^4.0.0"
     object-path "^0.11.5"
 
-graphql@^15.3.0, graphql@^15.6.1:
+graphql@^15.3.0, graphql@^15.6.0, graphql@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.6.1.tgz#9125bdf057553525da251e19e96dab3d3855ddfc"
   integrity sha512-3i5lu0z6dRvJ48QP9kFxBkJ7h4Kso7PS8eahyTFz5Jm6CvQfLtNIE8LX9N6JLnXTuwR+sIYnXzaWp6anOg0QQw==
