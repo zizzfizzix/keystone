@@ -10,7 +10,7 @@ import {
   checkbox,
 } from '@keystone-next/keystone/fields';
 
-// import { document } from '@keystone-next/fields-document';
+import { document } from '@keystone-next/fields-document';
 
 export const User = list({
   fields: {
@@ -225,7 +225,25 @@ export const Review = list({
       },
       options: ['0', '1', '2', '3', '4', '5'],
     }),
-    // content: document(),
+    content: document({
+      relationships: {
+        ProductLink: {
+          kind: 'inline',
+          listKey: 'Product',
+          label: 'Product Link',
+          selection: 'id name',
+        },
+        ProductVariantLink: {
+          kind: 'inline',
+          listKey: 'ProductVariant',
+          label: 'Product Variant Link',
+          selection: 'id name',
+        },
+      },
+      formatting: true,
+      dividers: true,
+      links: true,
+    }),
     reviewer: relationship({ ref: 'User.reviews' }),
     product: relationship({ ref: 'Product.reviews' }),
   },
