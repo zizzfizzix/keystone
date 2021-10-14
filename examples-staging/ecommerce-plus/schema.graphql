@@ -547,10 +547,28 @@ type User {
     skip: Int! = 0
   ): [Review!]
   reviewsCount(where: ReviewWhereInput! = {}): Int
+  avatar: ImageFieldOutput
 }
 
 type PasswordState {
   isSet: Boolean!
+}
+
+interface ImageFieldOutput {
+  id: ID!
+  filesize: Int!
+  width: Int!
+  height: Int!
+  extension: ImageExtension!
+  ref: String!
+  src: String!
+}
+
+enum ImageExtension {
+  jpg
+  png
+  webp
+  gif
 }
 
 input UserWhereUniqueInput {
@@ -616,6 +634,7 @@ input UserUpdateInput {
   orders: OrderRelateToOneForUpdateInput
   orderNotes: OrderNoteRelateToManyForUpdateInput
   reviews: ReviewRelateToManyForUpdateInput
+  avatar: ImageFieldInput
 }
 
 input RoleRelateToOneForUpdateInput {
@@ -657,6 +676,16 @@ input ReviewRelateToManyForUpdateInput {
   connect: [ReviewWhereUniqueInput!]
 }
 
+input ImageFieldInput {
+  upload: Upload
+  ref: String
+}
+
+"""
+The `Upload` scalar type represents a file upload.
+"""
+scalar Upload
+
 input UserUpdateArgs {
   where: UserWhereUniqueInput!
   data: UserUpdateInput!
@@ -674,6 +703,7 @@ input UserCreateInput {
   orders: OrderRelateToOneForCreateInput
   orderNotes: OrderNoteRelateToManyForCreateInput
   reviews: ReviewRelateToManyForCreateInput
+  avatar: ImageFieldInput
 }
 
 input RoleRelateToOneForCreateInput {
@@ -712,6 +742,8 @@ type UserAddress {
   streetNumber: String
   suburb: String
   postcode: String
+  state: String
+  country: String
 }
 
 input UserAddressWhereUniqueInput {
@@ -727,6 +759,36 @@ input UserAddressWhereInput {
   streetNumber: StringFilter
   suburb: StringFilter
   postcode: StringFilter
+  state: StringNullableFilter
+  country: StringNullableFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
 }
 
 input UserAddressOrderByInput {
@@ -735,6 +797,8 @@ input UserAddressOrderByInput {
   streetNumber: OrderDirection
   suburb: OrderDirection
   postcode: OrderDirection
+  state: OrderDirection
+  country: OrderDirection
 }
 
 input UserAddressUpdateInput {
@@ -742,6 +806,8 @@ input UserAddressUpdateInput {
   streetNumber: String
   suburb: String
   postcode: String
+  state: String
+  country: String
 }
 
 input UserAddressUpdateArgs {
@@ -754,6 +820,8 @@ input UserAddressCreateInput {
   streetNumber: String
   suburb: String
   postcode: String
+  state: String
+  country: String
 }
 
 type Order {
@@ -1048,23 +1116,6 @@ type Image {
   altText: String
 }
 
-interface ImageFieldOutput {
-  id: ID!
-  filesize: Int!
-  width: Int!
-  height: Int!
-  extension: ImageExtension!
-  ref: String!
-  src: String!
-}
-
-enum ImageExtension {
-  jpg
-  png
-  webp
-  gif
-}
-
 input ImageWhereUniqueInput {
   id: ID
 }
@@ -1103,16 +1154,6 @@ input ImageUpdateInput {
   altText: String
 }
 
-input ImageFieldInput {
-  upload: Upload
-  ref: String
-}
-
-"""
-The `Upload` scalar type represents a file upload.
-"""
-scalar Upload
-
 input ImageUpdateArgs {
   where: ImageWhereUniqueInput!
   data: ImageUpdateInput!
@@ -1133,6 +1174,7 @@ type Post {
   metaTitle: String
   metaDescription: String
   metaImage: Image
+  content: Post_content_Document
   author: User
   category(
     where: CategoryWhereInput! = {}
@@ -1142,6 +1184,10 @@ type Post {
   ): [Category!]
   categoryCount(where: CategoryWhereInput! = {}): Int
   status: String
+}
+
+type Post_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input PostWhereUniqueInput {
@@ -1170,34 +1216,6 @@ input CategoryManyRelationFilter {
   none: CategoryWhereInput
 }
 
-input StringNullableFilter {
-  equals: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
-  gt: String
-  gte: String
-  contains: String
-  startsWith: String
-  endsWith: String
-  not: NestedStringNullableFilter
-}
-
-input NestedStringNullableFilter {
-  equals: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
-  gt: String
-  gte: String
-  contains: String
-  startsWith: String
-  endsWith: String
-  not: NestedStringNullableFilter
-}
-
 input PostOrderByInput {
   id: OrderDirection
   title: OrderDirection
@@ -1214,6 +1232,7 @@ input PostUpdateInput {
   metaTitle: String
   metaDescription: String
   metaImage: ImageRelateToOneForUpdateInput
+  content: JSON
   author: UserRelateToOneForUpdateInput
   category: CategoryRelateToManyForUpdateInput
   status: String
@@ -1238,6 +1257,7 @@ input PostCreateInput {
   metaTitle: String
   metaDescription: String
   metaImage: ImageRelateToOneForCreateInput
+  content: JSON
   author: UserRelateToOneForCreateInput
   category: CategoryRelateToManyForCreateInput
   status: String
@@ -1690,8 +1710,14 @@ input ProductRelateToOneForCreateInput {
 type Review {
   id: ID!
   title: String
+  rating: String
+  content: Review_content_Document
   reviewer: User
   product: Product
+}
+
+type Review_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input ReviewWhereUniqueInput {
@@ -1704,6 +1730,7 @@ input ReviewWhereInput {
   NOT: [ReviewWhereInput!]
   id: IDFilter
   title: StringFilter
+  rating: StringNullableFilter
   reviewer: UserWhereInput
   product: ProductWhereInput
 }
@@ -1711,10 +1738,13 @@ input ReviewWhereInput {
 input ReviewOrderByInput {
   id: OrderDirection
   title: OrderDirection
+  rating: OrderDirection
 }
 
 input ReviewUpdateInput {
   title: String
+  rating: String
+  content: JSON
   reviewer: UserRelateToOneForUpdateInput
   product: ProductRelateToOneForUpdateInput
 }
@@ -1726,6 +1756,8 @@ input ReviewUpdateArgs {
 
 input ReviewCreateInput {
   title: String
+  rating: String
+  content: JSON
   reviewer: UserRelateToOneForCreateInput
   product: ProductRelateToOneForCreateInput
 }

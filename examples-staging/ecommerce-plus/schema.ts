@@ -11,6 +11,7 @@ import {
 } from '@keystone-next/keystone/fields';
 
 import { document } from '@keystone-next/fields-document';
+import { componentBlocks } from './component-blocks';
 
 export const User = list({
   fields: {
@@ -140,7 +141,18 @@ export const Product = list({
     type: select({
       options: ['physical', 'digital'],
     }),
-    reviews: relationship({ ref: 'Review.product', many: true }),
+    reviews: relationship({
+      ref: 'Review.product',
+      many: true,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['title', 'rating', 'reviewer'],
+        inlineCreate: {
+          fields: ['title', 'rating', 'reviewer', 'content'],
+        },
+        inlineConnect: true,
+      },
+    }),
   },
 });
 
@@ -265,7 +277,39 @@ export const Post = list({
       },
     }),
     metaImage: relationship({ ref: 'Image' }),
-    // content: document(),
+    content: document({
+      formatting: true,
+      dividers: true,
+      links: true,
+      ui: {
+        views: require.resolve('./component-blocks'),
+      },
+      relationships: {
+        products: {
+          kind: 'prop',
+          listKey: 'Product',
+          selection: `
+            id 
+            name 
+            price
+            featureImage {
+              id
+              image {
+                id
+                width 
+                height 
+                ref
+                src
+              }
+              title
+              altText
+            }
+          `,
+          many: true,
+        },
+      },
+      componentBlocks,
+    }),
     author: relationship({ ref: 'User.posts' }),
     category: relationship({ ref: 'Category.posts', many: true }),
     status: select({
@@ -285,7 +329,39 @@ export const Page = list({
       },
     }),
     metaImage: relationship({ ref: 'Image' }),
-    // content: document(),
+    content: document({
+      formatting: true,
+      dividers: true,
+      links: true,
+      ui: {
+        views: require.resolve('./component-blocks'),
+      },
+      relationships: {
+        products: {
+          kind: 'prop',
+          listKey: 'Product',
+          selection: `
+            id 
+            name 
+            price
+            featureImage {
+              id
+              image {
+                id
+                width 
+                height 
+                ref
+                src
+              }
+              title
+              altText
+            }
+          `,
+          many: true,
+        },
+      },
+      componentBlocks,
+    }),
     author: relationship({ ref: 'User.pages' }),
     status: select({
       options: ['draft', 'published'],

@@ -65,6 +65,13 @@ export default withAuth(
         }
       },
     },
+    images: {
+      upload: 'local',
+      local: {
+        storagePath: 'public/images',
+        baseUrl: '/images',
+      },
+    },
     lists: {
       Category,
       User,

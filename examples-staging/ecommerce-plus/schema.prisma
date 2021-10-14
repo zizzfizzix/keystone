@@ -46,6 +46,12 @@ model User {
   orders                 Order?       @relation("Order_customer")
   orderNotes             OrderNote[]  @relation("OrderNote_author")
   reviews                Review[]     @relation("Review_reviewer")
+  avatar_filesize        Int?
+  avatar_extension       String?
+  avatar_width           Int?
+  avatar_height          Int?
+  avatar_mode            String?
+  avatar_id              String?
   from_CartItem_customer CartItem[]   @relation("CartItem_customer")
 
   @@index([roleId])
@@ -54,13 +60,15 @@ model User {
 }
 
 model UserAddress {
-  id                        String @id @default(cuid())
-  unitNumber                String @default("")
-  streetNumber              String @default("")
-  suburb                    String @default("")
-  postcode                  String @default("")
-  from_User_shippingAddress User[] @relation("User_shippingAddress")
-  from_User_billingAddress  User[] @relation("User_billingAddress")
+  id                        String  @id @default(cuid())
+  unitNumber                String  @default("")
+  streetNumber              String  @default("")
+  suburb                    String  @default("")
+  postcode                  String  @default("")
+  state                     String?
+  country                   String?
+  from_User_shippingAddress User[]  @relation("User_shippingAddress")
+  from_User_billingAddress  User[]  @relation("User_billingAddress")
 }
 
 model Order {
@@ -141,6 +149,7 @@ model Post {
   metaDescription String     @default("")
   metaImage       Image?     @relation("Post_metaImage", fields: [metaImageId], references: [id])
   metaImageId     String?    @map("metaImage")
+  content         String     @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   author          User?      @relation("Post_author", fields: [authorId], references: [id])
   authorId        String?    @map("author")
   category        Category[] @relation("Category_posts_Post_category")
@@ -238,6 +247,8 @@ model ProductVariant {
 model Review {
   id         String   @id @default(cuid())
   title      String   @default("")
+  rating     String?
+  content    String   @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   reviewer   User?    @relation("Review_reviewer", fields: [reviewerId], references: [id])
   reviewerId String?  @map("reviewer")
   product    Product? @relation("Review_product", fields: [productId], references: [id])
