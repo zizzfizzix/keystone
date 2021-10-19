@@ -3,7 +3,6 @@ import {
   float,
   integer,
   image,
-  password,
   relationship,
   text,
   select,
@@ -12,27 +11,36 @@ import {
 
 import { document } from '@keystone-next/fields-document';
 import { componentBlocks } from './component-blocks';
-
-export const User = list({
-  fields: {
-    name: text({ validation: { isRequired: true } }),
-    email: text({ validation: { isRequired: true }, isIndexed: 'unique' }),
-    password: password(),
-    role: relationship({ ref: 'Role.assignedTo' }),
-    shippingAddress: relationship({ ref: 'UserAddress' }),
-    billingAddress: relationship({ ref: 'UserAddress' }),
-    pages: relationship({ ref: 'Page.author', many: true }),
-    posts: relationship({ ref: 'Post.author', many: true }),
-    orders: relationship({ ref: 'Order.customer' }),
-    orderNotes: relationship({ ref: 'OrderNote.author', many: true }),
-    reviews: relationship({ ref: 'Review.reviewer', many: true }),
-    avatar: image(),
-  },
-});
+import { permissions } from './access';
 
 export const Role = list({
+  access: {
+    operation: {
+      create: permissions.canManageRoles,
+      delete: permissions.canManageRoles,
+    },
+  },
+  ui: {
+    hideCreate: args => !permissions.canManageRoles(args),
+    hideDelete: args => !permissions.canManageRoles(args),
+    itemView: {
+      defaultFieldMode: args =>
+        permissions.canManageRoles(args) ? 'edit' : 'read',
+    },
+  },
   fields: {
-    name: text(),
+    name: text({
+      validation: {
+        isRequired: true,
+      },
+    }),
+    canManageOwnPosts: checkbox({ defaultValue: false }),
+    canManagePosts: checkbox({ defaultValue: false }),
+    canManageOwnProducts: checkbox({ defaultValue: false }),
+    canManageProducts: checkbox({ defaultValue: false }),
+    canManageOrders: checkbox({ defaultValue: false }),
+    canManageRoles: checkbox({ defaultValue: false }),
+    canManageUsers: checkbox({ defaultValue: false }),
     assignedTo: relationship({ ref: 'User.role', many: true }),
   },
 });
@@ -81,48 +89,14 @@ export const Image = list({
   },
 });
 
-export const Order = list({
-  fields: {
-    total: float(),
-    customer: relationship({ ref: 'User.orders' }),
-    items: relationship({ ref: 'OrderItem.order', many: true }),
-    notes: relationship({ ref: 'OrderNote.order', many: true }),
-    trackingNumber: text(),
-  },
-});
-
-export const OrderNote = list({
-  fields: {
-    title: text(),
-    note: text({
-      ui: {
-        displayMode: 'textarea',
-      },
-    }),
-    author: relationship({ ref: 'User.orderNotes' }),
-    order: relationship({ ref: 'Order.notes' }),
-  },
-});
-
-export const OrderItem = list({
-  fields: {
-    name: text(),
-    description: text(),
-    price: float(),
-    quantity: integer(),
-    order: relationship({ ref: 'Order.items' }),
-    photo: relationship({ ref: 'Image' }),
-  },
-});
-
 export const Product = list({
   fields: {
-    name: text(),
+    name: text({ validation: { isRequired: true } }),
     status: select({
       options: ['in stock', 'out of stock'],
     }),
     price: float({ validation: { isRequired: true } }),
-    stock: integer(),
+    stock: integer({ validation: { isRequired: true } }),
     discount: float(),
     description: text({
       ui: {
@@ -223,41 +197,8 @@ export const ShippingMethod = list({
       ref: 'ShippingZone.shippingMethods',
       many: true,
     }),
-    APIKey: text(),
+    APIKey: text({ isIndexed: 'unique' }),
     // priority: order() // NOT YET IMPLEMENTED OR DESIGNED
-  },
-});
-
-export const Review = list({
-  fields: {
-    title: text(),
-    rating: select({
-      ui: {
-        displayMode: 'segmented-control',
-      },
-      options: ['0', '1', '2', '3', '4', '5'],
-    }),
-    content: document({
-      relationships: {
-        ProductLink: {
-          kind: 'inline',
-          listKey: 'Product',
-          label: 'Product Link',
-          selection: 'id name',
-        },
-        ProductVariantLink: {
-          kind: 'inline',
-          listKey: 'ProductVariant',
-          label: 'Product Variant Link',
-          selection: 'id name',
-        },
-      },
-      formatting: true,
-      dividers: true,
-      links: true,
-    }),
-    reviewer: relationship({ ref: 'User.reviews' }),
-    product: relationship({ ref: 'Product.reviews' }),
   },
 });
 

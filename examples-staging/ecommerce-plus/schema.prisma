@@ -110,9 +110,17 @@ model OrderNote {
 }
 
 model Role {
-  id         String @id @default(cuid())
-  name       String @default("")
-  assignedTo User[] @relation("User_role")
+  id                   String  @id @default(cuid())
+  name                 String  @default("")
+  assignedTo           User[]  @relation("User_role")
+  canManageOwnPosts    Boolean @default(false)
+  canManagePosts       Boolean @default(false)
+  canManageOwnProducts Boolean @default(false)
+  canManageProducts    Boolean @default(false)
+  canManageOwnOrders   Boolean @default(false)
+  canManageOrders      Boolean @default(false)
+  canManageRoles       Boolean @default(false)
+  canManageUsers       Boolean @default(false)
 }
 
 model Image {
@@ -169,6 +177,7 @@ model Page {
   metaDescription String  @default("")
   metaImage       Image?  @relation("Page_metaImage", fields: [metaImageId], references: [id])
   metaImageId     String? @map("metaImage")
+  content         String  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   author          User?   @relation("Page_author", fields: [authorId], references: [id])
   authorId        String? @map("author")
   status          String?

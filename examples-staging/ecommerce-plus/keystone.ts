@@ -5,22 +5,21 @@ import { createAuth } from '@keystone-next/auth';
 import {
   Category,
   Image,
-  User,
   UserAddress,
-  Order,
-  OrderNote,
-  OrderItem,
   Post,
   Page,
   Product,
   ProductBundle,
   ProductVariant,
-  Review,
   CartItem,
   ShippingMethod,
   ShippingZone,
   Role,
 } from './schema';
+
+import { User } from './schemas/User';
+import { Review } from './schemas/Review';
+import { Order, OrderNote, OrderItem } from './schemas/Orders';
 import { insertSeedData } from './seed-data';
 
 const sessionConfig = {

@@ -1055,6 +1055,14 @@ type Role {
     skip: Int! = 0
   ): [User!]
   assignedToCount(where: UserWhereInput! = {}): Int
+  canManageOwnPosts: Boolean
+  canManagePosts: Boolean
+  canManageOwnProducts: Boolean
+  canManageProducts: Boolean
+  canManageOwnOrders: Boolean
+  canManageOrders: Boolean
+  canManageRoles: Boolean
+  canManageUsers: Boolean
 }
 
 input RoleWhereUniqueInput {
@@ -1068,6 +1076,14 @@ input RoleWhereInput {
   id: IDFilter
   name: StringFilter
   assignedTo: UserManyRelationFilter
+  canManageOwnPosts: BooleanFilter
+  canManagePosts: BooleanFilter
+  canManageOwnProducts: BooleanFilter
+  canManageProducts: BooleanFilter
+  canManageOwnOrders: BooleanFilter
+  canManageOrders: BooleanFilter
+  canManageRoles: BooleanFilter
+  canManageUsers: BooleanFilter
 }
 
 input UserManyRelationFilter {
@@ -1076,14 +1092,35 @@ input UserManyRelationFilter {
   none: UserWhereInput
 }
 
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
 input RoleOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  canManageOwnPosts: OrderDirection
+  canManagePosts: OrderDirection
+  canManageOwnProducts: OrderDirection
+  canManageProducts: OrderDirection
+  canManageOwnOrders: OrderDirection
+  canManageOrders: OrderDirection
+  canManageRoles: OrderDirection
+  canManageUsers: OrderDirection
 }
 
 input RoleUpdateInput {
   name: String
   assignedTo: UserRelateToManyForUpdateInput
+  canManageOwnPosts: Boolean
+  canManagePosts: Boolean
+  canManageOwnProducts: Boolean
+  canManageProducts: Boolean
+  canManageOwnOrders: Boolean
+  canManageOrders: Boolean
+  canManageRoles: Boolean
+  canManageUsers: Boolean
 }
 
 input UserRelateToManyForUpdateInput {
@@ -1101,6 +1138,14 @@ input RoleUpdateArgs {
 input RoleCreateInput {
   name: String
   assignedTo: UserRelateToManyForCreateInput
+  canManageOwnPosts: Boolean
+  canManagePosts: Boolean
+  canManageOwnProducts: Boolean
+  canManageProducts: Boolean
+  canManageOwnOrders: Boolean
+  canManageOrders: Boolean
+  canManageRoles: Boolean
+  canManageUsers: Boolean
 }
 
 input UserRelateToManyForCreateInput {
@@ -1275,8 +1320,13 @@ type Page {
   metaTitle: String
   metaDescription: String
   metaImage: Image
+  content: Page_content_Document
   author: User
   status: String
+}
+
+type Page_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input PageWhereUniqueInput {
@@ -1311,6 +1361,7 @@ input PageUpdateInput {
   metaTitle: String
   metaDescription: String
   metaImage: ImageRelateToOneForUpdateInput
+  content: JSON
   author: UserRelateToOneForUpdateInput
   status: String
 }
@@ -1326,6 +1377,7 @@ input PageCreateInput {
   metaTitle: String
   metaDescription: String
   metaImage: ImageRelateToOneForCreateInput
+  content: JSON
   author: UserRelateToOneForCreateInput
   status: String
 }
@@ -1915,11 +1967,6 @@ input ShippingMethodWhereInput {
   enabled: BooleanFilter
   shippingZones: ShippingZoneManyRelationFilter
   APIKey: StringFilter
-}
-
-input BooleanFilter {
-  equals: Boolean
-  not: BooleanFilter
 }
 
 input ShippingMethodOrderByInput {
