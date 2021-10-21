@@ -38,6 +38,13 @@ const { withAuth } = createAuth({
       role: {
         create: {
           name: 'Admin',
+          canManageOwnPosts: true,
+          canManagePosts: true,
+          canManageOwnProducts: true,
+          canManageProducts: true,
+          canManageOrders: true,
+          canManageRoles: true,
+          canManageUsers: true,
         },
       },
     },
@@ -48,6 +55,13 @@ const { withAuth } = createAuth({
     role {
       id
       name
+      canManageOwnPosts
+      canManagePosts
+      canManageOwnProducts
+      canManageProducts
+      canManageOrders
+      canManageRoles
+      canManageUsers
     }`,
 });
 

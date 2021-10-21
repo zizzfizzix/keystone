@@ -11,39 +11,6 @@ import {
 
 import { document } from '@keystone-next/fields-document';
 import { componentBlocks } from './component-blocks';
-import { permissions } from './access';
-
-export const Role = list({
-  access: {
-    operation: {
-      create: permissions.canManageRoles,
-      delete: permissions.canManageRoles,
-    },
-  },
-  ui: {
-    hideCreate: args => !permissions.canManageRoles(args),
-    hideDelete: args => !permissions.canManageRoles(args),
-    itemView: {
-      defaultFieldMode: args =>
-        permissions.canManageRoles(args) ? 'edit' : 'read',
-    },
-  },
-  fields: {
-    name: text({
-      validation: {
-        isRequired: true,
-      },
-    }),
-    canManageOwnPosts: checkbox({ defaultValue: false }),
-    canManagePosts: checkbox({ defaultValue: false }),
-    canManageOwnProducts: checkbox({ defaultValue: false }),
-    canManageProducts: checkbox({ defaultValue: false }),
-    canManageOrders: checkbox({ defaultValue: false }),
-    canManageRoles: checkbox({ defaultValue: false }),
-    canManageUsers: checkbox({ defaultValue: false }),
-    assignedTo: relationship({ ref: 'User.role', many: true }),
-  },
-});
 
 export const UserAddress = list({
   fields: {
@@ -132,24 +99,38 @@ export const Product = list({
 
 export const ProductBundle = list({
   fields: {
+    name: text({ validation: { isRequired: true } }),
     price: float(),
     status: select({ options: ['in stock', 'out of stock'] }),
-    name: text(),
-    description: text(),
+    description: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     featureImage: relationship({ ref: 'Image' }),
     category: relationship({ ref: 'Category.bundles', many: true }),
-    metaDescription: text(),
+    metaDescription: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     metaImage: relationship({ ref: 'Image' }),
     metaTitle: text(),
-    sku: text(),
+    sku: text({ isIndexed: 'unique' }),
     products: relationship({ ref: 'Product', many: true }),
   },
 });
 
 export const ProductVariant = list({
   fields: {
-    name: text(),
-    description: text(),
+    name: text({
+      validation: { isRequired: true },
+    }),
+    description: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
     photos: relationship({ ref: 'Image', many: true }),
     stock: integer(),
     product: relationship({ ref: 'Product.variants' }),

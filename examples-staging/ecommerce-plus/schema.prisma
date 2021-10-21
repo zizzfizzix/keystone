@@ -34,7 +34,7 @@ model User {
   id                     String       @id @default(cuid())
   name                   String       @default("")
   email                  String       @unique @default("")
-  password               String?
+  password               String
   role                   Role?        @relation("User_role", fields: [roleId], references: [id])
   roleId                 String?      @map("role")
   shippingAddress        UserAddress? @relation("User_shippingAddress", fields: [shippingAddressId], references: [id])
@@ -112,15 +112,14 @@ model OrderNote {
 model Role {
   id                   String  @id @default(cuid())
   name                 String  @default("")
-  assignedTo           User[]  @relation("User_role")
   canManageOwnPosts    Boolean @default(false)
   canManagePosts       Boolean @default(false)
   canManageOwnProducts Boolean @default(false)
   canManageProducts    Boolean @default(false)
-  canManageOwnOrders   Boolean @default(false)
   canManageOrders      Boolean @default(false)
   canManageRoles       Boolean @default(false)
   canManageUsers       Boolean @default(false)
+  assignedTo           User[]  @relation("User_role")
 }
 
 model Image {
@@ -192,7 +191,7 @@ model Product {
   name                         String          @default("")
   status                       String?
   price                        Float
-  stock                        Int?
+  stock                        Int
   discount                     Float?
   description                  String          @default("")
   featureImage                 Image?          @relation("Product_featureImage", fields: [featureImageId], references: [id])
@@ -293,5 +292,5 @@ model ShippingMethod {
   title         String         @default("")
   enabled       Boolean        @default(false)
   shippingZones ShippingZone[] @relation("ShippingMethod_shippingZones_ShippingZone_shippingMethods")
-  APIKey        String         @default("")
+  APIKey        String         @unique @default("")
 }

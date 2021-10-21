@@ -583,7 +583,6 @@ input UserWhereInput {
   id: IDFilter
   name: StringFilter
   email: StringFilter
-  password: PasswordFilter
   role: RoleWhereInput
   shippingAddress: UserAddressWhereInput
   billingAddress: UserAddressWhereInput
@@ -592,10 +591,6 @@ input UserWhereInput {
   orders: OrderWhereInput
   orderNotes: OrderNoteManyRelationFilter
   reviews: ReviewManyRelationFilter
-}
-
-input PasswordFilter {
-  isSet: Boolean!
 }
 
 input PageManyRelationFilter {
@@ -1048,6 +1043,13 @@ input OrderNoteCreateInput {
 type Role {
   id: ID!
   name: String
+  canManageOwnPosts: Boolean
+  canManagePosts: Boolean
+  canManageOwnProducts: Boolean
+  canManageProducts: Boolean
+  canManageOrders: Boolean
+  canManageRoles: Boolean
+  canManageUsers: Boolean
   assignedTo(
     where: UserWhereInput! = {}
     orderBy: [UserOrderByInput!]! = []
@@ -1055,14 +1057,6 @@ type Role {
     skip: Int! = 0
   ): [User!]
   assignedToCount(where: UserWhereInput! = {}): Int
-  canManageOwnPosts: Boolean
-  canManagePosts: Boolean
-  canManageOwnProducts: Boolean
-  canManageProducts: Boolean
-  canManageOwnOrders: Boolean
-  canManageOrders: Boolean
-  canManageRoles: Boolean
-  canManageUsers: Boolean
 }
 
 input RoleWhereUniqueInput {
@@ -1075,26 +1069,25 @@ input RoleWhereInput {
   NOT: [RoleWhereInput!]
   id: IDFilter
   name: StringFilter
-  assignedTo: UserManyRelationFilter
   canManageOwnPosts: BooleanFilter
   canManagePosts: BooleanFilter
   canManageOwnProducts: BooleanFilter
   canManageProducts: BooleanFilter
-  canManageOwnOrders: BooleanFilter
   canManageOrders: BooleanFilter
   canManageRoles: BooleanFilter
   canManageUsers: BooleanFilter
+  assignedTo: UserManyRelationFilter
+}
+
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
 }
 
 input UserManyRelationFilter {
   every: UserWhereInput
   some: UserWhereInput
   none: UserWhereInput
-}
-
-input BooleanFilter {
-  equals: Boolean
-  not: BooleanFilter
 }
 
 input RoleOrderByInput {
@@ -1104,7 +1097,6 @@ input RoleOrderByInput {
   canManagePosts: OrderDirection
   canManageOwnProducts: OrderDirection
   canManageProducts: OrderDirection
-  canManageOwnOrders: OrderDirection
   canManageOrders: OrderDirection
   canManageRoles: OrderDirection
   canManageUsers: OrderDirection
@@ -1112,15 +1104,14 @@ input RoleOrderByInput {
 
 input RoleUpdateInput {
   name: String
-  assignedTo: UserRelateToManyForUpdateInput
   canManageOwnPosts: Boolean
   canManagePosts: Boolean
   canManageOwnProducts: Boolean
   canManageProducts: Boolean
-  canManageOwnOrders: Boolean
   canManageOrders: Boolean
   canManageRoles: Boolean
   canManageUsers: Boolean
+  assignedTo: UserRelateToManyForUpdateInput
 }
 
 input UserRelateToManyForUpdateInput {
@@ -1137,15 +1128,14 @@ input RoleUpdateArgs {
 
 input RoleCreateInput {
   name: String
-  assignedTo: UserRelateToManyForCreateInput
   canManageOwnPosts: Boolean
   canManagePosts: Boolean
   canManageOwnProducts: Boolean
   canManageProducts: Boolean
-  canManageOwnOrders: Boolean
   canManageOrders: Boolean
   canManageRoles: Boolean
   canManageUsers: Boolean
+  assignedTo: UserRelateToManyForCreateInput
 }
 
 input UserRelateToManyForCreateInput {
@@ -1439,7 +1429,7 @@ input ProductWhereInput {
   name: StringFilter
   status: StringNullableFilter
   price: FloatFilter
-  stock: IntNullableFilter
+  stock: IntFilter
   discount: FloatNullableFilter
   description: StringFilter
   featureImage: ImageWhereInput
@@ -1464,6 +1454,17 @@ input FloatFilter {
   gt: Float
   gte: Float
   not: FloatFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
 }
 
 input ShippingZoneManyRelationFilter {
@@ -1956,6 +1957,7 @@ type ShippingMethod {
 
 input ShippingMethodWhereUniqueInput {
   id: ID
+  APIKey: String
 }
 
 input ShippingMethodWhereInput {
