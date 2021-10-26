@@ -1,0 +1,3437 @@
+{
+ "listName": "Product",
+ "listItems": [
+  {
+   "id": {
+    "value": "3",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Nouveau Polo Shirt",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$67.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "out of stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "great-product-shame-about-the-stitching, i-loved-this-shirt-until-my-boyfriend-started-wearing-it, durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too, ",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "0",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Nouveau Polo Shirt",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "293638",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Nouveau Polo Shirt M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "crazy-boxer",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "casual,formalwear,accessories,bottoms,businesswear,denim",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "casual",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0.33\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "8",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Rock Star Cargo Pants",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$45.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too,",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Rock Star Cargo Pants",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "29836",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Rock Star Cargo Pants M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "commons",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "casual,formalwear,accessories,bottoms,businesswear,denim",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "casual",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "13",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Maxx 7 Pack Trunks",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$10.99",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "discontinued",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Maxx 7 Pack Trunks",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "836789",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Maxx 7 Pack Trunks M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "bonds",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "casual,formalwear,accessories,bottoms,businesswear,denim",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "casual",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "18",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Darwin Boy Engineers Chino",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$89.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Darwin Boy Engineers Chino",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "987276",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Darwin Boy Engineers Chino M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "lonsdale-london",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "casual,formalwear,accessories,bottoms,businesswear,denim",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "casual",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "23",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Disney Friends Hipster Brief",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$99.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Disney Friends Hipster Brief",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "256288",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Disney Friends Hipster Brief M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "graphite-workwear",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "casual,formalwear,accessories,bottoms,businesswear,denim",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "casual",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "5",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Commons Tapered Trackpants",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$12.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "great-product-shame-about-the-stitching, i-loved-this-shirt-until-my-boyfriend-started-wearing-it, durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too, ",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Commons Tapered Trackpants",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "234527",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Commons Tapered Trackpants S, Commons Tapered Trackpants M, Commons Tapered Trackpants L",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "graphite-workwear",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "knitwear,plus-size,shoes,sleepwear,swimwear,tops,underwear-socks,work-&-safety,sport-&-outdoor,chinos",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "knitwear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0.1\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "10",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Casual Shorts",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$34.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too,",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Casual Shorts",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "887766",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Casual Shorts M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "fila",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "knitwear,plus-size,shoes,sleepwear,swimwear,tops,underwear-socks,work-&-safety,sport-&-outdoor,chinos",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "knitwear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "15",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Red Barron Organic Ankle Warmers",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$89.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "discontinued",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Red Barron Organic Ankle Warmers",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "265752",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Red Barron Organic Ankle Warmers M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "crazy-boxer",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "knitwear,plus-size,shoes,sleepwear,swimwear,tops,underwear-socks,work-&-safety,sport-&-outdoor,chinos",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "knitwear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "20",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Active Core Woven Shorts",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$45.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Active Core Woven Shorts",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "672772",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Active Core Woven Shorts M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "commons",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "knitwear,plus-size,shoes,sleepwear,swimwear,tops,underwear-socks,work-&-safety,sport-&-outdoor,chinos",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "knitwear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "25",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "His Dark Materials Trilogy (ePub)",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$10.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "His Dark Materials Trilogy (ePub)",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "298725",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "His Dark Materials Trilogy (ePub) M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "bonds",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "knitwear,plus-size,shoes,sleepwear,swimwear,tops,underwear-socks,work-&-safety,sport-&-outdoor,chinos",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "books",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "digital",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "1",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Fleece Dressing Gown",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$45.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "discontinued",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "great-product-shame-about-the-stitching, i-loved-this-shirt-until-my-boyfriend-started-wearing-it, durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too, ",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Fleece Dressing Gown",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "454746",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Green Fleece Dressing Gown S, Red Fleece Dressing Gown S, Green, Fleece Dressing Gown M, Red Fleece Dressing Gown M, Green Fleece Dressing Gown L, Red Fleece Dressing Gown L",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "bonds",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats,knitwear,plus-size,shoes",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0.33\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "4",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Lonsdale Sorrento Blues Polo Shirt",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$89.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too,",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Lonsdale Sorrento Blues Polo Shirt",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "283745",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Lonsdale Sorrento Blues Polo Shirt S, Lonsdale Sorrento Blues Polo Shirt M, Lonsdale Sorrento Blues Polo Shirt L",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "fila",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0.33\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "6",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Organic Cotton T-Shirt",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$24.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Organic Cotton T-Shirt",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "726453",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Organic Cotton T-Shirt S, Organic Cotton T-Shirt M, Organic Cotton T-Shirt L",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "lonsdale-london",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats,knitwear,plus-size,shoes",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0.05\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "9",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Denim Chinos",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$87.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "great-product-shame-about-the-stitching, i-loved-this-shirt-until-my-boyfriend-started-wearing-it, durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too, ",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Denim Chinos",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "837644",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Denim Chinos M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "crazy-boxer",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "11",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Star Wars The Mandalorian Licensed T-Shirt",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$25.49",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "discontinued",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too,",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Star Wars The Mandalorian Licensed T-Shirt",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "993383",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Star Wars The Mandalorian Licensed T-Shirt M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "graphite-workwear",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats,knitwear,plus-size,shoes",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "14",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Commons Torquay Midriff Warmer",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$9.99",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "out of stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "0",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Commons Torquay Midriff Warmer",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "398763",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Commons Torquay Midriff Warmer M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "commons",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "16",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Galaxy Brain Organic Cotton Beanie",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$14.50",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "out of stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "great-product-shame-about-the-stitching, i-loved-this-shirt-until-my-boyfriend-started-wearing-it, durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too, ",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "0",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Galaxy Brain Organic Cotton Beanie",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "987362",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Galaxy Brain Organic Cotton Beanie M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "fila",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats,knitwear,plus-size,shoes",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "19",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Mossimo LA Palm Print T-Shirt",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$76.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too,",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Mossimo LA Palm Print T-Shirt",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "278",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Mossimo LA Palm Print T-Shirt M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "bonds",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "21",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Slim Denim Shorts",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$22.56",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Slim Denim Shorts",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "287287",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Slim Denim Shorts M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "crazy-boxer",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats,knitwear,plus-size,shoes",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "24",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Scooby Doo Beanie",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$99.99",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Scooby Doo Beanie",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "298722",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Scooby Doo Beanie M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "lonsdale-london",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "26",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Garment Fleece Hoodie",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$34.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Garment Fleece Hoodie",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "364786",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Garment Fleece Hoodie M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "commons",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "loungewear,jackets-and-coats,knitwear,plus-size,shoes",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "loungewear",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "2",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Cotton Dressing Gown",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$13.99",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "out of stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "0",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Cotton Dressing Gown",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "826745",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Cotton Dressing Gown M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "commons",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "tops,underwear-socks,work-&-safety",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "tops",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0.33\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "7",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Rod Stewart Pyjamas",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$17.99",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "great-product-shame-about-the-stitching, i-loved-this-shirt-until-my-boyfriend-started-wearing-it, durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too, ",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Rod Stewart Pyjamas",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "739867",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Rod Stewart Pyjamas S, Rod Stewart Pyjamas M, Rod Stewart Pyjamas L",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "bonds",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "tops,underwear-socks,work-&-safety",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "tops",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "12",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Mens Bluey Drummer Sleep Pyjama",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$12.99",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "out of stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "durable-and-does-what-it-says, best-part-of-my-prom-outfit, comfy-af-look-good-too,",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "0",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Mens Bluey Drummer Sleep Pyjama",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "938376",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Mens Bluey Drummer Sleep Pyjama M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "lonsdale-london",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "tops,underwear-socks,work-&-safety",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "tops",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "17",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Pineapple Joe Inflatable Banana Chair",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$225,569.59",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Pineapple Joe Inflatable Banana Chair",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "189198",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Pineapple Joe Inflatable Banana Chair M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "graphite-workwear",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "tops,underwear-socks,work-&-safety",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "tops",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0\r",
+    "type": "float",
+    "index": 20
+   }
+  },
+  {
+   "id": {
+    "value": "22",
+    "type": "text",
+    "index": 0
+   },
+   "name": {
+    "value": "Graphite Performance Cargo Shorts",
+    "type": "text",
+    "index": 1
+   },
+   "price": {
+    "value": "$89.00",
+    "type": "float",
+    "index": 2
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "status": {
+    "value": "in stock",
+    "type": "select",
+    "index": 4
+   },
+   "featureImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "image"
+   },
+   "reviews": {
+    "value": "",
+    "type": "relationship",
+    "index": 6,
+    "many": true,
+    "foreignListKey": "review",
+    "foreignFieldKey": "product"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 7
+   },
+   "shippingZones": {
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "type": "relationship",
+    "index": 8,
+    "many": false,
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product"
+   },
+   "metaDescription": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 9
+   },
+   "metaImage": {
+    "value": "Unsplash",
+    "type": "relationship",
+    "index": 10,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "metaTitle": {
+    "value": "Graphite Performance Cargo Shorts",
+    "type": "text",
+    "index": 11
+   },
+   "sku": {
+    "value": "356362",
+    "type": "text",
+    "index": 12
+   },
+   "variants": {
+    "value": "Graphite Performance Cargo Shorts M",
+    "type": "relationship",
+    "index": 13,
+    "many": true,
+    "foreignListKey": "productVariant"
+   },
+   "vendor": {
+    "value": "fila",
+    "type": "relationship",
+    "index": 14,
+    "many": false,
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products"
+   },
+   "relatedProducts": {
+    "value": "",
+    "type": "relationship",
+    "index": 15,
+    "many": true,
+    "foreignListKey": "product"
+   },
+   "bundles": {
+    "value": "",
+    "type": "relationship",
+    "index": 16,
+    "many": true,
+    "foreignListKey": "productBundle",
+    "foreignFieldKey": "product"
+   },
+   "categories": {
+    "value": "tops,underwear-socks,work-&-safety",
+    "type": "relationship",
+    "index": 17,
+    "many": true,
+    "foreignListKey": "category",
+    "foreignFieldKey": "products"
+   },
+   "canonicalCategory": {
+    "value": "tops",
+    "type": "relationship",
+    "index": 18,
+    "many": false,
+    "foreignListKey": "category"
+   },
+   "type": {
+    "value": "physical",
+    "type": "select",
+    "index": 19
+   },
+   "discount": {
+    "value": "0",
+    "type": "float",
+    "index": 20
+   }
+  }
+ ]
+}

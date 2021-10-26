@@ -1,0 +1,4690 @@
+[
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "great-product-shame-about-the-stitching",
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Nouveau Polo Shirt M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "crazy-boxer",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "casual",
+      "formalwear",
+      "accessories",
+      "bottoms",
+      "businesswear",
+      "denim"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "casual",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rock Star Cargo Pants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rock Star Cargo Pants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rock Star Cargo Pants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rock Star Cargo Pants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rock Star Cargo Pants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Rock Star Cargo Pants M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rock Star Cargo Pants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "commons",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rock Star Cargo Pants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "casual",
+      "formalwear",
+      "accessories",
+      "bottoms",
+      "businesswear",
+      "denim"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rock Star Cargo Pants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "casual",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it"
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Maxx 7 Pack Trunks M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "bonds",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "casual",
+      "formalwear",
+      "accessories",
+      "bottoms",
+      "businesswear",
+      "denim"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "casual",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Darwin Boy Engineers Chino",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Darwin Boy Engineers Chino",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Darwin Boy Engineers Chino",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Darwin Boy Engineers Chino",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Darwin Boy Engineers Chino M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Darwin Boy Engineers Chino",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "lonsdale-london",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Darwin Boy Engineers Chino",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "casual",
+      "formalwear",
+      "accessories",
+      "bottoms",
+      "businesswear",
+      "denim"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Darwin Boy Engineers Chino",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "casual",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Disney Friends Hipster Brief",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Disney Friends Hipster Brief",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Disney Friends Hipster Brief",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Disney Friends Hipster Brief",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Disney Friends Hipster Brief M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Disney Friends Hipster Brief",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "graphite-workwear",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Disney Friends Hipster Brief",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "casual",
+      "formalwear",
+      "accessories",
+      "bottoms",
+      "businesswear",
+      "denim"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Disney Friends Hipster Brief",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "casual",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "great-product-shame-about-the-stitching",
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Commons Tapered Trackpants S",
+      "Commons Tapered Trackpants M",
+      "Commons Tapered Trackpants L"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "graphite-workwear",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "knitwear",
+      "plus-size",
+      "shoes",
+      "sleepwear",
+      "swimwear",
+      "tops",
+      "underwear-socks",
+      "work-&-safety",
+      "sport-&-outdoor",
+      "chinos"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "knitwear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Casual Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Casual Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Casual Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Casual Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Casual Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Casual Shorts M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Casual Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "fila",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Casual Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "knitwear",
+      "plus-size",
+      "shoes",
+      "sleepwear",
+      "swimwear",
+      "tops",
+      "underwear-socks",
+      "work-&-safety",
+      "sport-&-outdoor",
+      "chinos"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Casual Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "knitwear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it"
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Red Barron Organic Ankle Warmers M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "crazy-boxer",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "knitwear",
+      "plus-size",
+      "shoes",
+      "sleepwear",
+      "swimwear",
+      "tops",
+      "underwear-socks",
+      "work-&-safety",
+      "sport-&-outdoor",
+      "chinos"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "knitwear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Active Core Woven Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Active Core Woven Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Active Core Woven Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Active Core Woven Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Active Core Woven Shorts M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Active Core Woven Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "commons",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Active Core Woven Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "knitwear",
+      "plus-size",
+      "shoes",
+      "sleepwear",
+      "swimwear",
+      "tops",
+      "underwear-socks",
+      "work-&-safety",
+      "sport-&-outdoor",
+      "chinos"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Active Core Woven Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "knitwear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "His Dark Materials Trilogy (ePub)",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "His Dark Materials Trilogy (ePub)",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "His Dark Materials Trilogy (ePub)",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "His Dark Materials Trilogy (ePub)",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "His Dark Materials Trilogy (ePub) M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "His Dark Materials Trilogy (ePub)",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "bonds",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "His Dark Materials Trilogy (ePub)",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "knitwear",
+      "plus-size",
+      "shoes",
+      "sleepwear",
+      "swimwear",
+      "tops",
+      "underwear-socks",
+      "work-&-safety",
+      "sport-&-outdoor",
+      "chinos"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "His Dark Materials Trilogy (ePub)",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "books",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Fleece Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Fleece Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "great-product-shame-about-the-stitching",
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Fleece Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Fleece Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Fleece Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Green Fleece Dressing Gown S",
+      "Red Fleece Dressing Gown S",
+      "Green",
+      "Fleece Dressing Gown M",
+      "Red Fleece Dressing Gown M",
+      "Green Fleece Dressing Gown L",
+      "Red Fleece Dressing Gown L"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Fleece Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "bonds",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Fleece Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats",
+      "knitwear",
+      "plus-size",
+      "shoes"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Fleece Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Lonsdale Sorrento Blues Polo Shirt S",
+      "Lonsdale Sorrento Blues Polo Shirt M",
+      "Lonsdale Sorrento Blues Polo Shirt L"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "fila",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it"
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Organic Cotton T-Shirt S",
+      "Organic Cotton T-Shirt M",
+      "Organic Cotton T-Shirt L"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "lonsdale-london",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats",
+      "knitwear",
+      "plus-size",
+      "shoes"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Denim Chinos",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Denim Chinos",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "great-product-shame-about-the-stitching",
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Denim Chinos",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Denim Chinos",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Denim Chinos",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Denim Chinos M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Denim Chinos",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "crazy-boxer",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Denim Chinos",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Denim Chinos",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Star Wars The Mandalorian Licensed T-Shirt M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "graphite-workwear",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats",
+      "knitwear",
+      "plus-size",
+      "shoes"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it"
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Commons Torquay Midriff Warmer M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "commons",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Galaxy Brain Organic Cotton Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Galaxy Brain Organic Cotton Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "great-product-shame-about-the-stitching",
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Galaxy Brain Organic Cotton Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Galaxy Brain Organic Cotton Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Galaxy Brain Organic Cotton Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Galaxy Brain Organic Cotton Beanie M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Galaxy Brain Organic Cotton Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "fila",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Galaxy Brain Organic Cotton Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats",
+      "knitwear",
+      "plus-size",
+      "shoes"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Galaxy Brain Organic Cotton Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Mossimo LA Palm Print T-Shirt M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "bonds",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Slim Denim Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Slim Denim Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it"
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Slim Denim Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Slim Denim Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Slim Denim Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Slim Denim Shorts M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Slim Denim Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "crazy-boxer",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Slim Denim Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats",
+      "knitwear",
+      "plus-size",
+      "shoes"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Slim Denim Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Scooby Doo Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Scooby Doo Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Scooby Doo Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Scooby Doo Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Scooby Doo Beanie M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Scooby Doo Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "lonsdale-london",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Scooby Doo Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Scooby Doo Beanie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Garment Fleece Hoodie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Garment Fleece Hoodie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Garment Fleece Hoodie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Garment Fleece Hoodie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Garment Fleece Hoodie M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Garment Fleece Hoodie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "commons",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Garment Fleece Hoodie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "loungewear",
+      "jackets-and-coats",
+      "knitwear",
+      "plus-size",
+      "shoes"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Garment Fleece Hoodie",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "loungewear",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Cotton Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Cotton Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Cotton Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Cotton Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Cotton Dressing Gown M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Cotton Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "commons",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Cotton Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "tops",
+      "underwear-socks",
+      "work-&-safety"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Cotton Dressing Gown",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "tops",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "great-product-shame-about-the-stitching",
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Rod Stewart Pyjamas S",
+      "Rod Stewart Pyjamas M",
+      "Rod Stewart Pyjamas L"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "bonds",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "tops",
+      "underwear-socks",
+      "work-&-safety"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "tops",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "durable-and-does-what-it-says",
+      "best-part-of-my-prom-outfit",
+      "comfy-af-look-good-too",
+      ""
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Mens Bluey Drummer Sleep Pyjama M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "lonsdale-london",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "tops",
+      "underwear-socks",
+      "work-&-safety"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "tops",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "review",
+    "foreignFieldKey": "product",
+    "value": [
+      "i-loved-this-shirt-until-my-boyfriend-started-wearing-it"
+    ],
+    "fieldKey": "reviews"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Pineapple Joe Inflatable Banana Chair M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "graphite-workwear",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "tops",
+      "underwear-socks",
+      "work-&-safety"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "tops",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Graphite Performance Cargo Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "featureImage"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Graphite Performance Cargo Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "shippingZone",
+    "foreignFieldKey": "product",
+    "value": "new-south-wales, tasmania, queensland, act, western-australia, south-australia, victoria, auckland, canterbury, hawkes-bay, marlborough, nelson, otago, southland, taranaki",
+    "fieldKey": "shippingZones"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Graphite Performance Cargo Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "image",
+    "value": "Unsplash",
+    "fieldKey": "metaImage"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Graphite Performance Cargo Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "productVariant",
+    "value": [
+      "Graphite Performance Cargo Shorts M"
+    ],
+    "fieldKey": "variants"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Graphite Performance Cargo Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "brand",
+    "foreignFieldKey": "products",
+    "value": "fila",
+    "fieldKey": "vendor"
+  },
+  {
+    "many": true,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Graphite Performance Cargo Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "foreignFieldKey": "products",
+    "value": [
+      "tops",
+      "underwear-socks",
+      "work-&-safety"
+    ],
+    "fieldKey": "categories"
+  },
+  {
+    "many": false,
+    "listName": "product",
+    "referenceValue": {
+      "value": "Graphite Performance Cargo Shorts",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "name",
+    "prismaListKey": "product",
+    "foreignListKey": "category",
+    "value": "tops",
+    "fieldKey": "canonicalCategory"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "great-product-shame-about-the-stitching",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Penelope Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "great-product-shame-about-the-stitching",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Nouveau Polo Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Leopold Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Rock Star Cargo Pants",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "durable-and-does-what-it-says",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Leopold Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "durable-and-does-what-it-says",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Maxx 7 Pack Trunks",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "best-part-of-my-prom-outfit",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Leopold Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "best-part-of-my-prom-outfit",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Darwin Boy Engineers Chino",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "comfy-af-look-good-too",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Penelope Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "comfy-af-look-good-too",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Disney Friends Hipster Brief",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "worth-the-cost",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Leopold Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "worth-the-cost",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Commons Tapered Trackpants",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "hard-to-break-in-but-now-my-shoes-love-me-every-day",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Leopold Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "hard-to-break-in-but-now-my-shoes-love-me-every-day",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Casual Shorts",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "worst-purchase-ever-support-non-existent",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Leopold Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "worst-purchase-ever-support-non-existent",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Red Barron Organic Ankle Warmers",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "broken-on-arrival-wish-i-bought-from-myers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Penelope Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "broken-on-arrival-wish-i-bought-from-myers",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Nouveau Polo Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "better-than-sketch-app",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Leopold Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "better-than-sketch-app",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Rock Star Cargo Pants",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "this-book-helped-me-leave-the-patriarchical-cult-of-catholicism",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignListKey": "user",
+    "foreignFieldKey": "reviews",
+    "value": "Leopold Bloom",
+    "fieldKey": "reviewer"
+  },
+  {
+    "many": false,
+    "listName": "review",
+    "referenceValue": {
+      "value": "this-book-helped-me-leave-the-patriarchical-cult-of-catholicism",
+      "type": "text",
+      "index": 1
+    },
+    "listLookupField": "slug",
+    "prismaListKey": "review",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "review",
+    "value": "Maxx 7 Pack Trunks",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Green Fleece Dressing Gown S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Green Fleece Dressing Gown S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Fleece Dressing Gown",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Red Fleece Dressing Gown S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Red Fleece Dressing Gown S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Fleece Dressing Gown",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Green Fleece Dressing Gown M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Green Fleece Dressing Gown M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Fleece Dressing Gown",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Red Fleece Dressing Gown M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Red Fleece Dressing Gown M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Fleece Dressing Gown",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Green Fleece Dressing Gown L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Green Fleece Dressing Gown L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Fleece Dressing Gown",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Red Fleece Dressing Gown L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Red Fleece Dressing Gown L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Fleece Dressing Gown",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Lonsdale Sorrento Blues Polo Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Lonsdale Sorrento Blues Polo Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Lonsdale Sorrento Blues Polo Shirt L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Lonsdale Sorrento Blues Polo Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Commons Tapered Trackpants",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Commons Tapered Trackpants",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Commons Tapered Trackpants L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Commons Tapered Trackpants",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Organic Cotton T-Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Organic Cotton T-Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Organic Cotton T-Shirt L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Organic Cotton T-Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas S",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Rod Stewart Pyjamas",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Rod Stewart Pyjamas",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Rod Stewart Pyjamas L",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Rod Stewart Pyjamas",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Rock Star cargo pants M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Rock Star cargo pants M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Rock Star Cargo Pants",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Denim Chinos M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Denim Chinos M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Denim Chinos",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Casual Shorts M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Casual Shorts M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Casual Shorts",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Star Wars The Mandalorian Licensed T-Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Star Wars The Mandalorian Licensed T-Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Mens Bluey Drummer Sleep Pyjama M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Mens Bluey Drummer Sleep Pyjama",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Maxx 7 Pack Trunks M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Maxx 7 Pack Trunks",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Commons Torquay Midriff Warmer M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Commons Torquay Midriff Warmer",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Red Barron Organic Ankle Warmers M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Red Barron Organic Ankle Warmers",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Cotton Dressing Gown M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Cotton Dressing Gown M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Cotton Dressing Gown",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Nouveau Polo Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Nouveau Polo Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Pineapple Joe Inflatable Banana Chair M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Pineapple Joe Inflatable Banana Chair",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Darwin Boy Engineers Chino M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Darwin Boy Engineers Chino M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Darwin Boy Engineers Chino",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Mossimo LA Palm Print T-Shirt M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Mossimo LA Palm Print T-Shirt",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Active Core Woven Shorts M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Active Core Woven Shorts M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Active Core Woven Shorts",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Slim Denim Shorts M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Slim Denim Shorts M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Slim Denim Shorts",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Graphite Performance Cargo Shorts M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Graphite Performance Cargo Shorts M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Graphite Performance Cargo Shorts",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Disney Friends Hipster Brief M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Disney Friends Hipster Brief M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Disney Friends Hipster Brief",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Scooby Doo Beanie M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Scooby Doo Beanie M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Scooby Doo Beanie",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "His Dark Materials Trilogy (ePub)",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "His Dark Materials Trilogy (ePub)",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "His Dark Materials Trilogy (ePub)",
+    "fieldKey": "product"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Garment Fleece Hoodie M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignListKey": "image",
+    "value": "unsplash",
+    "fieldKey": "photo"
+  },
+  {
+    "many": false,
+    "listName": "productVariant",
+    "referenceValue": {
+      "value": "Garment Fleece Hoodie M",
+      "type": "text",
+      "index": 0
+    },
+    "listLookupField": "name",
+    "prismaListKey": "productVariant",
+    "foreignJoinField": "name",
+    "foreignListKey": "product",
+    "foreignFieldKey": "variants",
+    "value": "Garment Fleece Hoodie",
+    "fieldKey": "product"
+  }
+]

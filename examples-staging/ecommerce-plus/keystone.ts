@@ -3,6 +3,7 @@ import { statelessSessions } from '@keystone-next/keystone/session';
 import { createAuth } from '@keystone-next/auth';
 // import { KeystoneContext } from './keystone/types';
 import {
+  Brand,
   Category,
   Image,
   UserAddress,
@@ -14,13 +15,13 @@ import {
   CartItem,
   ShippingMethod,
   ShippingZone,
-  Role,
 } from './schema';
 
 import { User } from './schemas/User';
+import { Role } from './schemas/Role';
 import { Review } from './schemas/Review';
 import { Order, OrderNote, OrderItem } from './schemas/Orders';
-import { insertSeedData } from './seed-data';
+import { insertSeedData, seedData } from './seed-data';
 
 const sessionConfig = {
   maxAge: 60 * 60 * 24 * 360,
@@ -74,7 +75,7 @@ export default withAuth(
       url: process.env.DATABASE_URL || 'file:./keystone-example.db',
       async onConnect(context) {
         if (process.argv.includes('--seed-data')) {
-          await insertSeedData(context);
+          await seedData(context);
         }
       },
     },
@@ -86,6 +87,7 @@ export default withAuth(
       },
     },
     lists: {
+      Brand,
       Category,
       User,
       UserAddress,

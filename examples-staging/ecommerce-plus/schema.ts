@@ -2,6 +2,7 @@ import { list } from '@keystone-next/keystone';
 import {
   float,
   integer,
+  json,
   image,
   relationship,
   text,
@@ -36,8 +37,8 @@ export const Category = list({
       },
     }),
     image: relationship({ ref: 'Image' }),
-    products: relationship({ ref: 'Product.category', many: true }),
-    posts: relationship({ ref: 'Post.category', many: true }),
+    products: relationship({ ref: 'Product.categories', many: true }),
+    posts: relationship({ ref: 'Post.categories', many: true }),
     parent: relationship({ ref: 'Category' }),
     bundles: relationship({ ref: 'ProductBundle.category', many: true }),
   },
@@ -58,7 +59,7 @@ export const Image = list({
 
 export const Product = list({
   fields: {
-    name: text({ validation: { isRequired: true } }),
+    name: text({ isIndexed: 'unique', validation: { isRequired: true } }),
     status: select({
       options: ['in stock', 'out of stock'],
     }),
@@ -71,14 +72,17 @@ export const Product = list({
       },
     }),
     featureImage: relationship({ ref: 'Image' }),
-    category: relationship({ ref: 'Category.products', many: true }),
+    categories: relationship({ ref: 'Category.products', many: true }),
     shippingZones: relationship({ ref: 'ShippingZone.products', many: true }),
     metaDescription: text(),
     metaImage: relationship({ ref: 'Image' }),
     metaTitle: text(),
-    variants: relationship({ ref: 'ProductVariant.product' }),
+    vendor: relationship({ ref: 'Brand.products' }),
+    variants: relationship({ ref: 'ProductVariant.product', many: true }),
+    bundles: relationship({ ref: 'ProductBundle.products', many: true }),
     relatedProducts: relationship({ ref: 'Product', many: true }),
     canonicalCategory: relationship({ ref: 'Category' }),
+    sku: text({ isIndexed: 'unique' }),
     type: select({
       options: ['physical', 'digital'],
     }),
@@ -94,6 +98,19 @@ export const Product = list({
         inlineConnect: true,
       },
     }),
+  },
+});
+
+export const Brand = list({
+  fields: {
+    name: text({ validation: { isRequired: true } }),
+    description: text({
+      ui: {
+        displayMode: 'textarea',
+      },
+    }),
+    website: text(),
+    products: relationship({ ref: 'Product.vendor', many: true }),
   },
 });
 
@@ -117,13 +134,14 @@ export const ProductBundle = list({
     metaImage: relationship({ ref: 'Image' }),
     metaTitle: text(),
     sku: text({ isIndexed: 'unique' }),
-    products: relationship({ ref: 'Product', many: true }),
+    products: relationship({ ref: 'Product.bundles', many: true }),
   },
 });
 
 export const ProductVariant = list({
   fields: {
     name: text({
+      isIndexed: 'unique',
       validation: { isRequired: true },
     }),
     description: text({
@@ -134,7 +152,8 @@ export const ProductVariant = list({
     photos: relationship({ ref: 'Image', many: true }),
     stock: integer(),
     product: relationship({ ref: 'Product.variants' }),
-    // productSpecs: component() // NOT YET IMPLEMENTED
+    sku: text({ isIndexed: 'unique', validation: { isRequired: true } }),
+    productSpecs: json(), // component field NOT YET IMPLEMENTED
     length: text(),
     width: text(),
     depth: text(),
@@ -148,7 +167,7 @@ export const CartItem = list({
   fields: {
     quantity: integer(),
     productVariant: relationship({ ref: 'ProductVariant' }),
-    customer: relationship({ ref: 'User' }),
+    customer: relationship({ ref: 'User.cart' }),
     price: float(),
   },
 });
@@ -233,7 +252,7 @@ export const Post = list({
       componentBlocks,
     }),
     author: relationship({ ref: 'User.posts' }),
-    category: relationship({ ref: 'Category.posts', many: true }),
+    categories: relationship({ ref: 'Category.posts', many: true }),
     status: select({
       options: ['draft', 'published'],
     }),

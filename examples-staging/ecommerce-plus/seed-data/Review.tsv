@@ -1,0 +1,12 @@
+title (text)	slug (text) label	rating (select)	content (text)	reviewer (relationship:User.reviews)	product (relationship:Product.review)
+Great product, shame about the stitching.	great-product-shame-about-the-stitching	3	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Penelope Bloom	Nouveau Polo Shirt
+I loved this shirt until my boyfriend started wearing it.	i-loved-this-shirt-until-my-boyfriend-started-wearing-it	4	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Leopold Bloom	Rock Star Cargo Pants
+Durable and does what it says	durable-and-does-what-it-says	5	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Leopold Bloom	Maxx 7 Pack Trunks
+Best part of my prom outfit	best-part-of-my-prom-outfit	0	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Leopold Bloom	Darwin Boy Engineers Chino
+Comfy af. Look good too.	comfy-af-look-good-too	3	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Penelope Bloom	Disney Friends Hipster Brief
+Worth the cost. 	worth-the-cost	4	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Leopold Bloom	Commons Tapered Trackpants
+Hard to break in. But now my shoes love me every day.	hard-to-break-in-but-now-my-shoes-love-me-every-day	5	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Leopold Bloom	Casual Shorts
+Worst purchase ever. Support non existent.	worst-purchase-ever-support-non-existent	0	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Leopold Bloom	Red Barron Organic Ankle Warmers
+Broken on arrival. Wish I bought from Myers.	broken-on-arrival-wish-i-bought-from-myers	1	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Penelope Bloom	Nouveau Polo Shirt
+Better than Sketch app.	better-than-sketch-app	4	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Leopold Bloom	Rock Star Cargo Pants
+This book helped me leave the patriarchical cult of catholicism.	this-book-helped-me-leave-the-patriarchical-cult-of-catholicism	5	Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.	Leopold Bloom	Maxx 7 Pack Trunks

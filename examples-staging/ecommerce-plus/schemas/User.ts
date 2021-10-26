@@ -38,6 +38,7 @@ export const User = list({
         },
       },
     }),
+    cart: relationship({ ref: 'CartItem.customer', many: true }),
     role: relationship({
       ref: 'Role.assignedTo',
       access: {

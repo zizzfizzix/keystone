@@ -5,6 +5,7 @@ import { document } from '@keystone-next/fields-document';
 export const Review = list({
   fields: {
     title: text({ validation: { isRequired: true } }),
+    slug: text({ isIndexed: 'unique' }),
     rating: select({
       ui: {
         displayMode: 'segmented-control',
@@ -35,7 +36,9 @@ export const Review = list({
       hooks: {
         resolveInput({ operation, resolvedData, context }) {
           if (operation === 'create' && !resolvedData.reviewer) {
-            return { connect: { id: context.session.itemId } };
+            return context?.session
+              ? { connect: { id: context?.session?.itemId } }
+              : null;
           }
           return resolvedData.reviewer;
         },

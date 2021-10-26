@@ -1,0 +1,423 @@
+{
+ "listName": "Review",
+ "listItems": [
+  {
+   "title": {
+    "value": "Great product, shame about the stitching.",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "great-product-shame-about-the-stitching",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "3",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Penelope Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Nouveau Polo Shirt\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "I loved this shirt until my boyfriend started wearing it.",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "i-loved-this-shirt-until-my-boyfriend-started-wearing-it",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "4",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Leopold Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Rock Star Cargo Pants\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "Durable and does what it says",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "durable-and-does-what-it-says",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "5",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Leopold Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Maxx 7 Pack Trunks\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "Best part of my prom outfit",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "best-part-of-my-prom-outfit",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "0",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Leopold Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Darwin Boy Engineers Chino\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "Comfy af. Look good too.",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "comfy-af-look-good-too",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "3",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Penelope Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Disney Friends Hipster Brief\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "Worth the cost. ",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "worth-the-cost",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "4",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Leopold Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Commons Tapered Trackpants\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "Hard to break in. But now my shoes love me every day.",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "hard-to-break-in-but-now-my-shoes-love-me-every-day",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "5",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Leopold Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Casual Shorts\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "Worst purchase ever. Support non existent.",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "worst-purchase-ever-support-non-existent",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "0",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Leopold Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Red Barron Organic Ankle Warmers\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "Broken on arrival. Wish I bought from Myers.",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "broken-on-arrival-wish-i-bought-from-myers",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "1",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Penelope Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Nouveau Polo Shirt\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "Better than Sketch app.",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "better-than-sketch-app",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "4",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Leopold Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Rock Star Cargo Pants\r",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  },
+  {
+   "title": {
+    "value": "This book helped me leave the patriarchical cult of catholicism.",
+    "type": "text",
+    "index": 0
+   },
+   "slug": {
+    "value": "this-book-helped-me-leave-the-patriarchical-cult-of-catholicism",
+    "type": "text",
+    "index": 1
+   },
+   "rating": {
+    "value": "5",
+    "type": "select",
+    "index": 2
+   },
+   "content": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 3
+   },
+   "reviewer": {
+    "value": "Leopold Bloom",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "User",
+    "foreignFieldKey": "reviews"
+   },
+   "product": {
+    "value": "Maxx 7 Pack Trunks",
+    "type": "relationship",
+    "index": 5,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "review"
+   }
+  }
+ ]
+}

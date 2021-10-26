@@ -1,0 +1,2551 @@
+{
+ "listName": "ProductVariant",
+ "listItems": [
+  {
+   "name": {
+    "value": "Green Fleece Dressing Gown S",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Fleece Dressing Gown",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "20005",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'green', size: 'S' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "700mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "400mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Red Fleece Dressing Gown S",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Fleece Dressing Gown",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "20006",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'red' , size: 'S' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "700mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "400mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "3\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Green Fleece Dressing Gown M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Fleece Dressing Gown",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "20007",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'green', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "1\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Red Fleece Dressing Gown M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Fleece Dressing Gown",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "20008",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'red', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "4\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Green Fleece Dressing Gown L",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Fleece Dressing Gown",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "20009",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'green', size: 'L' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "900mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "600mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "2\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Red Fleece Dressing Gown L",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Fleece Dressing Gown",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "20010",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'red', size: 'L' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "900mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "600mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "5\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Lonsdale Sorrento Blues Polo Shirt S",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Lonsdale Sorrento Blues Polo Shirt",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "30011",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'white', size: 'S' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "700mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "400mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Lonsdale Sorrento Blues Polo Shirt M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Lonsdale Sorrento Blues Polo Shirt",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "30012",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'white', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "2\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Lonsdale Sorrento Blues Polo Shirt L",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Lonsdale Sorrento Blues Polo Shirt",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "30013",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'white', size: 'L' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "900mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "600mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "1\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Commons Tapered Trackpants S",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Commons Tapered Trackpants",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "10044",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'grey', size: 'S' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "700mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "400mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Commons Tapered Trackpants M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Commons Tapered Trackpants",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "10045",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'grey', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "2\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Commons Tapered Trackpants L",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Commons Tapered Trackpants",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "10046",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'grey', size: 'L' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "900mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "600mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "1\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Organic Cotton T-Shirt S",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Organic Cotton T-Shirt",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "50230",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'black', size: 'S' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "700mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "400mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Organic Cotton T-Shirt M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Organic Cotton T-Shirt",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "50231",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'black', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "2\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Organic Cotton T-Shirt L",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Organic Cotton T-Shirt",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "50232",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'black', size: 'L' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "900mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "600mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "1\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Rod Stewart Pyjamas S",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Rod Stewart Pyjamas",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "60001",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'brown', size: 'S' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "700mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "400mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Rod Stewart Pyjamas M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Rod Stewart Pyjamas",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "60002",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'brown', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "2\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Rod Stewart Pyjamas L",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "10",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Rod Stewart Pyjamas",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "60003",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'brown', size: 'L' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "900mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "600mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "1\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Rock Star cargo pants M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Rock Star Cargo Pants",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "32030",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'khaki', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Denim Chinos M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Denim Chinos",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "50523",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'khaki', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Casual Shorts M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Casual Shorts",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "66233",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'navy', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Star Wars The Mandalorian Licensed T-Shirt M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Star Wars The Mandalorian Licensed T-Shirt",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "40404",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'black', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Mens Bluey Drummer Sleep Pyjama M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Mens Bluey Drummer Sleep Pyjama",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "88888",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'brown', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Maxx 7 Pack Trunks M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Maxx 7 Pack Trunks",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "92939",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'turqoise', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Commons Torquay Midriff Warmer M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Commons Torquay Midriff Warmer",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "10133",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'teal', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Red Barron Organic Ankle Warmers M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Red Barron Organic Ankle Warmers",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "30133",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'green', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Cotton Dressing Gown M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "0",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Cotton Dressing Gown",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "13133",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'navy', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Nouveau Polo Shirt M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "0",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Nouveau Polo Shirt",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "40432",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'papayawhip', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Pineapple Joe Inflatable Banana Chair M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Pineapple Joe Inflatable Banana Chair",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "50303",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'yellow', size: 'M' } ",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Darwin Boy Engineers Chino M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Darwin Boy Engineers Chino",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "33333",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'khaki', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Mossimo LA Palm Print T-Shirt M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Mossimo LA Palm Print T-Shirt",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "44444",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'blue', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Active Core Woven Shorts M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Active Core Woven Shorts",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "55555",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'blue', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Slim Denim Shorts M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Slim Denim Shorts",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "23232",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'blue', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Graphite Performance Cargo Shorts M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Graphite Performance Cargo Shorts",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "30302",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'blue', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Disney Friends Hipster Brief M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Disney Friends Hipster Brief",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "69693",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'blue', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Scooby Doo Beanie M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Scooby Doo Beanie",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "31425",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'green', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "His Dark Materials Trilogy (ePub)",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "His Dark Materials Trilogy (ePub)",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "90210",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "null",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "http://thisisatotallylegalcopyofhisdarktrilogy.com/vol1.pdf",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0\r",
+    "type": "order",
+    "index": 11
+   }
+  },
+  {
+   "name": {
+    "value": "Garment Fleece Hoodie M",
+    "type": "text",
+    "index": 0
+   },
+   "description": {
+    "value": "Lorem ipsum dolor sit amet egestas fermentum sollicitudin viverra mattis lobortis aliqua tempus proin.",
+    "type": "text",
+    "index": 1
+   },
+   "photo": {
+    "value": "unsplash",
+    "type": "relationship",
+    "index": 2,
+    "many": false,
+    "foreignListKey": "Image"
+   },
+   "stock": {
+    "value": "30",
+    "type": "integer",
+    "index": 3
+   },
+   "product": {
+    "value": "Garment Fleece Hoodie",
+    "type": "relationship",
+    "index": 4,
+    "many": false,
+    "foreignListKey": "Product",
+    "foreignFieldKey": "variants"
+   },
+   "sku": {
+    "value": "66262",
+    "type": "text",
+    "index": 5
+   },
+   "productSpecs": {
+    "value": "{ color: 'red', size: 'M' }",
+    "type": "JSON",
+    "index": 6
+   },
+   "length": {
+    "value": "800mm",
+    "type": "text",
+    "index": 7
+   },
+   "width": {
+    "value": "500mm",
+    "type": "text",
+    "index": 8
+   },
+   "depth": {
+    "value": "10mm",
+    "type": "text",
+    "index": 9
+   },
+   "downloadLink": {
+    "value": "",
+    "type": "text",
+    "index": 10
+   },
+   "displayIndex": {
+    "value": "0",
+    "type": "order",
+    "index": 11
+   }
+  }
+ ]
+}

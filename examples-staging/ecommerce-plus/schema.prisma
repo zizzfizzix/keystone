@@ -12,14 +12,22 @@ generator client {
   engineType = "binary"
 }
 
+model Brand {
+  id          String    @id @default(cuid())
+  name        String    @default("")
+  description String    @default("")
+  website     String    @default("")
+  products    Product[] @relation("Product_vendor")
+}
+
 model Category {
   id                             String          @id @default(cuid())
   title                          String          @default("")
   summary                        String          @default("")
   image                          Image?          @relation("Category_image", fields: [imageId], references: [id])
   imageId                        String?         @map("image")
-  products                       Product[]       @relation("Category_products_Product_category")
-  posts                          Post[]          @relation("Category_posts_Post_category")
+  products                       Product[]       @relation("Category_products_Product_categories")
+  posts                          Post[]          @relation("Category_posts_Post_categories")
   parent                         Category?       @relation("Category_parent", fields: [parentId], references: [id])
   parentId                       String?         @map("parent")
   bundles                        ProductBundle[] @relation("Category_bundles_ProductBundle_category")
@@ -31,28 +39,28 @@ model Category {
 }
 
 model User {
-  id                     String       @id @default(cuid())
-  name                   String       @default("")
-  email                  String       @unique @default("")
-  password               String
-  role                   Role?        @relation("User_role", fields: [roleId], references: [id])
-  roleId                 String?      @map("role")
-  shippingAddress        UserAddress? @relation("User_shippingAddress", fields: [shippingAddressId], references: [id])
-  shippingAddressId      String?      @map("shippingAddress")
-  billingAddress         UserAddress? @relation("User_billingAddress", fields: [billingAddressId], references: [id])
-  billingAddressId       String?      @map("billingAddress")
-  pages                  Page[]       @relation("Page_author")
-  posts                  Post[]       @relation("Post_author")
-  orders                 Order?       @relation("Order_customer")
-  orderNotes             OrderNote[]  @relation("OrderNote_author")
-  reviews                Review[]     @relation("Review_reviewer")
-  avatar_filesize        Int?
-  avatar_extension       String?
-  avatar_width           Int?
-  avatar_height          Int?
-  avatar_mode            String?
-  avatar_id              String?
-  from_CartItem_customer CartItem[]   @relation("CartItem_customer")
+  id                String       @id @default(cuid())
+  name              String       @default("")
+  email             String       @unique @default("")
+  password          String
+  cart              CartItem[]   @relation("CartItem_customer")
+  role              Role?        @relation("User_role", fields: [roleId], references: [id])
+  roleId            String?      @map("role")
+  shippingAddress   UserAddress? @relation("User_shippingAddress", fields: [shippingAddressId], references: [id])
+  shippingAddressId String?      @map("shippingAddress")
+  billingAddress    UserAddress? @relation("User_billingAddress", fields: [billingAddressId], references: [id])
+  billingAddressId  String?      @map("billingAddress")
+  pages             Page[]       @relation("Page_author")
+  posts             Post[]       @relation("Post_author")
+  orders            Order?       @relation("Order_customer")
+  orderNotes        OrderNote[]  @relation("OrderNote_author")
+  reviews           Review[]     @relation("Review_reviewer")
+  avatar_filesize   Int?
+  avatar_extension  String?
+  avatar_width      Int?
+  avatar_height     Int?
+  avatar_mode       String?
+  avatar_id         String?
 
   @@index([roleId])
   @@index([shippingAddressId])
@@ -159,7 +167,7 @@ model Post {
   content         String     @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   author          User?      @relation("Post_author", fields: [authorId], references: [id])
   authorId        String?    @map("author")
-  category        Category[] @relation("Category_posts_Post_category")
+  categories      Category[] @relation("Category_posts_Post_categories")
   status          String?
 
   @@index([featureImageId])
@@ -187,41 +195,44 @@ model Page {
 }
 
 model Product {
-  id                           String          @id @default(cuid())
-  name                         String          @default("")
+  id                           String           @id @default(cuid())
+  name                         String           @unique @default("")
   status                       String?
   price                        Float
   stock                        Int
   discount                     Float?
-  description                  String          @default("")
-  featureImage                 Image?          @relation("Product_featureImage", fields: [featureImageId], references: [id])
-  featureImageId               String?         @map("featureImage")
-  category                     Category[]      @relation("Category_products_Product_category")
-  shippingZones                ShippingZone[]  @relation("Product_shippingZones_ShippingZone_products")
-  metaDescription              String          @default("")
-  metaImage                    Image?          @relation("Product_metaImage", fields: [metaImageId], references: [id])
-  metaImageId                  String?         @map("metaImage")
-  metaTitle                    String          @default("")
-  variants                     ProductVariant? @relation("Product_variants", fields: [variantsId], references: [id])
-  variantsId                   String?         @unique @map("variants")
-  relatedProducts              Product[]       @relation("Product_relatedProducts_many")
-  canonicalCategory            Category?       @relation("Product_canonicalCategory", fields: [canonicalCategoryId], references: [id])
-  canonicalCategoryId          String?         @map("canonicalCategory")
+  description                  String           @default("")
+  featureImage                 Image?           @relation("Product_featureImage", fields: [featureImageId], references: [id])
+  featureImageId               String?          @map("featureImage")
+  categories                   Category[]       @relation("Category_products_Product_categories")
+  shippingZones                ShippingZone[]   @relation("Product_shippingZones_ShippingZone_products")
+  metaDescription              String           @default("")
+  metaImage                    Image?           @relation("Product_metaImage", fields: [metaImageId], references: [id])
+  metaImageId                  String?          @map("metaImage")
+  metaTitle                    String           @default("")
+  vendor                       Brand?           @relation("Product_vendor", fields: [vendorId], references: [id])
+  vendorId                     String?          @map("vendor")
+  variants                     ProductVariant[] @relation("ProductVariant_product")
+  bundles                      ProductBundle[]  @relation("Product_bundles_ProductBundle_products")
+  relatedProducts              Product[]        @relation("Product_relatedProducts_many")
+  canonicalCategory            Category?        @relation("Product_canonicalCategory", fields: [canonicalCategoryId], references: [id])
+  canonicalCategoryId          String?          @map("canonicalCategory")
+  sku                          String           @unique @default("")
   type                         String?
-  reviews                      Review[]        @relation("Review_product")
-  from_Product_relatedProducts Product[]       @relation("Product_relatedProducts_many")
-  from_ProductBundle_products  ProductBundle[] @relation("ProductBundle_products_many")
+  reviews                      Review[]         @relation("Review_product")
+  from_Product_relatedProducts Product[]        @relation("Product_relatedProducts_many")
 
   @@index([featureImageId])
   @@index([metaImageId])
+  @@index([vendorId])
   @@index([canonicalCategoryId])
 }
 
 model ProductBundle {
   id              String     @id @default(cuid())
+  name            String     @default("")
   price           Float?
   status          String?
-  name            String     @default("")
   description     String     @default("")
   featureImage    Image?     @relation("ProductBundle_featureImage", fields: [featureImageId], references: [id])
   featureImageId  String?    @map("featureImage")
@@ -230,8 +241,8 @@ model ProductBundle {
   metaImage       Image?     @relation("ProductBundle_metaImage", fields: [metaImageId], references: [id])
   metaImageId     String?    @map("metaImage")
   metaTitle       String     @default("")
-  sku             String     @default("")
-  products        Product[]  @relation("ProductBundle_products_many")
+  sku             String     @unique @default("")
+  products        Product[]  @relation("Product_bundles_ProductBundle_products")
 
   @@index([featureImageId])
   @@index([metaImageId])
@@ -239,22 +250,28 @@ model ProductBundle {
 
 model ProductVariant {
   id                           String     @id @default(cuid())
-  name                         String     @default("")
+  name                         String     @unique @default("")
   description                  String     @default("")
   photos                       Image[]    @relation("ProductVariant_photos_many")
   stock                        Int?
-  product                      Product?   @relation("Product_variants")
+  product                      Product?   @relation("ProductVariant_product", fields: [productId], references: [id])
+  productId                    String?    @map("product")
+  sku                          String     @unique @default("")
+  productSpecs                 String?
   length                       String     @default("")
   width                        String     @default("")
   depth                        String     @default("")
   weight                       String     @default("")
   downloadLink                 String     @default("")
   from_CartItem_productVariant CartItem[] @relation("CartItem_productVariant")
+
+  @@index([productId])
 }
 
 model Review {
   id         String   @id @default(cuid())
   title      String   @default("")
+  slug       String   @unique @default("")
   rating     String?
   content    String   @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   reviewer   User?    @relation("Review_reviewer", fields: [reviewerId], references: [id])

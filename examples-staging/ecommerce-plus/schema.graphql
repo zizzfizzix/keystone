@@ -15,6 +15,12 @@ type Mutation {
     email: String!
     password: String!
   ): UserAuthenticationWithPasswordResult!
+  createBrand(data: BrandCreateInput!): Brand
+  createBrands(data: [BrandCreateInput!]!): [Brand]
+  updateBrand(where: BrandWhereUniqueInput!, data: BrandUpdateInput!): Brand
+  updateBrands(data: [BrandUpdateArgs!]!): [Brand]
+  deleteBrand(where: BrandWhereUniqueInput!): Brand
+  deleteBrands(where: [BrandWhereUniqueInput!]!): [Brand]
   createCategory(data: CategoryCreateInput!): Category
   createCategories(data: [CategoryCreateInput!]!): [Category]
   updateCategory(
@@ -160,6 +166,14 @@ union AuthenticatedItem = User
 
 type Query {
   authenticatedItem: AuthenticatedItem
+  brands(
+    where: BrandWhereInput! = {}
+    orderBy: [BrandOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Brand!]
+  brand(where: BrandWhereUniqueInput!): Brand
+  brandsCount(where: BrandWhereInput! = {}): Int
   categories(
     where: CategoryWhereInput! = {}
     orderBy: [CategoryOrderByInput!]! = []
@@ -312,11 +326,11 @@ type UserAuthenticationWithPasswordFailure {
   message: String!
 }
 
-type Category {
+type Brand {
   id: ID!
-  title: String
-  summary: String
-  image: Image
+  name: String
+  description: String
+  website: String
   products(
     where: ProductWhereInput! = {}
     orderBy: [ProductOrderByInput!]! = []
@@ -324,39 +338,21 @@ type Category {
     skip: Int! = 0
   ): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
-  posts(
-    where: PostWhereInput! = {}
-    orderBy: [PostOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [Post!]
-  postsCount(where: PostWhereInput! = {}): Int
-  parent: Category
-  bundles(
-    where: ProductBundleWhereInput! = {}
-    orderBy: [ProductBundleOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [ProductBundle!]
-  bundlesCount(where: ProductBundleWhereInput! = {}): Int
 }
 
-input CategoryWhereUniqueInput {
+input BrandWhereUniqueInput {
   id: ID
 }
 
-input CategoryWhereInput {
-  AND: [CategoryWhereInput!]
-  OR: [CategoryWhereInput!]
-  NOT: [CategoryWhereInput!]
+input BrandWhereInput {
+  AND: [BrandWhereInput!]
+  OR: [BrandWhereInput!]
+  NOT: [BrandWhereInput!]
   id: IDFilter
-  title: StringFilter
-  summary: StringFilter
-  image: ImageWhereInput
+  name: StringFilter
+  description: StringFilter
+  website: StringFilter
   products: ProductManyRelationFilter
-  posts: PostManyRelationFilter
-  parent: CategoryWhereInput
-  bundles: ProductBundleManyRelationFilter
 }
 
 input IDFilter {
@@ -404,6 +400,96 @@ input ProductManyRelationFilter {
   none: ProductWhereInput
 }
 
+input BrandOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  description: OrderDirection
+  website: OrderDirection
+}
+
+enum OrderDirection {
+  asc
+  desc
+}
+
+input BrandUpdateInput {
+  name: String
+  description: String
+  website: String
+  products: ProductRelateToManyForUpdateInput
+}
+
+input ProductRelateToManyForUpdateInput {
+  disconnect: [ProductWhereUniqueInput!]
+  set: [ProductWhereUniqueInput!]
+  create: [ProductCreateInput!]
+  connect: [ProductWhereUniqueInput!]
+}
+
+input BrandUpdateArgs {
+  where: BrandWhereUniqueInput!
+  data: BrandUpdateInput!
+}
+
+input BrandCreateInput {
+  name: String
+  description: String
+  website: String
+  products: ProductRelateToManyForCreateInput
+}
+
+input ProductRelateToManyForCreateInput {
+  create: [ProductCreateInput!]
+  connect: [ProductWhereUniqueInput!]
+}
+
+type Category {
+  id: ID!
+  title: String
+  summary: String
+  image: Image
+  products(
+    where: ProductWhereInput! = {}
+    orderBy: [ProductOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Product!]
+  productsCount(where: ProductWhereInput! = {}): Int
+  posts(
+    where: PostWhereInput! = {}
+    orderBy: [PostOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Post!]
+  postsCount(where: PostWhereInput! = {}): Int
+  parent: Category
+  bundles(
+    where: ProductBundleWhereInput! = {}
+    orderBy: [ProductBundleOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [ProductBundle!]
+  bundlesCount(where: ProductBundleWhereInput! = {}): Int
+}
+
+input CategoryWhereUniqueInput {
+  id: ID
+}
+
+input CategoryWhereInput {
+  AND: [CategoryWhereInput!]
+  OR: [CategoryWhereInput!]
+  NOT: [CategoryWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  summary: StringFilter
+  image: ImageWhereInput
+  products: ProductManyRelationFilter
+  posts: PostManyRelationFilter
+  parent: CategoryWhereInput
+  bundles: ProductBundleManyRelationFilter
+}
+
 input PostManyRelationFilter {
   every: PostWhereInput
   some: PostWhereInput
@@ -422,11 +508,6 @@ input CategoryOrderByInput {
   summary: OrderDirection
 }
 
-enum OrderDirection {
-  asc
-  desc
-}
-
 input CategoryUpdateInput {
   title: String
   summary: String
@@ -441,13 +522,6 @@ input ImageRelateToOneForUpdateInput {
   create: ImageCreateInput
   connect: ImageWhereUniqueInput
   disconnect: Boolean
-}
-
-input ProductRelateToManyForUpdateInput {
-  disconnect: [ProductWhereUniqueInput!]
-  set: [ProductWhereUniqueInput!]
-  create: [ProductCreateInput!]
-  connect: [ProductWhereUniqueInput!]
 }
 
 input PostRelateToManyForUpdateInput {
@@ -490,11 +564,6 @@ input ImageRelateToOneForCreateInput {
   connect: ImageWhereUniqueInput
 }
 
-input ProductRelateToManyForCreateInput {
-  create: [ProductCreateInput!]
-  connect: [ProductWhereUniqueInput!]
-}
-
 input PostRelateToManyForCreateInput {
   create: [PostCreateInput!]
   connect: [PostWhereUniqueInput!]
@@ -515,6 +584,13 @@ type User {
   name: String
   email: String
   password: PasswordState
+  cart(
+    where: CartItemWhereInput! = {}
+    orderBy: [CartItemOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [CartItem!]
+  cartCount(where: CartItemWhereInput! = {}): Int
   role: Role
   shippingAddress: UserAddress
   billingAddress: UserAddress
@@ -583,6 +659,7 @@ input UserWhereInput {
   id: IDFilter
   name: StringFilter
   email: StringFilter
+  cart: CartItemManyRelationFilter
   role: RoleWhereInput
   shippingAddress: UserAddressWhereInput
   billingAddress: UserAddressWhereInput
@@ -591,6 +668,12 @@ input UserWhereInput {
   orders: OrderWhereInput
   orderNotes: OrderNoteManyRelationFilter
   reviews: ReviewManyRelationFilter
+}
+
+input CartItemManyRelationFilter {
+  every: CartItemWhereInput
+  some: CartItemWhereInput
+  none: CartItemWhereInput
 }
 
 input PageManyRelationFilter {
@@ -621,6 +704,7 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
+  cart: CartItemRelateToManyForUpdateInput
   role: RoleRelateToOneForUpdateInput
   shippingAddress: UserAddressRelateToOneForUpdateInput
   billingAddress: UserAddressRelateToOneForUpdateInput
@@ -630,6 +714,13 @@ input UserUpdateInput {
   orderNotes: OrderNoteRelateToManyForUpdateInput
   reviews: ReviewRelateToManyForUpdateInput
   avatar: ImageFieldInput
+}
+
+input CartItemRelateToManyForUpdateInput {
+  disconnect: [CartItemWhereUniqueInput!]
+  set: [CartItemWhereUniqueInput!]
+  create: [CartItemCreateInput!]
+  connect: [CartItemWhereUniqueInput!]
 }
 
 input RoleRelateToOneForUpdateInput {
@@ -690,6 +781,7 @@ input UserCreateInput {
   name: String
   email: String
   password: String
+  cart: CartItemRelateToManyForCreateInput
   role: RoleRelateToOneForCreateInput
   shippingAddress: UserAddressRelateToOneForCreateInput
   billingAddress: UserAddressRelateToOneForCreateInput
@@ -699,6 +791,11 @@ input UserCreateInput {
   orderNotes: OrderNoteRelateToManyForCreateInput
   reviews: ReviewRelateToManyForCreateInput
   avatar: ImageFieldInput
+}
+
+input CartItemRelateToManyForCreateInput {
+  create: [CartItemCreateInput!]
+  connect: [CartItemWhereUniqueInput!]
 }
 
 input RoleRelateToOneForCreateInput {
@@ -1211,13 +1308,13 @@ type Post {
   metaImage: Image
   content: Post_content_Document
   author: User
-  category(
+  categories(
     where: CategoryWhereInput! = {}
     orderBy: [CategoryOrderByInput!]! = []
     take: Int
     skip: Int! = 0
   ): [Category!]
-  categoryCount(where: CategoryWhereInput! = {}): Int
+  categoriesCount(where: CategoryWhereInput! = {}): Int
   status: String
 }
 
@@ -1241,7 +1338,7 @@ input PostWhereInput {
   metaDescription: StringFilter
   metaImage: ImageWhereInput
   author: UserWhereInput
-  category: CategoryManyRelationFilter
+  categories: CategoryManyRelationFilter
   status: StringNullableFilter
 }
 
@@ -1269,7 +1366,7 @@ input PostUpdateInput {
   metaImage: ImageRelateToOneForUpdateInput
   content: JSON
   author: UserRelateToOneForUpdateInput
-  category: CategoryRelateToManyForUpdateInput
+  categories: CategoryRelateToManyForUpdateInput
   status: String
 }
 
@@ -1294,7 +1391,7 @@ input PostCreateInput {
   metaImage: ImageRelateToOneForCreateInput
   content: JSON
   author: UserRelateToOneForCreateInput
-  category: CategoryRelateToManyForCreateInput
+  categories: CategoryRelateToManyForCreateInput
   status: String
 }
 
@@ -1381,13 +1478,13 @@ type Product {
   discount: Float
   description: String
   featureImage: Image
-  category(
+  categories(
     where: CategoryWhereInput! = {}
     orderBy: [CategoryOrderByInput!]! = []
     take: Int
     skip: Int! = 0
   ): [Category!]
-  categoryCount(where: CategoryWhereInput! = {}): Int
+  categoriesCount(where: CategoryWhereInput! = {}): Int
   shippingZones(
     where: ShippingZoneWhereInput! = {}
     orderBy: [ShippingZoneOrderByInput!]! = []
@@ -1398,7 +1495,21 @@ type Product {
   metaDescription: String
   metaImage: Image
   metaTitle: String
-  variants: ProductVariant
+  vendor: Brand
+  variants(
+    where: ProductVariantWhereInput! = {}
+    orderBy: [ProductVariantOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [ProductVariant!]
+  variantsCount(where: ProductVariantWhereInput! = {}): Int
+  bundles(
+    where: ProductBundleWhereInput! = {}
+    orderBy: [ProductBundleOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [ProductBundle!]
+  bundlesCount(where: ProductBundleWhereInput! = {}): Int
   relatedProducts(
     where: ProductWhereInput! = {}
     orderBy: [ProductOrderByInput!]! = []
@@ -1407,6 +1518,7 @@ type Product {
   ): [Product!]
   relatedProductsCount(where: ProductWhereInput! = {}): Int
   canonicalCategory: Category
+  sku: String
   type: String
   reviews(
     where: ReviewWhereInput! = {}
@@ -1419,6 +1531,8 @@ type Product {
 
 input ProductWhereUniqueInput {
   id: ID
+  name: String
+  sku: String
 }
 
 input ProductWhereInput {
@@ -1433,14 +1547,17 @@ input ProductWhereInput {
   discount: FloatNullableFilter
   description: StringFilter
   featureImage: ImageWhereInput
-  category: CategoryManyRelationFilter
+  categories: CategoryManyRelationFilter
   shippingZones: ShippingZoneManyRelationFilter
   metaDescription: StringFilter
   metaImage: ImageWhereInput
   metaTitle: StringFilter
-  variants: ProductVariantWhereInput
+  vendor: BrandWhereInput
+  variants: ProductVariantManyRelationFilter
+  bundles: ProductBundleManyRelationFilter
   relatedProducts: ProductManyRelationFilter
   canonicalCategory: CategoryWhereInput
+  sku: StringFilter
   type: StringNullableFilter
   reviews: ReviewManyRelationFilter
 }
@@ -1473,6 +1590,12 @@ input ShippingZoneManyRelationFilter {
   none: ShippingZoneWhereInput
 }
 
+input ProductVariantManyRelationFilter {
+  every: ProductVariantWhereInput
+  some: ProductVariantWhereInput
+  none: ProductVariantWhereInput
+}
+
 input ProductOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -1483,6 +1606,7 @@ input ProductOrderByInput {
   description: OrderDirection
   metaDescription: OrderDirection
   metaTitle: OrderDirection
+  sku: OrderDirection
   type: OrderDirection
 }
 
@@ -1494,14 +1618,17 @@ input ProductUpdateInput {
   discount: Float
   description: String
   featureImage: ImageRelateToOneForUpdateInput
-  category: CategoryRelateToManyForUpdateInput
+  categories: CategoryRelateToManyForUpdateInput
   shippingZones: ShippingZoneRelateToManyForUpdateInput
   metaDescription: String
   metaImage: ImageRelateToOneForUpdateInput
   metaTitle: String
-  variants: ProductVariantRelateToOneForUpdateInput
+  vendor: BrandRelateToOneForUpdateInput
+  variants: ProductVariantRelateToManyForUpdateInput
+  bundles: ProductBundleRelateToManyForUpdateInput
   relatedProducts: ProductRelateToManyForUpdateInput
   canonicalCategory: CategoryRelateToOneForUpdateInput
+  sku: String
   type: String
   reviews: ReviewRelateToManyForUpdateInput
 }
@@ -1513,10 +1640,17 @@ input ShippingZoneRelateToManyForUpdateInput {
   connect: [ShippingZoneWhereUniqueInput!]
 }
 
-input ProductVariantRelateToOneForUpdateInput {
-  create: ProductVariantCreateInput
-  connect: ProductVariantWhereUniqueInput
+input BrandRelateToOneForUpdateInput {
+  create: BrandCreateInput
+  connect: BrandWhereUniqueInput
   disconnect: Boolean
+}
+
+input ProductVariantRelateToManyForUpdateInput {
+  disconnect: [ProductVariantWhereUniqueInput!]
+  set: [ProductVariantWhereUniqueInput!]
+  create: [ProductVariantCreateInput!]
+  connect: [ProductVariantWhereUniqueInput!]
 }
 
 input ProductUpdateArgs {
@@ -1532,14 +1666,17 @@ input ProductCreateInput {
   discount: Float
   description: String
   featureImage: ImageRelateToOneForCreateInput
-  category: CategoryRelateToManyForCreateInput
+  categories: CategoryRelateToManyForCreateInput
   shippingZones: ShippingZoneRelateToManyForCreateInput
   metaDescription: String
   metaImage: ImageRelateToOneForCreateInput
   metaTitle: String
-  variants: ProductVariantRelateToOneForCreateInput
+  vendor: BrandRelateToOneForCreateInput
+  variants: ProductVariantRelateToManyForCreateInput
+  bundles: ProductBundleRelateToManyForCreateInput
   relatedProducts: ProductRelateToManyForCreateInput
   canonicalCategory: CategoryRelateToOneForCreateInput
+  sku: String
   type: String
   reviews: ReviewRelateToManyForCreateInput
 }
@@ -1549,16 +1686,21 @@ input ShippingZoneRelateToManyForCreateInput {
   connect: [ShippingZoneWhereUniqueInput!]
 }
 
-input ProductVariantRelateToOneForCreateInput {
-  create: ProductVariantCreateInput
-  connect: ProductVariantWhereUniqueInput
+input BrandRelateToOneForCreateInput {
+  create: BrandCreateInput
+  connect: BrandWhereUniqueInput
+}
+
+input ProductVariantRelateToManyForCreateInput {
+  create: [ProductVariantCreateInput!]
+  connect: [ProductVariantWhereUniqueInput!]
 }
 
 type ProductBundle {
   id: ID!
+  name: String
   price: Float
   status: String
-  name: String
   description: String
   featureImage: Image
   category(
@@ -1583,6 +1725,7 @@ type ProductBundle {
 
 input ProductBundleWhereUniqueInput {
   id: ID
+  sku: String
 }
 
 input ProductBundleWhereInput {
@@ -1590,9 +1733,9 @@ input ProductBundleWhereInput {
   OR: [ProductBundleWhereInput!]
   NOT: [ProductBundleWhereInput!]
   id: IDFilter
+  name: StringFilter
   price: FloatNullableFilter
   status: StringNullableFilter
-  name: StringFilter
   description: StringFilter
   featureImage: ImageWhereInput
   category: CategoryManyRelationFilter
@@ -1605,9 +1748,9 @@ input ProductBundleWhereInput {
 
 input ProductBundleOrderByInput {
   id: OrderDirection
+  name: OrderDirection
   price: OrderDirection
   status: OrderDirection
-  name: OrderDirection
   description: OrderDirection
   metaDescription: OrderDirection
   metaTitle: OrderDirection
@@ -1615,9 +1758,9 @@ input ProductBundleOrderByInput {
 }
 
 input ProductBundleUpdateInput {
+  name: String
   price: Float
   status: String
-  name: String
   description: String
   featureImage: ImageRelateToOneForUpdateInput
   category: CategoryRelateToManyForUpdateInput
@@ -1634,9 +1777,9 @@ input ProductBundleUpdateArgs {
 }
 
 input ProductBundleCreateInput {
+  name: String
   price: Float
   status: String
-  name: String
   description: String
   featureImage: ImageRelateToOneForCreateInput
   category: CategoryRelateToManyForCreateInput
@@ -1660,6 +1803,8 @@ type ProductVariant {
   photosCount(where: ImageWhereInput! = {}): Int
   stock: Int
   product: Product
+  sku: String
+  productSpecs: JSON
   length: String
   width: String
   depth: String
@@ -1669,6 +1814,8 @@ type ProductVariant {
 
 input ProductVariantWhereUniqueInput {
   id: ID
+  name: String
+  sku: String
 }
 
 input ProductVariantWhereInput {
@@ -1681,6 +1828,7 @@ input ProductVariantWhereInput {
   photos: ImageManyRelationFilter
   stock: IntNullableFilter
   product: ProductWhereInput
+  sku: StringFilter
   length: StringFilter
   width: StringFilter
   depth: StringFilter
@@ -1699,6 +1847,7 @@ input ProductVariantOrderByInput {
   name: OrderDirection
   description: OrderDirection
   stock: OrderDirection
+  sku: OrderDirection
   length: OrderDirection
   width: OrderDirection
   depth: OrderDirection
@@ -1712,6 +1861,8 @@ input ProductVariantUpdateInput {
   photos: ImageRelateToManyForUpdateInput
   stock: Int
   product: ProductRelateToOneForUpdateInput
+  sku: String
+  productSpecs: JSON
   length: String
   width: String
   depth: String
@@ -1743,6 +1894,8 @@ input ProductVariantCreateInput {
   photos: ImageRelateToManyForCreateInput
   stock: Int
   product: ProductRelateToOneForCreateInput
+  sku: String
+  productSpecs: JSON
   length: String
   width: String
   depth: String
@@ -1763,6 +1916,7 @@ input ProductRelateToOneForCreateInput {
 type Review {
   id: ID!
   title: String
+  slug: String
   rating: String
   content: Review_content_Document
   reviewer: User
@@ -1775,6 +1929,7 @@ type Review_content_Document {
 
 input ReviewWhereUniqueInput {
   id: ID
+  slug: String
 }
 
 input ReviewWhereInput {
@@ -1783,6 +1938,7 @@ input ReviewWhereInput {
   NOT: [ReviewWhereInput!]
   id: IDFilter
   title: StringFilter
+  slug: StringFilter
   rating: StringNullableFilter
   reviewer: UserWhereInput
   product: ProductWhereInput
@@ -1791,11 +1947,13 @@ input ReviewWhereInput {
 input ReviewOrderByInput {
   id: OrderDirection
   title: OrderDirection
+  slug: OrderDirection
   rating: OrderDirection
 }
 
 input ReviewUpdateInput {
   title: String
+  slug: String
   rating: String
   content: JSON
   reviewer: UserRelateToOneForUpdateInput
@@ -1809,6 +1967,7 @@ input ReviewUpdateArgs {
 
 input ReviewCreateInput {
   title: String
+  slug: String
   rating: String
   content: JSON
   reviewer: UserRelateToOneForCreateInput
@@ -1851,6 +2010,12 @@ input CartItemUpdateInput {
   price: Float
 }
 
+input ProductVariantRelateToOneForUpdateInput {
+  create: ProductVariantCreateInput
+  connect: ProductVariantWhereUniqueInput
+  disconnect: Boolean
+}
+
 input CartItemUpdateArgs {
   where: CartItemWhereUniqueInput!
   data: CartItemUpdateInput!
@@ -1861,6 +2026,11 @@ input CartItemCreateInput {
   productVariant: ProductVariantRelateToOneForCreateInput
   customer: UserRelateToOneForCreateInput
   price: Float
+}
+
+input ProductVariantRelateToOneForCreateInput {
+  create: ProductVariantCreateInput
+  connect: ProductVariantWhereUniqueInput
 }
 
 type ShippingZone {
