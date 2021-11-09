@@ -183,7 +183,7 @@ export default config({
     Author: list({
       fields: {
         name: text(),
-      }
+      },
     }),
   },
 });
@@ -278,7 +278,7 @@ const renderers: DocumentRendererProps['renderers'] = {
     relationship({ relationship, data }) {
       if (relationship === 'mention') {
         if (data === null || data.data === undefined) {
-          return <span>[unknown author]</span>
+          return <span>[unknown author]</span>;
         } else {
           return <Link href={`/author/${data.data.id}`}>{data.data.name}</Link>;
         }
@@ -358,7 +358,7 @@ export default config({
       fields: {
         fieldName: document({
           ui: {
-            views: require.resolve('./component-blocks')
+            views: require.resolve('./component-blocks'),
           },
           componentBlocks,
         }),
@@ -371,8 +371,9 @@ export default config({
 <details>
 
 <summary>
-  In the [document editor demo](/docs/guides/document-field-demo), the insertable Quote, Notice and Hero items are
-  implemented as component blocks, see the implementation for Notice and Hero by expanding this.
+  In the [document editor demo](/docs/guides/document-field-demo), the insertable Quote, Notice and
+  Hero items are implemented as component blocks, see the implementation for Notice and Hero by
+  expanding this.
 </summary>
 
 ```tsx
@@ -556,6 +557,8 @@ component({
 ```
 
 > Note: You have to be careful to wrap `NotEditable` around other elements in the preview but you cannot wrap it around a child field.
+{/* NOTE: Waiting for https://github.com/prettier/prettier/pull/11563 to be merged to fix this prettier issue */}
+{/* TBC: ### Child Fields */}
 
 #### Form Fields
 
@@ -665,7 +668,8 @@ fields.conditional(fields.checkbox({ label: 'Show Call to action' }), {
 
 > You might find `fields.empty()` useful which stores and renders nothing if you want to have a field in one case and nothing anything in another
 
-{/* * TBC: ### Preview Props * */}
+{/* NOTE: Waiting for https://github.com/prettier/prettier/pull/11563 to be merged to fix this prettier issue */}
+{/* TBC: ### Preview Props */}
 
 ### Chromeless
 
@@ -718,15 +722,17 @@ const componentBlockRenderers: InferRenderersForComponentBlocks<typeof component
     href="https://github.com/keystonejs/keystone/tree/main/examples/document-field"
     target="_blank"
     rel="noopener noreferrer"
-    >
-    Illustrates how to configure <InlineCode>document</InlineCode> fields in your Keystone system and render their data in a frontend application. Builds on the Blog starter project.
+  >
+    Illustrates how to configure <InlineCode>document</InlineCode> fields in your Keystone system
+    and render their data in a frontend application. Builds on the Blog starter project.
   </Well>
-  <Well
-    heading="Document Field Demo"
-    href="/docs/guides/document-field-demo"
-    >
+  <Well heading="Document Field Demo" href="/docs/guides/document-field-demo">
     Test drive the many features of Keystone’s Document field on this website.
   </Well>
 </RelatedContent>
 
-export default ({ children }) => <Markdown description="Learn how to configure Keystone’s highly customizable Rich Text editor. The Document field is built with Slate and stores your content as JSON-structured data.">{children}</Markdown>;
+export default ({ children }) => (
+  <Markdown description="Learn how to configure Keystone’s highly customizable Rich Text editor. The Document field is built with Slate and stores your content as JSON-structured data.">
+    {children}
+  </Markdown>
+);

@@ -150,6 +150,7 @@ export function DocsNavigation() {
         </NavItem>
         <NavItem href="/docs/walkthroughs#learn-keystone">Learn Keystone</NavItem>
         <NavItem href="/docs/walkthroughs#extended-learning">Extended learning</NavItem>
+        <NavItem href="/docs/walkthroughs/embedded-mode-with-sqlite-nextjs">Embedded Mode</NavItem>
       </Section>
       <Section>
         <PrimaryNavItem href="/docs/examples">Examples</PrimaryNavItem>
@@ -216,6 +217,12 @@ export function DocsNavigation() {
         <NavItem href="/docs/apis/filters">
           Query Filter API <Badge look="success">Updated</Badge>
         </NavItem>
+      </Section>
+      <Section>
+        <PrimaryNavItem href="/docs/community">Community Contributions</PrimaryNavItem>
+        <NavItem href="/docs/community/#authentication">Authentication</NavItem>
+        <NavItem href="/docs/community/#fields">Fields</NavItem>
+        <NavItem href="/docs/community/#deployment">Deployment</NavItem>
       </Section>
     </nav>
   );
