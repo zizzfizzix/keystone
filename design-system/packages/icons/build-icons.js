@@ -2,7 +2,8 @@
 const path = require('path');
 
 const fs = require('fs-extra');
-const svgr = require('@svgr/core').default;
+const { transform } = require('@svgr/core');
+const { types } = require('@babel/core');
 const { icons } = require('feather-icons');
 const toPascalCase = require('to-pascal-case');
 const globby = require('globby');
@@ -17,35 +18,30 @@ async function writeIcons() {
   await Promise.all(
     Object.keys(icons).map(async key => {
       let name = `${toPascalCase(key)}Icon`;
-      let code = await svgr(
+      let code = await transform(
         icons[key].toSvg(),
         {
           icon: true,
           typescript: true,
-          template: function ({ template, types }, opts, { imports, componentName, jsx }) {
+          template: function ({ jsx, imports, componentName }, { tpl }) {
             const t = types;
-            const plugins = ['jsx'];
-            if (opts.typescript) {
-              plugins.push('typescript');
-            }
-            const typeScriptTpl = template.smart({ plugins });
-            return typeScriptTpl.ast`
-            ${imports}
+            return tpl`
+              ${imports}
 
-            import { createIcon } from '../Icon'
+              import { createIcon } from '../Icon'
 
-            export const ${componentName} = createIcon(
-              ${
-                jsx.children.length === 1
-                  ? jsx.children[0]
-                  : t.jsxElement(
-                      t.jsxOpeningElement(t.jsxIdentifier('React.Fragment'), []),
-                      t.jsxClosingElement(t.jsxIdentifier('React.Fragment')),
-                      jsx.children
-                    )
-              },
-              ${t.stringLiteral(name)}
-            );
+              export const ${componentName} = createIcon(
+                ${
+                  jsx.children.length === 1
+                    ? jsx.children[0]
+                    : t.jsxElement(
+                        t.jsxOpeningElement(t.jsxIdentifier('React.Fragment'), []),
+                        t.jsxClosingElement(t.jsxIdentifier('React.Fragment')),
+                        jsx.children
+                      )
+                },
+                ${t.stringLiteral(name)}
+              );
             `;
           },
           plugins: [
@@ -56,6 +52,8 @@ async function writeIcons() {
         },
         { componentName: name }
       );
+      const outputPath = path.join(iconOutDir, `${name}.tsx`);
+      console.log(outputPath);
       await fs.writeFile(path.join(iconOutDir, `${name}.tsx`), code);
       names.push(name);
     })
