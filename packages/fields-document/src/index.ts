@@ -12,7 +12,7 @@ import { Relationships } from './DocumentEditor/relationship';
 import { ComponentBlock } from './component-blocks';
 import { validateAndNormalizeDocument } from './validation';
 import { addRelationshipData } from './relationship-data';
-// import { FormattingConfig, normaliseDocumentFeatures } from './document-features';
+import { FormattingConfig, normaliseDocumentFeatures } from './document-features';
 
 type RelationshipsConfig = Record<
   string,
