@@ -10,6 +10,8 @@
 import { BaseEditor, BaseElement, BaseRange } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
+import { SharedType } from 'slate-yjs';
+import { Awareness } from 'y-protocols/awareness';
 import { RelationshipData } from './component-blocks/api';
 import { Mark } from './utils';
 
@@ -78,11 +80,20 @@ declare module 'slate' {
   interface CustomTypes {
     Element: Element;
     Range: { placeholder?: string } & BaseRange;
-    Editor: { type?: undefined } & BaseEditor & ReactEditor & HistoryEditor;
+    Editor: { type?: undefined } & BaseEditor &
+      ReactEditor &
+      HistoryEditor & {
+        sharedType: SharedType;
+        destroy: () => void;
+        awareness: Awareness;
+      };
     Text: {
       type?: undefined;
       text: string;
       placeholder?: string;
-    } & { [Key in Mark | 'insertMenu']?: true };
+    } & { [Key in Mark | 'insertMenu']?: true } & (
+        | { isCaret?: false }
+        | { isCaret: true; isForward: boolean; data: { name: string; color: string } }
+      );
   }
 }

@@ -47,9 +47,6 @@ export default function App({ Component, pageProps }: AppProps) {
           margin: 0;
           -webkit-text-size-adjust: none;
         },
-        blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
-          margin: 0;
-        }
         a {
           text-decoration: none;
           color: var(--link);

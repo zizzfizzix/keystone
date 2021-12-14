@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { jsx, useTheme } from '@keystone-ui/core';
-import { KeyboardEvent, MutableRefObject, ReactNode, useContext, useState } from 'react';
+import { KeyboardEvent, MutableRefObject, ReactNode, useContext, useEffect, useState } from 'react';
 import isHotkey from 'is-hotkey';
 import { useCallback, useMemo } from 'react';
 import {
@@ -21,8 +21,12 @@ import { Editable, ReactEditor, Slate, useSlate, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 
 import { EditableProps } from 'slate-react/dist/components/editable';
+import { withYjs, SyncElement, withCursor, toSharedType, useCursors } from 'slate-yjs';
+import { WebsocketProvider } from 'y-websocket';
+import randomColor from 'randomcolor';
 import { ComponentBlock } from '../component-blocks';
 import { DocumentFeatures } from '../views';
+import * as Y from './yjs';
 import { withParagraphs } from './paragraphs';
 import { withLink, wrapLink } from './link';
 import { withLayouts } from './layouts';
@@ -196,80 +200,145 @@ export function DocumentEditor({
   const isShiftPressedRef = useKeyDownRef('Shift');
   const { colors, spacing } = useTheme();
   const [expanded, setExpanded] = useState(false);
-  const editor = useMemo(
-    () => createDocumentEditor(documentFeatures, componentBlocks, relationships, isShiftPressedRef),
-    [documentFeatures, componentBlocks, relationships, isShiftPressedRef]
+  const [onlineState, setOnlineState] = useState(false);
+
+  const color = useMemo(
+    () =>
+      randomColor({
+        luminosity: 'dark',
+        format: 'rgba',
+        alpha: 1,
+      }),
+    []
   );
 
-  return (
-    <div
-      css={[
-        {
-          display: 'flex',
-          flexDirection: 'column',
-        },
-        expanded && {
-          background: colors.background,
-          bottom: 0,
-          left: 0,
-          overflowY: 'auto', // required to keep the toolbar stuck in place
-          position: 'absolute',
-          right: 0,
-          top: 0,
-          zIndex: 100,
-        },
-      ]}
-    >
-      <DocumentEditorProvider
-        componentBlocks={componentBlocks}
-        documentFeatures={documentFeatures}
-        relationships={relationships}
-        editor={editor}
-        value={value}
-        onChange={value => {
-          onChange?.(value);
-          // this fixes a strange issue in Safari where the selection stays inside of the editor
-          // after a blur event happens but the selection is still in the editor
-          // so the cursor is visually in the wrong place and it inserts text backwards
-          const selection = window.getSelection();
-          if (selection && !ReactEditor.isFocused(editor)) {
-            const editorNode = ReactEditor.toDOMNode(editor, editor);
-            if (selection.anchorNode === editorNode) {
-              ReactEditor.focus(editor);
-            }
-          }
-        }}
-      >
-        {useMemo(
-          () => (
-            <Toolbar
-              documentFeatures={documentFeatures}
-              viewState={{
-                expanded,
-                toggle: () => {
-                  setExpanded(v => !v);
-                },
-              }}
-            />
-          ),
-          [expanded, documentFeatures]
-        )}
+  const { editor, provider, sharedType } = useMemo(() => {
+    const baseEditor = createDocumentEditor(
+      documentFeatures,
+      componentBlocks,
+      relationships,
+      isShiftPressedRef
+    );
+    if (typeof WebSocket === 'undefined') {
+      return { editor: baseEditor, provider: undefined!, sharedType: undefined! };
+    }
+    const doc = new Y.Doc();
+    const provider = new WebsocketProvider(
+      process.env.NODE_ENV === 'production' ? 'wss://demos.yjs.dev' : 'ws://localhost:1234',
+      'keystone-document-field-test',
+      doc,
+      {
+        connect: false,
+      }
+    );
+    const sharedType = doc.getArray<SyncElement>('content');
 
-        <DocumentEditorEditable
-          css={
-            expanded && {
-              marginLeft: spacing.medium,
-              marginRight: spacing.medium,
+    return {
+      editor: withCursor(withYjs(baseEditor, sharedType), provider.awareness),
+      provider,
+      sharedType,
+    };
+  }, [documentFeatures, componentBlocks, relationships, isShiftPressedRef]);
+
+  useEffect(() => {
+    provider.on('status', ({ status }: { status: string }) => {
+      setOnlineState(status === 'connected');
+    });
+
+    provider.awareness.setLocalState({
+      alphaColor: color.slice(0, -2) + '0.2)',
+      color,
+      name: Math.random().toString(36),
+    });
+
+    // Super hacky way to provide a initial value from the client, if
+    // you plan to use y-websocket in prod you probably should provide the
+    // initial state from the server.
+    provider.on('sync', (isSynced: boolean) => {
+      if (isSynced && sharedType.length === 0) {
+        toSharedType(sharedType, [{ type: 'paragraph', children: [{ text: 'Hello world!' }] }]);
+      }
+    });
+
+    provider.connect();
+
+    return () => {
+      provider.disconnect();
+    };
+  }, [provider, color, sharedType]);
+
+  return (
+    <div css={{ margin: 8 }}>
+      <div>{onlineState ? 'Online' : 'Offline'}</div>
+      <div
+        css={[
+          {
+            display: 'flex',
+            flexDirection: 'column',
+          },
+          expanded && {
+            background: colors.background,
+            bottom: 0,
+            left: 0,
+            overflowY: 'auto', // required to keep the toolbar stuck in place
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            zIndex: 100,
+          },
+        ]}
+      >
+        <DocumentEditorProvider
+          componentBlocks={componentBlocks}
+          documentFeatures={documentFeatures}
+          relationships={relationships}
+          editor={editor}
+          value={value}
+          onChange={value => {
+            onChange?.(value);
+            // this fixes a strange issue in Safari where the selection stays inside of the editor
+            // after a blur event happens but the selection is still in the editor
+            // so the cursor is visually in the wrong place and it inserts text backwards
+            const selection = window.getSelection();
+            if (selection && !ReactEditor.isFocused(editor)) {
+              const editorNode = ReactEditor.toDOMNode(editor, editor);
+              if (selection.anchorNode === editorNode) {
+                ReactEditor.focus(editor);
+              }
             }
+          }}
+        >
+          {useMemo(
+            () => (
+              <Toolbar
+                documentFeatures={documentFeatures}
+                viewState={{
+                  expanded,
+                  toggle: () => {
+                    setExpanded(v => !v);
+                  },
+                }}
+              />
+            ),
+            [expanded, documentFeatures]
+          )}
+
+          <DocumentEditorEditable
+            css={
+              expanded && {
+                marginLeft: spacing.medium,
+                marginRight: spacing.medium,
+              }
+            }
+            autoFocus={autoFocus}
+            readOnly={onChange === undefined}
+          />
+          {
+            // for debugging
+            false && <Debugger />
           }
-          autoFocus={autoFocus}
-          readOnly={onChange === undefined}
-        />
-        {
-          // for debugging
-          false && <Debugger />
-        }
-      </DocumentEditorProvider>
+        </DocumentEditorProvider>
+      </div>
     </div>
   );
 }
@@ -329,12 +398,14 @@ export function DocumentEditorEditable(props: EditableProps) {
   const componentBlocks = useContext(ComponentBlockContext);
 
   const onKeyDown = useMemo(() => getKeyDownHandler(editor), [editor]);
+  const { decorate } = useCursors(editor);
 
   return (
     <Editable
       decorate={useCallback(
         ([node, path]: NodeEntry<Node>) => {
           let decorations: Range[] = [];
+          decorations.push(...decorate([node, path]));
           if (node.type === 'component-block') {
             if (
               node.children.length === 1 &&
@@ -369,7 +440,7 @@ export function DocumentEditorEditable(props: EditableProps) {
           }
           return decorations;
         },
-        [editor, componentBlocks]
+        [editor, componentBlocks, decorate]
       )}
       css={styles}
       onKeyDown={onKeyDown}

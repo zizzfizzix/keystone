@@ -373,3 +373,7 @@ export const DocumentEditorDemo = () => {
     </div>
   );
 };
+
+export const defaultDocumentFeatures = documentFeaturesFormToValue(
+  getInitialPropsValue(documentFeaturesProp, {})
+);

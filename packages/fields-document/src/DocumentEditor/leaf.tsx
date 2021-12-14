@@ -4,6 +4,7 @@
 import { jsx, useTheme } from '@keystone-ui/core';
 import { ReactNode, useState } from 'react';
 import { RenderLeafProps } from 'slate-react';
+import Caret from './caret';
 import { InsertMenu } from './insert-menu';
 
 function Placeholder({ placeholder, children }: { placeholder: string; children: ReactNode }) {
@@ -106,7 +107,19 @@ const Leaf = ({ leaf, text, children, attributes }: RenderLeafProps) => {
   if (underline) {
     children = <u>{children}</u>;
   }
-  return <span {...attributes}>{children}</span>;
+
+  return (
+    <span
+      {...attributes}
+      style={{
+        position: 'relative',
+        backgroundColor: (leaf as any)?.data?.alphaColor,
+      }}
+    >
+      {leaf.isCaret ? <Caret {...leaf} /> : null}
+      {children}
+    </span>
+  );
 };
 
 export const renderLeaf = (props: RenderLeafProps) => {
