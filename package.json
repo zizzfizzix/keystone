@@ -28,7 +28,7 @@
     "changeset": "changeset",
     "publish-changed": "yarn build && changeset publish --public",
     "version-packages": "changeset version",
-    "build": "yarn && cd examples-staging/collab && keystone build",
+    "build": "rm -rf node_modules && yarn && cd examples-staging/collab && keystone build",
     "start": "cd examples-staging/collab && keystone start",
     "prepare": "manypkg check && preconstruct dev",
     "npm-tag": "manypkg npm-tag",
