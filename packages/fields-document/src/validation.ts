@@ -1,7 +1,5 @@
-import { Text, Editor } from 'slate';
-import { createDocumentEditor } from './DocumentEditor';
+import { Text } from 'slate';
 import { ComponentBlock, ComponentPropField } from './DocumentEditor/component-blocks/api';
-import { assertNever } from './DocumentEditor/component-blocks/utils';
 import { Relationships } from './DocumentEditor/relationship';
 import {
   ElementFromValidation,
@@ -10,6 +8,10 @@ import {
   validateDocumentStructure,
 } from './structure-validation';
 import { DocumentFeatures } from './views';
+
+function assertNever(arg: never) {
+  throw new Error('expected to never be called but received: ' + JSON.stringify(arg));
+}
 
 export class PropValidationError extends Error {
   path: (string | number)[];
@@ -190,13 +192,7 @@ export function validateAndNormalizeDocument(
   relationships: Relationships
 ) {
   validateDocumentStructure(value);
-  const children = value.map(x =>
+  return value.map(x =>
     getValidatedNodeWithNormalizedComponentFormProps(x, componentBlocks, relationships)
   );
-  const editor = createDocumentEditor(documentFeatures, componentBlocks, relationships, {
-    current: false,
-  });
-  editor.children = children;
-  Editor.normalize(editor, { force: true });
-  return editor.children;
 }

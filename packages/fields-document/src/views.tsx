@@ -15,6 +15,7 @@ import {
 } from '@keystone-6/core/types';
 import weakMemoize from '@emotion/weak-memoize';
 import { CellContainer, CellLink } from '@keystone-6/core/admin-ui/components';
+import { Link } from '@keystone-6/core/admin-ui/router';
 import { DocumentEditor } from './DocumentEditor';
 import { ComponentBlock } from './component-blocks';
 import { Relationships } from './DocumentEditor/relationship';
@@ -22,52 +23,24 @@ import { clientSideValidateProp } from './DocumentEditor/component-blocks/utils'
 import { ForceValidationProvider } from './DocumentEditor/utils';
 import { isValidURL } from './DocumentEditor/isValidURL';
 
-export const Field = ({
-  field,
-  value,
-  onChange,
-  autoFocus,
-  forceValidation,
-}: FieldProps<typeof controller>) => (
-  <FieldContainer>
-    <FieldLabel>{field.label}</FieldLabel>
-    <ForceValidationProvider value={!!forceValidation}>
-      <DocumentEditor
-        autoFocus={autoFocus}
-        value={value}
-        onChange={onChange}
-        componentBlocks={field.componentBlocks}
-        relationships={field.relationships}
-        documentFeatures={field.documentFeatures}
-      />
-    </ForceValidationProvider>
-  </FieldContainer>
-);
+export const Field = ({ value }: FieldProps<typeof controller>) => {
+  if (value === null) {
+    return null;
+  }
+  return <Link href={`/edit/${value}`}>Edit this document</Link>;
+};
 
 const serialize = (nodes: Node[]) => {
   return nodes.map((n: Node) => Node.string(n)).join('\n');
 };
 
 export const Cell: CellComponent = ({ item, field, linkTo }) => {
-  const value = item[field.path]?.document;
-  if (!value) return null;
-  const plainText = serialize(value);
-  const cutText = plainText.length > 100 ? plainText.slice(0, 100) + '...' : plainText;
-  return linkTo ? (
-    <CellLink {...linkTo}>{cutText}</CellLink>
-  ) : (
-    <CellContainer>{cutText}</CellContainer>
-  );
+  return null;
 };
 Cell.supportsLinkTo = true;
 
 export const CardValue: CardValueComponent = ({ item, field }) => {
-  return (
-    <FieldContainer>
-      <FieldLabel>{field.label}</FieldLabel>
-      <DocumentRenderer document={item[field.path]?.document || []} />
-    </FieldContainer>
-  );
+  return null;
 };
 
 export const allowedExportsOnCustomViews = ['componentBlocks'];
@@ -110,7 +83,7 @@ export const controller = (
     documentFeatures: DocumentFeatures;
     componentBlocksPassedOnServer: string[];
   }>
-): FieldController<Descendant[]> & {
+): FieldController<string | null> & {
   componentBlocks: Record<string, ComponentBlock>;
   relationships: Relationships;
   documentFeatures: DocumentFeatures;
@@ -172,15 +145,10 @@ export const controller = (
     componentBlocks: config.customViews.componentBlocks || {},
     documentFeatures: config.fieldMeta.documentFeatures,
     relationships: config.fieldMeta.relationships,
-    defaultValue: [{ type: 'paragraph', children: [{ text: '' }] }],
+    defaultValue: null,
     deserialize: data => {
-      return data[config.path]?.document || [{ type: 'paragraph', children: [{ text: '' }] }];
+      return data.id;
     },
-    serialize: value => ({
-      [config.path]: value,
-    }),
-    validate(value) {
-      return value.every(node => validateNode(node));
-    },
+    serialize: () => ({}),
   };
 };

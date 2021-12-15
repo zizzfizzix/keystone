@@ -296,16 +296,6 @@ export function DocumentEditor({
           value={value}
           onChange={value => {
             onChange?.(value);
-            // this fixes a strange issue in Safari where the selection stays inside of the editor
-            // after a blur event happens but the selection is still in the editor
-            // so the cursor is visually in the wrong place and it inserts text backwards
-            const selection = window.getSelection();
-            if (selection && !ReactEditor.isFocused(editor)) {
-              const editorNode = ReactEditor.toDOMNode(editor, editor);
-              if (selection.anchorNode === editorNode) {
-                ReactEditor.focus(editor);
-              }
-            }
           }}
         >
           {useMemo(
