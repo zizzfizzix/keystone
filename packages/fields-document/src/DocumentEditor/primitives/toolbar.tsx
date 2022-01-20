@@ -1,9 +1,19 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { ButtonHTMLAttributes, HTMLAttributes, createContext, useContext, ReactNode } from 'react';
+import {
+  ButtonHTMLAttributes,
+  HTMLAttributes,
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+} from 'react';
 import { Box, MarginProps, forwardRefWithAs, jsx, useTheme } from '@keystone-ui/core';
-
+import { Trash2Icon } from '@keystone-ui/icons/icons/Trash2Icon';
+import { Tooltip } from '@keystone-ui/tooltip';
+import { ChevronDownIcon } from '@keystone-ui/icons/icons/ChevronDownIcon';
+import { InlineDialog } from './inline-dialog';
 // Spacers and Separators
 // ------------------------------
 
@@ -169,5 +179,94 @@ export function KeyboardInTooltip({ children }: { children: ReactNode }) {
     >
       {children}
     </kbd>
+  );
+}
+
+export function ToolbarRemoveButton({ onRemove }: { onRemove: () => void }) {
+  return (
+    <Tooltip content="Remove" weight="subtle">
+      {attrs => (
+        <ToolbarButton
+          variant="destructive"
+          onMouseDown={event => {
+            event.preventDefault();
+            onRemove();
+          }}
+          {...attrs}
+        >
+          <Trash2Icon size="small" />
+        </ToolbarButton>
+      )}
+    </Tooltip>
+  );
+}
+
+export function ToolbarSelect<Value extends string>({
+  label,
+  onChange,
+  options,
+  value,
+}: {
+  label: string;
+  options: readonly { label: string; value: Value }[];
+  onChange: (value: Value) => void;
+  value: Value;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div css={{ position: 'relative' }}>
+      <ToolbarButton
+        isSelected={isOpen}
+        onMouseDown={event => {
+          event.preventDefault();
+          setIsOpen(x => !x);
+        }}
+      >
+        {label}
+        <ChevronDownIcon />
+      </ToolbarButton>
+      {isOpen && (
+        <InlineDialog isRelative>
+          {options.map(option => {
+            return (
+              <ToolbarButton
+                onMouseDown={event => {
+                  event.preventDefault();
+                  onChange(option.value);
+                  setIsOpen(false);
+                }}
+                isSelected={option.value === value}
+              >
+                {option.label}
+              </ToolbarButton>
+            );
+          })}
+        </InlineDialog>
+      )}
+    </div>
+  );
+}
+
+export function ToolbarToggleButton({
+  label,
+  onChange,
+  value,
+}: {
+  label: string;
+  onChange: (value: boolean) => void;
+  value: boolean;
+}) {
+  return (
+    <div css={{ position: 'relative' }}>
+      <ToolbarButton
+        isSelected={value}
+        onMouseDown={event => {
+          event.preventDefault();
+          onChange(!value);
+        }}
+      >
+        {label}
+      </ToolbarButton>
+    </div>
   );
 }

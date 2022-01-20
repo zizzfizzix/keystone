@@ -4,4 +4,7 @@ export {
   ToolbarGroup,
   ToolbarSeparator,
   ToolbarSpacer,
+  ToolbarRemoveButton,
+  ToolbarSelect,
+  ToolbarToggleButton,
 } from './DocumentEditor/primitives';

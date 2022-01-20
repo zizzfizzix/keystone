@@ -7,11 +7,16 @@ import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-
 
 import { jsx, useTheme } from '@keystone-ui/core';
 import { Tooltip } from '@keystone-ui/tooltip';
-import { Trash2Icon } from '@keystone-ui/icons/icons/Trash2Icon';
 
 import { ColumnsIcon } from '@keystone-ui/icons/icons/ColumnsIcon';
 import { DocumentFeatures } from '../views';
-import { InlineDialog, ToolbarButton, ToolbarGroup, ToolbarSeparator } from './primitives';
+import {
+  InlineDialog,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarRemoveButton,
+  ToolbarSeparator,
+} from './primitives';
 import { paragraphElement } from './paragraphs';
 import {
   insertNodesButReplaceIfSelectionIsAtEmptyParagraphOrHeading,
@@ -81,21 +86,12 @@ export const LayoutContainer = ({
               </ToolbarButton>
             ))}
             <ToolbarSeparator />
-            <Tooltip content="Remove" weight="subtle">
-              {attrs => (
-                <ToolbarButton
-                  variant="destructive"
-                  onMouseDown={event => {
-                    event.preventDefault();
-                    const path = ReactEditor.findPath(editor, element);
-                    Transforms.removeNodes(editor, { at: path });
-                  }}
-                  {...attrs}
-                >
-                  <Trash2Icon size="small" />
-                </ToolbarButton>
-              )}
-            </Tooltip>
+            <ToolbarRemoveButton
+              onRemove={() => {
+                const path = ReactEditor.findPath(editor, element);
+                Transforms.removeNodes(editor, { at: path });
+              }}
+            />
           </ToolbarGroup>
         </InlineDialog>
       )}

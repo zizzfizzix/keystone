@@ -6,12 +6,16 @@ import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-
 import { Editor, Element, Transforms } from 'slate';
 
 import { jsx, useTheme } from '@keystone-ui/core';
-import { Trash2Icon } from '@keystone-ui/icons/icons/Trash2Icon';
-import { Tooltip } from '@keystone-ui/tooltip';
 
 import { NotEditable } from '../../component-blocks';
 
-import { InlineDialog, ToolbarButton, ToolbarGroup, ToolbarSeparator } from '../primitives';
+import {
+  InlineDialog,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarRemoveButton,
+  ToolbarSeparator,
+} from '../primitives';
 import { ComponentPropField, ComponentBlock } from '../../component-blocks';
 import { Relationships, useDocumentFieldRelationships } from '../relationship';
 import {
@@ -267,19 +271,7 @@ function DefaultToolbarWithChrome({
         Edit
       </ToolbarButton>
       <ToolbarSeparator />
-      <Tooltip content="Remove" weight="subtle">
-        {attrs => (
-          <ToolbarButton
-            variant="destructive"
-            onClick={() => {
-              onRemove();
-            }}
-            {...attrs}
-          >
-            <Trash2Icon size="small" />
-          </ToolbarButton>
-        )}
-      </Tooltip>
+      <ToolbarRemoveButton onRemove={onRemove} />
       {!isValid && (
         <Fragment>
           <ToolbarSeparator />
@@ -305,22 +297,7 @@ function DefaultToolbarWithoutChrome({
   onRemove(): void;
   props: Record<string, any>;
 }) {
-  return (
-    <Tooltip content="Remove" weight="subtle">
-      {attrs => (
-        <ToolbarButton
-          variant="destructive"
-          onMouseDown={event => {
-            event.preventDefault();
-            onRemove();
-          }}
-          {...attrs}
-        >
-          <Trash2Icon size="small" />
-        </ToolbarButton>
-      )}
-    </Tooltip>
-  );
+  return <ToolbarRemoveButton onRemove={onRemove} />;
 }
 
 function ComponentBlockRender({
