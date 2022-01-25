@@ -17,6 +17,7 @@ model Post {
   slug        String    @unique @default("")
   status      String?
   content     String    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  savedHtml   String    @default("")
   publishDate DateTime?
   author      Author?   @relation("Post_author", fields: [authorId], references: [id])
   authorId    String?   @map("author")

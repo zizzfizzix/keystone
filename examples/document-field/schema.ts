@@ -1,6 +1,36 @@
-import { list } from '@keystone-6/core';
-import { select, relationship, text, timestamp } from '@keystone-6/core/fields';
+import { list, graphql } from '@keystone-6/core';
+import { select, relationship, text, timestamp, virtual } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
+import { Text } from 'slate';
+import escapeHtml from 'escape-html';
+
+// serialize code was taken from https://docs.slatejs.org/concepts/10-serializing#html
+const serialize = node => {
+  if (Array.isArray(node)) {
+    return node.map(n => serialize(n)).join('');
+  }
+  if (Text.isText(node)) {
+    let string = escapeHtml(node.text);
+    if (node.bold) {
+      string = `<strong>${string}</strong>`;
+    }
+    return string;
+  }
+
+  const children = node.children.map(n => serialize(n)).join('');
+
+  switch (node.type) {
+    case 'quote':
+      return `<blockquote><p>${children}</p></blockquote>`;
+    case 'paragraph':
+      console.log('in paragraph land');
+      return `<p>${children}</p>`;
+    case 'link':
+      return `<a href="${escapeHtml(node.url)}">${children}</a>`;
+    default:
+      return children;
+  }
+};
 
 export const lists = {
   Post: list({
@@ -35,8 +65,34 @@ export const lists = {
             selection: 'id name', // These fields will be available to the renderer
           },
         },
+        hooks: {
+          afterOperation: async ({ operation, item, context }) => {
+            if (operation !== 'delete' && item?.content) {
+              await context.query.Post.updateOne({
+                where: { id: item.id! },
+                data: {
+                  savedHtml: serialize(JSON.parse(item.content)),
+                },
+              });
+            }
+          },
+        },
+      }),
+      savedHtml: text(),
+      virtualHtml: virtual({
+        field: graphql.field({
+          type: graphql.String,
+          async resolve(item) {
+            if (item?.content) {
+              return serialize(JSON.parse(item.content));
+            } else {
+              return '';
+            }
+          },
+        }),
       }),
       publishDate: timestamp(),
+
       author: relationship({ ref: 'Author.posts', many: false }),
     },
   }),

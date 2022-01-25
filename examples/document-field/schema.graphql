@@ -7,6 +7,8 @@ type Post {
   slug: String
   status: PostStatusType
   content: Post_content_Document
+  savedHtml: String
+  virtualHtml: String
   publishDate: DateTime
   author: Author
 }
@@ -36,6 +38,7 @@ input PostWhereInput {
   title: StringFilter
   slug: StringFilter
   status: PostStatusTypeNullableFilter
+  savedHtml: StringFilter
   publishDate: DateTimeNullableFilter
   author: AuthorWhereInput
 }
@@ -102,6 +105,7 @@ input PostOrderByInput {
   title: OrderDirection
   slug: OrderDirection
   status: OrderDirection
+  savedHtml: OrderDirection
   publishDate: OrderDirection
 }
 
@@ -115,6 +119,7 @@ input PostUpdateInput {
   slug: String
   status: PostStatusType
   content: JSON
+  savedHtml: String
   publishDate: DateTime
   author: AuthorRelateToOneForUpdateInput
 }
@@ -135,6 +140,7 @@ input PostCreateInput {
   slug: String
   status: PostStatusType
   content: JSON
+  savedHtml: String
   publishDate: DateTime
   author: AuthorRelateToOneForCreateInput
 }
