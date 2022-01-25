@@ -23,7 +23,6 @@ const serialize = node => {
     case 'quote':
       return `<blockquote><p>${children}</p></blockquote>`;
     case 'paragraph':
-      console.log('in paragraph land');
       return `<p>${children}</p>`;
     case 'link':
       return `<a href="${escapeHtml(node.url)}">${children}</a>`;
