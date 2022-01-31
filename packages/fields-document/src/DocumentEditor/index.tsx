@@ -21,6 +21,7 @@ import { Editable, ReactEditor, Slate, useSlate, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 
 import { EditableProps } from 'slate-react/dist/components/editable';
+import { DndContext } from '@dnd-kit/core';
 import { ComponentBlock } from '../component-blocks';
 import { DocumentFeatures } from '../views';
 import { withParagraphs } from './paragraphs';
@@ -28,7 +29,7 @@ import { withLink, wrapLink } from './link';
 import { withLayouts } from './layouts';
 import { clearFormatting, Mark } from './utils';
 import { Toolbar } from './Toolbar';
-import { renderElement } from './render-element';
+import { EndDroppable, renderElement } from './render-element';
 import { withHeading } from './heading';
 import { nestList, unnestList, withList } from './lists';
 import {
@@ -294,33 +295,49 @@ export function DocumentEditorProvider({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const identity = useMemo(() => Math.random().toString(36), [editor]);
   return (
-    <Slate
-      // this fixes issues with Slate crashing when a fast refresh occcurs
-      key={identity}
-      editor={editor}
-      value={value}
-      onChange={value => {
-        onChange(value);
-        // this fixes a strange issue in Safari where the selection stays inside of the editor
-        // after a blur event happens but the selection is still in the editor
-        // so the cursor is visually in the wrong place and it inserts text backwards
-        const selection = window.getSelection();
-        if (selection && !ReactEditor.isFocused(editor)) {
-          const editorNode = ReactEditor.toDOMNode(editor, editor);
-          if (selection.anchorNode === editorNode) {
-            ReactEditor.focus(editor);
+    <DndContext
+      onDragEnd={event => {
+        if (event.over) {
+          let parsedOver =
+            event.over.data.current!.element === editor
+              ? [editor.children.length - 2]
+              : ReactEditor.findPath(editor, event.over.data.current!.element);
+          if (event.over.data.current!.isEnd) {
+            parsedOver = Path.next(parsedOver);
           }
+          const parsedActive = ReactEditor.findPath(editor, event.active.data.current!.element);
+          Transforms.moveNodes(editor, { to: parsedOver, at: parsedActive });
         }
       }}
     >
-      <ToolbarStateProvider
-        componentBlocks={componentBlocks}
-        editorDocumentFeatures={documentFeatures}
-        relationships={relationships}
+      <Slate
+        // this fixes issues with Slate crashing when a fast refresh occcurs
+        key={identity}
+        editor={editor}
+        value={value}
+        onChange={value => {
+          onChange(value);
+          // this fixes a strange issue in Safari where the selection stays inside of the editor
+          // after a blur event happens but the selection is still in the editor
+          // so the cursor is visually in the wrong place and it inserts text backwards
+          const selection = window.getSelection();
+          if (selection && !ReactEditor.isFocused(editor)) {
+            const editorNode = ReactEditor.toDOMNode(editor, editor);
+            if (selection.anchorNode === editorNode) {
+              ReactEditor.focus(editor);
+            }
+          }
+        }}
       >
-        {children}
-      </ToolbarStateProvider>
-    </Slate>
+        <ToolbarStateProvider
+          componentBlocks={componentBlocks}
+          editorDocumentFeatures={documentFeatures}
+          relationships={relationships}
+        >
+          {children}
+        </ToolbarStateProvider>
+      </Slate>
+    </DndContext>
   );
 }
 
@@ -331,52 +348,55 @@ export function DocumentEditorEditable(props: EditableProps) {
   const onKeyDown = useMemo(() => getKeyDownHandler(editor), [editor]);
 
   return (
-    <Editable
-      decorate={useCallback(
-        ([node, path]: NodeEntry<Node>) => {
-          let decorations: Range[] = [];
-          if (node.type === 'component-block') {
-            if (
-              node.children.length === 1 &&
-              Element.isElement(node.children[0]) &&
-              node.children[0].type === 'component-inline-prop' &&
-              node.children[0].propPath === undefined
-            ) {
-              return decorations;
-            }
-            node.children.forEach((child, index) => {
+    <EndDroppable element={editor}>
+      <Editable
+        decorate={useCallback(
+          ([node, path]: NodeEntry<Node>) => {
+            let decorations: Range[] = [];
+            if (node.type === 'component-block') {
               if (
-                Node.string(child) === '' &&
-                Element.isElement(child) &&
-                (child.type === 'component-block-prop' || child.type === 'component-inline-prop') &&
-                child.propPath !== undefined
+                node.children.length === 1 &&
+                Element.isElement(node.children[0]) &&
+                node.children[0].type === 'component-inline-prop' &&
+                node.children[0].propPath === undefined
               ) {
-                const start = Editor.start(editor, [...path, index]);
-                const placeholder = getPlaceholderTextForPropPath(
-                  child.propPath,
-                  componentBlocks[node.component].props,
-                  node.props
-                );
-                if (placeholder) {
-                  decorations.push({
-                    placeholder,
-                    anchor: start,
-                    focus: start,
-                  });
-                }
+                return decorations;
               }
-            });
-          }
-          return decorations;
-        },
-        [editor, componentBlocks]
-      )}
-      css={styles}
-      onKeyDown={onKeyDown}
-      renderElement={renderElement}
-      renderLeaf={renderLeaf}
-      {...props}
-    />
+              node.children.forEach((child, index) => {
+                if (
+                  Node.string(child) === '' &&
+                  Element.isElement(child) &&
+                  (child.type === 'component-block-prop' ||
+                    child.type === 'component-inline-prop') &&
+                  child.propPath !== undefined
+                ) {
+                  const start = Editor.start(editor, [...path, index]);
+                  const placeholder = getPlaceholderTextForPropPath(
+                    child.propPath,
+                    componentBlocks[node.component].props,
+                    node.props
+                  );
+                  if (placeholder) {
+                    decorations.push({
+                      placeholder,
+                      anchor: start,
+                      focus: start,
+                    });
+                  }
+                }
+              });
+            }
+            return decorations;
+          },
+          [editor, componentBlocks]
+        )}
+        css={styles}
+        onKeyDown={onKeyDown}
+        renderElement={renderElement}
+        renderLeaf={renderLeaf}
+        {...props}
+      />
+    </EndDroppable>
   );
 }
 
