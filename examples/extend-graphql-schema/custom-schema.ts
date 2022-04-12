@@ -14,7 +14,6 @@ export const extendGraphqlSchema = graphQLSchemaExtension<Context>({
 
       """ Compute statistics for a user """
       stats(id: ID!): Statistics
-
     }
 
     """ A custom type to represent statistics for a user """
@@ -35,6 +34,17 @@ export const extendGraphqlSchema = graphQLSchemaExtension<Context>({
           data: { status: 'published', publishDate: new Date().toUTCString() },
         });
       },
+
+      // TODO: this isn't working, somehow it isn't being replaced
+      deletePost: (root, { id }, context) => {
+        console.log(context)
+        return context.db.Post.updateOne({
+          where: { id },
+          data: {
+            isDeleted: true
+          }
+        });
+      }
     },
     Query: {
       recentPosts: (root, { id, days }, context) => {
