@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import slugify from '@sindresorhus/slugify';
 import { jsx } from '@emotion/react';
-import { useRef } from 'react';
+import { HTMLAttributes } from 'react';
 
 import { CopyToClipboard } from './CopyToClipboard';
 
@@ -27,15 +27,19 @@ interface StringOnlyChildren {
   className?: string;
 }
 
+type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
 interface HeadingProps extends StringOnlyChildren {
-  as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  as: HeadingType;
 }
 
-export function Heading({ as: Tag, children, ...props }: HeadingProps) {
-  const headingRef = useRef(null);
+export function HeadingWithId({
+  as: Tag,
+  children,
+  ...props
+}: { id: string; as: HeadingType } & HTMLAttributes<HTMLElement>) {
   const depth = parseInt(Tag.slice(1), 10);
   const hasCopy = depth > 1 && depth < 5;
-  const id = getAnchor(children);
 
   return (
     <Tag
@@ -46,12 +50,10 @@ export function Heading({ as: Tag, children, ...props }: HeadingProps) {
         marginBottom: '0.66em',
         marginTop: '1.66em',
       }}
-      id={id}
       {...props}
     >
       <span
         tabIndex={1}
-        ref={headingRef}
         css={{
           display: 'block',
           position: 'relative',
@@ -60,11 +62,15 @@ export function Heading({ as: Tag, children, ...props }: HeadingProps) {
           },
         }}
       >
-        {hasCopy && <CopyToClipboard value={id} />}
+        {hasCopy && <CopyToClipboard value={props.id} />}
         {children}
       </span>
     </Tag>
   );
+}
+
+export function Heading(props: HeadingProps) {
+  return <HeadingWithId id={getAnchor(props.children)} {...props} />;
 }
 
 export function H1(props: StringOnlyChildren) {

@@ -99,7 +99,7 @@ export function DocsPage({
   headings?: Heading[];
   noProse?: boolean;
   noRightNav?: boolean;
-  releases?: any;
+  releases?: string[];
   title: string;
   description: string;
   ogImage?: string;

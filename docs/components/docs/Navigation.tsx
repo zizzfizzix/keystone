@@ -221,7 +221,7 @@ export function DocsNavigation() {
   );
 }
 
-export function UpdatesNavigation({ releases = [] }: { releases: string[] }) {
+export function UpdatesNavigation({ releases = [] }: { releases?: string[] }) {
   return (
     <nav
       css={{

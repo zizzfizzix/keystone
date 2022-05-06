@@ -7,7 +7,7 @@ import { DocsNavigation, UpdatesNavigation } from './Navigation';
 
 type SidebarProps = {
   isUpdatesPage?: boolean;
-  releases?: any;
+  releases?: string[];
 };
 
 export function Sidebar({ isUpdatesPage, releases }: SidebarProps) {
