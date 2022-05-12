@@ -19,6 +19,7 @@ model Post {
   publishDate DateTime?
   author      Author?   @relation("Post_author", fields: [authorId], references: [id])
   authorId    String?   @map("author")
+  isDeleted   Boolean   @default(false)
 
   @@index([authorId])
 }

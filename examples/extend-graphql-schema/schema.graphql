@@ -65,6 +65,7 @@ type Post {
   content: String
   publishDate: DateTime
   author: Author
+  isDeleted: Boolean
 }
 
 enum PostStatusType {
@@ -89,6 +90,7 @@ input PostWhereInput {
   content: StringFilter
   publishDate: DateTimeNullableFilter
   author: AuthorWhereInput
+  isDeleted: BooleanFilter
 }
 
 input IDFilter {
@@ -148,12 +150,18 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
 input PostOrderByInput {
   id: OrderDirection
   title: OrderDirection
   status: OrderDirection
   content: OrderDirection
   publishDate: OrderDirection
+  isDeleted: OrderDirection
 }
 
 enum OrderDirection {
@@ -167,6 +175,7 @@ input PostUpdateInput {
   content: String
   publishDate: DateTime
   author: AuthorRelateToOneForUpdateInput
+  isDeleted: Boolean
 }
 
 input AuthorRelateToOneForUpdateInput {
@@ -186,6 +195,7 @@ input PostCreateInput {
   content: String
   publishDate: DateTime
   author: AuthorRelateToOneForCreateInput
+  isDeleted: Boolean
 }
 
 input AuthorRelateToOneForCreateInput {

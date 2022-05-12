@@ -1,7 +1,7 @@
 import { graphQLSchemaExtension } from '@keystone-6/core';
-import { Context } from '.keystone/types';
+import { KeystoneContext } from '@keystone-6/core/types';
 
-export const extendGraphqlSchema = graphQLSchemaExtension<Context>({
+export const extendGraphqlSchema = graphQLSchemaExtension<KeystoneContext>({
   typeDefs: `
     type Mutation {
       """ Publish a post """
@@ -24,7 +24,7 @@ export const extendGraphqlSchema = graphQLSchemaExtension<Context>({
     }`,
   resolvers: {
     Mutation: {
-      publishPost: (root, { id }, context) => {
+      publishPost: (root, { id }, context:KeystoneContext) => {
         // Note we use `context.db.Post` here as we have a return type
         // of Post, and this API provides results in the correct format.
         // If you accidentally use `context.query.Post` here you can expect problems
@@ -35,11 +35,11 @@ export const extendGraphqlSchema = graphQLSchemaExtension<Context>({
         });
       },
 
-      // TODO: this isn't working, somehow it isn't being replaced
-      deletePost: (root, { id }, context) => {
-        console.log(context)
+      // TODO: this isn't working, this is a bug in @graphql-tools/schema
+      deletePost: (root, { where }, context:KeystoneContext) => {
+        console.log('where: ', where);
         return context.db.Post.updateOne({
-          where: { id },
+          where,
           data: {
             isDeleted: true
           }
@@ -47,7 +47,7 @@ export const extendGraphqlSchema = graphQLSchemaExtension<Context>({
       }
     },
     Query: {
-      recentPosts: (root, { id, days }, context) => {
+      recentPosts: (root, { id, days }, context:KeystoneContext) => {
         // Create a date string <days> in the past from now()
         const cutoff = new Date(
           new Date().setUTCDate(new Date().getUTCDate() - days)
@@ -71,7 +71,7 @@ export const extendGraphqlSchema = graphQLSchemaExtension<Context>({
       // In this case we want to take root.authorId and get the latest post for that author
       //
       // As above we use the context.db.Post API to achieve this.
-      latest: async (val, args, context) => {
+      latest: async (val, args, context:KeystoneContext) => {
         const [post] = await context.db.Post.findMany({
           take: 1,
           orderBy: { publishDate: 'desc' },
@@ -79,12 +79,12 @@ export const extendGraphqlSchema = graphQLSchemaExtension<Context>({
         });
         return post;
       },
-      draft: (val, args, context) => {
+      draft: (val, args, context:KeystoneContext) => {
         return context.query.Post.count({
           where: { author: { id: { equals: val.authorId } }, status: { equals: 'draft' } },
         });
       },
-      published: (val, args, context) => {
+      published: (val, args, context:KeystoneContext) => {
         return context.query.Post.count({
           where: { author: { id: { equals: val.authorId } }, status: { equals: 'published' } },
         });

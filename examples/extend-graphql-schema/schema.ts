@@ -1,3 +1,4 @@
+import { checkbox } from './../../packages/core/src/fields/types/checkbox/index';
 import { list } from '@keystone-6/core';
 import { select, relationship, text, timestamp } from '@keystone-6/core/fields';
 
@@ -15,6 +16,7 @@ export const lists = {
       content: text(),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.posts', many: false }),
+      isDeleted: checkbox({ defaultValue: false }),
     },
   }),
   Author: list({
