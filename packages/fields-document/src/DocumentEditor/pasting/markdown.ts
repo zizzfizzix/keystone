@@ -127,7 +127,9 @@ function deserializeMarkdownNode(node: MDNode, getDefinition: GetDefinition): De
     // because an html node might just be an opening/closing node
     // but we just have an opening/closing node here
     // not the opening and closing and children
-    case 'html':
+    case 'html': {
+      return [{ type: 'paragraph', children: [getTextNodeForCurrentlyActiveMarks(node.value)] }];
+    }
     case 'text': {
       return [getTextNodeForCurrentlyActiveMarks(node.value)];
     }

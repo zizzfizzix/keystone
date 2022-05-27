@@ -1,15 +1,9 @@
-import { Descendant, Editor, Transforms } from 'slate';
-import { insertNodesButReplaceIfSelectionIsAtEmptyParagraphOrHeading } from '../utils';
+import { Editor, Transforms, Range } from 'slate';
+import { isValidURL } from '../isValidURL';
 import { deserializeHTML } from './html';
 import { deserializeMarkdown } from './markdown';
 
-function insertFragmentButDifferent(editor: Editor, nodes: Descendant[]) {
-  if (Editor.isBlock(editor, nodes[0])) {
-    insertNodesButReplaceIfSelectionIsAtEmptyParagraphOrHeading(editor, nodes);
-  } else {
-    Transforms.insertFragment(editor, nodes);
-  }
-}
+const urlPattern = /^https?:\/\/[^\s]+/;
 
 export function withPasting(editor: Editor): Editor {
   const { insertData, setFragmentData } = editor;
@@ -22,6 +16,47 @@ export function withPasting(editor: Editor): Editor {
   };
 
   editor.insertData = data => {
+    const plain = data.getData('text/plain');
+    const blockAbove = Editor.above(editor, { match: node => Editor.isBlock(editor, node) });
+    if (blockAbove?.[0].type === 'code') {
+      editor.insertText(plain);
+      return;
+    }
+    let vsCodeEditorData = data.getData('vscode-editor-data');
+    if (vsCodeEditorData && plain) {
+      try {
+        const vsCodeData = JSON.parse(vsCodeEditorData);
+        if (vsCodeData?.mode === 'markdown' || vsCodeData?.mode === 'mdx') {
+          const fragment = deserializeMarkdown(plain);
+          Transforms.insertFragment(editor, fragment);
+          return;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    if (
+      // isValidURL is a bit more permissive than a user might expect
+      // so for pasting, we'll constrain it to starting with https:// or http://
+      urlPattern.test(plain) &&
+      isValidURL(plain) &&
+      editor.selection &&
+      !Range.isCollapsed(editor.selection) &&
+      // we only want to turn the selected text into a link if the selection is within the same block
+      Editor.above(editor, {
+        match: node => Editor.isBlock(editor, node) && !Editor.isBlock(editor, node.children[0]),
+      }) &&
+      // and there is only text(potentially with marks) in the selection
+      // no other links or inline relationships
+      Editor.nodes(editor, {
+        match: node => Editor.isInline(editor, node),
+      }).next().done
+    ) {
+      Transforms.wrapNodes(editor, { type: 'link', href: plain, children: [] }, { split: true });
+      return;
+    }
+
     // this exists because behind the scenes, Slate sets the slate document
     // on the data transfer, this is great because it means when you copy and paste
     // something in the editor or between editors, it'll use the actual Slate data
@@ -40,40 +75,23 @@ export function withPasting(editor: Editor): Editor {
       insertData(data);
       return;
     }
-    const blockAbove = Editor.above(editor, { match: node => Editor.isBlock(editor, node) });
-    if (blockAbove?.[0].type === 'code') {
-      const plain = data.getData('text/plain');
-      editor.insertText(plain);
-      return;
-    }
-    let vsCodeEditorData = data.getData('vscode-editor-data');
-    if (vsCodeEditorData) {
-      try {
-        const vsCodeData = JSON.parse(vsCodeEditorData);
-        if (vsCodeData?.mode === 'markdown' || vsCodeData?.mode === 'mdx') {
-          const plain = data.getData('text/plain');
-          if (plain) {
-            const fragment = deserializeMarkdown(plain);
-            insertFragmentButDifferent(editor, fragment);
-            return;
-          }
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
 
     const html = data.getData('text/html');
     if (html) {
       const fragment = deserializeHTML(html);
-      insertFragmentButDifferent(editor, fragment);
+      try {
+        Transforms.insertFragment(editor, fragment);
+      } catch (err) {
+        console.dir(fragment, { depth: null });
+        throw err;
+      }
       return;
     }
 
-    const plain = data.getData('text/plain');
     if (plain) {
       const fragment = deserializeMarkdown(plain);
-      insertFragmentButDifferent(editor, fragment);
+      Transforms.insertFragment(editor, fragment);
+
       return;
     }
 
