@@ -39,6 +39,7 @@ export const dev = async (cwd: string, shouldDropDatabase: boolean) => {
   console.log('✨ Starting Keystone');
 
   const app = express();
+  let activeGraphQLRequests = createActiveRequestsTracker();
   let expressServer: express.Express | null = null;
   let hasAddedAdminUIMiddleware = false;
 
@@ -179,8 +180,11 @@ exports.default = function (req, res) { return res.send(x.toString()) }
 
           servers.expressServer.use(adminUIMiddleware);
           expressServer = servers.expressServer;
-          let prevApolloServer = lastApolloServer;
+          const prevApolloServer = lastApolloServer;
           lastApolloServer = servers.apolloServer;
+          const prevActiveGraphQLRequests = activeGraphQLRequests;
+          activeGraphQLRequests = createActiveRequestsTracker();
+          await prevActiveGraphQLRequests.wait();
           await prevApolloServer.stop();
           lastError = undefined;
         }
@@ -215,6 +219,14 @@ exports.default = function (req, res) { return res.send(x.toString()) }
   // Serve the dev status page for the Admin UI
   app.use('/__keystone_dev_status', (req, res) => {
     res.json({ ready: isReady() ? true : false });
+  });
+
+  app.use('/api/graphql', (req, res, next) => {
+    const end = activeGraphQLRequests.start();
+    res.once('close', () => {
+      end();
+    });
+    next();
   });
   // Pass the request the express server, or serve the loading page
   app.use((req, res, next) => {
@@ -374,4 +386,29 @@ async function initAdminUI(
   const middleware = await createAdminUIMiddleware(config, createContext, true, getAdminPath(cwd));
   console.log(`✅ Admin UI ready`);
   return middleware;
+}
+
+function createActiveRequestsTracker() {
+  let activeRequests = 0;
+  let resolves: (() => void)[] = [];
+  return {
+    start() {
+      activeRequests++;
+      return () => {
+        activeRequests--;
+        if (activeRequests === 0) {
+          for (const resolve of resolves) {
+            resolve();
+          }
+          resolves = [];
+        }
+      };
+    },
+    async wait() {
+      if (activeRequests === 0) return;
+      return new Promise<void>(resolve => {
+        resolves.push(resolve);
+      });
+    },
+  };
 }
