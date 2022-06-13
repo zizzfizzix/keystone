@@ -1,12 +1,13 @@
 import meow from 'meow';
-import { dev } from './run/dev';
-import { start } from './run/start';
-import { build } from './build/build';
-import { prisma } from './prisma';
-import { postinstall } from './postinstall';
 import { ExitError } from './utils';
 
-const commands = { dev, start, build, prisma, postinstall };
+const commands = {
+  dev: () => import('./run/dev').then(x => x.dev),
+  start: () => import('./run/start').then(x => x.start),
+  build: () => import('./build/build').then(x => x.build),
+  prisma: () => import('./prisma').then(x => x.prisma),
+  postinstall: () => import('./postinstall').then(x => x.postinstall),
+};
 
 export async function cli(cwd: string, argv: string[]) {
   const { input, help, flags } = meow(
@@ -36,13 +37,13 @@ export async function cli(cwd: string, argv: string[]) {
   }
 
   if (command === 'prisma') {
-    return prisma(cwd, argv.slice(1));
+    return (await commands.prisma())(cwd, argv.slice(1));
   } else if (command === 'postinstall') {
-    return postinstall(cwd, flags.fix);
+    return (await commands.postinstall())(cwd, flags.fix);
   } else if (command === 'dev') {
-    return dev(cwd, flags.resetDb);
+    return (await commands.dev())(cwd, flags.resetDb);
   } else {
-    return commands[command](cwd);
+    return (await commands[command]())(cwd);
   }
 }
 

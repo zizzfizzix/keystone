@@ -4,7 +4,7 @@ import { createSystem } from '../../lib/createSystem';
 import { initConfig } from '../../lib/config/initConfig';
 import { createExpressServer } from '../../lib/server/createExpressServer';
 import { createAdminUIMiddleware } from '../../lib/server/createAdminUIMiddleware';
-import { requirePrismaClient } from '../../artifacts';
+import { requirePrismaClient } from '../../require-prisma-client';
 import { ExitError, getAdminPath } from '../utils';
 
 export const start = async (cwd: string) => {

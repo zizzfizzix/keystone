@@ -11,6 +11,8 @@ import { ExitError } from './scripts/utils';
 import { initialiseLists } from './lib/core/types-for-lists';
 import { printPrismaSchema } from './lib/core/prisma-schema';
 
+export { requirePrismaClient } from './require-prisma-client';
+
 export function getSchemaPaths(cwd: string) {
   return {
     prisma: path.join(cwd, 'schema.prisma'),
@@ -261,8 +263,4 @@ async function generatePrismaClient(cwd: string) {
     generator.stop();
     await closePromise;
   }
-}
-
-export function requirePrismaClient(cwd: string) {
-  return require(path.join(cwd, 'node_modules/.prisma/client')).PrismaClient;
 }

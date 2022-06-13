@@ -1,6 +1,4 @@
 import bcryptjs from 'bcryptjs';
-// @ts-ignore
-import dumbPasswords from 'dumb-passwords';
 import { userInputError } from '../../../lib/core/graphql-errors';
 import { humanize } from '../../../lib/utils';
 import { BaseListTypeInfo, fieldType, FieldTypeFunc, CommonFieldConfig } from '../../../types';
@@ -46,6 +44,15 @@ const PasswordFilter = graphql.inputObject({
   },
 });
 
+let checkCommonPassword = (val: string) => {
+  // ~20ms to load dumb-passwords
+  let dumbPasswords = require('dumb-passwords');
+  checkCommonPassword = (val: string) => {
+    dumbPasswords.check(val);
+  };
+  return dumbPasswords.check(val);
+};
+
 const bcryptHashRegex = /^\$2[aby]?\$\d{1,2}\$[.\/A-Za-z0-9]{53}$/;
 
 export const password =
@@ -78,6 +85,11 @@ export const password =
         max: _validation?.length?.max ?? null,
       },
     };
+
+    if (validation.rejectCommon) {
+      // load dumb-passwords eagerly
+      checkCommonPassword('');
+    }
 
     const isNullable = getResolvedIsNullable(validation, config.db);
 
@@ -144,7 +156,7 @@ export const password =
             if (validation.match && !validation.match.regex.test(val)) {
               args.addValidationError(validation.match.explanation);
             }
-            if (validation.rejectCommon && dumbPasswords.check(val)) {
+            if (validation.rejectCommon && (await checkCommonPassword(val))) {
               args.addValidationError(`${fieldLabel} is too common and is not allowed`);
             }
           }
