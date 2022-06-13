@@ -74,5 +74,6 @@ export const checkbox =
       }),
       views: resolveView('checkbox/views'),
       getAdminMeta: () => ({ defaultValue }),
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };

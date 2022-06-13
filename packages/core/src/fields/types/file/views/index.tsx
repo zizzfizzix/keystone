@@ -103,5 +103,7 @@ export const controller = (config: FieldControllerConfig): FileController => {
       }
       return {};
     },
+    matchesCondition: (value, condition) =>
+      (value.kind === 'from-server' || value.kind === 'upload') && condition,
   };
 };

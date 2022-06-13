@@ -62,7 +62,7 @@ export const CardValue: CardValueComponent = ({ item, field }) => {
   );
 };
 
-type CheckboxController = FieldController<boolean, boolean>;
+type CheckboxController = FieldController<boolean, boolean, boolean>;
 
 export const controller = (
   config: FieldControllerConfig<{ defaultValue: boolean }>
@@ -82,6 +82,7 @@ export const controller = (
         [config.path]: value,
       };
     },
+    matchesCondition: (value, condition) => value === condition,
     filter: {
       Filter() {
         return null;

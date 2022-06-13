@@ -194,5 +194,6 @@ export const decimal =
           min: validation?.min ?? null,
         },
       }),
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };

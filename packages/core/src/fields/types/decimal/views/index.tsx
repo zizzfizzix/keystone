@@ -160,7 +160,7 @@ function validate(value: Value, validation: Validation, label: string): string |
 
 export const controller = (
   config: Config
-): FieldController<Value, string> & { scale: number; validation: Validation } => {
+): FieldController<Value, string, boolean> & { scale: number; validation: Validation } => {
   const _validation = config.fieldMeta.validation;
   const validation: Validation = {
     isRequired: _validation.isRequired,
@@ -196,6 +196,7 @@ export const controller = (
           : value.value.toFixed(config.fieldMeta.scale),
     }),
     validate: val => validate(val, validation, config.label) === undefined,
+    matchesCondition: (value, condition) => value.value !== null && condition,
     filter: {
       Filter(props) {
         return (

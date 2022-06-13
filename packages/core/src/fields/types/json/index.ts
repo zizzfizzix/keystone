@@ -43,6 +43,7 @@ export const json =
         output: graphql.field({ type: graphql.JSON }),
         views: resolveView('json/views'),
         getAdminMeta: () => ({ defaultValue }),
+        validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
       },
       {
         default:

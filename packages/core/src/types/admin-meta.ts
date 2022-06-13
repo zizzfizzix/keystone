@@ -50,7 +50,11 @@ export type FilterTypeToFormat<Value extends JSONValue> = {
   readonly value: Value;
 };
 
-export type FieldController<FormState, FilterValue extends JSONValue = never> = {
+export type FieldController<
+  FormState,
+  FilterValue extends JSONValue = never,
+  Condition extends JSONValue = never
+> = {
   path: string;
   label: string;
   description: string | null;
@@ -59,6 +63,7 @@ export type FieldController<FormState, FilterValue extends JSONValue = never> = 
   deserialize: (item: any) => FormState;
   serialize: (formState: FormState) => any;
   validate?: (formState: FormState) => boolean;
+  matchesCondition: (formState: FormState, condition: Condition) => boolean;
   filter?: {
     // wrote a little codemod for this https://astexplorer.net/#/gist/c45e0f093513dded95114bb77da50b09/b3d01e21c1b425f90ca3cc5bd453d85b11500540
     types: Record<string, FilterTypeDeclaration<FilterValue>>;

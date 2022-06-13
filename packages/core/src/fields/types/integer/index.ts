@@ -199,5 +199,6 @@ export const integer =
               : 'autoincrement',
         };
       },
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };

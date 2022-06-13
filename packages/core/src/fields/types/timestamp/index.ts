@@ -144,5 +144,6 @@ export const timestamp =
           updatedAt: config.db?.updatedAt ?? false,
         };
       },
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };

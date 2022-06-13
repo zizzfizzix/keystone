@@ -113,5 +113,6 @@ export const file =
         },
       }),
       views: resolveView('file/views'),
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };

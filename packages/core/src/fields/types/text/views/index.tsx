@@ -226,6 +226,8 @@ export const controller = (
     serialize: value => ({ [config.path]: value.inner.kind === 'null' ? null : value.inner.value }),
     validation,
     validate: val => validate(val, validation, config.label).length === 0,
+    matchesCondition: (value, condition) =>
+      value.inner.kind === 'value' && value.inner.value !== '' && condition,
     filter: {
       Filter(props) {
         return (

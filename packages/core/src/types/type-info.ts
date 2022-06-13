@@ -1,5 +1,6 @@
 import { KeystoneContext } from './context';
 import { BaseItem } from './next-fields';
+import { JSONValue } from '.';
 
 type GraphQLInput = Record<string, any>;
 
@@ -14,6 +15,7 @@ export type BaseListTypeInfo = {
     uniqueWhere: { readonly id?: string | null } & GraphQLInput;
     orderBy: Record<string, 'asc' | 'desc' | null>;
   };
+  showWhen: Record<string, JSONValue>;
   all: BaseKeystoneTypeInfo;
 };
 

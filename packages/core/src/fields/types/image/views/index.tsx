@@ -70,7 +70,7 @@ export type ImageValue =
     }
   | { kind: 'remove'; previous?: Exclude<ImageValue, { kind: 'remove' }> };
 
-type ImageController = FieldController<ImageValue>;
+type ImageController = FieldController<ImageValue, never, boolean>;
 
 export const controller = (config: FieldControllerConfig): ImageController => {
   return {
@@ -115,5 +115,7 @@ export const controller = (config: FieldControllerConfig): ImageController => {
       }
       return {};
     },
+    matchesCondition: (value, condition) =>
+      (value.kind === 'from-server' || value.kind === 'upload') && condition,
   };
 };

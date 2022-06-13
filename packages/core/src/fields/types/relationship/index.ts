@@ -202,6 +202,7 @@ export const relationship =
             },
           }),
         },
+        validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
       });
     }
     return fieldType({
@@ -239,5 +240,6 @@ export const relationship =
           return value();
         },
       }),
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };

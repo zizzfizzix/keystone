@@ -150,5 +150,6 @@ export const image =
         },
       }),
       views: resolveView('image/views'),
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };

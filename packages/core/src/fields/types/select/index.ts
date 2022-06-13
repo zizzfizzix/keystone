@@ -85,6 +85,7 @@ export const select =
     ): CommonFieldConfig<ListTypeInfo> & {
       views: string;
       getAdminMeta: () => import('./views').AdminSelectFieldMeta;
+      validateCondition: (condition: unknown) => string | undefined;
     } => {
       const values = new Set(options.map(x => x.value));
       if (values.size !== options.length) {
@@ -119,6 +120,10 @@ export const select =
           defaultValue: defaultValue ?? null,
           isRequired: validation?.isRequired ?? false,
         }),
+        validateCondition: (condition: unknown) =>
+          values.has(condition as any) || condition === null
+            ? undefined
+            : `one of ${[...values].join(', ')}`,
       };
     };
     const mode = resolvedIsNullable === false ? 'required' : 'optional';

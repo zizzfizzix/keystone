@@ -340,7 +340,8 @@ type CardsDisplayModeOptions = {
 
 type RelationshipController = FieldController<
   ManyRelationshipValue | SingleRelationshipValue | CardsRelationshipValue | CountRelationshipValue,
-  string
+  string,
+  boolean
 > & {
   display: 'count' | 'cards-or-select';
   listKey: string;
@@ -477,6 +478,15 @@ export const controller = (
         initialValue: value,
       };
     },
+    matchesCondition: (value, condition) =>
+      condition &&
+      (value.kind === 'one'
+        ? value.value !== null
+        : value.kind === 'many'
+        ? value.value.length !== 0
+        : value.kind === 'count'
+        ? value.count !== 0
+        : value.currentIds.size !== 0),
     filter: {
       Filter: ({ onChange, value }) => {
         const foreignList = useList(config.fieldMeta.refListKey);

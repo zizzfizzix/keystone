@@ -171,5 +171,6 @@ export const float =
           defaultValue: defaultValue ?? null,
         };
       },
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };

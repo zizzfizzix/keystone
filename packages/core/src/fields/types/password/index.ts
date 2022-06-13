@@ -216,5 +216,6 @@ export const password =
           },
         },
       }),
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };

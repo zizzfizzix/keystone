@@ -175,6 +175,7 @@ export const text =
           isNullable,
         };
       },
+      validateCondition: condition => (typeof condition === 'boolean' ? undefined : 'a boolean'),
     });
   };
 

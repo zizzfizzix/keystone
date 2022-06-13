@@ -24,7 +24,10 @@ export type CommonFieldConfig<ListTypeInfo extends BaseListTypeInfo> = {
     description?: string;
     views?: string;
     createView?: { fieldMode?: MaybeSessionFunction<'edit' | 'hidden', ListTypeInfo> };
-    itemView?: { fieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', ListTypeInfo> };
+    itemView?: {
+      fieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', ListTypeInfo>;
+      showWhen?: ListTypeInfo['showWhen'];
+    };
     listView?: { fieldMode?: MaybeSessionFunction<'read' | 'hidden', ListTypeInfo> };
   };
   graphql?: {

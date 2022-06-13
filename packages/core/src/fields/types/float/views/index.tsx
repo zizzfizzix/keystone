@@ -173,7 +173,7 @@ export const CardValue: CardValueComponent = ({ item, field }) => {
 
 export const controller = (
   config: FieldControllerConfig<{ validation: Validation; defaultValue: number | null }>
-): FieldController<Value, string> & {
+): FieldController<Value, string, boolean> & {
   validation: Validation;
 } => {
   return {
@@ -193,6 +193,7 @@ export const controller = (
     }),
     serialize: value => ({ [config.path]: value.value }),
     validate: value => validate(value, config.fieldMeta.validation, config.label) === undefined,
+    matchesCondition: (value, condition) => value.value !== null && condition,
     filter: {
       Filter(props) {
         return (

@@ -181,7 +181,7 @@ export const controller = (
     validation: Validation;
     defaultValue: number | null | 'autoincrement';
   }>
-): FieldController<Value, string> & {
+): FieldController<Value, string, boolean> & {
   validation: Validation;
   hasAutoIncrementDefault: boolean;
 } => {
@@ -206,6 +206,7 @@ export const controller = (
         config.label,
         config.fieldMeta.defaultValue === 'autoincrement'
       ) === undefined,
+    matchesCondition: (value, condition) => value.value !== null && condition,
     filter: {
       Filter(props) {
         return (

@@ -259,6 +259,7 @@ export const controller = (
       if (value.kind === 'initial') return {};
       return { [config.path]: value.value };
     },
+    matchesCondition: (value, condition) => (value.isSet || value.kind === 'editing') && condition,
     filter:
       config.fieldMeta.isNullable === false
         ? undefined

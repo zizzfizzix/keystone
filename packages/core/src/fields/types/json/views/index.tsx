@@ -107,5 +107,6 @@ export const controller = (config: Config): FieldController<string, string> => {
       } catch (e) {}
       return { [config.path]: parsedValue };
     },
+    matchesCondition: (value, condition) => !!value && value.trim() !== 'null' && condition,
   };
 };

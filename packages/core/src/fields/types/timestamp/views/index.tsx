@@ -267,5 +267,12 @@ export const controller = (
       return { [config.path]: null };
     },
     validate: value => validate(value, config.fieldMeta, config.label) === undefined,
+    matchesCondition: (value, condition) =>
+      condition &&
+      !!(
+        value.value.dateValue ||
+        typeof value.value.timeValue === 'string' ||
+        value.value.timeValue.value !== null
+      ),
   };
 };
