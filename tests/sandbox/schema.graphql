@@ -26,6 +26,7 @@ type Thing {
   randomNumberVirtual: Float
   select: String
   selectSegmentedControl: String
+  multiselect: [String!]
   json: JSON
   integer: Int
   float: Float
@@ -232,6 +233,7 @@ input ThingUpdateInput {
   timestamp: DateTime
   select: String
   selectSegmentedControl: String
+  multiselect: [String!]
   json: JSON
   integer: Int
   float: Float
@@ -282,6 +284,7 @@ input ThingCreateInput {
   timestamp: DateTime
   select: String
   selectSegmentedControl: String
+  multiselect: [String!]
   json: JSON
   integer: Int
   float: Float

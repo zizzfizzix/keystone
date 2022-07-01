@@ -26,6 +26,7 @@ model Thing {
   timestamp               DateTime?
   select                  String?
   selectSegmentedControl  String?
+  multiselect             String    @default("[]")
   json                    String?
   integer                 Int?
   float                   Float?
