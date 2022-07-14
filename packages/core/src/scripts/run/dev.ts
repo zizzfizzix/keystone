@@ -1,6 +1,7 @@
 import path from 'path';
 import url from 'url';
 import util from 'util';
+import { createServer } from 'node:http';
 import express from 'express';
 import { GraphQLSchema, printSchema } from 'graphql';
 import fs from 'fs-extra';
@@ -40,6 +41,7 @@ export const dev = async (cwd: string, shouldDropDatabase: boolean) => {
 
   const app = express();
   let expressServer: express.Express | null = null;
+  const httpServer = createServer(app);
   let hasAddedAdminUIMiddleware = false;
 
   let disconnect: null | (() => Promise<void>) = null;
@@ -81,6 +83,14 @@ export const dev = async (cwd: string, shouldDropDatabase: boolean) => {
     expressServer.use(adminUIMiddleware);
     hasAddedAdminUIMiddleware = true;
     initKeystonePromiseResolve();
+
+    // TODO: fix up createContext here...
+    if (config?.server?.extendHttpServer) {
+      if (graphQLSchema === undefined) {
+        throw new Error('graphQLSchema is required');
+      }
+      config.server.extendHttpServer(httpServer, createContext, graphQLSchema);
+    }
 
     // this exports a function which dynamically requires the config rather than directly importing it.
     // this allows us to control exactly _when_ the gets evaluated so that we can handle errors ourselves.
@@ -140,7 +150,6 @@ exports.default = function (req, res) { return res.send(x.toString()) }
             console.log('🔄 Your prisma schema has changed, please restart Keystone');
             process.exit(1);
           }
-
           // we only need to test for the things which influence the prisma client creation
           // and aren't written into the prisma schema since we check whether the prisma schema has changed above
           if (
@@ -238,7 +247,7 @@ exports.default = function (req, res) { return res.send(x.toString()) }
     initKeystonePromiseResolve = resolve;
     initKeystonePromiseReject = reject;
   });
-  const server = app.listen(port, (err?: any) => {
+  const server = httpServer.listen(port, (err?: any) => {
     if (err) throw err;
     // We start initialising Keystone after the dev server is ready,
     console.log(`⭐️ Dev Server Starting on http://localhost:${port}`);
