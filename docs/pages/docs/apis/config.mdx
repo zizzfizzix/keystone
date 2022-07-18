@@ -336,22 +336,13 @@ This function can be used to add a WebSocket server to the HTTP server for Graph
 import { WebSocketServer } from 'ws';
 import { useServer as wsUseServer } from 'graphql-ws/lib/use/ws';
 
-extendHttpServer: (
-      server: Server,
-      createContext: CreateRequestContext<BaseKeystoneTypeInfo>,
-      graphqlSchema: GraphQLSchema
-    ) => {
+extendHttpServer: (server, createRequestContext, graphqlSchema) => {
       const wss = new WebSocketServer({
         server: server,
         path: '/api/graphql',
       });
 
-      const wsServer = wsUseServer({ schema: graphqlSchema }, wss);
-      return {
-        async drainServer() {
-          await wsServer.dispose();
-        },
-      };
+      wsUseServer({ schema: graphqlSchema }, wss);
     },
 ```
 
