@@ -1,7 +1,7 @@
 import path from 'path';
 import url from 'url';
 import util from 'util';
-import { createServer } from 'node:http';
+import { createServer, IncomingMessage, ServerResponse } from 'http';
 import express from 'express';
 import { GraphQLSchema, printSchema } from 'graphql';
 import fs from 'fs-extra';
@@ -23,6 +23,7 @@ import {
   requirePrismaClient,
 } from '../../artifacts';
 import { getAdminPath, getConfigPath } from '../utils';
+import { createSessionContext } from '../../session';
 import { AdminMetaRootVal, CreateContext, KeystoneConfig } from '../../types';
 import { serializePathForImport } from '../../admin-ui/utils/serializePathForImport';
 import { initialiseLists } from '../../lib/core/types-for-lists';
@@ -84,12 +85,18 @@ export const dev = async (cwd: string, shouldDropDatabase: boolean) => {
     hasAddedAdminUIMiddleware = true;
     initKeystonePromiseResolve();
 
-    // TODO: fix up createContext here...
     if (config?.server?.extendHttpServer) {
       if (graphQLSchema === undefined) {
         throw new Error('graphQLSchema is required');
       }
-      config.server.extendHttpServer(httpServer, createContext, graphQLSchema);
+      const createRequestContext = async (req: IncomingMessage, res: ServerResponse) =>
+        createContext({
+          sessionContext: config.session
+            ? await createSessionContext(config.session, req, res, createContext)
+            : undefined,
+          req,
+        });
+      config.server.extendHttpServer(httpServer, createRequestContext, graphQLSchema);
     }
 
     // this exports a function which dynamically requires the config rather than directly importing it.
