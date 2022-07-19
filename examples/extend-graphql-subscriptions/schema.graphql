@@ -147,6 +147,11 @@ type Author {
     skip: Int! = 0
   ): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
+  password: PasswordState
+}
+
+type PasswordState {
+  isSet: Boolean!
 }
 
 input AuthorWhereUniqueInput {
@@ -162,12 +167,17 @@ input AuthorWhereInput {
   name: StringFilter
   email: StringFilter
   posts: PostManyRelationFilter
+  password: PasswordFilter
 }
 
 input PostManyRelationFilter {
   every: PostWhereInput
   some: PostWhereInput
   none: PostWhereInput
+}
+
+input PasswordFilter {
+  isSet: Boolean!
 }
 
 input AuthorOrderByInput {
@@ -180,6 +190,7 @@ input AuthorUpdateInput {
   name: String
   email: String
   posts: PostRelateToManyForUpdateInput
+  password: String
 }
 
 input PostRelateToManyForUpdateInput {
@@ -198,6 +209,7 @@ input AuthorCreateInput {
   name: String
   email: String
   posts: PostRelateToManyForCreateInput
+  password: String
 }
 
 input PostRelateToManyForCreateInput {
@@ -226,11 +238,38 @@ type Mutation {
   updateAuthors(data: [AuthorUpdateArgs!]!): [Author]
   deleteAuthor(where: AuthorWhereUniqueInput!): Author
   deleteAuthors(where: [AuthorWhereUniqueInput!]!): [Author]
+  endSession: Boolean!
+  authenticateAuthorWithPassword(
+    email: String!
+    password: String!
+  ): AuthorAuthenticationWithPasswordResult
+  createInitialAuthor(
+    data: CreateInitialAuthorInput!
+  ): AuthorAuthenticationWithPasswordSuccess!
 
   """
    Publish a post
   """
   publishPost(id: ID!): Post
+}
+
+union AuthorAuthenticationWithPasswordResult =
+    AuthorAuthenticationWithPasswordSuccess
+  | AuthorAuthenticationWithPasswordFailure
+
+type AuthorAuthenticationWithPasswordSuccess {
+  sessionToken: String!
+  item: Author!
+}
+
+type AuthorAuthenticationWithPasswordFailure {
+  message: String!
+}
+
+input CreateInitialAuthorInput {
+  name: String
+  email: String
+  password: String
 }
 
 type Query {
@@ -251,7 +290,10 @@ type Query {
   author(where: AuthorWhereUniqueInput!): Author
   authorsCount(where: AuthorWhereInput! = {}): Int
   keystone: KeystoneMeta!
+  authenticatedItem: AuthenticatedItem
 }
+
+union AuthenticatedItem = Author
 
 type KeystoneMeta {
   adminMeta: KeystoneAdminMeta!
@@ -347,5 +389,5 @@ type PostFeed {
 }
 
 type Subscription {
-  postPublished: PostFeed
+  postPublished: Post
 }

@@ -21,7 +21,7 @@ export const extendGraphqlSchema = graphQLSchemaExtension({
         publishDate: String!
       }
 		  type Subscription {
-			  postPublished: PostFeed
+			  postPublished: Post
 		  }`,
 
   resolvers: {

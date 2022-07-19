@@ -1,25 +1,37 @@
 import { config } from '@keystone-6/core';
-import { WebSocketServer } from 'ws';
-import { useServer as wsUseServer } from 'graphql-ws/lib/use/ws';
+import { statelessSessions } from '@keystone-6/core/session';
+import { createAuth } from '@keystone-6/auth';
 import { lists } from './schema';
 import { extendGraphqlSchema } from './custom-schema';
+import { extendHttpServer } from './custom-websocket';
 
-export default config({
-  db: {
-    provider: 'sqlite',
-    url: process.env.DATABASE_URL || 'file:./keystone-example.db',
+const { withAuth } = createAuth({
+  listKey: 'Author',
+  identityField: 'email',
+  secretField: 'password',
+  initFirstItem: {
+    fields: ['name', 'email', 'password'],
   },
-  lists,
-  server: {
-    cors: { origin: ['https://studio.apollographql.com'], credentials: true },
-    extendHttpServer: (server, createRequestContext, graphqlSchema) => {
-      const wss = new WebSocketServer({
-        server: server,
-        path: '/api/graphql',
-      });
-
-      wsUseServer({ schema: graphqlSchema }, wss);
-    },
-  },
-  extendGraphqlSchema,
 });
+
+const session = statelessSessions({
+  secret: '-- EXAMPLE COOKIE SECRET; CHANGE ME --',
+  secure: true,
+  sameSite: 'none',
+});
+
+export default withAuth(
+  config({
+    db: {
+      provider: 'sqlite',
+      url: process.env.DATABASE_URL || 'file:./keystone-example.db',
+    },
+    lists,
+    session,
+    server: {
+      cors: { origin: ['https://studio.apollographql.com'], credentials: true },
+      extendHttpServer,
+    },
+    extendGraphqlSchema,
+  })
+);
