@@ -1,13 +1,8 @@
-import { useServer as wsUseServer } from 'graphql-ws/lib/use/ws';
 import http from 'http';
-import { WebSocket, WebSocketServer } from 'ws';
+import { useServer as wsUseServer } from 'graphql-ws/lib/use/ws';
+import { WebSocketServer } from 'ws';
 import { CreateRequestContext, KeystoneGraphQLAPI } from '@keystone-6/core/types';
 import { TypeInfo } from '.keystone/types';
-
-interface Extra {
-  readonly request: http.IncomingMessage;
-  readonly socket: WebSocket;
-}
 
 class Forbidden extends Error {}
 
@@ -19,6 +14,7 @@ async function handleAuth(
   const context = await createRequestContext(request);
   const { session } = context;
   console.log('session', session);
+  // Block if the no session exists
   if (!session) {
     // throw a custom error to be handled
     throw new Forbidden(':(');
