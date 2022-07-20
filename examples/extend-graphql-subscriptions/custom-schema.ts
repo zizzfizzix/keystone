@@ -4,12 +4,15 @@ import { PubSub } from 'graphql-subscriptions';
 declare global {
   var graphqlSubscriptionPubSub: PubSub;
 }
-
+// setup PubSub on global scope to handle dev hot reload
+// This PubSub class is not recommended for production use, but is useful for development
+// for details on PubSub see https://www.apollographql.com/docs/apollo-server/data/subscriptions/#the-pubsub-class
 const pubsub = global.graphqlSubscriptionPubSub || new PubSub();
 
 if (process.env.NODE_ENV !== 'production') globalThis.graphqlSubscriptionPubSub = pubsub;
 
 export const extendGraphqlSchema = graphQLSchemaExtension({
+  // Add the Subscription type to the graphql schema
   typeDefs: `
       type Mutation {
         """ Publish a post """
@@ -36,14 +39,17 @@ export const extendGraphqlSchema = graphQLSchemaExtension({
           where: { id },
           data: { status: 'published', publishDate },
         });
+        // Publish the post to the 'POST_PUBLISHED' subscription channel
         pubsub.publish('POST_PUBLISHED', {
           postPublished: post,
         });
         return post;
       },
     },
+    // add the subscription resolver to the schema
     Subscription: {
       postPublished: {
+        // Subscribe to the 'POST_PUBLISHED' channel
         // @ts-ignore
         subscribe: () => pubsub.asyncIterator(['POST_PUBLISHED']),
       },

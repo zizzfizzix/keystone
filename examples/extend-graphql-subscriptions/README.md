@@ -1,7 +1,6 @@
-## Feature Example - Extend GraphQL Schema GraphQL TS
+## Feature Example - Extend GraphQL Schema to enable subscriptions
 
-This project demonstrates how to extend the GraphQL API provided by Keystone with custom queries and mutations using [graphql-ts](https://github.com/Thinkmill/graphql-ts).
-It builds on the [Blog](../blog) starter project.
+This project demonstrates how to extend the GraphQL API provided by Keystone with custom queries, mutations and subscriptions with custom context and authentication. For more information on Subscriptions see https://www.apollographql.com/docs/apollo-server/data/subscriptions
 
 ## Instructions
 
@@ -14,17 +13,28 @@ yarn dev
 This will start the Admin UI at [localhost:3000](http://localhost:3000).
 You can use the Admin UI to create items in your database.
 
-You can also access a GraphQL Playground at [localhost:3000/api/graphql](http://localhost:3000/api/graphql), which allows you to directly run GraphQL queries and mutations.
+You can also access a GraphQL Playground at [localhost:3000/api/graphql](http://localhost:3000/api/graphql), which allows you to directly run GraphQL queries and mutations. To test out subscriptions use [Apollo Studio](https://studio.apollographql.com/sandbox/explorer/), in your connection settings, make sure `Subscription` is set to `ws://localhost:3000/api/graphql` and `Implementation` is `graphql-ws`. You can then subscribe to the `publishedPost` subscription by using the following, make sure you sign in to Keystone first:
 
-## Features
+```gql
+subscription PublishedPost {
+  postPublished {
+    id
+    publishDate
+  }
+}
+```
 
-This project demonstrates how to extend the GraphQL API provided by Keystone with custom queries and mutations.
-Schema extensions are set using the [`extendGraphqlSchema`](https://keystonejs.com/docs/apis/config#extend-graphql-schema) config option.
+Running the following mutation, replacing `ID_OF_YOUR_POST` with a valid post id, will then push the post to the subscription
 
-The `graphql.extend` function allows you to extend the existing query and mutation types and define new types or use existing types in your extension.
-
-See the [`@graphql-ts/schema`](https://docsmill.dev/npm/@graphql-ts/schema) and [`@graphql-ts/extend`](https://docsmill.dev/npm/@graphql-ts/extend) docs for more information.
+```gql
+mutation PublishPost {
+  publishPost(id: "ID_OF_YOUR_POST") {
+    id
+    publishDate
+  }
+}
+```
 
 ## Try it out in CodeSandbox 🧪
 
-You can play with this example online in a web browser using the free [codesandbox.io](https://codesandbox.io/) service. To launch this example, open the URL <https://githubbox.com/keystonejs/keystone/tree/main/examples/extend-graphql-schema-graphql-ts>. You can also fork this sandbox to make your own changes.
+You can play with this example online in a web browser using the free [codesandbox.io](https://codesandbox.io/) service. To launch this example, open the URL <https://githubbox.com/keystonejs/keystone/tree/main/examples/extend-graphql-subscriptions>. You can also fork this sandbox to make your own changes.
