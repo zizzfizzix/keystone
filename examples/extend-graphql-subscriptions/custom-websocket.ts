@@ -45,7 +45,6 @@ export const extendHttpServer = (
       schema: graphqlSchema,
       // Replace the graphql-ws inbuilt context with the Keystone context
       context: ctx => {
-        // TODO: CreateRequestContext requires `req` and `res` but only `req` is available here.
         // @ts-expect-error CreateRequestContext requires `req` and `res` but only `req` is available here
         return createRequestContext(ctx.extra.request);
       },
