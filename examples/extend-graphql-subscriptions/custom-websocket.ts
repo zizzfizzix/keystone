@@ -6,15 +6,15 @@ import {
   KeystoneGraphQLAPI,
   BaseKeystoneTypeInfo,
 } from '@keystone-6/core/types';
-import { TypeInfo } from '.keystone/types';
 
 class Forbidden extends Error {}
 
 async function handleAuth(
   request: http.IncomingMessage,
-  createRequestContext: CreateRequestContext<TypeInfo>
+  createRequestContext: CreateRequestContext<BaseKeystoneTypeInfo>
 ) {
   // Create a Keystone context for the request with the correct session context
+  // @ts-expect-error CreateRequestContext requires `req` and `res` but only `req` is available here
   const context = await createRequestContext(request);
   // Get the session from the context
   const { session } = context;
@@ -46,6 +46,7 @@ export const extendHttpServer = (
       // Replace the graphql-ws inbuilt context with the Keystone context
       context: ctx => {
         // TODO: CreateRequestContext requires `req` and `res` but only `req` is available here.
+        // @ts-expect-error CreateRequestContext requires `req` and `res` but only `req` is available here
         return createRequestContext(ctx.extra.request);
       },
       // Run the handleAuth function before each subscription request to check if there is a valid session
