@@ -204,7 +204,7 @@ export default config;
 `;
 
 const graphqlTsAPI = `import * as graphqlTsSchema from '@keystone-6/core/___internal-do-not-use-will-break-in-patch/graphql-ts';
-import type { Context } from '../types';
+import type { Context } from '../index';
 export * from '@keystone-6/core/___internal-do-not-use-will-break-in-patch/graphql-ts-without-context';
 export { field, fields, interface, interfaceField, object, union } from './graphql-ts-with-context';
 
