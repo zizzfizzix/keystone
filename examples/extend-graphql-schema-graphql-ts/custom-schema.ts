@@ -1,4 +1,4 @@
-import { graphql } from '@keystone-6/core';
+import { graphql } from '.keystone/types';
 
 export const extendGraphqlSchema = graphql.extend(base => {
   const Statistics = graphql.object<{ authorId: string }>()({
