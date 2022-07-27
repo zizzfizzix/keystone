@@ -312,26 +312,17 @@ type KeystoneMeta {
 type KeystoneAdminMeta {
   enableSignout: Boolean!
   enableSessionItem: Boolean!
-  lists: [KeystoneAdminUIListMeta!]!
-  list(key: String!): KeystoneAdminUIListMeta
+  lists: [KeystoneAdminUISchemaMeta!]!
+  list(key: String!): KeystoneAdminUISchemaMeta
 }
 
-type KeystoneAdminUIListMeta {
+interface KeystoneAdminUISchemaMeta {
   key: String!
-  itemQueryName: String!
-  listQueryName: String!
-  hideCreate: Boolean!
-  hideDelete: Boolean!
   path: String!
   label: String!
   singular: String!
-  plural: String!
   description: String
-  initialColumns: [String!]!
-  pageSize: Int!
-  labelField: String!
   fields: [KeystoneAdminUIFieldMeta!]!
-  initialSort: KeystoneAdminUISort
   isHidden: Boolean!
 }
 
@@ -381,6 +372,34 @@ enum KeystoneAdminUIFieldMetaItemViewFieldMode {
 enum QueryMode {
   default
   insensitive
+}
+
+type KeystoneAdminUISingletonMeta implements KeystoneAdminUISchemaMeta {
+  key: String!
+  path: String!
+  label: String!
+  singular: String!
+  description: String
+  fields: [KeystoneAdminUIFieldMeta!]!
+  isHidden: Boolean!
+}
+
+type KeystoneAdminUIListMeta implements KeystoneAdminUISchemaMeta {
+  key: String!
+  path: String!
+  label: String!
+  singular: String!
+  description: String
+  fields: [KeystoneAdminUIFieldMeta!]!
+  isHidden: Boolean!
+  listQueryName: String!
+  plural: String!
+  hideCreate: Boolean!
+  hideDelete: Boolean!
+  initialColumns: [String!]!
+  pageSize: Int!
+  labelField: String!
+  initialSort: KeystoneAdminUISort
 }
 
 type KeystoneAdminUISort {

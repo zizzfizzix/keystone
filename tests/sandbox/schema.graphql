@@ -452,6 +452,25 @@ input UserCreateInput {
   updatedAt: DateTime
 }
 
+type Publisher {
+  id: ID!
+  title: String
+  copyrightText: String
+  contactEmail: String
+}
+
+input PublisherUpdateInput {
+  title: String
+  copyrightText: String
+  contactEmail: String
+}
+
+input PublisherCreateInput {
+  title: String
+  copyrightText: String
+  contactEmail: String
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -479,6 +498,7 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
+  updatePublisher(data: PublisherUpdateInput!): Publisher
 }
 
 type Query {
@@ -506,6 +526,7 @@ type Query {
   ): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
+  publisher: Publisher
   keystone: KeystoneMeta!
 }
 
@@ -516,26 +537,17 @@ type KeystoneMeta {
 type KeystoneAdminMeta {
   enableSignout: Boolean!
   enableSessionItem: Boolean!
-  lists: [KeystoneAdminUIListMeta!]!
-  list(key: String!): KeystoneAdminUIListMeta
+  lists: [KeystoneAdminUISchemaMeta!]!
+  list(key: String!): KeystoneAdminUISchemaMeta
 }
 
-type KeystoneAdminUIListMeta {
+interface KeystoneAdminUISchemaMeta {
   key: String!
-  itemQueryName: String!
-  listQueryName: String!
-  hideCreate: Boolean!
-  hideDelete: Boolean!
   path: String!
   label: String!
   singular: String!
-  plural: String!
   description: String
-  initialColumns: [String!]!
-  pageSize: Int!
-  labelField: String!
   fields: [KeystoneAdminUIFieldMeta!]!
-  initialSort: KeystoneAdminUISort
   isHidden: Boolean!
 }
 
@@ -585,6 +597,34 @@ enum KeystoneAdminUIFieldMetaItemViewFieldMode {
 enum QueryMode {
   default
   insensitive
+}
+
+type KeystoneAdminUISingletonMeta implements KeystoneAdminUISchemaMeta {
+  key: String!
+  path: String!
+  label: String!
+  singular: String!
+  description: String
+  fields: [KeystoneAdminUIFieldMeta!]!
+  isHidden: Boolean!
+}
+
+type KeystoneAdminUIListMeta implements KeystoneAdminUISchemaMeta {
+  key: String!
+  path: String!
+  label: String!
+  singular: String!
+  description: String
+  fields: [KeystoneAdminUIFieldMeta!]!
+  isHidden: Boolean!
+  listQueryName: String!
+  plural: String!
+  hideCreate: Boolean!
+  hideDelete: Boolean!
+  initialColumns: [String!]!
+  pageSize: Int!
+  labelField: String!
+  initialSort: KeystoneAdminUISort
 }
 
 type KeystoneAdminUISort {
