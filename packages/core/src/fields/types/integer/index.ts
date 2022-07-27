@@ -15,8 +15,8 @@ import {
 } from '../../non-null-graphql';
 import { resolveView } from '../../resolve-view';
 
-export type IntegerFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type IntegerFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
+  CommonFieldConfig<SchemaTypeTypeInfo> & {
     isIndexed?: boolean | 'unique';
     defaultValue?: number | { kind: 'autoincrement' };
     validation?: {
@@ -43,12 +43,12 @@ const MAX_INT = 2147483647;
 const MIN_INT = -2147483648;
 
 export const integer =
-  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
+  <SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>({
     isIndexed,
     defaultValue: _defaultValue,
     validation,
     ...config
-  }: IntegerFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
+  }: IntegerFieldConfig<SchemaTypeTypeInfo> = {}): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
     const defaultValue = _defaultValue ?? null;
     const hasAutoIncDefault =

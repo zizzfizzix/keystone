@@ -97,11 +97,11 @@ export function printGeneratedTypes(
   for (const [listKey, list] of Object.entries(lists)) {
     const gqlNames = getGqlNames(list);
 
-    const listTypeInfoName = `Lists.${listKey}.TypeInfo`;
+    const SchemaTypeTypeInfoName = `Lists.${listKey}.TypeInfo`;
 
-    allListsStr += `\n  readonly ${listKey}: ${listTypeInfoName};`;
+    allListsStr += `\n  readonly ${listKey}: ${SchemaTypeTypeInfoName};`;
     listsNamespaceStr += `
-  export type ${listKey} = import('@keystone-6/core').ListConfig<${listTypeInfoName}, any>;
+  export type ${listKey} = import('@keystone-6/core').ListConfig<${SchemaTypeTypeInfoName}, any>;
   namespace ${listKey} {
     export type Item = import('.prisma/client').${listKey};
     export type TypeInfo = {

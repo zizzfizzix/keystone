@@ -19,7 +19,7 @@ export type FieldData = {
   fieldKey: string;
 };
 
-export type FieldTypeFunc<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
+export type FieldTypeFunc<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = (
   data: FieldData
 ) => NextFieldType<
   DBField,
@@ -28,7 +28,7 @@ export type FieldTypeFunc<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   graphql.Arg<graphql.NullableInputType, false>,
   graphql.Arg<graphql.NullableInputType, false>,
   graphql.Arg<graphql.NullableInputType, false>,
-  ListTypeInfo
+  SchemaTypeTypeInfo
 >;
 
 export type NextFieldType<
@@ -49,7 +49,7 @@ export type NextFieldType<
     graphql.NullableInputType,
     false
   >,
-  ListTypeInfo extends BaseSchemaTypeTypeInfo = BaseSchemaTypeTypeInfo
+  SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo = BaseSchemaTypeTypeInfo
 > = {
   dbField: TDBField;
 } & FieldTypeWithoutDBField<
@@ -59,7 +59,7 @@ export type NextFieldType<
   UniqueWhereArg,
   OrderByArg,
   FilterArg,
-  ListTypeInfo
+  SchemaTypeTypeInfo
 >;
 
 type ScalarPrismaTypes = {
@@ -375,7 +375,7 @@ export type FieldTypeWithoutDBField<
     graphql.NullableInputType,
     false
   >,
-  ListTypeInfo extends BaseSchemaTypeTypeInfo = BaseSchemaTypeTypeInfo
+  SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo = BaseSchemaTypeTypeInfo
 > = {
   input?: {
     uniqueWhere?: UniqueWhereFieldInputArg<DBFieldUniqueWhere<TDBField>, UniqueWhereArg>;
@@ -389,7 +389,7 @@ export type FieldTypeWithoutDBField<
   extraOutputFields?: Record<string, FieldTypeOutputField<TDBField>>;
   getAdminMeta?: (adminMeta: AdminMetaRootVal) => JSONValue;
   unreferencedConcreteInterfaceImplementations?: readonly graphql.ObjectType<any>[];
-} & CommonFieldConfig<ListTypeInfo>;
+} & CommonFieldConfig<SchemaTypeTypeInfo>;
 
 type AnyInputObj = graphql.InputObjectType<Record<string, graphql.Arg<graphql.InputType, any>>>;
 
@@ -452,9 +452,10 @@ export type FindManyArgs = {
 export type FindManyArgsValue = graphql.InferValueFromArgs<FindManyArgs>;
 
 // fieldType(dbField)(fieldInfo) => { ...fieldInfo, dbField };
-export function fieldType<TDBField extends DBField, ListTypeInfo extends BaseSchemaTypeTypeInfo>(
-  dbField: TDBField
-) {
+export function fieldType<
+  TDBField extends DBField,
+  SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo
+>(dbField: TDBField) {
   return function <
     CreateArg extends graphql.Arg<graphql.InputType> | undefined,
     UpdateArg extends graphql.Arg<graphql.InputType>,
@@ -477,7 +478,7 @@ export function fieldType<TDBField extends DBField, ListTypeInfo extends BaseSch
     UniqueWhereArg,
     OrderByArg,
     FilterArg,
-    ListTypeInfo
+    SchemaTypeTypeInfo
   > {
     return { ...graphQLInfo, dbField };
   };

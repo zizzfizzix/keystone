@@ -16,8 +16,8 @@ import {
 } from '../../non-null-graphql';
 import { resolveView } from '../../resolve-view';
 
-export type FloatFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type FloatFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
+  CommonFieldConfig<SchemaTypeTypeInfo> & {
     defaultValue?: number;
     isIndexed?: boolean | 'unique';
     validation?: {
@@ -40,12 +40,12 @@ export type FloatFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
   };
 
 export const float =
-  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
+  <SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>({
     isIndexed,
     validation,
     defaultValue,
     ...config
-  }: FloatFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
+  }: FloatFieldConfig<SchemaTypeTypeInfo> = {}): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
     if (
       defaultValue !== undefined &&

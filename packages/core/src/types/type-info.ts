@@ -17,7 +17,8 @@ export type BaseSchemaTypeTypeInfo = {
   all: BaseKeystoneTypeInfo;
 };
 
-export type KeystoneContextFromListTypeInfo<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
-  KeystoneContext<ListTypeInfo['all']>;
+export type KeystoneContextFromSchemaTypeTypeInfo<
+  SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo
+> = KeystoneContext<SchemaTypeTypeInfo['all']>;
 
 export type BaseKeystoneTypeInfo = { lists: Record<string, BaseSchemaTypeTypeInfo>; prisma: any };

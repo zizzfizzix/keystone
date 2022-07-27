@@ -10,9 +10,9 @@ import {
 import { graphql } from '../../..';
 import { resolveView } from '../../resolve-view';
 
-export type FileFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> = {
+export type FileFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {
   storage: string;
-} & CommonFieldConfig<ListTypeInfo>;
+} & CommonFieldConfig<SchemaTypeTypeInfo>;
 
 const FileFieldInput = graphql.inputObject({
   name: 'FileFieldInput',
@@ -46,9 +46,9 @@ async function inputResolver(storage: string, data: FileFieldInputType, context:
 }
 
 export const file =
-  <ListTypeInfo extends BaseSchemaTypeTypeInfo>(
-    config: FileFieldConfig<ListTypeInfo>
-  ): FieldTypeFunc<ListTypeInfo> =>
+  <SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>(
+    config: FileFieldConfig<SchemaTypeTypeInfo>
+  ): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
     const storage = meta.getStorage(config.storage);
 

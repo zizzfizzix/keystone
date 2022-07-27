@@ -14,8 +14,8 @@ import { resolveView } from '../../resolve-view';
 import { getResolvedIsNullable } from '../../non-null-graphql';
 import { PasswordFieldMeta } from './views';
 
-export type PasswordFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type PasswordFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
+  CommonFieldConfig<SchemaTypeTypeInfo> & {
     /**
      * @default 10
      */
@@ -54,12 +54,12 @@ const PasswordFilter = graphql.inputObject({
 const bcryptHashRegex = /^\$2[aby]?\$\d{1,2}\$[.\/A-Za-z0-9]{53}$/;
 
 export const password =
-  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
+  <SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>({
     bcrypt = bcryptjs,
     workFactor = 10,
     validation: _validation,
     ...config
-  }: PasswordFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
+  }: PasswordFieldConfig<SchemaTypeTypeInfo> = {}): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
     if ((config as any).isIndexed === 'unique') {
       throw Error("isIndexed: 'unique' is not a supported option for field type password");

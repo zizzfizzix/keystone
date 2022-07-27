@@ -17,9 +17,9 @@ export function config<TypeInfo extends BaseKeystoneTypeInfo>(config: KeystoneCo
 }
 
 export function list<
-  Fields extends BaseFields<ListTypeInfo>,
-  ListTypeInfo extends BaseSchemaTypeTypeInfo
->(config: ListConfig<ListTypeInfo, Fields>): ListConfig<ListTypeInfo, any> {
+  Fields extends BaseFields<SchemaTypeTypeInfo>,
+  SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo
+>(config: ListConfig<SchemaTypeTypeInfo, Fields>): ListConfig<SchemaTypeTypeInfo, any> {
   return config;
 }
 

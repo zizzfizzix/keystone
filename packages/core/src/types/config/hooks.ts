@@ -1,35 +1,35 @@
-import type { KeystoneContextFromListTypeInfo } from '..';
+import type { KeystoneContextFromSchemaTypeTypeInfo } from '..';
 import { BaseSchemaTypeTypeInfo } from '../type-info';
 
-type CommonArgs<ListTypeInfo extends BaseSchemaTypeTypeInfo> = {
-  context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
+type CommonArgs<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {
+  context: KeystoneContextFromSchemaTypeTypeInfo<SchemaTypeTypeInfo>;
   /**
    * The key of the list that the operation is occurring on
    */
   listKey: string;
 };
 
-export type ListHooks<ListTypeInfo extends BaseSchemaTypeTypeInfo> = {
+export type ListHooks<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {
   /**
    * Used to **modify the input** for create and update operations after default values and access control have been applied
    */
-  resolveInput?: ResolveInputListHook<ListTypeInfo>;
+  resolveInput?: ResolveInputListHook<SchemaTypeTypeInfo>;
   /**
    * Used to **validate the input** for create and update operations once all resolveInput hooks resolved
    */
-  validateInput?: ValidateInputHook<ListTypeInfo>;
+  validateInput?: ValidateInputHook<SchemaTypeTypeInfo>;
   /**
    * Used to **validate** that a delete operation can happen after access control has occurred
    */
-  validateDelete?: ValidateDeleteHook<ListTypeInfo>;
+  validateDelete?: ValidateDeleteHook<SchemaTypeTypeInfo>;
   /**
    * Used to **cause side effects** before a create, update, or delete operation once all validateInput hooks have resolved
    */
-  beforeOperation?: BeforeOperationHook<ListTypeInfo>;
+  beforeOperation?: BeforeOperationHook<SchemaTypeTypeInfo>;
   /**
    * Used to **cause side effects** after a create, update, or delete operation operation has occurred
    */
-  afterOperation?: AfterOperationHook<ListTypeInfo>;
+  afterOperation?: AfterOperationHook<SchemaTypeTypeInfo>;
 };
 
 // TODO: probably maybe don't do this and write it out manually
@@ -42,66 +42,66 @@ type AddFieldPathArgToAllPropsOnObj<T extends Record<string, (arg: any) => any>>
   [Key in keyof T]: AddFieldPathToObj<T[Key]>;
 };
 
-export type FieldHooks<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
+export type FieldHooks<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
   AddFieldPathArgToAllPropsOnObj<{
     /**
      * Used to **modify the input** for create and update operations after default values and access control have been applied
      */
-    resolveInput?: ResolveInputFieldHook<ListTypeInfo>;
+    resolveInput?: ResolveInputFieldHook<SchemaTypeTypeInfo>;
     /**
      * Used to **validate the input** for create and update operations once all resolveInput hooks resolved
      */
-    validateInput?: ValidateInputHook<ListTypeInfo>;
+    validateInput?: ValidateInputHook<SchemaTypeTypeInfo>;
     /**
      * Used to **validate** that a delete operation can happen after access control has occurred
      */
-    validateDelete?: ValidateDeleteHook<ListTypeInfo>;
+    validateDelete?: ValidateDeleteHook<SchemaTypeTypeInfo>;
     /**
      * Used to **cause side effects** before a create, update, or delete operation once all validateInput hooks have resolved
      */
-    beforeOperation?: BeforeOperationHook<ListTypeInfo>;
+    beforeOperation?: BeforeOperationHook<SchemaTypeTypeInfo>;
     /**
      * Used to **cause side effects** after a create, update, or delete operation operation has occurred
      */
-    afterOperation?: AfterOperationHook<ListTypeInfo>;
+    afterOperation?: AfterOperationHook<SchemaTypeTypeInfo>;
   }>;
 
-type ArgsForCreateOrUpdateOperation<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
+type ArgsForCreateOrUpdateOperation<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
   | {
       operation: 'create';
       // technically this will never actually exist for a create
       // but making it optional rather than not here
       // makes for a better experience
       // because then people will see the right type even if they haven't refined the type of operation to 'create'
-      item?: ListTypeInfo['item'];
+      item?: SchemaTypeTypeInfo['item'];
       /**
        * The GraphQL input **before** default values are applied
        */
-      inputData: ListTypeInfo['inputs']['create'];
+      inputData: SchemaTypeTypeInfo['inputs']['create'];
       /**
        * The GraphQL input **after** default values are applied
        */
-      resolvedData: ListTypeInfo['inputs']['create'];
+      resolvedData: SchemaTypeTypeInfo['inputs']['create'];
     }
   | {
       operation: 'update';
-      item: ListTypeInfo['item'];
+      item: SchemaTypeTypeInfo['item'];
       /**
        * The GraphQL input **before** default values are applied
        */
-      inputData: ListTypeInfo['inputs']['update'];
+      inputData: SchemaTypeTypeInfo['inputs']['update'];
       /**
        * The GraphQL input **after** default values are applied
        */
-      resolvedData: ListTypeInfo['inputs']['update'];
+      resolvedData: SchemaTypeTypeInfo['inputs']['update'];
     };
 
-type ResolveInputListHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
-  args: ArgsForCreateOrUpdateOperation<ListTypeInfo> & CommonArgs<ListTypeInfo>
+type ResolveInputListHook<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = (
+  args: ArgsForCreateOrUpdateOperation<SchemaTypeTypeInfo> & CommonArgs<SchemaTypeTypeInfo>
 ) =>
-  | Promise<ListTypeInfo['inputs']['create'] | ListTypeInfo['inputs']['update']>
-  | ListTypeInfo['inputs']['create']
-  | ListTypeInfo['inputs']['update']
+  | Promise<SchemaTypeTypeInfo['inputs']['create'] | SchemaTypeTypeInfo['inputs']['update']>
+  | SchemaTypeTypeInfo['inputs']['create']
+  | SchemaTypeTypeInfo['inputs']['update']
   // TODO: These were here to support field hooks before we created a separate type
   // (see ResolveInputFieldHook), check whether they're safe to remove now
   | Record<string, any>
@@ -110,12 +110,12 @@ type ResolveInputListHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   | boolean
   | null;
 
-type ResolveInputFieldHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
-  args: ArgsForCreateOrUpdateOperation<ListTypeInfo> & CommonArgs<ListTypeInfo>
+type ResolveInputFieldHook<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = (
+  args: ArgsForCreateOrUpdateOperation<SchemaTypeTypeInfo> & CommonArgs<SchemaTypeTypeInfo>
 ) =>
-  | Promise<ListTypeInfo['inputs']['create'] | ListTypeInfo['inputs']['update']>
-  | ListTypeInfo['inputs']['create']
-  | ListTypeInfo['inputs']['update']
+  | Promise<SchemaTypeTypeInfo['inputs']['create'] | SchemaTypeTypeInfo['inputs']['update']>
+  | SchemaTypeTypeInfo['inputs']['create']
+  | SchemaTypeTypeInfo['inputs']['update']
   // TODO: These may or may not be correct, but without them you can't define a
   // resolveInput hook for a field that returns a simple value (e.g timestamp)
   | Record<string, any>
@@ -126,36 +126,36 @@ type ResolveInputFieldHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   // Fields need to be able to return `undefined` to say "don't touch this field"
   | undefined;
 
-type ValidateInputHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
-  args: ArgsForCreateOrUpdateOperation<ListTypeInfo> & {
+type ValidateInputHook<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = (
+  args: ArgsForCreateOrUpdateOperation<SchemaTypeTypeInfo> & {
     addValidationError: (error: string) => void;
-  } & CommonArgs<ListTypeInfo>
+  } & CommonArgs<SchemaTypeTypeInfo>
 ) => Promise<void> | void;
 
-type ValidateDeleteHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
+type ValidateDeleteHook<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = (
   args: {
     operation: 'delete';
-    item: ListTypeInfo['item'];
+    item: SchemaTypeTypeInfo['item'];
     addValidationError: (error: string) => void;
-  } & CommonArgs<ListTypeInfo>
+  } & CommonArgs<SchemaTypeTypeInfo>
 ) => Promise<void> | void;
 
-type BeforeOperationHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
+type BeforeOperationHook<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = (
   args: (
-    | ArgsForCreateOrUpdateOperation<ListTypeInfo>
+    | ArgsForCreateOrUpdateOperation<SchemaTypeTypeInfo>
     | {
         operation: 'delete';
-        item: ListTypeInfo['item'];
+        item: SchemaTypeTypeInfo['item'];
         inputData: undefined;
         resolvedData: undefined;
       }
   ) &
-    CommonArgs<ListTypeInfo>
+    CommonArgs<SchemaTypeTypeInfo>
 ) => Promise<void> | void;
 
-type AfterOperationHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
+type AfterOperationHook<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = (
   args: (
-    | ArgsForCreateOrUpdateOperation<ListTypeInfo>
+    | ArgsForCreateOrUpdateOperation<SchemaTypeTypeInfo>
     | {
         operation: 'delete';
         // technically this will never actually exist for a delete
@@ -167,14 +167,17 @@ type AfterOperationHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
         resolvedData: undefined;
       }
   ) &
-    ({ operation: 'delete' } | { operation: 'create' | 'update'; item: ListTypeInfo['item'] }) &
+    (
+      | { operation: 'delete' }
+      | { operation: 'create' | 'update'; item: SchemaTypeTypeInfo['item'] }
+    ) &
     (
       | // technically this will never actually exist for a create
       // but making it optional rather than not here
       // makes for a better experience
       // because then people will see the right type even if they haven't refined the type of operation to 'create'
       { operation: 'create'; originalItem: undefined }
-      | { operation: 'delete' | 'update'; originalItem: ListTypeInfo['item'] }
+      | { operation: 'delete' | 'update'; originalItem: SchemaTypeTypeInfo['item'] }
     ) &
-    CommonArgs<ListTypeInfo>
+    CommonArgs<SchemaTypeTypeInfo>
 ) => Promise<void> | void;

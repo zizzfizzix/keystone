@@ -11,8 +11,8 @@ import { graphql } from '../../..';
 import { assertCreateIsNonNullAllowed, assertReadIsNonNullAllowed } from '../../non-null-graphql';
 import { resolveView } from '../../resolve-view';
 
-export type TextFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type TextFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
+  CommonFieldConfig<SchemaTypeTypeInfo> & {
     isIndexed?: true | 'unique';
     ui?: {
       displayMode?: 'input' | 'textarea';
@@ -55,12 +55,12 @@ export type TextFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
   };
 
 export const text =
-  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
+  <SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>({
     isIndexed,
     defaultValue: _defaultValue,
     validation: _validation,
     ...config
-  }: TextFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
+  }: TextFieldConfig<SchemaTypeTypeInfo> = {}): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
     for (const type of ['min', 'max'] as const) {
       const val = _validation?.length?.[type];

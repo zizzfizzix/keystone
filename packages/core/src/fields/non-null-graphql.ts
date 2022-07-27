@@ -1,7 +1,7 @@
 import { BaseSchemaTypeTypeInfo, FieldAccessControl, FieldData } from '../types';
 
-export function hasReadAccessControl<ListTypeInfo extends BaseSchemaTypeTypeInfo>(
-  access: FieldAccessControl<ListTypeInfo> | undefined
+export function hasReadAccessControl<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>(
+  access: FieldAccessControl<SchemaTypeTypeInfo> | undefined
 ) {
   if (access === undefined) {
     return false;
@@ -9,8 +9,8 @@ export function hasReadAccessControl<ListTypeInfo extends BaseSchemaTypeTypeInfo
   return typeof access === 'function' || typeof access.read === 'function';
 }
 
-export function hasCreateAccessControl<ListTypeInfo extends BaseSchemaTypeTypeInfo>(
-  access: FieldAccessControl<ListTypeInfo> | undefined
+export function hasCreateAccessControl<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>(
+  access: FieldAccessControl<SchemaTypeTypeInfo> | undefined
 ) {
   if (access === undefined) {
     return false;
@@ -31,10 +31,10 @@ export function getResolvedIsNullable(
   return true;
 }
 
-export function assertReadIsNonNullAllowed<ListTypeInfo extends BaseSchemaTypeTypeInfo>(
+export function assertReadIsNonNullAllowed<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>(
   meta: FieldData,
   config: {
-    access?: FieldAccessControl<ListTypeInfo> | undefined;
+    access?: FieldAccessControl<SchemaTypeTypeInfo> | undefined;
     graphql?: { read?: { isNonNull?: boolean } };
   },
   resolvedIsNullable: boolean
@@ -55,10 +55,10 @@ export function assertReadIsNonNullAllowed<ListTypeInfo extends BaseSchemaTypeTy
   }
 }
 
-export function assertCreateIsNonNullAllowed<ListTypeInfo extends BaseSchemaTypeTypeInfo>(
+export function assertCreateIsNonNullAllowed<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>(
   meta: FieldData,
   config: {
-    access?: FieldAccessControl<ListTypeInfo> | undefined;
+    access?: FieldAccessControl<SchemaTypeTypeInfo> | undefined;
     graphql?: { create?: { isNonNull?: boolean } };
   }
 ) {

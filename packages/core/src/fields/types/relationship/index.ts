@@ -66,8 +66,8 @@ type ManyDbConfig = {
   };
 };
 
-export type RelationshipFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type RelationshipFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
+  CommonFieldConfig<SchemaTypeTypeInfo> & {
     many?: boolean;
     ref: string;
     ui?: {
@@ -77,10 +77,10 @@ export type RelationshipFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo>
     (SelectDisplayConfig | CardsDisplayConfig | CountDisplayConfig);
 
 export const relationship =
-  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
+  <SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>({
     ref,
     ...config
-  }: RelationshipFieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
+  }: RelationshipFieldConfig<SchemaTypeTypeInfo>): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
     const { many = false } = config;
     const [foreignListKey, foreignFieldKey] = ref.split('.');

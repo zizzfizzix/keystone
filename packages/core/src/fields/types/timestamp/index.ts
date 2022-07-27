@@ -16,8 +16,8 @@ import {
 import { resolveView } from '../../resolve-view';
 import { TimestampFieldMeta } from './views';
 
-export type TimestampFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type TimestampFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
+  CommonFieldConfig<SchemaTypeTypeInfo> & {
     isIndexed?: boolean | 'unique';
     validation?: {
       isRequired?: boolean;
@@ -35,12 +35,12 @@ export type TimestampFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
   };
 
 export const timestamp =
-  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
+  <SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>({
     isIndexed,
     validation,
     defaultValue,
     ...config
-  }: TimestampFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
+  }: TimestampFieldConfig<SchemaTypeTypeInfo> = {}): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
     if (typeof defaultValue === 'string') {
       try {

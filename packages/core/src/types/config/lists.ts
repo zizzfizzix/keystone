@@ -1,7 +1,7 @@
 import type { CacheHint } from 'apollo-server-types';
 import type { MaybePromise } from '../utils';
 import { BaseSchemaTypeTypeInfo } from '../type-info';
-import { KeystoneContextFromListTypeInfo } from '..';
+import { KeystoneContextFromSchemaTypeTypeInfo } from '..';
 import type { ListHooks } from './hooks';
 import type { ListAccessControl } from './access-control';
 import type { BaseFields, FilterOrderArgs } from './fields';
@@ -20,8 +20,8 @@ export type IdFieldConfig =
     };
 
 export type ListConfig<
-  ListTypeInfo extends BaseSchemaTypeTypeInfo,
-  Fields extends BaseFields<ListTypeInfo>
+  SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo,
+  Fields extends BaseFields<SchemaTypeTypeInfo>
 > = {
   /*
       A note on defaults: several options default based on the listKey, including label, path,
@@ -36,16 +36,16 @@ export type ListConfig<
    * @default true
    * @see https://www.keystonejs.com/guides/auth-and-access-control
    */
-  access?: ListAccessControl<ListTypeInfo>;
+  access?: ListAccessControl<SchemaTypeTypeInfo>;
 
   /** Config for how this list should act in the Admin UI */
-  ui?: ListAdminUIConfig<ListTypeInfo, Fields>;
+  ui?: ListAdminUIConfig<SchemaTypeTypeInfo, Fields>;
 
   /**
    * Hooks to modify the behaviour of GraphQL operations at certain points
    * @see https://www.keystonejs.com/guides/hooks
    */
-  hooks?: ListHooks<ListTypeInfo>;
+  hooks?: ListHooks<SchemaTypeTypeInfo>;
 
   graphql?: ListGraphQLConfig;
 
@@ -57,13 +57,17 @@ export type ListConfig<
   description?: string; // defaults both { adminUI: { description }, graphQL: { description } }
 
   // Defaults to apply to all fields.
-  defaultIsFilterable?: false | ((args: FilterOrderArgs<ListTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.filter on all fields for this list
-  defaultIsOrderable?: false | ((args: FilterOrderArgs<ListTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.orderBy on all fields for this list
+  defaultIsFilterable?:
+    | false
+    | ((args: FilterOrderArgs<SchemaTypeTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.filter on all fields for this list
+  defaultIsOrderable?:
+    | false
+    | ((args: FilterOrderArgs<SchemaTypeTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.orderBy on all fields for this list
 };
 
 export type ListAdminUIConfig<
-  ListTypeInfo extends BaseSchemaTypeTypeInfo,
-  Fields extends BaseFields<ListTypeInfo>
+  SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo,
+  Fields extends BaseFields<SchemaTypeTypeInfo>
 > = {
   /**
    * The field to use as a label in the Admin UI. If you want to base the label off more than a single field, use a virtual field and reference that field here.
@@ -90,19 +94,19 @@ export type ListAdminUIConfig<
    * Excludes this list from the Admin UI
    * @default false
    */
-  isHidden?: MaybeSessionFunction<boolean, ListTypeInfo>;
+  isHidden?: MaybeSessionFunction<boolean, SchemaTypeTypeInfo>;
   /**
    * Hides the create button in the Admin UI.
    * Note that this does **not** disable creating items through the GraphQL API, it only hides the button to create an item for this list in the Admin UI.
    * @default false
    */
-  hideCreate?: MaybeSessionFunction<boolean, ListTypeInfo>;
+  hideCreate?: MaybeSessionFunction<boolean, SchemaTypeTypeInfo>;
   /**
    * Hides the delete button in the Admin UI.
    * Note that this does **not** disable deleting items through the GraphQL API, it only hides the button to delete an item for this list in the Admin UI.
    * @default false
    */
-  hideDelete?: MaybeSessionFunction<boolean, ListTypeInfo>;
+  hideDelete?: MaybeSessionFunction<boolean, SchemaTypeTypeInfo>;
   /**
    * Configuration specific to the create view in the Admin UI
    */
@@ -112,7 +116,7 @@ export type ListAdminUIConfig<
      * Specific field modes on a per-field basis via a field's config.
      * @default 'edit'
      */
-    defaultFieldMode?: MaybeSessionFunction<'edit' | 'hidden', ListTypeInfo>;
+    defaultFieldMode?: MaybeSessionFunction<'edit' | 'hidden', SchemaTypeTypeInfo>;
   };
 
   /**
@@ -125,7 +129,7 @@ export type ListAdminUIConfig<
      * Specific field modes on a per-field basis via a field's config.
      * @default 'edit'
      */
-    defaultFieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', ListTypeInfo>;
+    defaultFieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', SchemaTypeTypeInfo>;
   };
 
   /**
@@ -137,7 +141,7 @@ export type ListAdminUIConfig<
      * Specific field modes on a per-field basis via a field's config.
      * @default 'read'
      */
-    defaultFieldMode?: MaybeSessionFunction<'read' | 'hidden', ListTypeInfo>;
+    defaultFieldMode?: MaybeSessionFunction<'read' | 'hidden', SchemaTypeTypeInfo>;
     /**
      * The columns(which refer to fields) that should be shown to users of the Admin UI.
      * Users of the Admin UI can select different columns to show in the UI.
@@ -184,20 +188,20 @@ export type ListAdminUIConfig<
 
 export type MaybeSessionFunction<
   T extends string | boolean,
-  ListTypeInfo extends BaseSchemaTypeTypeInfo
+  SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo
 > =
   | T
   | ((args: {
       session: any;
-      context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
+      context: KeystoneContextFromSchemaTypeTypeInfo<SchemaTypeTypeInfo>;
     }) => MaybePromise<T>);
 
-export type MaybeItemFunction<T, ListTypeInfo extends BaseSchemaTypeTypeInfo> =
+export type MaybeItemFunction<T, SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
   | T
   | ((args: {
       session: any;
-      context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
-      item: ListTypeInfo['item'];
+      context: KeystoneContextFromSchemaTypeTypeInfo<SchemaTypeTypeInfo>;
+      item: SchemaTypeTypeInfo['item'];
     }) => MaybePromise<T>);
 
 export type ListGraphQLConfig = {

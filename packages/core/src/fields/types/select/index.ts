@@ -16,8 +16,8 @@ import {
 } from '../../non-null-graphql';
 import { resolveView } from '../../resolve-view';
 
-export type SelectFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> &
+export type SelectFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> =
+  CommonFieldConfig<SchemaTypeTypeInfo> &
     (
       | {
           /**
@@ -67,13 +67,13 @@ const MAX_INT = 2147483647;
 const MIN_INT = -2147483648;
 
 export const select =
-  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
+  <SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>({
     isIndexed,
     ui: { displayMode = 'select', ...ui } = {},
     defaultValue,
     validation,
     ...config
-  }: SelectFieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
+  }: SelectFieldConfig<SchemaTypeTypeInfo>): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
     const fieldLabel = config.label ?? humanize(meta.fieldKey);
     const resolvedIsNullable = getResolvedIsNullable(validation, config.db);
@@ -82,7 +82,7 @@ export const select =
     assertCreateIsNonNullAllowed(meta, config);
     const commonConfig = (
       options: readonly { value: string | number; label: string }[]
-    ): CommonFieldConfig<ListTypeInfo> & {
+    ): CommonFieldConfig<SchemaTypeTypeInfo> & {
       views: string;
       getAdminMeta: () => import('./views').AdminSelectFieldMeta;
     } => {

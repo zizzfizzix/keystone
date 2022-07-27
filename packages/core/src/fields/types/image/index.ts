@@ -12,9 +12,9 @@ import { graphql } from '../../..';
 import { resolveView } from '../../resolve-view';
 import { SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 
-export type ImageFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> = {
+export type ImageFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {
   storage: string;
-} & CommonFieldConfig<ListTypeInfo>;
+} & CommonFieldConfig<SchemaTypeTypeInfo>;
 
 const ImageExtensionEnum = graphql.enum({
   name: 'ImageExtension',
@@ -62,9 +62,9 @@ function isValidImageExtension(extension: string): extension is ImageExtension {
 }
 
 export const image =
-  <ListTypeInfo extends BaseSchemaTypeTypeInfo>(
-    config: ImageFieldConfig<ListTypeInfo>
-  ): FieldTypeFunc<ListTypeInfo> =>
+  <SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo>(
+    config: ImageFieldConfig<SchemaTypeTypeInfo>
+  ): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
     const storage = meta.getStorage(config.storage);
 
