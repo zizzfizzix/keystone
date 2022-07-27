@@ -1,5 +1,5 @@
 import { config } from '@keystone-6/core';
-import { lists } from './schema';
+import { schema } from './schema';
 import { extendGraphqlSchema } from './custom-schema';
 
 export default config({
@@ -7,6 +7,6 @@ export default config({
     provider: 'sqlite',
     url: process.env.DATABASE_URL || 'file:./keystone-example.db',
   },
-  lists,
+  schema,
   extendGraphqlSchema,
 });

@@ -1,12 +1,12 @@
 import { config } from '@keystone-6/core';
-import { lists } from './schema';
+import { schema } from './schema';
 
 export default config({
   db: {
     provider: 'sqlite',
     url: process.env.DATABASE_URL || 'file:./keystone-example.db',
   },
-  lists,
+  schema,
   storage: {
     my_images: {
       kind: 'local',
