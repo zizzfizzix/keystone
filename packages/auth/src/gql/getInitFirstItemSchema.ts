@@ -2,7 +2,7 @@ import { graphql } from '@keystone-6/core';
 import { BaseItem } from '@keystone-6/core/types';
 import { assertInputObjectType, GraphQLInputObjectType, GraphQLSchema } from 'graphql';
 
-import { AuthGqlNames, InitFirstItemConfig } from '../types';
+import { AuthGqlNames, getListDbAPI, InitFirstItemConfig } from '../types';
 
 export function getInitFirstItemSchema({
   listKey,
@@ -45,8 +45,8 @@ export function getInitFirstItemSchema({
             throw new Error('No session implementation available on context');
           }
 
-          const dbItemAPI = context.sudo().db[listKey];
-          const count = await dbItemAPI.count({});
+          const db = getListDbAPI(context.sudo(), listKey);
+          const count = await db.count({});
           if (count !== 0) {
             throw new Error('Initial items can only be created when no items exist in that list');
           }
@@ -55,7 +55,7 @@ export function getInitFirstItemSchema({
           // this is strictly speaking incorrect. the db API will do GraphQL coercion on a value which has already been coerced
           // (this is also mostly fine, the chance that people are using things where
           // the input value can't round-trip like the Upload scalar here is quite low)
-          const item = await dbItemAPI.createOne({ data: { ...data, ...itemData } });
+          const item = await db.createOne({ data: { ...data, ...itemData } });
           const sessionToken = await context.startSession({ listKey, itemId: item.id.toString() });
           return { item, sessionToken };
         },

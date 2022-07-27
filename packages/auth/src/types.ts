@@ -67,3 +67,21 @@ export type SecretFieldImpl = {
   generateHash: (secret: string) => Promise<string>;
   compare: (secret: string, hash: string) => Promise<string>;
 };
+
+export function getListDbAPI(
+  context: KeystoneContext,
+  listKey: string
+) {
+  const db = context.db[listKey];
+  if (db.kind === 'list') return db;
+  throw new Error(`${listKey} is not a list`);
+}
+
+export function getListQueryAPI(
+  context: KeystoneContext,
+  listKey: string
+) {
+  const query = context.query[listKey];
+  if (query.kind === 'list') return query;
+  throw new Error(`${listKey} is not a list`);
+}

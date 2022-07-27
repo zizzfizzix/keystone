@@ -10,7 +10,7 @@ import {
 } from '@keystone-6/core/types';
 import { password, timestamp } from '@keystone-6/core/fields';
 
-import { AuthConfig, AuthGqlNames } from './types';
+import { AuthConfig, AuthGqlNames, getListDbAPI, getListQueryAPI } from './types';
 import { getSchemaExtension } from './schema';
 import { signinTemplate } from './templates/signin';
 import { initTemplate } from './templates/init';
@@ -104,7 +104,8 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
     }
 
     if (!session && initFirstItem) {
-      const count = await context.sudo().query[listKey].count({});
+      const db = getListDbAPI(context.sudo(), listKey);
+      const count = await db.count({});
       if (count === 0) {
         if (pathname !== '/init') {
           return { kind: 'redirect', to: '/init' };
@@ -223,11 +224,13 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
     _sessionStrategy: SessionStrategy<Record<string, any>>
   ): SessionStrategy<{ listKey: string; itemId: string; data: any }> => {
     const { get, ...sessionStrategy } = _sessionStrategy;
+
     return {
       ...sessionStrategy,
       get: async ({ req, createContext }) => {
         const session = await get({ req, createContext });
         const sudoContext = createContext({ sudo: true });
+        const list = getListQueryAPI(sudoContext, listKey);
         if (
           !session ||
           !session.listKey ||
@@ -239,7 +242,7 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
         }
 
         try {
-          const data = await sudoContext.query[listKey].findOne({
+          const data = await list.findOne({
             where: { id: session.itemId },
             query: sessionData,
           });
@@ -265,8 +268,16 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
    * It validates the auth config against the provided keystone config, and preserves existing
    * config by composing existing extendGraphqlSchema functions and ui config.
    */
-  const withAuth = (keystoneConfig: KeystoneConfig): KeystoneConfig => {
+  const withAuth = <TypeInfo extends BaseKeystoneTypeInfo>(
+    keystoneConfig: KeystoneConfig<TypeInfo>
+  ): KeystoneConfig<TypeInfo> => {
     validateConfig(keystoneConfig);
+    const kind = keystoneConfig.lists[listKey].kind;
+    if (kind !== 'list') {
+      throw new Error(
+        `"${listKey}" was passed as the listKey to createAuth which expects a standard list but it is a ${kind} list`
+      );
+    }
     let ui = keystoneConfig.ui;
     if (!keystoneConfig.ui?.isDisabled) {
       ui = {
@@ -282,10 +293,12 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
           const headers = context.req?.headers;
           const host = headers ? headers['x-forwarded-host'] || headers['host'] : null;
           const url = headers?.referer ? new URL(headers.referer) : undefined;
+
+          const list = getListQueryAPI(context.sudo(), listKey);
           const accessingInitPage =
             url?.pathname === '/init' &&
             url?.host === host &&
-            (await context.sudo().query[listKey].count({})) === 0;
+            (await list.count({})) === 0;
           return (
             accessingInitPage ||
             (keystoneConfig.ui?.isAccessAllowed
