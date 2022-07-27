@@ -11,7 +11,7 @@ const listKey = 'Test';
 const filterTestRunner = (field: FieldTypeFunc<BaseSchemaTypeTypeInfo>) =>
   setupTestRunner({
     config: apiTestConfig({
-      lists: {
+      schema: {
         [listKey]: list({
           fields: { index: integer(), testField: field },
         }),

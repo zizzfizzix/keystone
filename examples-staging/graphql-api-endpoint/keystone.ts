@@ -39,7 +39,7 @@ export default auth.withAuth(
     ui: {
       isAccessAllowed: context => !!context.session,
     },
-    lists,
+    schema: lists,
     session: statelessSessions({ maxAge: sessionMaxAge, secret: sessionSecret }),
   })
 );

@@ -1,7 +1,7 @@
 import { CacheHint } from 'apollo-server-types';
 import {
   BaseItem,
-  GraphQLTypesForList,
+  GraphQLTypesForSchemaType,
   getGqlNames,
   NextFieldType,
   BaseSchemaTypeTypeInfo,
@@ -47,14 +47,14 @@ export type InitialisedSchemaType = {
   /** This will include the opposites to one-sided relationships */
   resolvedDbFields: Record<string, ResolvedDBField>;
   pluralGraphQLName: string;
-  types: GraphQLTypesForList;
+  types: GraphQLTypesForSchemaType;
   access: ResolvedListAccessControl;
   hooks: ListHooks<BaseSchemaTypeTypeInfo>;
   adminUILabels: { label: string; singular: string; plural: string; path: string };
   cacheHint: ((args: CacheHintArgs) => CacheHint) | undefined;
   maxResults: number;
-  listKey: string;
-  lists: Record<string, InitialisedSchemaType>;
+  schemaTypeKey: string;
+  schemas: Record<string, InitialisedSchemaType>;
   dbMap: string | undefined;
   graphql: {
     isEnabled: IsEnabled;
@@ -79,7 +79,7 @@ function throwIfNotAFilter(x: unknown, listKey: string, fieldKey: string) {
   );
 }
 
-function getIsEnabled(listsConfig: KeystoneConfig['lists']) {
+function getIsEnabled(listsConfig: KeystoneConfig['schema']) {
   const isEnabled: Record<string, IsEnabled> = {};
 
   for (const [listKey, listConfig] of Object.entries(listsConfig)) {
@@ -129,7 +129,7 @@ function getIsEnabled(listsConfig: KeystoneConfig['lists']) {
 }
 
 function getListsWithInitialisedFields(
-  { storage: configStorage, lists: listsConfig, db: { provider } }: KeystoneConfig,
+  { storage: configStorage, schema: listsConfig, db: { provider } }: KeystoneConfig,
   listGraphqlTypes: Record<string, ListGraphQLTypes>,
   intermediateLists: Record<string, { graphql: { isEnabled: IsEnabled } }>
 ) {
@@ -193,7 +193,7 @@ function getListsWithInitialisedFields(
 }
 
 function getListGraphqlTypes(
-  listsConfig: KeystoneConfig['lists'],
+  listsConfig: KeystoneConfig['schema'],
   lists: Record<string, InitialisedSchemaType>,
   intermediateLists: Record<string, { graphql: { isEnabled: IsEnabled } }>
 ): Record<string, ListGraphQLTypes> {
@@ -262,7 +262,7 @@ function getListGraphqlTypes(
       },
     });
 
-    const where: GraphQLTypesForList['where'] = graphql.inputObject({
+    const where: GraphQLTypesForSchemaType['where'] = graphql.inputObject({
       name: names.whereInputName,
       fields: () => {
         const { fields } = lists[listKey];
@@ -435,7 +435,7 @@ function getListGraphqlTypes(
  * 6.
  */
 export function initialiseLists(config: KeystoneConfig): Record<string, InitialisedSchemaType> {
-  const listsConfig = config.lists;
+  const listsConfig = config.schema;
 
   let intermediateLists;
   intermediateLists = Object.fromEntries(
@@ -522,9 +522,9 @@ export function initialiseLists(config: KeystoneConfig): Record<string, Initiali
         return typeof cacheHint === 'function' ? cacheHint : () => cacheHint;
       })(),
       maxResults: listsConfig[listKey].graphql?.queryLimits?.maxResults ?? Infinity,
-      listKey,
+      schemaTypeKey: listKey,
       /** Add self-reference */
-      lists: listsRef,
+      schemas: listsRef,
     };
   }
 

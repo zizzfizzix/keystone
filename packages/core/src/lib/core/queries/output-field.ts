@@ -7,7 +7,7 @@ import {
   BaseItem,
   FindManyArgsValue,
   KeystoneContext,
-  GraphQLTypesForList,
+  GraphQLTypesForSchemaType,
   FieldReadItemAccessArgs,
 } from '../../../types';
 import { graphql } from '../../..';
@@ -37,7 +37,7 @@ function getRelationVal(
     return {
       findMany: async (args: FindManyArgsValue) =>
         queries.findMany(args, foreignList, context, info, relationFilter),
-      count: async ({ where }: { where: GraphQLTypesForList['where'] }) =>
+      count: async ({ where }: { where: GraphQLTypesForSchemaType['where'] }) =>
         queries.count({ where }, foreignList, context, info, relationFilter),
     };
   } else {

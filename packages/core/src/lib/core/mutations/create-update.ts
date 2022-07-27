@@ -39,7 +39,7 @@ async function createSingle(
   // Operation level access control
   if (!operationAccess) {
     throw accessDeniedError(
-      `You cannot perform the 'create' operation on the list '${list.listKey}'.`
+      `You cannot perform the 'create' operation on the list '${list.schemaTypeKey}'.`
     );
   }
 
@@ -127,7 +127,7 @@ async function updateSingle(
   // Operation level access control
   if (!operationAccess) {
     throw accessDeniedError(
-      `You cannot perform the 'update' operation on the list '${list.listKey}'.`
+      `You cannot perform the 'update' operation on the list '${list.schemaTypeKey}'.`
     );
   }
 
@@ -221,7 +221,7 @@ async function getResolvedData(
           try {
             input = await inputResolver(input, context, undefined);
           } catch (error: any) {
-            resolverErrors.push({ error, tag: `${list.listKey}.${fieldKey}` });
+            resolverErrors.push({ error, tag: `${list.schemaTypeKey}.${fieldKey}` });
           }
         }
         return [fieldKey, input] as const;
@@ -240,7 +240,7 @@ async function getResolvedData(
         const inputResolver = field.input?.[operation]?.resolve;
         let input = resolvedData[fieldKey];
         if (inputResolver && field.dbField.kind === 'relation') {
-          const tag = `${list.listKey}.${fieldKey}`;
+          const tag = `${list.schemaTypeKey}.${fieldKey}`;
           try {
             input = await inputResolver(
               input,
@@ -255,7 +255,7 @@ async function getResolvedData(
                   // No-op: Should this be UserInputError?
                   return () => undefined;
                 }
-                const foreignList = list.lists[field.dbField.list];
+                const foreignList = list.schemas[field.dbField.list];
                 let resolver;
                 if (field.dbField.mode === 'many') {
                   if (operation === 'create') {
@@ -309,7 +309,10 @@ async function getResolvedData(
               }),
             ];
           } catch (error: any) {
-            fieldsErrors.push({ error, tag: `${list.listKey}.${fieldKey}.hooks.${hookName}` });
+            fieldsErrors.push({
+              error,
+              tag: `${list.schemaTypeKey}.${fieldKey}.hooks.${hookName}`,
+            });
             return [fieldKey, undefined];
           }
         }
@@ -325,7 +328,7 @@ async function getResolvedData(
     try {
       resolvedData = (await list.hooks.resolveInput({ ...hookArgs, resolvedData })) as any;
     } catch (error: any) {
-      throw extensionError(hookName, [{ error, tag: `${list.listKey}.hooks.${hookName}` }]);
+      throw extensionError(hookName, [{ error, tag: `${list.schemaTypeKey}.hooks.${hookName}` }]);
     }
   }
 
@@ -341,7 +344,7 @@ async function resolveInputForCreateOrUpdate(
   const nestedMutationState = new NestedMutationState(context);
   const baseHookArgs = {
     context,
-    listKey: list.listKey,
+    listKey: list.schemaTypeKey,
     inputData,
     resolvedData: {},
   };

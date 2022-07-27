@@ -29,7 +29,7 @@ export function getGraphQLSchema(
       {},
       ...Object.values(lists).map(list => {
         const { mutations, updateManyInput } = getMutationsForList(list);
-        updateManyByList[list.listKey] = updateManyInput;
+        updateManyByList[list.schemaTypeKey] = updateManyInput;
         return mutations;
       }),
       extraFields.mutation
@@ -75,7 +75,7 @@ function collectTypes(
     }
     if (isEnabled.update) {
       collectedTypes.push(list.types.update.graphQLType);
-      collectedTypes.push(updateManyByList[list.listKey].graphQLType);
+      collectedTypes.push(updateManyByList[list.schemaTypeKey].graphQLType);
     }
     if (isEnabled.create) {
       collectedTypes.push(list.types.create.graphQLType);

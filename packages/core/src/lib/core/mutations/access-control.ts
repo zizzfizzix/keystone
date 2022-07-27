@@ -28,7 +28,7 @@ async function getFilteredItem(
   if (accessFilters === false) {
     // Early exit if they want to exclude everything
     throw accessDeniedError(
-      `You cannot perform the '${operation}' operation on the list '${list.listKey}'.`
+      `You cannot perform the '${operation}' operation on the list '${list.schemaTypeKey}'.`
     );
   }
 
@@ -54,7 +54,7 @@ export async function checkUniqueItemExists(
   const uniqueWhere = await resolveUniqueWhereInput(uniqueInput, foreignList.fields, context);
   // Check whether the item exists (from this users POV).
   try {
-    const item = await context.db[foreignList.listKey].findOne({ where: uniqueInput });
+    const item = await context.db[foreignList.schemaTypeKey].findOne({ where: uniqueInput });
     if (item === null) {
       throw missingItem(operation, uniqueWhere);
     }
@@ -76,7 +76,7 @@ export async function getAccessControlledItemForDelete(
 
   // Apply item level access control
   const access = list.access.item[operation];
-  const args = { operation, session: context.session, listKey: list.listKey, context, item };
+  const args = { operation, session: context.session, listKey: list.schemaTypeKey, context, item };
 
   // List level 'item' access control
   let result;
@@ -130,7 +130,7 @@ export async function getAccessControlledItemForUpdate(
   const args = {
     operation,
     session: context.session,
-    listKey: list.listKey,
+    listKey: list.schemaTypeKey,
     context,
     item,
     inputData,
@@ -224,7 +224,7 @@ export async function applyAccessControlForCreate(
   const args = {
     operation,
     session: context.session,
-    listKey: list.listKey,
+    listKey: list.schemaTypeKey,
     context,
     inputData,
   };

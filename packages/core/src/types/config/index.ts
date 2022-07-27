@@ -85,7 +85,9 @@ export type StorageConfig = (
   FileOrImage;
 
 export type KeystoneConfig<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneTypeInfo> = {
-  lists: SchemaConfig;
+  schema: SchemaConfig;
+  /** "list" has been renamed to "schema" - you should be able to make this change without needing other updates */
+  list: never;
   db: DatabaseConfig<TypeInfo>;
   ui?: AdminUIConfig<TypeInfo>;
   server?: ServerConfig<TypeInfo>;

@@ -76,7 +76,7 @@ export async function resolveWhereInput(
                 }
                 const foreignList = field.dbField.list;
                 const whereResolver = (val: any) =>
-                  resolveWhereInput(val, list.lists[foreignList], context);
+                  resolveWhereInput(val, list.schemas[foreignList], context);
                 if (field.dbField.mode === 'many') {
                   return async () => {
                     if (value === null) {

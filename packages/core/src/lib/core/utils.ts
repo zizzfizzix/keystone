@@ -76,7 +76,7 @@ export type PrismaClient = {
 // Run prisma operations as part of a resolver
 export async function runWithPrisma<T>(
   context: KeystoneContext,
-  { listKey }: InitialisedSchemaType,
+  { schemaTypeKey: listKey }: InitialisedSchemaType,
   fn: (model: PrismaModel) => Promise<T>
 ) {
   const model = context.prisma[listKey[0].toLowerCase() + listKey.slice(1)];

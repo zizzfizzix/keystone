@@ -56,7 +56,7 @@ export default withAuth(
       provider: 'sqlite',
       url: process.env.DATABASE_URL || 'file:./keystone-example.db',
     },
-    lists,
+    schema: lists,
     ui: {
       /* Everyone who is signed in can access the Admin UI */
       isAccessAllowed: isSignedIn,

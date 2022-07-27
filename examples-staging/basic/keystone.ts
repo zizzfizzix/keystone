@@ -54,7 +54,7 @@ export default auth.withAuth(
         },
       },
     },
-    lists,
+    schema: lists,
     extendGraphqlSchema,
     session: statelessSessions({ maxAge: sessionMaxAge, secret: sessionSecret }),
     // TODO -- Create a separate example for stored/redis sessions

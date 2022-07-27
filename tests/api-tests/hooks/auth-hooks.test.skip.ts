@@ -8,7 +8,7 @@ import { apiTestConfig } from '../utils';
 
 const runner = setupTestRunner({
   config: apiTestConfig({
-    lists: {
+    schema: {
       User: list({
         fields: {
           name: text(),

@@ -22,9 +22,14 @@ export async function checkFilterOrderAccess(
       // Apply dynamic rules
       let result;
       try {
-        result = await rule({ context, session: context.session, listKey: list.listKey, fieldKey });
+        result = await rule({
+          context,
+          session: context.session,
+          listKey: list.schemaTypeKey,
+          fieldKey,
+        });
       } catch (error: any) {
-        accessErrors.push({ error, tag: `${list.listKey}.${fieldKey}.${func}` });
+        accessErrors.push({ error, tag: `${list.schemaTypeKey}.${fieldKey}.${func}` });
         continue;
       }
       const resultType = typeof result;
@@ -32,9 +37,12 @@ export async function checkFilterOrderAccess(
       // It's important that we don't cast objects to truthy values, as there's a strong chance that the user
       // has made a mistake.
       if (resultType !== 'boolean') {
-        returnTypeErrors.push({ tag: `${list.listKey}.${fieldKey}.${func}`, returned: resultType });
+        returnTypeErrors.push({
+          tag: `${list.schemaTypeKey}.${fieldKey}.${func}`,
+          returned: resultType,
+        });
       } else if (!result) {
-        failures.push(`${list.listKey}.${fieldKey}`);
+        failures.push(`${list.schemaTypeKey}.${fieldKey}`);
       }
     }
   }

@@ -12,7 +12,7 @@ import {
 
 const runner = setupTestRunner({
   config: apiTestConfig({
-    lists: {
+    schema: {
       User: list({
         fields: {
           noDash: text(),

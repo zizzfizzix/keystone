@@ -174,7 +174,7 @@ const auth = createAuth({
 
 const config = auth.withAuth(
   apiTestConfig({
-    lists,
+    schema: lists,
     session: statelessSessions({ secret: COOKIE_SECRET }),
   })
 );

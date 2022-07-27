@@ -9,13 +9,13 @@ export { Decimal };
 
 export type BaseItem = { id: { toString(): string }; [key: string]: unknown };
 
-export type ListGraphQLTypes = { types: GraphQLTypesForList };
+export type ListGraphQLTypes = { types: GraphQLTypesForSchemaType };
 
 export type FieldData = {
-  lists: Record<string, ListGraphQLTypes>;
+  schema: Record<string, ListGraphQLTypes>;
   provider: DatabaseProvider;
   getStorage: (storage: string) => StorageConfig | undefined;
-  listKey: string;
+  schemaTypeKey: string;
   fieldKey: string;
 };
 
@@ -393,7 +393,7 @@ export type FieldTypeWithoutDBField<
 
 type AnyInputObj = graphql.InputObjectType<Record<string, graphql.Arg<graphql.InputType, any>>>;
 
-export type GraphQLTypesForList = {
+export type GraphQLTypesForSchemaType = {
   update: AnyInputObj;
   create: AnyInputObj;
   uniqueWhere: AnyInputObj;
@@ -410,29 +410,35 @@ export type GraphQLTypesForList = {
       }>;
       create?: graphql.InputObjectType<{
         connect: graphql.Arg<
-          graphql.ListType<graphql.NonNullType<GraphQLTypesForList['uniqueWhere']>>
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaType['uniqueWhere']>>
         >;
-        create?: graphql.Arg<graphql.ListType<graphql.NonNullType<GraphQLTypesForList['create']>>>;
+        create?: graphql.Arg<
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaType['create']>>
+        >;
       }>;
       update?: graphql.InputObjectType<{
         disconnect: graphql.Arg<
-          graphql.ListType<graphql.NonNullType<GraphQLTypesForList['uniqueWhere']>>
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaType['uniqueWhere']>>
         >;
-        set: graphql.Arg<graphql.ListType<graphql.NonNullType<GraphQLTypesForList['uniqueWhere']>>>;
+        set: graphql.Arg<
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaType['uniqueWhere']>>
+        >;
         connect: graphql.Arg<
-          graphql.ListType<graphql.NonNullType<GraphQLTypesForList['uniqueWhere']>>
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaType['uniqueWhere']>>
         >;
-        create?: graphql.Arg<graphql.ListType<graphql.NonNullType<GraphQLTypesForList['create']>>>;
+        create?: graphql.Arg<
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaType['create']>>
+        >;
       }>;
     };
     one: {
       create?: graphql.InputObjectType<{
-        create?: graphql.Arg<GraphQLTypesForList['create']>;
-        connect: graphql.Arg<GraphQLTypesForList['uniqueWhere']>;
+        create?: graphql.Arg<GraphQLTypesForSchemaType['create']>;
+        connect: graphql.Arg<GraphQLTypesForSchemaType['uniqueWhere']>;
       }>;
       update?: graphql.InputObjectType<{
-        create?: graphql.Arg<GraphQLTypesForList['create']>;
-        connect: graphql.Arg<GraphQLTypesForList['uniqueWhere']>;
+        create?: graphql.Arg<GraphQLTypesForSchemaType['create']>;
+        connect: graphql.Arg<GraphQLTypesForSchemaType['uniqueWhere']>;
         disconnect: graphql.Arg<typeof graphql.Boolean>;
       }>;
     };
@@ -440,9 +446,11 @@ export type GraphQLTypesForList = {
 };
 
 export type FindManyArgs = {
-  where: graphql.Arg<graphql.NonNullType<GraphQLTypesForList['where']>, true>;
+  where: graphql.Arg<graphql.NonNullType<GraphQLTypesForSchemaType['where']>, true>;
   orderBy: graphql.Arg<
-    graphql.NonNullType<graphql.ListType<graphql.NonNullType<GraphQLTypesForList['orderBy']>>>,
+    graphql.NonNullType<
+      graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaType['orderBy']>>
+    >,
     true
   >;
   take: graphql.Arg<typeof graphql.Int>;

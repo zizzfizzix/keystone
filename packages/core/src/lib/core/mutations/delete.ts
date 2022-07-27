@@ -19,7 +19,7 @@ async function deleteSingle(
   // Operation level access control
   if (!operationAccess) {
     throw accessDeniedError(
-      `You cannot perform the 'delete' operation on the list '${list.listKey}'.`
+      `You cannot perform the 'delete' operation on the list '${list.schemaTypeKey}'.`
     );
   }
 
@@ -35,7 +35,7 @@ async function deleteSingle(
 
   const hookArgs = {
     operation: 'delete' as const,
-    listKey: list.listKey,
+    listKey: list.schemaTypeKey,
     context,
     item,
     resolvedData: undefined,

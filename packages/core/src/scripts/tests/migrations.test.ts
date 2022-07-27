@@ -28,7 +28,7 @@ const basicKeystoneConfig = (useMigrations: boolean, lists: SchemaConfig = basic
   config: config({
     db: { provider: 'sqlite', url: dbUrl, useMigrations },
     ui: { isDisabled: true },
-    lists,
+    schema: lists,
   }),
 });
 

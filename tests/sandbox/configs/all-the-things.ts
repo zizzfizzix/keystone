@@ -137,5 +137,5 @@ export const lists = {
 export default config({
   db: dbConfig,
   storage: localStorageConfig,
-  lists,
+  schema: lists,
 });

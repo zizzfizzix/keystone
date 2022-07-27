@@ -40,12 +40,12 @@ function traverseQuery(
     } else if (fieldKey === 'some' || fieldKey === 'none' || fieldKey === 'every') {
       traverseQuery(list, context, value, filterFields);
     } else {
-      filterFields[`${list.listKey}.${fieldKey}`] = { fieldKey, list };
+      filterFields[`${list.schemaTypeKey}.${fieldKey}`] = { fieldKey, list };
       // If it's a relationship, check the nested filters.
       const field = list.fields[fieldKey];
       if (field.dbField.kind === 'relation' && value !== null) {
         const foreignList = field.dbField.list;
-        traverseQuery(list.lists[foreignList], context, value, filterFields);
+        traverseQuery(list.schemas[foreignList], context, value, filterFields);
       }
     }
   });
@@ -262,7 +262,11 @@ function applyEarlyMaxResults(_take: number | null | undefined, list: Initialise
   // * The query explicitly has a "take" that exceeds the limit
   // * The query has no "take", and has more results than the limit
   if (take < Infinity && take > list.maxResults) {
-    throw limitsExceededError({ list: list.listKey, type: 'maxResults', limit: list.maxResults });
+    throw limitsExceededError({
+      list: list.schemaTypeKey,
+      type: 'maxResults',
+      limit: list.maxResults,
+    });
   }
 }
 
@@ -272,13 +276,17 @@ function applyMaxResults(
   context: KeystoneContext
 ) {
   if (results.length > list.maxResults) {
-    throw limitsExceededError({ list: list.listKey, type: 'maxResults', limit: list.maxResults });
+    throw limitsExceededError({
+      list: list.schemaTypeKey,
+      type: 'maxResults',
+      limit: list.maxResults,
+    });
   }
   if (context) {
     context.totalResults += results.length;
     if (context.totalResults > context.maxTotalResults) {
       throw limitsExceededError({
-        list: list.listKey,
+        list: list.schemaTypeKey,
         type: 'maxTotalResults',
         limit: context.maxTotalResults,
       });

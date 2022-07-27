@@ -56,7 +56,7 @@ export default withAuth(
         }
       },
     },
-    lists: {
+    schema: {
       // Schema items go in here
       User,
       Product,

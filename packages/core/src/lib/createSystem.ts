@@ -25,8 +25,8 @@ function getSudoGraphQLSchema(config: KeystoneConfig) {
       ...config.ui,
       isAccessAllowed: () => true,
     },
-    lists: Object.fromEntries(
-      Object.entries(config.lists).map(([listKey, list]) => {
+    schema: Object.fromEntries(
+      Object.entries(config.schema).map(([listKey, list]) => {
         return [
           listKey,
           {
