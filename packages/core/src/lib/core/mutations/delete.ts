@@ -35,7 +35,7 @@ async function deleteSingle(
 
   const hookArgs = {
     operation: 'delete' as const,
-    listKey: list.schemaTypeKey,
+    schemaTypeKey: list.schemaTypeKey,
     context,
     item,
     resolvedData: undefined,

@@ -114,14 +114,14 @@ function printField(
 
 function collectEnums(lists: Record<string, InitialisedSchemaType>) {
   const enums: Record<string, { values: readonly string[]; firstDefinedByRef: string }> = {};
-  for (const [listKey, { resolvedDbFields }] of Object.entries(lists)) {
+  for (const [schemaTypeKey, { resolvedDbFields }] of Object.entries(lists)) {
     for (const [fieldPath, field] of Object.entries(resolvedDbFields)) {
       const fields =
         field.kind === 'multi'
           ? Object.entries(field.fields).map(
-              ([key, field]) => [field, `${listKey}.${fieldPath} (sub field ${key})`] as const
+              ([key, field]) => [field, `${schemaTypeKey}.${fieldPath} (sub field ${key})`] as const
             )
-          : [[field, `${listKey}.${fieldPath}`] as const];
+          : [[field, `${schemaTypeKey}.${fieldPath}`] as const];
 
       for (const [field, ref] of fields) {
         if (field.kind !== 'enum') continue;
@@ -154,36 +154,36 @@ function collectEnums(lists: Record<string, InitialisedSchemaType>) {
 }
 
 function assertDbFieldIsValidForIdField(
-  listKey: string,
+  schemaTypeKey: string,
   field: ResolvedDBField
 ): asserts field is ScalarDBField<'Int' | 'String', 'required'> {
   if (field.kind !== 'scalar') {
     throw new Error(
-      `id fields must be either a String or Int Prisma scalar but the id field for the ${listKey} list is not a scalar`
+      `id fields must be either a String or Int Prisma scalar but the id field for the ${schemaTypeKey} list is not a scalar`
     );
   }
   // this may be loosened in the future
   if (field.scalar !== 'String' && field.scalar !== 'Int' && field.scalar !== 'BigInt') {
     throw new Error(
-      `id fields must be String, Int or BigInt Prisma scalars but the id field for the ${listKey} list is a ${field.scalar} scalar`
+      `id fields must be String, Int or BigInt Prisma scalars but the id field for the ${schemaTypeKey} list is a ${field.scalar} scalar`
     );
   }
   if (field.mode !== 'required') {
     throw new Error(
-      `id fields must be a singular required field but the id field for the ${listKey} list is ${
+      `id fields must be a singular required field but the id field for the ${schemaTypeKey} list is ${
         field.mode === 'many' ? 'a many' : 'an optional'
       } field`
     );
   }
   if (field.index !== undefined) {
     throw new Error(
-      `id fields must not specify indexes themselves but the id field for the ${listKey} list specifies an index`
+      `id fields must not specify indexes themselves but the id field for the ${schemaTypeKey} list specifies an index`
     );
   }
   // this will likely be loosened in the future
   if (field.default === undefined) {
     throw new Error(
-      `id fields must specify a Prisma/database level default value but the id field for the ${listKey} list does not`
+      `id fields must specify a Prisma/database level default value but the id field for the ${schemaTypeKey} list does not`
     );
   }
 }
@@ -211,14 +211,14 @@ generator client {
   output   = "node_modules/.prisma/client"${prismaFlags}
 }
 \n`;
-  for (const [listKey, { resolvedDbFields, dbMap }] of Object.entries(lists)) {
-    prismaSchema += `model ${listKey} {`;
+  for (const [schemaTypeKey, { resolvedDbFields, dbMap }] of Object.entries(lists)) {
+    prismaSchema += `model ${schemaTypeKey} {`;
     for (const [fieldPath, field] of Object.entries(resolvedDbFields)) {
       if (field.kind !== 'none') {
         prismaSchema += '\n' + printField(fieldPath, field, provider, lists);
       }
       if (fieldPath === 'id') {
-        assertDbFieldIsValidForIdField(listKey, field);
+        assertDbFieldIsValidForIdField(schemaTypeKey, field);
         prismaSchema += ' @id';
       }
     }

@@ -135,7 +135,7 @@ export function createAdminMeta(
         customViewsIndex: field.ui?.views === undefined ? null : getViewId(field.ui.views),
         fieldMeta: null,
         path: fieldKey,
-        listKey: key,
+        schemaTypeKey: key,
         search,
       });
     }

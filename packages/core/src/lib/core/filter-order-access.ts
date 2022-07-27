@@ -25,7 +25,7 @@ export async function checkFilterOrderAccess(
         result = await rule({
           context,
           session: context.session,
-          listKey: list.schemaTypeKey,
+          schemaTypeKey: list.schemaTypeKey,
           fieldKey,
         });
       } catch (error: any) {

@@ -9,7 +9,7 @@ export type NavigationProps = {
 
 export type AuthenticatedItem =
   | { state: 'unauthenticated' }
-  | { state: 'authenticated'; label: string; id: string; listKey: string }
+  | { state: 'authenticated'; label: string; id: string; schemaTypeKey: string }
   | { state: 'loading' }
   | { state: 'error'; error: Error | readonly [GraphQLError, ...GraphQLError[]] };
 
@@ -31,7 +31,7 @@ export type AdminConfig = {
 };
 
 export type FieldControllerConfig<FieldMeta extends JSONValue | undefined = undefined> = {
-  listKey: string;
+  schemaTypeKey: string;
   path: string;
   label: string;
   description: string | null;
@@ -165,7 +165,7 @@ export type FieldMetaRootVal = {
   fieldMeta: JSONValue | null;
   viewsIndex: number;
   customViewsIndex: number | null;
-  listKey: string;
+  schemaTypeKey: string;
   search: 'default' | 'insensitive' | null;
 };
 

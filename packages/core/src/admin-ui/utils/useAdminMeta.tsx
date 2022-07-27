@@ -71,7 +71,7 @@ export function useAdminMeta(adminMetaHash: string, fieldViews: FieldViews) {
     adminMeta.lists.forEach(list => {
       runtimeAdminMeta.lists[list.key] = {
         ...list,
-        gqlNames: getGqlNames({ listKey: list.key, pluralGraphQLName: list.listQueryName }),
+        gqlNames: getGqlNames({ schemaTypeKey: list.key, pluralGraphQLName: list.listQueryName }),
         fields: {},
       };
       list.fields.forEach(field => {
@@ -114,7 +114,7 @@ export function useAdminMeta(adminMetaHash: string, fieldViews: FieldViews) {
           },
           views,
           controller: fieldViews[field.viewsIndex].controller({
-            listKey: list.key,
+            schemaTypeKey: list.key,
             fieldMeta: field.fieldMeta,
             label: field.label,
             description: field.description,

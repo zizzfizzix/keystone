@@ -13,7 +13,7 @@ export type BaseFields<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {
 export type FilterOrderArgs<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {
   context: KeystoneContextFromSchemaTypeTypeInfo<SchemaTypeTypeInfo>;
   session: KeystoneContextFromSchemaTypeTypeInfo<SchemaTypeTypeInfo>['session'];
-  listKey: string;
+  schemaTypeKey: string;
   fieldKey: string;
 };
 export type CommonFieldConfig<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {

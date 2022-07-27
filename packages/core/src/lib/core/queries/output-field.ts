@@ -127,7 +127,7 @@ export function outputTypeField(
   dbField: ResolvedDBField,
   cacheHint: CacheHint | undefined,
   access: IndividualFieldAccessControl<FieldReadItemAccessArgs<BaseSchemaTypeTypeInfo>>,
-  listKey: string,
+  schemaTypeKey: string,
   fieldKey: string,
   lists: Record<string, InitialisedSchemaType>
 ) {
@@ -149,19 +149,19 @@ export function outputTypeField(
                 context,
                 fieldKey,
                 item: rootVal,
-                listKey,
+                schemaTypeKey,
                 operation: 'read',
                 session: context.session,
               })
             : access;
       } catch (error: any) {
         throw extensionError('Access control', [
-          { error, tag: `${listKey}.${fieldKey}.access.read` },
+          { error, tag: `${schemaTypeKey}.${fieldKey}.access.read` },
         ]);
       }
       if (typeof canAccess !== 'boolean') {
         throw accessReturnError([
-          { tag: `${listKey}.${fieldKey}.access.read`, returned: typeof canAccess },
+          { tag: `${schemaTypeKey}.${fieldKey}.access.read`, returned: typeof canAccess },
         ]);
       }
       if (!canAccess) {

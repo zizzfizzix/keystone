@@ -25,7 +25,7 @@ export async function getOperationAccess(
   context: KeystoneContext,
   operation: 'delete' | 'create' | 'update' | 'query'
 ) {
-  const args = { operation, session: context.session, listKey: list.schemaTypeKey, context };
+  const args = { operation, session: context.session, schemaTypeKey: list.schemaTypeKey, context };
   // Check the mutation access
   const access = list.access.operation[operation];
   let result;
@@ -44,7 +44,7 @@ export async function getOperationAccess(
   // has accidentally tried to return a filter.
   if (resultType !== 'boolean') {
     throw accessReturnError([
-      { tag: `${args.listKey}.access.operation.${args.operation}`, returned: resultType },
+      { tag: `${args.schemaTypeKey}.access.operation.${args.operation}`, returned: resultType },
     ]);
   }
 
@@ -56,7 +56,7 @@ export async function getAccessFilters(
   context: KeystoneContext,
   operation: 'update' | 'query' | 'delete'
 ): Promise<boolean | InputFilter> {
-  const args = { operation, session: context.session, listKey: list.schemaTypeKey, context };
+  const args = { operation, session: context.session, schemaTypeKey: list.schemaTypeKey, context };
   // Check the mutation access
   const access = list.access.filter[operation];
   try {
@@ -74,7 +74,7 @@ export async function getAccessFilters(
     throw result.error;
   } catch (error: any) {
     throw extensionError('Access control', [
-      { error, tag: `${args.listKey}.access.filter.${args.operation}` },
+      { error, tag: `${args.schemaTypeKey}.access.filter.${args.operation}` },
     ]);
   }
 }

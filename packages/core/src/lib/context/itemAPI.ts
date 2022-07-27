@@ -53,7 +53,7 @@ export function getDbAPIFactory(
 }
 
 export function itemAPIForList(
-  listKey: string,
+  schemaTypeKey: string,
   context: KeystoneContext
 ): KeystoneListsAPI<Record<string, BaseSchemaTypeTypeInfo>>[string] {
   const f = (operation: 'query' | 'mutation', field: string) => {
@@ -63,12 +63,12 @@ export function itemAPIForList(
       return exec(args, returnFields, context);
     };
   };
-  const gqlNames = context.gqlNames(listKey);
+  const gqlNames = context.gqlNames(schemaTypeKey);
   return {
     findOne: f('query', gqlNames.itemQueryName),
     findMany: f('query', gqlNames.listQueryName),
     async count({ where = {} } = {}) {
-      const { listQueryCountName, whereInputName } = context.gqlNames(listKey);
+      const { listQueryCountName, whereInputName } = context.gqlNames(schemaTypeKey);
       const query = `query ($where: ${whereInputName}!) { count: ${listQueryCountName}(where: $where)  }`;
       const response = await context.graphql.run({ query, variables: { where } });
       return response.count;

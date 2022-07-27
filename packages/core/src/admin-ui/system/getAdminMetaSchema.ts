@@ -46,15 +46,16 @@ export function getAdminMetaSchema({
               'KeystoneAdminUIFieldMeta.isOrderable cannot be resolved during the build process'
             );
           }
-          if (!lists[rootVal.listKey].fields[rootVal.path].input?.orderBy) {
+          if (!lists[rootVal.schemaTypeKey].fields[rootVal.path].input?.orderBy) {
             return false;
           }
-          const isOrderable = lists[rootVal.listKey].fields[rootVal.path].graphql.isEnabled.orderBy;
+          const isOrderable =
+            lists[rootVal.schemaTypeKey].fields[rootVal.path].graphql.isEnabled.orderBy;
           if (typeof isOrderable === 'function') {
             return isOrderable({
               context,
               fieldKey: rootVal.path,
-              listKey: rootVal.listKey,
+              schemaTypeKey: rootVal.schemaTypeKey,
               session: context.session,
             });
           }
@@ -69,15 +70,16 @@ export function getAdminMetaSchema({
               'KeystoneAdminUIFieldMeta.isOrderable cannot be resolved during the build process'
             );
           }
-          if (!lists[rootVal.listKey].fields[rootVal.path].input?.where) {
+          if (!lists[rootVal.schemaTypeKey].fields[rootVal.path].input?.where) {
             return false;
           }
-          const isFilterable = lists[rootVal.listKey].fields[rootVal.path].graphql.isEnabled.filter;
+          const isFilterable =
+            lists[rootVal.schemaTypeKey].fields[rootVal.path].graphql.isEnabled.filter;
           if (typeof isFilterable === 'function') {
             return isFilterable({
               context,
               fieldKey: rootVal.path,
-              listKey: rootVal.listKey,
+              schemaTypeKey: rootVal.schemaTypeKey,
               session: context.session,
             });
           }
@@ -89,7 +91,7 @@ export function getAdminMetaSchema({
       customViewsIndex: graphql.field({ type: graphql.Int }),
       createView: graphql.field({
         resolve(rootVal) {
-          return { fieldPath: rootVal.path, listKey: rootVal.listKey };
+          return { fieldPath: rootVal.path, schemaTypeKey: rootVal.schemaTypeKey };
         },
         type: graphql.nonNull(
           graphql.object<FieldIdentifier>()({
@@ -108,13 +110,15 @@ export function getAdminMetaSchema({
                       'KeystoneAdminUIFieldMetaCreateView.fieldMode cannot be resolved during the build process'
                     );
                   }
-                  if (!lists[rootVal.listKey].fields[rootVal.fieldPath].graphql.isEnabled.create) {
+                  if (
+                    !lists[rootVal.schemaTypeKey].fields[rootVal.fieldPath].graphql.isEnabled.create
+                  ) {
                     return 'hidden';
                   }
-                  const listConfig = config.schema[rootVal.listKey];
+                  const listConfig = config.schema[rootVal.schemaTypeKey];
                   const sessionFunction =
-                    lists[rootVal.listKey].fields[rootVal.fieldPath].ui?.createView?.fieldMode ??
-                    listConfig.ui?.createView?.defaultFieldMode;
+                    lists[rootVal.schemaTypeKey].fields[rootVal.fieldPath].ui?.createView
+                      ?.fieldMode ?? listConfig.ui?.createView?.defaultFieldMode;
                   return runMaybeFunction(sessionFunction, 'edit', {
                     session: context.session,
                     context,
@@ -127,7 +131,7 @@ export function getAdminMetaSchema({
       }),
       listView: graphql.field({
         resolve(rootVal) {
-          return { fieldPath: rootVal.path, listKey: rootVal.listKey };
+          return { fieldPath: rootVal.path, schemaTypeKey: rootVal.schemaTypeKey };
         },
         type: graphql.nonNull(
           graphql.object<FieldIdentifier>()({
@@ -146,13 +150,15 @@ export function getAdminMetaSchema({
                       'KeystoneAdminUIFieldMetaListView.fieldMode cannot be resolved during the build process'
                     );
                   }
-                  if (!lists[rootVal.listKey].fields[rootVal.fieldPath].graphql.isEnabled.read) {
+                  if (
+                    !lists[rootVal.schemaTypeKey].fields[rootVal.fieldPath].graphql.isEnabled.read
+                  ) {
                     return 'hidden';
                   }
-                  const listConfig = config.schema[rootVal.listKey];
+                  const listConfig = config.schema[rootVal.schemaTypeKey];
                   const sessionFunction =
-                    lists[rootVal.listKey].fields[rootVal.fieldPath].ui?.listView?.fieldMode ??
-                    listConfig.ui?.listView?.defaultFieldMode;
+                    lists[rootVal.schemaTypeKey].fields[rootVal.fieldPath].ui?.listView
+                      ?.fieldMode ?? listConfig.ui?.listView?.defaultFieldMode;
                   return runMaybeFunction(sessionFunction, 'read', {
                     session: context.session,
                     context,
@@ -170,7 +176,11 @@ export function getAdminMetaSchema({
           }),
         },
         resolve(rootVal, args) {
-          return { fieldPath: rootVal.path, listKey: rootVal.listKey, itemId: args.id ?? null };
+          return {
+            fieldPath: rootVal.path,
+            schemaTypeKey: rootVal.schemaTypeKey,
+            itemId: args.id ?? null,
+          };
         },
         type: graphql.object<FieldIdentifier & { itemId: string | null }>()({
           name: 'KeystoneAdminUIFieldMetaItemView',
@@ -186,17 +196,19 @@ export function getAdminMetaSchema({
                     'KeystoneAdminUIFieldMetaItemView.fieldMode cannot be resolved during the build process if an id is provided'
                   );
                 }
-                if (!lists[rootVal.listKey].fields[rootVal.fieldPath].graphql.isEnabled.read) {
+                if (
+                  !lists[rootVal.schemaTypeKey].fields[rootVal.fieldPath].graphql.isEnabled.read
+                ) {
                   return 'hidden';
                 } else if (
-                  !lists[rootVal.listKey].fields[rootVal.fieldPath].graphql.isEnabled.update
+                  !lists[rootVal.schemaTypeKey].fields[rootVal.fieldPath].graphql.isEnabled.update
                 ) {
                   return 'read';
                 }
-                const listConfig = config.schema[rootVal.listKey];
+                const listConfig = config.schema[rootVal.schemaTypeKey];
 
                 const sessionFunction =
-                  lists[rootVal.listKey].fields[rootVal.fieldPath].ui?.itemView?.fieldMode ??
+                  lists[rootVal.schemaTypeKey].fields[rootVal.fieldPath].ui?.itemView?.fieldMode ??
                   listConfig.ui?.itemView?.defaultFieldMode ??
                   'edit';
                 if (typeof sessionFunction === 'string') {
@@ -212,7 +224,7 @@ export function getAdminMetaSchema({
                 // uhhh, for some reason TypeScript only understands this if it's assigned
                 // to a variable and then returned
                 let ret = fetchItemForItemViewFieldMode(context)(
-                  rootVal.listKey,
+                  rootVal.schemaTypeKey,
                   rootVal.itemId
                 ).then(item => {
                   if (item === null) {
@@ -382,7 +394,7 @@ export function getAdminMetaSchema({
   };
 }
 
-type FieldIdentifier = { listKey: string; fieldPath: string };
+type FieldIdentifier = { schemaTypeKey: string; fieldPath: string };
 
 type NoInfer<T> = T & { [K in keyof T]: T[K] };
 
@@ -403,18 +415,18 @@ function runMaybeFunction<Return extends string | boolean, T>(
 function fakeAssert<T>(val: any): asserts val is T {}
 
 const fetchItemForItemViewFieldMode = extendContext(context => {
-  type ListKey = string;
+  type schemaTypeKey = string;
   type ItemId = string;
-  const lists = new Map<ListKey, Map<ItemId, Promise<BaseItem | null>>>();
-  return (listKey: ListKey, id: ItemId) => {
-    if (!lists.has(listKey)) {
-      lists.set(listKey, new Map());
+  const lists = new Map<schemaTypeKey, Map<ItemId, Promise<BaseItem | null>>>();
+  return (schemaTypeKey: schemaTypeKey, id: ItemId) => {
+    if (!lists.has(schemaTypeKey)) {
+      lists.set(schemaTypeKey, new Map());
     }
-    const items = lists.get(listKey)!;
+    const items = lists.get(schemaTypeKey)!;
     if (items.has(id)) {
       return items.get(id)!;
     }
-    let promise = context.db[listKey].findOne({ where: { id } });
+    let promise = context.db[schemaTypeKey].findOne({ where: { id } });
     items.set(id, promise);
     return promise;
   };

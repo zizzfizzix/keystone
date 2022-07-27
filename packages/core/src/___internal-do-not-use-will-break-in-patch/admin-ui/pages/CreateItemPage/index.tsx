@@ -50,13 +50,13 @@ function CreatePageForm(props: { list: SchemaTypeMeta }) {
   );
 }
 
-type CreateItemPageProps = { listKey: string };
+type CreateItemPageProps = { schemaTypeKey: string };
 
 export const getCreateItemPage = (props: CreateItemPageProps) => () =>
   <CreateItemPage {...props} />;
 
 function CreateItemPage(props: CreateItemPageProps) {
-  const list = useList(props.listKey);
+  const list = useList(props.schemaTypeKey);
   const { createViewFieldModes } = useKeystone();
 
   return (

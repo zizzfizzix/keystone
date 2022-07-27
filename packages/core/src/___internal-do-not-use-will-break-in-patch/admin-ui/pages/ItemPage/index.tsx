@@ -44,7 +44,7 @@ import { usePreventNavigation } from '../../../../admin-ui/utils/usePreventNavig
 import { BaseToolbar, ColumnLayout, ItemPageHeader } from './common';
 
 type ItemPageProps = {
-  listKey: string;
+  schemaTypeKey: string;
 };
 
 function useEventCallback<Func extends (...args: any) => any>(callback: Func): Func {
@@ -59,19 +59,19 @@ function useEventCallback<Func extends (...args: any) => any>(callback: Func): F
 }
 
 function ItemForm({
-  listKey,
+  schemaTypeKey,
   itemGetter,
   selectedFields,
   fieldModes,
   showDelete,
 }: {
-  listKey: string;
+  schemaTypeKey: string;
   itemGetter: DataGetter<ItemData>;
   selectedFields: string;
   fieldModes: Record<string, 'edit' | 'read' | 'hidden'>;
   showDelete: boolean;
 }) {
-  const list = useList(listKey);
+  const list = useList(schemaTypeKey);
 
   const [update, { loading, error, data }] = useMutation(
     gql`mutation ($data: ${list.gqlNames.updateInputName}!, $id: ID!) {
@@ -268,8 +268,8 @@ function DeleteButton({
 
 export const getItemPage = (props: ItemPageProps) => () => <ItemPage {...props} />;
 
-const ItemPage = ({ listKey }: ItemPageProps) => {
-  const list = useList(listKey);
+const ItemPage = ({ schemaTypeKey }: ItemPageProps) => {
+  const list = useList(schemaTypeKey);
   const id = useRouter().query.id as string;
   const { spacing, typography } = useTheme();
 
@@ -288,13 +288,13 @@ const ItemPage = ({ listKey }: ItemPageProps) => {
     return {
       selectedFields,
       query: gql`
-        query ItemPage($id: ID!, $listKey: String!) {
+        query ItemPage($id: ID!, $schemaTypeKey: String!) {
           item: ${list.gqlNames.itemQueryName}(where: {id: $id}) {
             ${selectedFields}
           }
           keystone {
             adminMeta {
-              list(key: $listKey) {
+              list(key: $schemaTypeKey) {
                 hideCreate
                 hideDelete
                 fields {
@@ -311,7 +311,7 @@ const ItemPage = ({ listKey }: ItemPageProps) => {
     };
   }, [list]);
   let { data, error, loading } = useQuery(query, {
-    variables: { id, listKey },
+    variables: { id, schemaTypeKey },
     errorPolicy: 'all',
     skip: id === undefined,
   });
@@ -387,7 +387,7 @@ const ItemPage = ({ listKey }: ItemPageProps) => {
                 fieldModes={itemViewFieldModesByField}
                 selectedFields={selectedFields}
                 showDelete={!data.keystone.adminMeta.list!.hideDelete}
-                listKey={listKey}
+                schemaTypeKey={schemaTypeKey}
                 itemGetter={dataGetter.get('item') as DataGetter<ItemData>}
               />
               <StickySidebar>

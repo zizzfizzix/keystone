@@ -19,7 +19,7 @@ export type KeystoneContext<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystone
   totalResults: number;
   maxTotalResults: number;
   /** @deprecated */
-  gqlNames: (listKey: string) => GqlNames;
+  gqlNames: (schemaTypeKey: string) => GqlNames;
   experimental?: {
     /** @deprecated This value is only available if you have config.experimental.contextInitialisedLists = true.
      * This is not a stable API and may contain breaking changes in `patch` level releases.
@@ -156,7 +156,7 @@ export type SessionContext<T> = {
   // Note: session is typed like this to acknowledge the default session shape
   // if you're using keystone's built-in session implementation, but we don't
   // actually know what it will look like.
-  session?: { itemId: string; listKey: string; data?: Record<string, any> } | any;
+  session?: { itemId: string; schemaTypeKey: string; data?: Record<string, any> } | any;
   startSession(data: T): Promise<string>;
   endSession(): Promise<void>;
 };

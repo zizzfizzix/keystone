@@ -4,7 +4,7 @@ import { BaseSchemaTypeTypeInfo } from '../type-info';
 
 type BaseAccessArgs<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {
   session: any;
-  listKey: string;
+  schemaTypeKey: string;
   context: KeystoneContextFromSchemaTypeTypeInfo<SchemaTypeTypeInfo>;
 };
 

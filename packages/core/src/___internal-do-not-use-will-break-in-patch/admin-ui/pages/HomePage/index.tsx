@@ -14,7 +14,7 @@ import { useKeystone, useList } from '../../../../admin-ui/context';
 import { Link, LinkProps } from '../../../../admin-ui/router';
 
 type ListCardProps = {
-  listKey: string;
+  schemaTypeKey: string;
   hideCreate: boolean;
   count:
     | { type: 'success'; count: number }
@@ -23,9 +23,9 @@ type ListCardProps = {
     | { type: 'loading' };
 };
 
-const ListCard = ({ listKey, count, hideCreate }: ListCardProps) => {
+const ListCard = ({ schemaTypeKey, count, hideCreate }: ListCardProps) => {
   const { colors, palette, radii, spacing } = useTheme();
-  const list = useList(listKey);
+  const list = useList(schemaTypeKey);
   return (
     <div css={{ position: 'relative' }}>
       <Link
@@ -119,7 +119,7 @@ export const HomePage = () => {
         }
       }
       ${Object.entries(lists)
-        .map(([listKey, list]) => `${listKey}: ${list.gqlNames.listQueryCountName}`)
+        .map(([schemaTypeKey, list]) => `${schemaTypeKey}: ${list.gqlNames.listQueryCountName}`)
         .join('\n')}
     }`,
     [lists]
@@ -173,7 +173,7 @@ export const HomePage = () => {
                       ?.hideCreate ?? false
                   }
                   key={key}
-                  listKey={key}
+                  schemaTypeKey={key}
                 />
               );
             });

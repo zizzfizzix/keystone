@@ -76,7 +76,13 @@ export async function getAccessControlledItemForDelete(
 
   // Apply item level access control
   const access = list.access.item[operation];
-  const args = { operation, session: context.session, listKey: list.schemaTypeKey, context, item };
+  const args = {
+    operation,
+    session: context.session,
+    schemaTypeKey: list.schemaTypeKey,
+    context,
+    item,
+  };
 
   // List level 'item' access control
   let result;
@@ -84,7 +90,7 @@ export async function getAccessControlledItemForDelete(
     result = await access(args);
   } catch (error: any) {
     throw extensionError('Access control', [
-      { error, tag: `${args.listKey}.access.item.${args.operation}` },
+      { error, tag: `${args.schemaTypeKey}.access.item.${args.operation}` },
     ]);
   }
 
@@ -95,7 +101,7 @@ export async function getAccessControlledItemForDelete(
   if (resultType !== 'boolean') {
     throw accessReturnError([
       {
-        tag: `${args.listKey}.access.item.${args.operation}`,
+        tag: `${args.schemaTypeKey}.access.item.${args.operation}`,
         returned: resultType,
       },
     ]);
@@ -130,7 +136,7 @@ export async function getAccessControlledItemForUpdate(
   const args = {
     operation,
     session: context.session,
-    listKey: list.schemaTypeKey,
+    schemaTypeKey: list.schemaTypeKey,
     context,
     item,
     inputData,
@@ -142,7 +148,7 @@ export async function getAccessControlledItemForUpdate(
     result = await access(args);
   } catch (error: any) {
     throw extensionError('Access control', [
-      { error, tag: `${args.listKey}.access.item.${args.operation}` },
+      { error, tag: `${args.schemaTypeKey}.access.item.${args.operation}` },
     ]);
   }
   const resultType = typeof result;
@@ -152,7 +158,7 @@ export async function getAccessControlledItemForUpdate(
   if (resultType !== 'boolean') {
     throw accessReturnError([
       {
-        tag: `${args.listKey}.access.item.${args.operation}`,
+        tag: `${args.schemaTypeKey}.access.item.${args.operation}`,
         returned: resultType,
       },
     ]);
@@ -179,12 +185,15 @@ export async function getAccessControlledItemForUpdate(
             ? await list.fields[fieldKey].access[operation]({ ...args, fieldKey })
             : access;
       } catch (error: any) {
-        accessErrors.push({ error, tag: `${args.listKey}.${fieldKey}.access.${args.operation}` });
+        accessErrors.push({
+          error,
+          tag: `${args.schemaTypeKey}.${fieldKey}.access.${args.operation}`,
+        });
         return;
       }
       if (typeof result !== 'boolean') {
         nonBooleans.push({
-          tag: `${args.listKey}.${fieldKey}.access.${args.operation}`,
+          tag: `${args.schemaTypeKey}.${fieldKey}.access.${args.operation}`,
           returned: typeof result,
         });
       } else if (!result) {
@@ -224,7 +233,7 @@ export async function applyAccessControlForCreate(
   const args = {
     operation,
     session: context.session,
-    listKey: list.schemaTypeKey,
+    schemaTypeKey: list.schemaTypeKey,
     context,
     inputData,
   };
@@ -235,7 +244,7 @@ export async function applyAccessControlForCreate(
     result = await access(args);
   } catch (error: any) {
     throw extensionError('Access control', [
-      { error, tag: `${args.listKey}.access.item.${args.operation}` },
+      { error, tag: `${args.schemaTypeKey}.access.item.${args.operation}` },
     ]);
   }
 
@@ -246,7 +255,7 @@ export async function applyAccessControlForCreate(
   if (resultType !== 'boolean') {
     throw accessReturnError([
       {
-        tag: `${args.listKey}.access.item.${args.operation}`,
+        tag: `${args.schemaTypeKey}.access.item.${args.operation}`,
         returned: resultType,
       },
     ]);
@@ -271,12 +280,15 @@ export async function applyAccessControlForCreate(
             ? await list.fields[fieldKey].access[operation]({ ...args, fieldKey })
             : access;
       } catch (error: any) {
-        accessErrors.push({ error, tag: `${args.listKey}.${fieldKey}.access.${args.operation}` });
+        accessErrors.push({
+          error,
+          tag: `${args.schemaTypeKey}.${fieldKey}.access.${args.operation}`,
+        });
         return;
       }
       if (typeof result !== 'boolean') {
         nonBooleans.push({
-          tag: `${args.listKey}.${fieldKey}.access.${args.operation}`,
+          tag: `${args.schemaTypeKey}.${fieldKey}.access.${args.operation}`,
           returned: typeof result,
         });
       } else if (!result) {

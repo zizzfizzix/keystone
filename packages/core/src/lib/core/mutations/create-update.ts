@@ -200,7 +200,7 @@ async function getResolvedData(
   list: InitialisedSchemaType,
   hookArgs: {
     context: KeystoneContext;
-    listKey: string;
+    schemaTypeKey: string;
     inputData: Record<string, any>;
   } & ({ operation: 'create'; item: undefined } | { operation: 'update'; item: BaseItem }),
   nestedMutationState: NestedMutationState
@@ -344,7 +344,7 @@ async function resolveInputForCreateOrUpdate(
   const nestedMutationState = new NestedMutationState(context);
   const baseHookArgs = {
     context,
-    listKey: list.schemaTypeKey,
+    schemaTypeKey: list.schemaTypeKey,
     inputData,
     resolvedData: {},
   };

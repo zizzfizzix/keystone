@@ -42,10 +42,10 @@ const fieldSelectComponents: ComponentProps<typeof Options>['components'] = {
   },
 };
 export function FilterAdd({
-  listKey,
+  schemaTypeKey,
   filterableFields,
 }: {
-  listKey: string;
+  schemaTypeKey: string;
   filterableFields: Set<string>;
 }) {
   const { isOpen, setOpen, trigger, dialog, arrow } = usePopover({
@@ -68,7 +68,7 @@ export function FilterAdd({
         <ChevronDownIcon size="small" />
       </Button>
       <PopoverDialog
-        aria-label={`Filters options, list of filters to apply to the ${listKey} list`}
+        aria-label={`Filters options, list of filters to apply to the ${schemaTypeKey} list`}
         arrow={arrow}
         isVisible={isOpen}
         {...dialog.props}
@@ -79,7 +79,7 @@ export function FilterAdd({
             onClose={() => {
               setOpen(false);
             }}
-            listKey={listKey}
+            schemaTypeKey={schemaTypeKey}
             filterableFields={filterableFields}
           />
         )}
@@ -90,14 +90,14 @@ export function FilterAdd({
 
 function FilterAddPopoverContent({
   onClose,
-  listKey,
+  schemaTypeKey,
   filterableFields,
 }: {
   onClose: () => void;
-  listKey: string;
+  schemaTypeKey: string;
   filterableFields: Set<string>;
 }) {
-  const list = useList(listKey);
+  const list = useList(schemaTypeKey);
   const router = useRouter();
   const fieldsWithFilters = useMemo(() => {
     const fieldsWithFilters: Record<

@@ -6,7 +6,7 @@ type CommonArgs<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {
   /**
    * The key of the list that the operation is occurring on
    */
-  listKey: string;
+  schemaTypeKey: string;
 };
 
 export type ListHooks<SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo> = {

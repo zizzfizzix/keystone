@@ -81,8 +81,8 @@ export const Field = ({
   forceValidation,
 }: FieldProps<typeof controller>) => {
   const keystone = useKeystone();
-  const foreignList = useList(field.refListKey);
-  const localList = useList(field.listKey);
+  const foreignList = useList(field.refschemaTypeKey);
+  const localList = useList(field.schemaTypeKey);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   if (value.kind === 'cards-view') {
@@ -173,7 +173,7 @@ export const Field = ({
             )}
             {onChange !== undefined &&
               authenticatedItem.state === 'authenticated' &&
-              authenticatedItem.listKey === field.refListKey &&
+              authenticatedItem.schemaTypeKey === field.refschemaTypeKey &&
               (value.kind === 'many'
                 ? value.value.find(x => x.id === authenticatedItem.id) === undefined
                 : value.value?.id !== authenticatedItem.id) && (
@@ -216,7 +216,7 @@ export const Field = ({
         {onChange !== undefined && (
           <DrawerController isOpen={isDrawerOpen}>
             <CreateItemDrawer
-              listKey={foreignList.key}
+              schemaTypeKey={foreignList.key}
               onClose={() => {
                 setIsDrawerOpen(false);
               }}
@@ -243,7 +243,7 @@ export const Field = ({
 };
 
 export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
-  const list = useList(field.refListKey);
+  const list = useList(field.refschemaTypeKey);
   const { colors } = useTheme();
 
   if (field.display === 'count') {
@@ -284,7 +284,7 @@ export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
 };
 
 export const CardValue: CardValueComponent<typeof controller> = ({ field, item }) => {
-  const list = useList(field.refListKey);
+  const list = useList(field.refschemaTypeKey);
   const data = item[field.path];
   return (
     <FieldContainer>
@@ -343,8 +343,8 @@ type RelationshipController = FieldController<
   string
 > & {
   display: 'count' | 'cards-or-select';
-  listKey: string;
-  refListKey: string;
+  schemaTypeKey: string;
+  refschemaTypeKey: string;
   refFieldKey?: string;
   hideCreate: boolean;
   many: boolean;
@@ -354,7 +354,7 @@ export const controller = (
   config: FieldControllerConfig<
     {
       refFieldKey?: string;
-      refListKey: string;
+      refschemaTypeKey: string;
       many: boolean;
       hideCreate: boolean;
     } & (
@@ -391,12 +391,12 @@ export const controller = (
   return {
     refFieldKey: config.fieldMeta.refFieldKey,
     many: config.fieldMeta.many,
-    listKey: config.listKey,
+    schemaTypeKey: config.schemaTypeKey,
     path: config.path,
     label: config.label,
     description: config.description,
     display: config.fieldMeta.displayMode === 'count' ? 'count' : 'cards-or-select',
-    refListKey: config.fieldMeta.refListKey,
+    refschemaTypeKey: config.fieldMeta.refschemaTypeKey,
     graphqlSelection:
       config.fieldMeta.displayMode === 'count'
         ? `${config.path}Count`
@@ -479,7 +479,7 @@ export const controller = (
     },
     filter: {
       Filter: ({ onChange, value }) => {
-        const foreignList = useList(config.fieldMeta.refListKey);
+        const foreignList = useList(config.fieldMeta.refschemaTypeKey);
         const { filterValues, loading } = useRelationshipFilterValues({
           value,
           list: foreignList,
@@ -527,7 +527,7 @@ export const controller = (
         };
       },
       Label({ value }) {
-        const foreignList = useList(config.fieldMeta.refListKey);
+        const foreignList = useList(config.fieldMeta.refschemaTypeKey);
         const { filterValues } = useRelationshipFilterValues({
           value,
           list: foreignList,

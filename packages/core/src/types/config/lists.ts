@@ -27,7 +27,7 @@ export type SchemaTypeConfig<
   Fields extends BaseFields<SchemaTypeTypeInfo>
 > = {
   /*
-      A note on defaults: several options default based on the listKey, including label, path,
+      A note on defaults: several options default based on the schemaTypeKey, including label, path,
       singular, plural, itemQueryName and listQueryName. All these options default independently, so
       changing the singular or plural will not change the label or queryName options (and vice-versa)
       Note from Mitchell: The above is incorrect based on Keystone's current implementation.
@@ -160,7 +160,7 @@ export type ListAdminUIConfig<
 
   /**
    * The label used to identify the list in navigation and etc.
-   * @default listKey.replace(/([a-z])([A-Z])/g, '$1 $2').split(/\s|_|\-/).filter(i => i).map(upcase).join(' ');
+   * @default schemaTypeKey.replace(/([a-z])([A-Z])/g, '$1 $2').split(/\s|_|\-/).filter(i => i).map(upcase).join(' ');
    */
   label?: string;
 
