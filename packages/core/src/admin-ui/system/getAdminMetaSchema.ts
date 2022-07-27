@@ -3,13 +3,15 @@ import {
   KeystoneContext,
   KeystoneConfig,
   AdminMetaRootVal,
-  ListMetaRootVal,
+  SchemaMetaRootVal,
   FieldMetaRootVal,
   BaseItem,
+  ListMetaRootVal,
+  SingletonMetaRootVal,
 } from '../../types';
 import { graphql as graphqlBoundToKeystoneContext } from '../..';
 
-import { InitialisedList } from '../../lib/core/types-for-lists';
+import { InitialisedSchema } from '../../lib/core/types-for-lists';
 
 const graphql = {
   ...graphqlBoundToKeystoneContext,
@@ -25,7 +27,7 @@ export function getAdminMetaSchema({
 }: {
   adminMeta: AdminMetaRootVal;
   config: KeystoneConfig;
-  lists: Record<string, InitialisedList>;
+  lists: Record<string, InitialisedSchema>;
 }) {
   const isAccessAllowed =
     config.ui?.isAccessAllowed ??
@@ -112,6 +114,10 @@ export function getAdminMetaSchema({
                     return 'hidden';
                   }
                   const listConfig = config.lists[rootVal.listKey];
+                  if (listConfig.kind === 'singleton') {
+                    return 'hidden';
+                  }
+
                   const sessionFunction =
                     lists[rootVal.listKey].fields[rootVal.fieldPath].ui?.createView?.fieldMode ??
                     listConfig.ui?.createView?.defaultFieldMode;
@@ -150,6 +156,10 @@ export function getAdminMetaSchema({
                     return 'hidden';
                   }
                   const listConfig = config.lists[rootVal.listKey];
+                  if (listConfig.kind === 'singleton') {
+                    return 'hidden';
+                  }
+
                   const sessionFunction =
                     lists[rootVal.listKey].fields[rootVal.fieldPath].ui?.listView?.fieldMode ??
                     listConfig.ui?.listView?.defaultFieldMode;
@@ -251,26 +261,68 @@ export function getAdminMetaSchema({
     },
   });
 
+  const commonListMetaFields = graphql.fields<SchemaMetaRootVal>()({
+    key: graphql.field({ type: graphql.nonNull(graphql.String) }),
+    path: graphql.field({ type: graphql.nonNull(graphql.String) }),
+    label: graphql.field({ type: graphql.nonNull(graphql.String) }),
+    singular: graphql.field({ type: graphql.nonNull(graphql.String) }),
+    description: graphql.field({ type: graphql.String }),
+    fields: graphql.field({
+      type: graphql.nonNull(graphql.list(graphql.nonNull(KeystoneAdminUIFieldMeta))),
+    }),
+    isHidden: graphql.field({
+      type: graphql.nonNull(graphql.Boolean),
+      resolve(rootVal, args, context) {
+        if ('isAdminUIBuildProcess' in context) {
+          throw new Error(
+            'KeystoneAdminUISchemaMeta.isHidden cannot be resolved during the build process'
+          );
+        }
+        const listConfig = config.lists[rootVal.key];
+        return runMaybeFunction(listConfig.ui?.isHidden, false, {
+          session: context.session,
+          context,
+        });
+      },
+    }),
+  });
+
+  const names = {
+    singleton: 'KeystoneAdminUISingletonMeta',
+    list: 'KeystoneAdminUIListMeta',
+  };
+
+  const KeystoneAdminUISchemaMeta = graphql.interface<SchemaMetaRootVal>()({
+    name: 'KeystoneAdminUISchemaMeta',
+    fields: commonListMetaFields,
+    resolveType: value => names[value.kind],
+  });
+
+  const KeystoneAdminUISingletonMeta = graphql.object<SingletonMetaRootVal>()({
+    name: names.singleton,
+    interfaces: [KeystoneAdminUISchemaMeta],
+    fields: commonListMetaFields,
+  });
+
   const KeystoneAdminUIListMeta = graphql.object<ListMetaRootVal>()({
-    name: 'KeystoneAdminUIListMeta',
+    name: names.list,
+    interfaces: [KeystoneAdminUISchemaMeta],
     fields: {
-      key: graphql.field({ type: graphql.nonNull(graphql.String) }),
-      itemQueryName: graphql.field({
-        type: graphql.nonNull(graphql.String),
-      }),
+      ...commonListMetaFields,
       listQueryName: graphql.field({
         type: graphql.nonNull(graphql.String),
       }),
+      plural: graphql.field({ type: graphql.nonNull(graphql.String) }),
       hideCreate: graphql.field({
         type: graphql.nonNull(graphql.Boolean),
         resolve(rootVal, args, context) {
           if ('isAdminUIBuildProcess' in context) {
             throw new Error(
-              'KeystoneAdminUIListMeta.hideCreate cannot be resolved during the build process'
+              'KeystoneAdminUISchemaMeta.hideCreate cannot be resolved during the build process'
             );
           }
           const listConfig = config.lists[rootVal.key];
-          return runMaybeFunction(listConfig.ui?.hideCreate, false, {
+          return runMaybeFunction(listConfig.kind === 'list' && listConfig.ui?.hideCreate, false, {
             session: context.session,
             context,
           });
@@ -281,45 +333,22 @@ export function getAdminMetaSchema({
         resolve(rootVal, args, context) {
           if ('isAdminUIBuildProcess' in context) {
             throw new Error(
-              'KeystoneAdminUIListMeta.hideDelete cannot be resolved during the build process'
+              'KeystoneAdminUISchemaMeta.hideDelete cannot be resolved during the build process'
             );
           }
           const listConfig = config.lists[rootVal.key];
-          return runMaybeFunction(listConfig.ui?.hideDelete, false, {
+          return runMaybeFunction(listConfig.kind === 'list' && listConfig.ui?.hideDelete, false, {
             session: context.session,
             context,
           });
         },
       }),
-      path: graphql.field({ type: graphql.nonNull(graphql.String) }),
-      label: graphql.field({ type: graphql.nonNull(graphql.String) }),
-      singular: graphql.field({ type: graphql.nonNull(graphql.String) }),
-      plural: graphql.field({ type: graphql.nonNull(graphql.String) }),
-      description: graphql.field({ type: graphql.String }),
       initialColumns: graphql.field({
         type: graphql.nonNull(graphql.list(graphql.nonNull(graphql.String))),
       }),
       pageSize: graphql.field({ type: graphql.nonNull(graphql.Int) }),
       labelField: graphql.field({ type: graphql.nonNull(graphql.String) }),
-      fields: graphql.field({
-        type: graphql.nonNull(graphql.list(graphql.nonNull(KeystoneAdminUIFieldMeta))),
-      }),
       initialSort: graphql.field({ type: KeystoneAdminUISort }),
-      isHidden: graphql.field({
-        type: graphql.nonNull(graphql.Boolean),
-        resolve(rootVal, args, context) {
-          if ('isAdminUIBuildProcess' in context) {
-            throw new Error(
-              'KeystoneAdminUIListMeta.isHidden cannot be resolved during the build process'
-            );
-          }
-          const listConfig = config.lists[rootVal.key];
-          return runMaybeFunction(listConfig.ui?.isHidden, false, {
-            session: context.session,
-            context,
-          });
-        },
-      }),
     },
   });
 
@@ -333,10 +362,10 @@ export function getAdminMetaSchema({
         type: graphql.nonNull(graphql.Boolean),
       }),
       lists: graphql.field({
-        type: graphql.nonNull(graphql.list(graphql.nonNull(KeystoneAdminUIListMeta))),
+        type: graphql.nonNull(graphql.list(graphql.nonNull(KeystoneAdminUISchemaMeta))),
       }),
       list: graphql.field({
-        type: KeystoneAdminUIListMeta,
+        type: KeystoneAdminUISchemaMeta,
         args: {
           key: graphql.arg({
             type: graphql.nonNull(graphql.String),
@@ -373,12 +402,15 @@ export function getAdminMetaSchema({
     })
   );
   return {
-    keystone: graphql.field({
-      type: KeystoneMeta,
-      resolve() {
-        return {};
-      },
-    }),
+    types: [KeystoneAdminUISingletonMeta, KeystoneAdminUIListMeta],
+    fields: {
+      keystone: graphql.field({
+        type: KeystoneMeta,
+        resolve() {
+          return {};
+        },
+      }),
+    },
   };
 }
 
@@ -414,7 +446,16 @@ const fetchItemForItemViewFieldMode = extendContext(context => {
     if (items.has(id)) {
       return items.get(id)!;
     }
-    let promise = context.db[listKey].findOne({ where: { id } });
+
+    const db = context.db[listKey];
+    let promise;
+
+    if (db.kind === 'list') {
+      promise = db.findOne({ where: { id } });
+    } else {
+      promise = db.read();
+    }
+
     items.set(id, promise);
     return promise;
   };

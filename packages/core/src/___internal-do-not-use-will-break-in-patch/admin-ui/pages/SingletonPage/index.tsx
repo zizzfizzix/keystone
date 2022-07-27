@@ -1,11 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import copyToClipboard from 'clipboard-copy';
-import { useRouter } from 'next/router';
 import {
   Fragment,
-  HTMLAttributes,
   memo,
   ReactElement,
   useCallback,
@@ -16,15 +13,11 @@ import {
 } from 'react';
 
 import { Button } from '@keystone-ui/button';
-import { Box, Center, Stack, Text, jsx, useTheme } from '@keystone-ui/core';
+import { Box, Center, Stack, Text, jsx } from '@keystone-ui/core';
 import { LoadingDots } from '@keystone-ui/loading';
-import { ClipboardIcon } from '@keystone-ui/icons/icons/ClipboardIcon';
 import { AlertDialog } from '@keystone-ui/modals';
 import { Notice } from '@keystone-ui/notice';
 import { useToasts } from '@keystone-ui/toast';
-import { Tooltip } from '@keystone-ui/tooltip';
-import { FieldLabel, TextInput } from '@keystone-ui/fields';
-import { SchemaMeta } from '../../../../types';
 import {
   DataGetter,
   DeepNullable,
@@ -37,11 +30,11 @@ import {
 } from '../../../../admin-ui/utils';
 
 import { gql, useMutation, useQuery } from '../../../../admin-ui/apollo';
-import { useList } from '../../../../admin-ui/context';
+import { useSchema } from '../../../../admin-ui/context';
 import { PageContainer, HEADER_HEIGHT } from '../../../../admin-ui/components/PageContainer';
 import { GraphQLErrorNotice } from '../../../../admin-ui/components/GraphQLErrorNotice';
 import { usePreventNavigation } from '../../../../admin-ui/utils/usePreventNavigation';
-import { BaseToolbar, ColumnLayout, ItemPageHeader } from './common';
+import { BaseToolbar, ColumnLayout, ItemPageHeader } from '../ItemPage/common';
 
 type ItemPageProps = {
   listKey: string;
@@ -63,7 +56,6 @@ function ItemForm({
   itemGetter,
   selectedFields,
   fieldModes,
-  showDelete,
 }: {
   listKey: string;
   itemGetter: DataGetter<ItemData>;
@@ -71,16 +63,10 @@ function ItemForm({
   fieldModes: Record<string, 'edit' | 'read' | 'hidden'>;
   showDelete: boolean;
 }) {
-  const list = useList(listKey);
+  const list = useSchema(listKey);
 
   const [update, { loading, error, data }] = useMutation(
-    list.kind === 'list'
-      ? gql`mutation ($data: ${list.gqlNames.updateInputName}!, $id: ID!) {
-      item: ${list.gqlNames.updateMutationName}(where: { id: $id }, data: $data) {
-        ${selectedFields}
-      }
-    }`
-      : gql`mutation ($data: ${list.gqlNames.updateInputName}!) {
+    gql`mutation ($data: ${list.gqlNames.updateInputName}!) {
       item: ${list.gqlNames.updateMutationName}(data: $data) {
         ${selectedFields}
       }
@@ -151,8 +137,6 @@ function ItemForm({
         toasts.addToast({ title: 'Failed to update item', tone: 'negative', message: err.message });
       });
   });
-  const labelFieldValue = state.item.data?.[list.labelField];
-  const itemId = state.item.data?.id!;
   const hasChangedFields = !!changedFields.size;
   usePreventNavigation(useMemo(() => ({ current: hasChangedFields }), [hasChangedFields]));
   return (
@@ -186,102 +170,15 @@ function ItemForm({
           }));
         })}
         loading={loading}
-        deleteButton={useMemo(
-          () =>
-            showDelete ? (
-              <DeleteButton
-                list={list}
-                itemLabel={(labelFieldValue ?? itemId) as string}
-                itemId={itemId}
-              />
-            ) : undefined,
-          [showDelete, list, labelFieldValue, itemId]
-        )}
       />
     </Box>
   );
 }
 
-function DeleteButton({
-  itemLabel,
-  itemId,
-  list,
-}: {
-  itemLabel: string;
-  itemId: string;
-  list: SchemaMeta;
-}) {
-  const toasts = useToasts();
-  const [deleteItem, { loading }] = useMutation(
-    gql`mutation ($id: ID!) {
-      ${list.gqlNames.deleteMutationName}(where: { id: $id }) {
-        id
-      }
-    }`,
-    { variables: { id: itemId } }
-  );
-  const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-
-  return (
-    <Fragment>
-      <Button
-        tone="negative"
-        onClick={() => {
-          setIsOpen(true);
-        }}
-      >
-        Delete
-      </Button>
-      <AlertDialog
-        // TODO: change the copy in the title and body of the modal
-        title="Delete Confirmation"
-        isOpen={isOpen}
-        tone="negative"
-        actions={{
-          confirm: {
-            label: 'Delete',
-            action: async () => {
-              try {
-                await deleteItem();
-              } catch (err: any) {
-                return toasts.addToast({
-                  title: `Failed to delete ${list.singular} item: ${itemLabel}`,
-                  message: err.message,
-                  tone: 'negative',
-                });
-              }
-              router.push(`/${list.path}`);
-              return toasts.addToast({
-                title: itemLabel,
-                message: `Deleted ${list.singular} item successfully`,
-                tone: 'positive',
-              });
-            },
-            loading,
-          },
-          cancel: {
-            label: 'Cancel',
-            action: () => {
-              setIsOpen(false);
-            },
-          },
-        }}
-      >
-        Are you sure you want to delete <strong>{itemLabel}</strong>?
-      </AlertDialog>
-    </Fragment>
-  );
-}
-
-export const getItemPage = (props: ItemPageProps) => () => <ItemPage {...props} />;
+export const getSingletonPage = (props: ItemPageProps) => () => <ItemPage {...props} />;
 
 const ItemPage = ({ listKey }: ItemPageProps) => {
-  const list = useList(listKey);
-  const id = useRouter().query.id as string;
-
-  const { spacing, typography } = useTheme();
-
+  const list = useSchema(listKey);
   const { query, selectedFields } = useMemo(() => {
     let selectedFields = Object.entries(list.fields)
       .filter(
@@ -297,18 +194,16 @@ const ItemPage = ({ listKey }: ItemPageProps) => {
     return {
       selectedFields,
       query: gql`
-        query ItemPage($id: ID!, $listKey: String!) {
-          item: ${list.gqlNames.itemQueryName}${list.kind === 'list' ? `(where: {id: $id})` : ''} {
+        query ItemPage($listKey: String!) {
+          item: ${list.gqlNames.itemQueryName} {
             ${selectedFields}
           }
           keystone {
             adminMeta {
               list(key: $listKey) {
-                hideCreate
-                hideDelete
                 fields {
                   path
-                  itemView(id: $id) {
+                  itemView(id: 1) {
                     fieldMode
                   }
                 }
@@ -321,11 +216,9 @@ const ItemPage = ({ listKey }: ItemPageProps) => {
   }, [list]);
 
   let { data, error, loading } = useQuery(query, {
-    variables: { id, listKey },
+    variables: { listKey },
     errorPolicy: 'all',
-    skip: id === undefined,
   });
-  loading ||= id === undefined;
 
   const dataGetter = makeDataGetter<
     DeepNullable<{
@@ -350,9 +243,8 @@ const ItemPage = ({ listKey }: ItemPageProps) => {
 
   const metaQueryErrors = dataGetter.get('keystone').errors;
 
-  const pageTitle: string = loading
-    ? undefined
-    : (data && data.item && (data.item[list.labelField] || data.item.id)) || id;
+  // TODO page title on singletons
+  const pageTitle: string = loading ? undefined : data && data.item && data.item.id;
 
   return (
     <PageContainer
@@ -360,11 +252,7 @@ const ItemPage = ({ listKey }: ItemPageProps) => {
       header={
         <ItemPageHeader
           list={list}
-          label={
-            loading
-              ? 'Loading...'
-              : (data && data.item && (data.item[list.labelField] || data.item.id)) || id
-          }
+          label={loading ? 'Loading...' : data && data.item && data.item.id}
         />
       }
     >
@@ -387,7 +275,7 @@ const ItemPage = ({ listKey }: ItemPageProps) => {
                 />
               ) : (
                 <Notice tone="negative">
-                  The item with id "{id}" could not be found or you don't have access to it.
+                  The {list.label} could not be found or you don't have access to it.
                 </Notice>
               )}
             </Box>
@@ -396,42 +284,10 @@ const ItemPage = ({ listKey }: ItemPageProps) => {
               <ItemForm
                 fieldModes={itemViewFieldModesByField}
                 selectedFields={selectedFields}
-                showDelete={!data.keystone.adminMeta.list!.hideDelete}
+                showDelete={false}
                 listKey={listKey}
                 itemGetter={dataGetter.get('item') as DataGetter<ItemData>}
               />
-              <StickySidebar>
-                <FieldLabel>Item ID</FieldLabel>
-                <div
-                  css={{
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <TextInput
-                    css={{
-                      marginRight: spacing.medium,
-                      fontFamily: typography.fontFamily.monospace,
-                      fontSize: typography.fontSize.small,
-                    }}
-                    readOnly
-                    value={data.item.id}
-                  />
-                  <Tooltip content="Copy ID">
-                    {props => (
-                      <Button
-                        {...props}
-                        aria-label="Copy ID"
-                        onClick={() => {
-                          copyToClipboard(data.item.id);
-                        }}
-                      >
-                        <ClipboardIcon size="small" />
-                      </Button>
-                    )}
-                  </Tooltip>
-                </div>
-              </StickySidebar>
             </Fragment>
           )}
         </ColumnLayout>
@@ -514,18 +370,3 @@ function ResetChangesButton(props: { onReset: () => void }) {
     </Fragment>
   );
 }
-
-const StickySidebar = (props: HTMLAttributes<HTMLDivElement>) => {
-  const { spacing } = useTheme();
-  return (
-    <div
-      css={{
-        marginTop: spacing.xlarge,
-        marginBottom: spacing.xxlarge,
-        position: 'sticky',
-        top: spacing.xlarge,
-      }}
-      {...props}
-    />
-  );
-};

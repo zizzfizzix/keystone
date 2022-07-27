@@ -17,11 +17,11 @@ import {
 } from '../../types';
 import { coerceAndValidateForGraphQLInput } from '../coerceAndValidateForGraphQLInput';
 import { accessReturnError, extensionError } from './graphql-errors';
-import { InitialisedList } from './types-for-lists';
+import { InitialisedSchema } from './types-for-lists';
 import { InputFilter } from './where-inputs';
 
 export async function getOperationAccess(
-  list: InitialisedList,
+  list: InitialisedSchema,
   context: KeystoneContext,
   operation: 'delete' | 'create' | 'update' | 'query'
 ) {
@@ -52,7 +52,7 @@ export async function getOperationAccess(
 }
 
 export async function getAccessFilters(
-  list: InitialisedList,
+  list: InitialisedSchema,
   context: KeystoneContext,
   operation: 'update' | 'query' | 'delete'
 ): Promise<boolean | InputFilter> {

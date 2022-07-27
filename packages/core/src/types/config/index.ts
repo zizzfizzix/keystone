@@ -16,11 +16,12 @@ import type {
 import { SessionStrategy } from '../session';
 import type { MaybePromise } from '../utils';
 import type {
-  ListSchemaConfig,
+  ListOrSingletonSchemaConfig,
   ListConfig,
   MaybeSessionFunction,
   MaybeItemFunction,
   IdFieldConfig,
+  SingletonConfig,
 } from './lists';
 import type { BaseFields } from './fields';
 import type { ListAccessControl, FieldAccessControl } from './access-control';
@@ -84,8 +85,10 @@ export type StorageConfig = (
 ) &
   FileOrImage;
 
+export type ListsConfig = Record<string, ListConfig<any, any> | SingletonConfig<any, any>>;
+
 export type KeystoneConfig<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneTypeInfo> = {
-  lists: ListSchemaConfig;
+  lists: ListsConfig;
   db: DatabaseConfig<TypeInfo>;
   ui?: AdminUIConfig<TypeInfo>;
   server?: ServerConfig<TypeInfo>;
@@ -117,7 +120,14 @@ export type KeystoneConfig<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneT
 
 // config.lists
 
-export type { ListSchemaConfig, ListConfig, BaseFields, MaybeSessionFunction, MaybeItemFunction };
+export type {
+  ListOrSingletonSchemaConfig as ListSchemaConfig,
+  ListConfig,
+  BaseFields,
+  MaybeSessionFunction,
+  MaybeItemFunction,
+  SingletonConfig,
+};
 
 // config.db
 
@@ -282,7 +292,7 @@ export type ImagesConfig = {
 
 // Exports from sibling packages
 
-export type { ListHooks, ListAccessControl, FieldAccessControl };
+export type { ListHooks, ListAccessControl as ListAccessControl, FieldAccessControl };
 
 export type {
   FieldCreateItemAccessArgs,

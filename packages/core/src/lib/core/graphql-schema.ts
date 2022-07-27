@@ -1,15 +1,16 @@
 import { GraphQLNamedType, GraphQLSchema } from 'graphql';
 import { graphql } from '../..';
-import { InitialisedList } from './types-for-lists';
+import { InitialisedSchema } from './types-for-lists';
 
-import { getMutationsForList } from './mutations';
+import { getMutationsForSingleton, getMutationsForList } from './mutations';
 import { getQueriesForList } from './queries';
 
 export function getGraphQLSchema(
-  lists: Record<string, InitialisedList>,
-  extraFields: {
+  lists: Record<string, InitialisedSchema>,
+  extra: {
     mutation: Record<string, graphql.Field<unknown, any, graphql.OutputType, string>>;
     query: Record<string, graphql.Field<unknown, any, graphql.OutputType, string>>;
+    types: graphql.ObjectType<unknown>[];
   }
 ) {
   const query = graphql.object()({
@@ -17,7 +18,7 @@ export function getGraphQLSchema(
     fields: Object.assign(
       {},
       ...Object.values(lists).map(list => getQueriesForList(list)),
-      extraFields.query
+      extra.query
     ),
   });
 
@@ -28,24 +29,34 @@ export function getGraphQLSchema(
     fields: Object.assign(
       {},
       ...Object.values(lists).map(list => {
+        if (list.kind === 'singleton') {
+          const { mutations } = getMutationsForSingleton(list);
+          return mutations;
+        }
+
         const { mutations, updateManyInput } = getMutationsForList(list);
         updateManyByList[list.listKey] = updateManyInput;
         return mutations;
       }),
-      extraFields.mutation
+      extra.mutation
     ),
   });
   const graphQLSchema = new GraphQLSchema({
     query: query.graphQLType,
     mutation: mutation.graphQLType,
     // not about behaviour, only ordering
-    types: [...collectTypes(lists, updateManyByList), mutation.graphQLType],
+    types: [
+      ...collectTypes(lists, updateManyByList),
+      mutation.graphQLType,
+      query.graphQLType,
+      ...extra.types.map(x => x.graphQLType),
+    ],
   });
   return graphQLSchema;
 }
 
 function collectTypes(
-  lists: Record<string, InitialisedList>,
+  lists: Record<string, InitialisedSchema>,
   updateManyByList: Record<string, graphql.InputObjectType<any>>
 ) {
   const collectedTypes: GraphQLNamedType[] = [];
@@ -54,7 +65,7 @@ function collectTypes(
     if (!isEnabled.type) continue;
     // adding all of these types explicitly isn't strictly necessary but we do it to create a certain order in the schema
     collectedTypes.push(list.types.output.graphQLType);
-    if (isEnabled.query || isEnabled.update || isEnabled.delete) {
+    if (list.kind === 'list' && (isEnabled.query || isEnabled.update || isEnabled.delete)) {
       collectedTypes.push(list.types.uniqueWhere.graphQLType);
     }
     if (isEnabled.query) {
@@ -70,12 +81,16 @@ function collectTypes(
           );
         }
       }
-      collectedTypes.push(list.types.where.graphQLType);
-      collectedTypes.push(list.types.orderBy.graphQLType);
+      if (list.kind === 'list') {
+        collectedTypes.push(list.types.where.graphQLType);
+        collectedTypes.push(list.types.orderBy.graphQLType);
+      }
     }
     if (isEnabled.update) {
       collectedTypes.push(list.types.update.graphQLType);
-      collectedTypes.push(updateManyByList[list.listKey].graphQLType);
+      if (list.kind === 'list') {
+        collectedTypes.push(updateManyByList[list.listKey].graphQLType);
+      }
     }
     if (isEnabled.create) {
       collectedTypes.push(list.types.create.graphQLType);

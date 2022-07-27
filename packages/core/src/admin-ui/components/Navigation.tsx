@@ -8,7 +8,7 @@ import { Button } from '@keystone-ui/button';
 import { Popover } from '@keystone-ui/popover';
 import { MoreHorizontalIcon } from '@keystone-ui/icons/icons/MoreHorizontalIcon';
 import { ChevronRightIcon } from '@keystone-ui/icons/icons/ChevronRightIcon';
-import { NavigationProps, ListMeta, AuthenticatedItem } from '../../types';
+import { NavigationProps, SchemaMeta, AuthenticatedItem } from '../../types';
 
 import { useKeystone } from '../context';
 import { Link } from '../router';
@@ -170,7 +170,7 @@ export const NavigationContainer = ({ authenticatedItem, children }: NavigationC
   );
 };
 
-export const ListNavItem = ({ list }: { list: ListMeta }) => {
+export const ListNavItem = ({ list }: { list: SchemaMeta }) => {
   const router = useRouter();
   return (
     <NavItem
@@ -189,7 +189,7 @@ export const ListNavItems = ({ lists = [], include = [] }: NavItemsProps) => {
 
   return (
     <Fragment>
-      {renderedList.map((list: ListMeta) => {
+      {renderedList.map((list: SchemaMeta) => {
         return <ListNavItem key={list.key} list={list} />;
       })}
     </Fragment>

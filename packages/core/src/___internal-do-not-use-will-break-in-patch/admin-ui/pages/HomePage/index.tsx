@@ -10,12 +10,13 @@ import { LoadingDots } from '@keystone-ui/loading';
 import { makeDataGetter } from '../../../../admin-ui/utils';
 import { PageContainer, HEADER_HEIGHT } from '../../../../admin-ui/components/PageContainer';
 import { gql, useQuery } from '../../../../admin-ui/apollo';
-import { useKeystone, useList } from '../../../../admin-ui/context';
+import { useKeystone, useSchema } from '../../../../admin-ui/context';
 import { Link, LinkProps } from '../../../../admin-ui/router';
 
 type ListCardProps = {
   listKey: string;
   hideCreate: boolean;
+  kind: 'list' | 'singleton';
   count:
     | { type: 'success'; count: number }
     | { type: 'no-access' }
@@ -23,9 +24,9 @@ type ListCardProps = {
     | { type: 'loading' };
 };
 
-const ListCard = ({ listKey, count, hideCreate }: ListCardProps) => {
+const ListCard = ({ listKey, count, hideCreate, kind }: ListCardProps) => {
   const { colors, palette, radii, spacing } = useTheme();
-  const list = useList(listKey);
+  const list = useSchema(listKey);
   return (
     <div css={{ position: 'relative' }}>
       <Link
@@ -38,6 +39,7 @@ const ListCard = ({ listKey, count, hideCreate }: ListCardProps) => {
           // boxShadow: shadow.s100,
           display: 'inline-block',
           minWidth: 280,
+          minHeight: 91,
           padding: spacing.large,
           textDecoration: 'none',
 
@@ -50,19 +52,23 @@ const ListCard = ({ listKey, count, hideCreate }: ListCardProps) => {
         }}
       >
         <h3 css={{ margin: `0 0 ${spacing.small}px 0` }}>{list.label} </h3>
-        {count.type === 'success' ? (
-          <span css={{ color: colors.foreground, textDecoration: 'none' }}>
-            {count.count} item{count.count !== 1 ? 's' : ''}
-          </span>
-        ) : count.type === 'error' ? (
-          count.message
-        ) : count.type === 'loading' ? (
-          <LoadingDots label={`Loading count of ${list.plural}`} size="small" tone="passive" />
+        {list.kind === 'list' ? (
+          count.type === 'success' ? (
+            <span css={{ color: colors.foreground, textDecoration: 'none' }}>
+              {count.count} item{count.count !== 1 ? 's' : ''}
+            </span>
+          ) : count.type === 'error' ? (
+            count.message
+          ) : count.type === 'loading' ? (
+            <LoadingDots label={`Loading count of ${list.plural}`} size="small" tone="passive" />
+          ) : (
+            'No access'
+          )
         ) : (
-          'No access'
+          false
         )}
       </Link>
-      {hideCreate === false && (
+      {hideCreate === false && kind === 'list' && (
         <CreateButton title={`Create ${list.singular}`} href={`/${list.path}/create`}>
           <PlusIcon size="large" />
           <VisuallyHidden>Create {list.singular}</VisuallyHidden>
@@ -114,11 +120,14 @@ export const HomePage = () => {
         adminMeta {
           lists {
             key
-            hideCreate
+            ... on KeystoneAdminUIListMeta {
+              hideCreate
+            }
           }
         }
       }
       ${Object.entries(lists)
+        .filter(([, list]) => list.kind === 'list')
         .map(([listKey, list]) => `${listKey}: ${list.gqlNames.listQueryCountName}`)
         .join('\n')}
     }`,
@@ -161,6 +170,7 @@ export const HomePage = () => {
               const result = dataGetter.get(key);
               return (
                 <ListCard
+                  kind={lists[key].kind}
                   count={
                     data
                       ? result.errors

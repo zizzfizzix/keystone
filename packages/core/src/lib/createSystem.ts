@@ -1,10 +1,10 @@
 import pLimit from 'p-limit';
-import { FieldData, KeystoneConfig, getGqlNames } from '../types';
+import { FieldData, KeystoneConfig, getGqlNames, BaseSchemaTypeInfo, BaseFields } from '../types';
 
 import { createAdminMeta } from '../admin-ui/system/createAdminMeta';
 import { createGraphQLSchema } from './createGraphQLSchema';
 import { makeCreateContext } from './context/createContext';
-import { initialiseLists } from './core/types-for-lists';
+import { InitialisedSchema, initialiseLists } from './core/types-for-lists';
 import { setWriteLimit } from './core/utils';
 
 function getSudoGraphQLSchema(config: KeystoneConfig) {
@@ -34,21 +34,23 @@ function getSudoGraphQLSchema(config: KeystoneConfig) {
             access: { operation: {}, item: {}, filter: {} },
             graphql: { ...(list.graphql || {}), omit: [] },
             fields: Object.fromEntries(
-              Object.entries(list.fields).map(([fieldKey, field]) => {
-                return [
-                  fieldKey,
-                  (data: FieldData) => {
-                    const f = field(data);
-                    return {
-                      ...f,
-                      access: () => true,
-                      isFilterable: true,
-                      isOrderable: true,
-                      graphql: { ...(f.graphql || {}), omit: [] },
-                    };
-                  },
-                ];
-              })
+              Object.entries(list.fields as BaseFields<BaseSchemaTypeInfo>).map(
+                ([fieldKey, field]) => {
+                  return [
+                    fieldKey,
+                    (data: FieldData) => {
+                      const f = field(data);
+                      return {
+                        ...f,
+                        access: () => true,
+                        isFilterable: true,
+                        isOrderable: true,
+                        graphql: { ...(f.graphql || {}), omit: [] },
+                      };
+                    },
+                  ];
+                }
+              )
             ),
           },
         ];
@@ -102,6 +104,7 @@ export function createSystem(config: KeystoneConfig, isLiveReload?: boolean) {
           if (!isLiveReload) {
             await prismaClient.$connect();
             const context = createContext({ sudo: true });
+            await ensureSingletons(lists, prismaClient);
             await config.db.onConnect?.(context);
           }
         },
@@ -114,4 +117,17 @@ export function createSystem(config: KeystoneConfig, isLiveReload?: boolean) {
       };
     },
   };
+}
+
+async function ensureSingletons(lists: Record<string, InitialisedSchema>, prismaClient: any) {
+  for (const [, { listKey }] of Object.entries(lists).filter(
+    ([, { kind }]) => kind === 'singleton'
+  )) {
+    const model = prismaClient[listKey[0].toLowerCase() + listKey.slice(1)];
+    const item = await model.findUnique({ where: { id: 1 } });
+
+    if (!item) {
+      await model.create({ data: { id: 1 } });
+    }
+  }
 }

@@ -1,12 +1,16 @@
 import type { CacheHint } from 'apollo-server-types';
 import type { MaybePromise } from '../utils';
-import { BaseListTypeInfo } from '../type-info';
+import { BaseListTypeInfo, BaseSingletonTypeInfo, BaseSchemaTypeInfo } from '../type-info';
 import { KeystoneContextFromListTypeInfo } from '..';
 import type { ListHooks } from './hooks';
-import type { ListAccessControl } from './access-control';
+import type { ListAccessControl, SingletonAccessControl } from './access-control';
 import type { BaseFields, FilterOrderArgs } from './fields';
 
-export type ListSchemaConfig = Record<string, ListConfig<any, BaseFields<BaseListTypeInfo>>>;
+export type ListOrSingletonSchemaConfig = Record<
+  string,
+  | ListConfig<any, BaseFields<BaseListTypeInfo>>
+  | SingletonConfig<any, BaseFields<BaseSingletonTypeInfo>>
+>;
 
 export type IdFieldConfig =
   | { kind: 'cuid' | 'uuid' }
@@ -19,7 +23,28 @@ export type IdFieldConfig =
       type?: 'Int' | 'BigInt';
     };
 
+export type SingletonConfig<
+  ListTypeInfo extends BaseSingletonTypeInfo,
+  Fields extends BaseFields<ListTypeInfo>
+> = {
+  kind: 'singleton';
+  fields: Fields;
+  access?: SingletonAccessControl<ListTypeInfo>;
+  ui?: SingletonAdminUIConfig<ListTypeInfo>;
+  hooks?: ListHooks<ListTypeInfo>;
+  graphql?: SingletonGraphQLConfig;
+  db?: ListDBConfig;
+  description?: string;
+};
+
 export type ListConfig<
+  ListTypeInfo extends BaseListTypeInfo,
+  Fields extends BaseFields<BaseListTypeInfo>
+> = {
+  kind: 'list';
+} & ListConfigWithoutKind<ListTypeInfo, Fields>;
+
+export type ListConfigWithoutKind<
   ListTypeInfo extends BaseListTypeInfo,
   Fields extends BaseFields<ListTypeInfo>
 > = {
@@ -64,33 +89,19 @@ export type ListConfig<
 export type ListAdminUIConfig<
   ListTypeInfo extends BaseListTypeInfo,
   Fields extends BaseFields<ListTypeInfo>
-> = {
+> = CommonListAdminUI<ListTypeInfo> & {
   /**
    * The field to use as a label in the Admin UI. If you want to base the label off more than a single field, use a virtual field and reference that field here.
    * @default 'label', if it exists, falling back to 'name', then 'title', and finally 'id', which is guaranteed to exist.
    */
-  labelField?: 'id' | keyof Fields;
+  labelField?: 'id' | (keyof Fields & string);
   /**
    * The fields used by the Admin UI when searching this list.
    * It is always possible to search by id and `id` should not be specified in this option.
    * @default The `labelField` if it has a string `contains` filter, otherwise none.
    */
-  searchFields?: readonly Extract<keyof Fields, string>[];
+  searchFields?: readonly (keyof Fields & string)[];
 
-  /** The path that the list should be at in the Admin UI */
-  // Not currently used. Should be passed into `keystone.createList()`.
-  // path?: string;
-  /**
-   * The description shown on the list page
-   * @default listConfig.description
-   */
-  description?: string; // the description displayed below the field in the Admin UI
-
-  /**
-   * Excludes this list from the Admin UI
-   * @default false
-   */
-  isHidden?: MaybeSessionFunction<boolean, ListTypeInfo>;
   /**
    * Hides the create button in the Admin UI.
    * Note that this does **not** disable creating items through the GraphQL API, it only hides the button to create an item for this list in the Admin UI.
@@ -116,19 +127,6 @@ export type ListAdminUIConfig<
   };
 
   /**
-   * Configuration specific to the item view in the Admin UI
-   */
-  itemView?: {
-    /**
-     * The default field mode for fields on the item view for this list.
-     * This controls what people can do for fields
-     * Specific field modes on a per-field basis via a field's config.
-     * @default 'edit'
-     */
-    defaultFieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', ListTypeInfo>;
-  };
-
-  /**
    * Configuration specific to the list view in the Admin UI
    */
   listView?: {
@@ -143,12 +141,49 @@ export type ListAdminUIConfig<
      * Users of the Admin UI can select different columns to show in the UI.
      * @default the first three fields in the list
      */
-    initialColumns?: readonly ('id' | keyof Fields)[];
+    initialColumns?: readonly ('id' | (keyof Fields & string))[];
     // was previously top-level defaultSort
-    initialSort?: { field: 'id' | keyof Fields; direction: 'ASC' | 'DESC' };
+    initialSort?: { field: 'id' | (keyof Fields & string); direction: 'ASC' | 'DESC' };
     // was previously defaultPageSize
     pageSize?: number; // default number of items to display per page on the list screen
     // note: we are removing maximumPageSize
+  };
+
+  /**
+   * The plural form of the list key.
+   *
+   * It is used in sentences like `Are you sure you want to delete this {singular}?`.
+   * @default pluralize.plural(label)
+   */
+  plural?: string;
+};
+
+type CommonListAdminUI<ListTypeInfo extends BaseSchemaTypeInfo> = {
+  /** The path that the list should be at in the Admin UI */
+  // Not currently used. Should be passed into `keystone.createList()`.
+  // path?: string;
+  /**
+   * The description shown on the list page
+   * @default listConfig.description
+   */
+  description?: string; // the description displayed below the field in the Admin UI
+
+  /**
+   * Excludes this list from the Admin UI
+   * @default false
+   */
+  isHidden?: MaybeSessionFunction<boolean, ListTypeInfo>;
+  /**
+   * Configuration specific to the item view in the Admin UI
+   */
+  itemView?: {
+    /**
+     * The default field mode for fields on the item view for this list.
+     * This controls what people can do for fields
+     * Specific field modes on a per-field basis via a field's config.
+     * @default 'edit'
+     */
+    defaultFieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', ListTypeInfo>;
   };
 
   /**
@@ -166,14 +201,6 @@ export type ListAdminUIConfig<
   singular?: string;
 
   /**
-   * The plural form of the list key.
-   *
-   * It is used in sentences like `Are you sure you want to delete this {singular}?`.
-   * @default pluralize.plural(label)
-   */
-  plural?: string;
-
-  /**
    * The path segment to identify the list in URLs.
    *
    * It must match the pattern `/^[a-z-_][a-z0-9-_]*$/`.
@@ -182,9 +209,12 @@ export type ListAdminUIConfig<
   path?: string;
 };
 
+export type SingletonAdminUIConfig<ListTypeInfo extends BaseSingletonTypeInfo> =
+  CommonListAdminUI<ListTypeInfo>;
+
 export type MaybeSessionFunction<
   T extends string | boolean,
-  ListTypeInfo extends BaseListTypeInfo
+  ListTypeInfo extends BaseSchemaTypeInfo
 > =
   | T
   | ((args: {
@@ -192,13 +222,33 @@ export type MaybeSessionFunction<
       context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
     }) => MaybePromise<T>);
 
-export type MaybeItemFunction<T, ListTypeInfo extends BaseListTypeInfo> =
+export type MaybeItemFunction<T, ListTypeInfo extends BaseSchemaTypeInfo> =
   | T
   | ((args: {
       session: any;
       context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
       item: ListTypeInfo['item'];
     }) => MaybePromise<T>);
+
+export type SingletonGraphQLConfig = {
+  /**
+   * The description added to the GraphQL schema
+   * @default listConfig.description
+   */
+  description?: string;
+  cacheHint?: ((args: CacheHintArgs) => CacheHint) | CacheHint;
+  // Setting any of these values will remove the corresponding operations from the GraphQL schema.
+  // Queries:
+  //   'query':  Does item()/items() exist?
+  // Mutations:
+  //   'create': Does createItem/createItems exist? Does `create` exist on the RelationshipInput types?
+  //   'update': Does updateItem/updateItems exist?
+  // If `true`, then everything will be omitted, including the output type. This makes it a DB only list,
+  // including from the point of view of relationships to this list.
+  //
+  // Default: undefined
+  omit?: true | readonly ('query' | 'update')[];
+};
 
 export type ListGraphQLConfig = {
   /**

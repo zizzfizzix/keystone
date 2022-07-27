@@ -12,7 +12,7 @@ import { OptionPrimitive, Options } from '@keystone-ui/options';
 import { PopoverDialog, usePopover } from '@keystone-ui/popover';
 
 import { FieldMeta, JSONValue } from '../../../../types';
-import { useList } from '../../../../admin-ui/context';
+import { useSchema } from '../../../../admin-ui/context';
 import { useRouter } from '../../../../admin-ui/router';
 
 type State =
@@ -97,7 +97,7 @@ function FilterAddPopoverContent({
   listKey: string;
   filterableFields: Set<string>;
 }) {
-  const list = useList(listKey);
+  const list = useSchema(listKey);
   const router = useRouter();
   const fieldsWithFilters = useMemo(() => {
     const fieldsWithFilters: Record<

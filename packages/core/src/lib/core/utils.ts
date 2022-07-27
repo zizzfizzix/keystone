@@ -1,9 +1,13 @@
 import { Limit } from 'p-limit';
 import pluralize from 'pluralize';
-import { BaseItem, KeystoneConfig, KeystoneContext } from '../../types';
+import {
+  BaseItem,
+  KeystoneConfig,
+  KeystoneContext,
+} from '../../types';
 import { humanize } from '../utils';
 import { prismaError } from './graphql-errors';
-import { InitialisedList } from './types-for-lists';
+import { InitialisedSchema, InitialisedList } from './types-for-lists';
 import { PrismaFilter, UniquePrismaFilter } from './where-inputs';
 
 declare const prisma: unique symbol;
@@ -76,7 +80,7 @@ export type PrismaClient = {
 // Run prisma operations as part of a resolver
 export async function runWithPrisma<T>(
   context: KeystoneContext,
-  { listKey }: InitialisedList,
+  { listKey }: InitialisedSchema,
   fn: (model: PrismaModel) => Promise<T>
 ) {
   const model = context.prisma[listKey[0].toLowerCase() + listKey.slice(1)];
@@ -119,30 +123,40 @@ export async function promiseAllRejectWithAllErrors<T extends unknown[]>(
   return results.map((x: any) => x.value) as any;
 }
 
-export function getNamesFromList(
-  listKey: string,
-  { graphql, ui }: KeystoneConfig['lists'][string]
-) {
+export function getNamesFromList(listKey: string, config: KeystoneConfig['lists'][string]) {
   const computedSingular = humanize(listKey);
   const computedPlural = pluralize.plural(computedSingular);
 
-  const path = ui?.path || labelToPath(computedPlural);
+  const path =
+    config.ui?.path || labelToPath(config.kind === 'list' ? computedPlural : computedSingular);
 
-  if (ui?.path !== undefined && !/^[a-z-_][a-z0-9-_]*$/.test(ui.path)) {
+  if (config.ui?.path !== undefined && !/^[a-z-_][a-z0-9-_]*$/.test(config.ui.path)) {
     throw new Error(
-      `ui.path for ${listKey} is ${ui.path} but it must only contain lowercase letters, numbers, dashes, and underscores and not start with a number`
+      `ui.path for ${listKey} is ${config.ui.path} but it must only contain lowercase letters, numbers, dashes, and underscores and not start with a number`
     );
   }
 
+  if (config.kind === 'singleton') {
+    const adminUILabels = {
+      label: config.ui?.label || computedPlural,
+      singular: config.ui?.singular || computedSingular,
+      plural: computedPlural,
+      path,
+    };
+    const pluralGraphQLName = '';
+
+    return { pluralGraphQLName, adminUILabels };
+  }
+
   const adminUILabels = {
-    label: ui?.label || computedPlural,
-    singular: ui?.singular || computedSingular,
-    plural: ui?.plural || computedPlural,
+    label: config.ui?.label || computedPlural,
+    singular: config.ui?.singular || computedSingular,
+    plural: config.ui?.plural || computedPlural,
     path,
   };
 
-  const pluralGraphQLName = graphql?.plural || labelToClass(computedPlural);
-  if (pluralGraphQLName === listKey) {
+  const pluralGraphQLName = config.graphql?.plural || labelToClass(computedPlural);
+  if (config.kind === 'list' && pluralGraphQLName === listKey) {
     throw new Error(
       `The list key and the plural name used in GraphQL must be different but the list key ${listKey} is the same as the plural GraphQL name, please specify graphql.plural`
     );
@@ -173,7 +187,21 @@ export const setWriteLimit = (prismaClient: object, limit: Limit) => {
 export const getWriteLimit = (context: KeystoneContext) => {
   const limit = writeLimits.get(context.prisma);
   if (limit === undefined) {
-    throw new Error('unexpected write limit not set for prisma client');
+    throw new Error('Unexpected write limit not set for prisma client');
   }
   return limit;
 };
+
+export function throwIfNotList(list: InitialisedSchema): InitialisedList {
+  if (list.kind === 'list') return list;
+  throw new Error(`${list.listKey} is not a list`);
+}
+
+export function getListDbAPI(
+  context: KeystoneContext,
+  listKey: string
+) {
+  const db = context.db[listKey];
+  if (db.kind === 'list') return db;
+  throw new Error(`${listKey} is not a list`);
+}

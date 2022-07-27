@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 import { graphql } from '..';
-import { BaseListTypeInfo } from './type-info';
+import { BaseSchemaTypeInfo } from './type-info';
 import { CommonFieldConfig } from './config';
 import { DatabaseProvider } from './core';
 import { AdminMetaRootVal, JSONValue, KeystoneContext, MaybePromise, StorageConfig } from '.';
@@ -19,7 +19,7 @@ export type FieldData = {
   fieldKey: string;
 };
 
-export type FieldTypeFunc<ListTypeInfo extends BaseListTypeInfo> = (
+export type FieldTypeFunc<ListTypeInfo extends BaseSchemaTypeInfo> = (
   data: FieldData
 ) => NextFieldType<
   DBField,
@@ -49,7 +49,7 @@ export type NextFieldType<
     graphql.NullableInputType,
     false
   >,
-  ListTypeInfo extends BaseListTypeInfo = BaseListTypeInfo
+  ListTypeInfo extends BaseSchemaTypeInfo = BaseSchemaTypeInfo
 > = {
   dbField: TDBField;
 } & FieldTypeWithoutDBField<
@@ -375,7 +375,7 @@ export type FieldTypeWithoutDBField<
     graphql.NullableInputType,
     false
   >,
-  ListTypeInfo extends BaseListTypeInfo = BaseListTypeInfo
+  ListTypeInfo extends BaseSchemaTypeInfo = BaseSchemaTypeInfo
 > = {
   input?: {
     uniqueWhere?: UniqueWhereFieldInputArg<DBFieldUniqueWhere<TDBField>, UniqueWhereArg>;
@@ -392,6 +392,25 @@ export type FieldTypeWithoutDBField<
 } & CommonFieldConfig<ListTypeInfo>;
 
 type AnyInputObj = graphql.InputObjectType<Record<string, graphql.Arg<graphql.InputType, any>>>;
+
+export type GraphqlTypesForSingleton = {
+  update: AnyInputObj;
+  create: AnyInputObj;
+  output: graphql.ObjectType<BaseItem>;
+  relateTo: {
+    one: {
+      create?: graphql.InputObjectType<{
+        create?: graphql.Arg<GraphqlTypesForSingleton['create']>;
+        connect: graphql.Arg<typeof graphql.Boolean>;
+      }>;
+      update?: graphql.InputObjectType<{
+        create?: graphql.Arg<GraphqlTypesForSingleton['create']>;
+        connect: graphql.Arg<typeof graphql.Boolean>;
+        disconnect: graphql.Arg<typeof graphql.Boolean>;
+      }>;
+    };
+  };
+};
 
 export type GraphQLTypesForList = {
   update: AnyInputObj;
@@ -452,7 +471,7 @@ export type FindManyArgs = {
 export type FindManyArgsValue = graphql.InferValueFromArgs<FindManyArgs>;
 
 // fieldType(dbField)(fieldInfo) => { ...fieldInfo, dbField };
-export function fieldType<TDBField extends DBField, ListTypeInfo extends BaseListTypeInfo>(
+export function fieldType<TDBField extends DBField, ListTypeInfo extends BaseSchemaTypeInfo>(
   dbField: TDBField
 ) {
   return function <

@@ -1,8 +1,8 @@
 import { KeystoneContext } from '../../../types';
 import { accessDeniedError, accessReturnError, extensionError } from '../graphql-errors';
 import { mapUniqueWhereToWhere } from '../queries/resolvers';
-import { InitialisedList } from '../types-for-lists';
-import { runWithPrisma } from '../utils';
+import { InitialisedList, InitialisedSchema } from '../types-for-lists';
+import { runWithPrisma, getListDbAPI } from '../utils';
 import {
   InputFilter,
   resolveUniqueWhereInput,
@@ -19,7 +19,7 @@ const missingItem = (operation: string, uniqueWhere: UniquePrismaFilter) =>
   );
 
 async function getFilteredItem(
-  list: InitialisedList,
+  list: InitialisedSchema,
   context: KeystoneContext,
   uniqueWhere: UniquePrismaFilter,
   accessFilters: boolean | InputFilter,
@@ -33,8 +33,8 @@ async function getFilteredItem(
   }
 
   // Merge the filter access control and try to get the item.
-  let where = mapUniqueWhereToWhere(uniqueWhere);
-  if (typeof accessFilters === 'object') {
+  let where = list.kind === 'list' ? mapUniqueWhereToWhere(uniqueWhere) : {};
+  if (typeof accessFilters === 'object' && list.kind === 'list') {
     where = { AND: [where, await resolveWhereInput(accessFilters, list, context)] };
   }
   const item = await runWithPrisma(context, list, model => model.findFirst({ where }));
@@ -54,7 +54,13 @@ export async function checkUniqueItemExists(
   const uniqueWhere = await resolveUniqueWhereInput(uniqueInput, foreignList.fields, context);
   // Check whether the item exists (from this users POV).
   try {
-    const item = await context.db[foreignList.listKey].findOne({ where: uniqueInput });
+    const dbApi = getListDbAPI(context, foreignList.listKey);
+
+    if (dbApi.kind !== 'list') {
+      throw new Error(`${dbApi.kind} is not a standard list`);
+    }
+
+    const item = await dbApi.findOne({ where: uniqueInput });
     if (item === null) {
       throw missingItem(operation, uniqueWhere);
     }
@@ -115,7 +121,8 @@ export async function getAccessControlledItemForDelete(
 }
 
 export async function getAccessControlledItemForUpdate(
-  list: InitialisedList,
+  // TODO should this include singletons?
+  list: InitialisedSchema,
   context: KeystoneContext,
   uniqueWhere: UniquePrismaFilter,
   accessFilters: boolean | InputFilter,

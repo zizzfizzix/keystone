@@ -13,10 +13,11 @@ import {
   FieldController,
   FieldControllerConfig,
   FieldProps,
+  SchemaMeta,
   ListMeta,
 } from '../../../../types';
 import { Link } from '../../../../admin-ui/router';
-import { useKeystone, useList } from '../../../../admin-ui/context';
+import { useKeystone, useSchema, useList } from '../../../../admin-ui/context';
 import { gql, useQuery } from '../../../../admin-ui/apollo';
 import { CellContainer, CreateItemDrawer } from '../../../../admin-ui/components';
 
@@ -82,7 +83,8 @@ export const Field = ({
 }: FieldProps<typeof controller>) => {
   const keystone = useKeystone();
   const foreignList = useList(field.refListKey);
-  const localList = useList(field.listKey);
+
+  const localList = useSchema(field.listKey);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   if (value.kind === 'cards-view') {
@@ -284,7 +286,7 @@ export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
 };
 
 export const CardValue: CardValueComponent<typeof controller> = ({ field, item }) => {
-  const list = useList(field.refListKey);
+  const list = useSchema(field.refListKey);
   const data = item[field.path];
   return (
     <FieldContainer>
@@ -527,7 +529,7 @@ export const controller = (
         };
       },
       Label({ value }) {
-        const foreignList = useList(config.fieldMeta.refListKey);
+        const foreignList = useSchema(config.fieldMeta.refListKey);
         const { filterValues } = useRelationshipFilterValues({
           value,
           list: foreignList,
@@ -623,10 +625,12 @@ export const controller = (
   };
 };
 
-function useRelationshipFilterValues({ value, list }: { value: string; list: ListMeta }) {
+function useRelationshipFilterValues({ value, list }: { value: string; list: SchemaMeta }) {
   const foreignIds = getForeignIds(value);
   const where = { id: { in: foreignIds } };
-
+  if (list.kind === 'singleton') {
+    throw new Error('Singleton bad');
+  }
   const query = gql`
     query FOREIGNLIST_QUERY($where: ${list.gqlNames.whereInputName}!) {
       items: ${list.gqlNames.listQueryName}(where: $where) {

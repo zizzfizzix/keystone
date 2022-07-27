@@ -22,7 +22,7 @@ import { gql, TypedDocumentNode, useMutation, useQuery } from '../../../../admin
 import { CellLink } from '../../../../admin-ui/components';
 import { PageContainer, HEADER_HEIGHT } from '../../../../admin-ui/components/PageContainer';
 import { Pagination, PaginationLabel } from '../../../../admin-ui/components/Pagination';
-import { useList } from '../../../../admin-ui/context';
+import { useSchema, useList } from '../../../../admin-ui/context';
 import { Link, useRouter } from '../../../../admin-ui/router';
 import { FieldSelection } from './FieldSelection';
 import { FilterAdd } from './FilterAdd';
@@ -59,8 +59,10 @@ let listMetaGraphqlQuery: TypedDocumentNode<
     keystone {
       adminMeta {
         list(key: $listKey) {
-          hideDelete
-          hideCreate
+          ... on KeystoneAdminUIListMeta {
+            hideDelete
+            hideCreate
+          }
           fields {
             path
             isOrderable
@@ -129,7 +131,6 @@ export const getListPage = (props: ListPageProps) => () => <ListPage {...props} 
 
 const ListPage = ({ listKey }: ListPageProps) => {
   const list = useList(listKey);
-
   const { query } = useRouter();
 
   const { resetToDefaults } = useQueryParamsFromLocalStorage(listKey);
@@ -338,7 +339,7 @@ const ListPage = ({ listKey }: ListPageProps) => {
 };
 
 const CreateButton = ({ listKey }: { listKey: string }) => {
-  const list = useList(listKey);
+  const list = useSchema(listKey);
 
   return (
     <Fragment>
@@ -362,7 +363,7 @@ const CreateButton = ({ listKey }: { listKey: string }) => {
 };
 
 const ListPageHeader = ({ listKey }: { listKey: string }) => {
-  const list = useList(listKey);
+  const list = useSchema(listKey);
   return (
     <Fragment>
       <div
@@ -570,7 +571,7 @@ function ListTable({
   onSelectedItemsChange(selectedItems: ReadonlySet<string>): void;
   orderableFields: Set<string>;
 }) {
-  const list = useList(listKey);
+  const list = useSchema(listKey);
   const { query } = useRouter();
   const shouldShowLinkIcon =
     !list.fields[selectedFields.keys().next().value].views.Cell.supportsLinkTo;

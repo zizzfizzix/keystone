@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { FieldMeta, ListMeta } from '../../../../../types';
+import { FieldMeta, SchemaMeta } from '../../../../../types';
 import { DataGetter, makeDataGetter } from '../../../../../admin-ui/utils';
 import { gql, useQuery } from '../../../../../admin-ui/apollo';
 import { controller } from '../index';
@@ -20,7 +20,7 @@ export function useItemState({
   field,
 }: {
   selectedFields: string;
-  localList: ListMeta;
+  localList: SchemaMeta;
   field: ReturnType<typeof controller>;
   id: string | null;
 }) {
@@ -135,7 +135,7 @@ export function useItemState({
   };
 }
 
-export function useFieldsObj(list: ListMeta, fields: readonly string[] | undefined) {
+export function useFieldsObj(list: SchemaMeta, fields: readonly string[] | undefined) {
   return useMemo(() => {
     const editFields: Record<string, FieldMeta> = {};
     fields?.forEach(fieldPath => {

@@ -13,8 +13,8 @@ import {
 import { graphql } from '../../..';
 import { getOperationAccess, getAccessFilters } from '../access-control';
 import { ResolvedDBField, ResolvedRelationDBField } from '../resolve-relationships';
-import { InitialisedList } from '../types-for-lists';
-import { IdType, getDBFieldKeyForFieldOnMultiField, runWithPrisma } from '../utils';
+import { InitialisedSchema, InitialisedList } from '../types-for-lists';
+import { IdType, getDBFieldKeyForFieldOnMultiField, runWithPrisma, throwIfNotList } from '../utils';
 import { accessReturnError, extensionError } from '../graphql-errors';
 import { accessControlledFilter } from './resolvers';
 import * as queries from './resolvers';
@@ -99,7 +99,7 @@ function getValueForDBField(
   id: IdType,
   fieldPath: string,
   context: KeystoneContext,
-  lists: Record<string, InitialisedList>,
+  lists: Record<string, InitialisedSchema>,
   info: GraphQLResolveInfo
 ) {
   if (dbField.kind === 'multi') {
@@ -116,7 +116,7 @@ function getValueForDBField(
     if (dbField.mode === 'one' && dbField.foreignIdField.kind !== 'none') {
       fk = rootVal[`${fieldPath}Id`] as IdType;
     }
-    return getRelationVal(dbField, id, lists[dbField.list], context, info, fk);
+    return getRelationVal(dbField, id, throwIfNotList(lists[dbField.list]), context, info, fk);
   } else {
     return rootVal[fieldPath] as any;
   }
@@ -129,7 +129,7 @@ export function outputTypeField(
   access: IndividualFieldAccessControl<FieldReadItemAccessArgs<BaseListTypeInfo>>,
   listKey: string,
   fieldKey: string,
-  lists: Record<string, InitialisedList>
+  lists: Record<string, InitialisedSchema>
 ) {
   return graphql.field({
     type: output.type,

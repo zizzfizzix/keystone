@@ -1,13 +1,14 @@
 import type { KeystoneConfig, AdminMetaRootVal } from '../types';
 import { getAdminMetaSchema } from '../admin-ui/system';
 import { graphql } from '../types/schema';
-import { InitialisedList } from './core/types-for-lists';
+import { InitialisedSchema } from './core/types-for-lists';
 import { getGraphQLSchema } from './core/graphql-schema';
 export function createGraphQLSchema(
   config: KeystoneConfig,
-  lists: Record<string, InitialisedList>,
+  lists: Record<string, InitialisedSchema>,
   adminMeta: AdminMetaRootVal
 ) {
+  const adminMetaSchema = getAdminMetaSchema({ adminMeta, config, lists });
   // Start with the core keystone graphQL schema
   let graphQLSchema = getGraphQLSchema(lists, {
     mutation: config.session
@@ -23,7 +24,8 @@ export function createGraphQLSchema(
           }),
         }
       : {},
-    query: getAdminMetaSchema({ adminMeta, config, lists }),
+    query: adminMetaSchema.fields,
+    types: adminMetaSchema.types,
   });
 
   // Merge in the user defined graphQL API

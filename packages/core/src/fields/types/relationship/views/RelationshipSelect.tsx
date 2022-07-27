@@ -7,7 +7,7 @@ import { RefObject, useEffect, useMemo, useState, createContext, useContext, use
 import { jsx } from '@keystone-ui/core';
 import { MultiSelect, Select, selectComponents } from '@keystone-ui/fields';
 import { validate as validateUUID } from 'uuid';
-import { IdFieldConfig, ListMeta } from '../../../../types';
+import { IdFieldConfig, SchemaMeta, ListMeta } from '../../../../types';
 import {
   ApolloClient,
   gql,
@@ -111,7 +111,7 @@ export const RelationshipSelect = ({
   controlShouldRenderValue: boolean;
   isDisabled: boolean;
   isLoading?: boolean;
-  list: ListMeta;
+  list: SchemaMeta;
   placeholder?: string;
   portalMenu?: true | undefined;
   state:
@@ -127,6 +127,10 @@ export const RelationshipSelect = ({
       };
   extraSelection?: string;
 }) => {
+  if (list.kind === 'singleton') {
+    throw new Error('singleton bad');
+  }
+
   const [search, setSearch] = useState('');
   // note it's important that this is in state rather than a ref
   // because we want a re-render if the element changes

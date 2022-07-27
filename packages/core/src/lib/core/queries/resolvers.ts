@@ -10,8 +10,8 @@ import {
   InputFilter,
 } from '../where-inputs';
 import { limitsExceededError, userInputError } from '../graphql-errors';
-import { InitialisedList } from '../types-for-lists';
-import { getDBFieldKeyForFieldOnMultiField, runWithPrisma } from '../utils';
+import { InitialisedList, InitialisedSingleton } from '../types-for-lists';
+import { getDBFieldKeyForFieldOnMultiField, runWithPrisma, throwIfNotList } from '../utils';
 import { checkFilterOrderAccess } from '../filter-order-access';
 
 // we want to put the value we get back from the field's unique where resolver into an equals
@@ -45,7 +45,7 @@ function traverseQuery(
       const field = list.fields[fieldKey];
       if (field.dbField.kind === 'relation' && value !== null) {
         const foreignList = field.dbField.list;
-        traverseQuery(list.lists[foreignList], context, value, filterFields);
+        traverseQuery(throwIfNotList(list.lists[foreignList]), context, value, filterFields);
       }
     }
   });
@@ -104,6 +104,18 @@ export async function findOne(
   const filter = await accessControlledFilter(list, context, resolvedWhere, accessFilters);
 
   return runWithPrisma(context, list, model => model.findFirst({ where: filter }));
+}
+
+export async function findSingleton(list: InitialisedSingleton, context: KeystoneContext) {
+  // Check operation permission to pass into single operation
+  const operationAccess = await getOperationAccess(list, context, 'query');
+  if (!operationAccess) {
+    return null;
+  }
+
+  // TODO add item access control
+
+  return runWithPrisma(context, list, model => model.findUnique({ where: { id: 1 } }));
 }
 
 export async function findMany(

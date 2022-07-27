@@ -1,7 +1,9 @@
 import type { KeystoneContextFromListTypeInfo } from '..';
-import { BaseListTypeInfo } from '../type-info';
+import { BaseSchemaTypeInfo } from '../type-info';
+import { MaybePromise } from '../utils';
+import { GetCreateInput } from './access-control';
 
-type CommonArgs<ListTypeInfo extends BaseListTypeInfo> = {
+type CommonArgs<ListTypeInfo extends BaseSchemaTypeInfo> = {
   context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
   /**
    * The key of the list that the operation is occurring on
@@ -9,7 +11,7 @@ type CommonArgs<ListTypeInfo extends BaseListTypeInfo> = {
   listKey: string;
 };
 
-export type ListHooks<ListTypeInfo extends BaseListTypeInfo> = {
+export type ListHooks<ListTypeInfo extends BaseSchemaTypeInfo> = {
   /**
    * Used to **modify the input** for create and update operations after default values and access control have been applied
    */
@@ -42,7 +44,7 @@ type AddFieldPathArgToAllPropsOnObj<T extends Record<string, (arg: any) => any>>
   [Key in keyof T]: AddFieldPathToObj<T[Key]>;
 };
 
-export type FieldHooks<ListTypeInfo extends BaseListTypeInfo> = AddFieldPathArgToAllPropsOnObj<{
+export type FieldHooks<ListTypeInfo extends BaseSchemaTypeInfo> = AddFieldPathArgToAllPropsOnObj<{
   /**
    * Used to **modify the input** for create and update operations after default values and access control have been applied
    */
@@ -65,7 +67,7 @@ export type FieldHooks<ListTypeInfo extends BaseListTypeInfo> = AddFieldPathArgT
   afterOperation?: AfterOperationHook<ListTypeInfo>;
 }>;
 
-type ArgsForCreateOrUpdateOperation<ListTypeInfo extends BaseListTypeInfo> =
+type ArgsForCreateOrUpdateOperation<ListTypeInfo extends BaseSchemaTypeInfo> =
   | {
       operation: 'create';
       // technically this will never actually exist for a create
@@ -95,28 +97,13 @@ type ArgsForCreateOrUpdateOperation<ListTypeInfo extends BaseListTypeInfo> =
       resolvedData: ListTypeInfo['inputs']['update'];
     };
 
-type ResolveInputListHook<ListTypeInfo extends BaseListTypeInfo> = (
+type ResolveInputListHook<ListTypeInfo extends BaseSchemaTypeInfo> = (
   args: ArgsForCreateOrUpdateOperation<ListTypeInfo> & CommonArgs<ListTypeInfo>
-) =>
-  | Promise<ListTypeInfo['inputs']['create'] | ListTypeInfo['inputs']['update']>
-  | ListTypeInfo['inputs']['create']
-  | ListTypeInfo['inputs']['update']
-  // TODO: These were here to support field hooks before we created a separate type
-  // (see ResolveInputFieldHook), check whether they're safe to remove now
-  | Record<string, any>
-  | string
-  | number
-  | boolean
-  | null;
+) => MaybePromise<GetCreateInput<ListTypeInfo> | ListTypeInfo['inputs']['update']>;
 
-type ResolveInputFieldHook<ListTypeInfo extends BaseListTypeInfo> = (
+type ResolveInputFieldHook<ListTypeInfo extends BaseSchemaTypeInfo> = (
   args: ArgsForCreateOrUpdateOperation<ListTypeInfo> & CommonArgs<ListTypeInfo>
 ) =>
-  | Promise<ListTypeInfo['inputs']['create'] | ListTypeInfo['inputs']['update']>
-  | ListTypeInfo['inputs']['create']
-  | ListTypeInfo['inputs']['update']
-  // TODO: These may or may not be correct, but without them you can't define a
-  // resolveInput hook for a field that returns a simple value (e.g timestamp)
   | Record<string, any>
   | string
   | number
@@ -125,13 +112,13 @@ type ResolveInputFieldHook<ListTypeInfo extends BaseListTypeInfo> = (
   // Fields need to be able to return `undefined` to say "don't touch this field"
   | undefined;
 
-type ValidateInputHook<ListTypeInfo extends BaseListTypeInfo> = (
+type ValidateInputHook<ListTypeInfo extends BaseSchemaTypeInfo> = (
   args: ArgsForCreateOrUpdateOperation<ListTypeInfo> & {
     addValidationError: (error: string) => void;
   } & CommonArgs<ListTypeInfo>
 ) => Promise<void> | void;
 
-type ValidateDeleteHook<ListTypeInfo extends BaseListTypeInfo> = (
+type ValidateDeleteHook<ListTypeInfo extends BaseSchemaTypeInfo> = (
   args: {
     operation: 'delete';
     item: ListTypeInfo['item'];
@@ -139,7 +126,7 @@ type ValidateDeleteHook<ListTypeInfo extends BaseListTypeInfo> = (
   } & CommonArgs<ListTypeInfo>
 ) => Promise<void> | void;
 
-type BeforeOperationHook<ListTypeInfo extends BaseListTypeInfo> = (
+type BeforeOperationHook<ListTypeInfo extends BaseSchemaTypeInfo> = (
   args: (
     | ArgsForCreateOrUpdateOperation<ListTypeInfo>
     | {
@@ -152,7 +139,7 @@ type BeforeOperationHook<ListTypeInfo extends BaseListTypeInfo> = (
     CommonArgs<ListTypeInfo>
 ) => Promise<void> | void;
 
-type AfterOperationHook<ListTypeInfo extends BaseListTypeInfo> = (
+type AfterOperationHook<ListTypeInfo extends BaseSchemaTypeInfo> = (
   args: (
     | ArgsForCreateOrUpdateOperation<ListTypeInfo>
     | {

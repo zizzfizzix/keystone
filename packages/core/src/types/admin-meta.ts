@@ -4,7 +4,7 @@ import { GqlNames, JSONValue } from './utils';
 
 export type NavigationProps = {
   authenticatedItem: AuthenticatedItem;
-  lists: ListMeta[];
+  lists: SchemaMeta[];
 };
 
 export type AuthenticatedItem =
@@ -91,25 +91,10 @@ export type FieldMeta = {
   };
 };
 
-export type ListMeta = {
-  key: string;
-  path: string;
-  label: string;
-  singular: string;
-  plural: string;
-  description: string | null;
-  gqlNames: GqlNames;
-  initialColumns: string[];
-  pageSize: number;
-  labelField: string;
-  initialSort: null | { direction: 'ASC' | 'DESC'; field: string };
-  fields: { [path: string]: FieldMeta };
-};
-
 export type AdminMeta = {
   enableSignout: boolean;
   enableSessionItem: boolean;
-  lists: { [list: string]: ListMeta };
+  lists: { [list: string]: SchemaMeta };
 };
 
 export type FieldProps<FieldControllerFn extends (...args: any) => FieldController<any, any>> = {
@@ -169,26 +154,60 @@ export type FieldMetaRootVal = {
   search: 'default' | 'insensitive' | null;
 };
 
-export type ListMetaRootVal = {
+export type ListMetaRootValCommon = {
   key: string;
   path: string;
   label: string;
   singular: string;
+  description: string | null;
+  fields: Array<FieldMetaRootVal>;
+};
+
+export type SchemaMetaRootVal = ListMetaRootVal | SingletonMetaRootVal;
+
+type SchemaMetaCommon = {
+  key: string;
+  path: string;
+  label: string;
+  singular: string;
+  description: string | null;
+  fields: { [path: string]: FieldMeta };
+  gqlNames: GqlNames;
+};
+
+export type ListMeta = SchemaMetaCommon & {
+  plural: string;
+  initialColumns: string[];
+  pageSize: number;
+  labelField: string;
+  kind: 'list';
+  initialSort: null | { direction: 'ASC' | 'DESC'; field: string };
+};
+
+type SingletonMeta = SchemaMetaCommon & {
+  kind: 'singleton';
+};
+
+export type SchemaMeta = ListMeta | SingletonMeta;
+
+export type ListMetaRootVal = ListMetaRootValCommon & {
   plural: string;
   initialColumns: string[];
   pageSize: number;
   labelField: string;
   initialSort: { field: string; direction: 'ASC' | 'DESC' } | null;
-  fields: Array<FieldMetaRootVal>;
-  itemQueryName: string;
   listQueryName: string;
-  description: string | null;
+  kind: 'list';
+};
+
+export type SingletonMetaRootVal = ListMetaRootValCommon & {
+  kind: 'singleton';
 };
 
 export type AdminMetaRootVal = {
   enableSignout: boolean;
   enableSessionItem: boolean;
-  lists: Array<ListMetaRootVal>;
-  listsByKey: Record<string, ListMetaRootVal>;
+  lists: Array<SchemaMetaRootVal>;
+  listsByKey: Record<string, SchemaMetaRootVal>;
   views: string[];
 };

@@ -10,7 +10,7 @@ import {
   introspectionTypes,
 } from 'graphql';
 import { getGqlNames } from '../types';
-import { InitialisedList } from './core/types-for-lists';
+import { InitialisedSchema } from './core/types-for-lists';
 
 const introspectionTypesSet = new Set(introspectionTypes);
 
@@ -77,7 +77,7 @@ function printInputTypesFromSchema(schema: GraphQLSchema, scalars: Record<string
 
 export function printGeneratedTypes(
   graphQLSchema: GraphQLSchema,
-  lists: Record<string, InitialisedList>
+  lists: Record<string, InitialisedSchema>
 ) {
   let scalars = {
     ID: 'string',
@@ -99,24 +99,38 @@ export function printGeneratedTypes(
 
     const listTypeInfoName = `Lists.${listKey}.TypeInfo`;
 
+    const inputs =
+      list.kind === 'list'
+        ? `{
+      where: ${gqlNames.whereInputName};
+      uniqueWhere: ${gqlNames.whereUniqueInputName};
+      create: ${gqlNames.createInputName};
+      update: ${gqlNames.updateInputName};
+      orderBy: ${gqlNames.listOrderName};
+    };`
+        : `{
+      update: ${gqlNames.updateInputName};
+      create: never;
+    };`;
+
     allListsStr += `\n  readonly ${listKey}: ${listTypeInfoName};`;
     listsNamespaceStr += `
-  export type ${listKey} = import('@keystone-6/core').ListConfig<${listTypeInfoName}, any>;
+  export type ${listKey} = import('@keystone-6/core/types').${
+      {
+        list: 'List',
+        singleton: 'Singleton',
+      }[list.kind]
+    }Config<${listTypeInfoName}, any>;
   namespace ${listKey} {
     export type Item = import('.prisma/client').${listKey};
     export type TypeInfo = {
+      kind: ${JSON.stringify(list.kind)};
       key: ${JSON.stringify(listKey)};
       fields: ${Object.keys(list.fields)
         .map(x => JSON.stringify(x))
         .join(' | ')}
       item: Item;
-      inputs: {
-        where: ${gqlNames.whereInputName};
-        uniqueWhere: ${gqlNames.whereUniqueInputName};
-        create: ${gqlNames.createInputName};
-        update: ${gqlNames.updateInputName};
-        orderBy: ${gqlNames.listOrderName};
-      };
+      inputs: ${inputs}
       all: __TypeInfo;
     };
   }`;
@@ -138,8 +152,12 @@ ${
 type __TypeInfo = TypeInfo;
 
 export type Lists = {
-  [Key in keyof TypeInfo['lists']]?: import('@keystone-6/core').ListConfig<TypeInfo['lists'][Key], any>
-} & Record<string, import('@keystone-6/core').ListConfig<any, any>>;
+  ${Object.keys(lists)
+    .map(listKey => {
+      return `${listKey}?: Lists.${listKey};`;
+    })
+    .join('\n')}
+} & Record<string, import('@keystone-6/core/types').SingletonConfig<any, any> | import('@keystone-6/core/types').ListConfig<any, any>>;
 `;
   return printedTypes + listsNamespaceStr + postlude;
 }

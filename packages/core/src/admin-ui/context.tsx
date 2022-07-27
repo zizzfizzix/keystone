@@ -148,13 +148,21 @@ export const useRawKeystone = () => {
   return value;
 };
 
-export const useList = (key: string) => {
+export const useSchema = (key: string) => {
   const {
     adminMeta: { lists },
   } = useKeystone();
   if (lists[key]) {
     return lists[key];
   } else {
-    throw new Error(`Invalid list key provided to useList: ${key}`);
+    throw new Error(`Invalid list key provided to useSchema: ${key}`);
   }
+};
+
+export const useList = (key: string) => {
+  const list = useSchema(key);
+  if (list.kind === 'singleton') {
+    throw new Error('singleton bad');
+  }
+  return list;
 };

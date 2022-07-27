@@ -1,6 +1,6 @@
 import { getGqlNames } from '../../../types';
 import { graphql } from '../../..';
-import { InitialisedList } from '../types-for-lists';
+import { InitialisedSchema, InitialisedSingleton, InitialisedList } from '../types-for-lists';
 import * as createAndUpdate from './create-update';
 import * as deletes from './delete';
 
@@ -20,8 +20,36 @@ function promisesButSettledWhenAllSettledAndInOrder<T extends Promise<unknown>[]
   }) as T;
 }
 
+export function getMutationsForSingleton(list: InitialisedSingleton) {
+  const names = getGqlNames(list);
+  return {
+    mutations: {
+      ...(list.graphql.isEnabled.update && {
+        [names.updateMutationName]: graphql.field({
+          type: list.types.output,
+          args: { data: graphql.arg({ type: graphql.nonNull(list.types.update) }) },
+          resolve(_rootVal, { data }, context) {
+            return createAndUpdate.updateSingleton({ data }, list, context);
+          },
+        }),
+      }),
+    },
+  };
+}
+
 export function getMutationsForList(list: InitialisedList) {
   const names = getGqlNames(list);
+
+  const updateOne = graphql.field({
+    type: list.types.output,
+    args: {
+      where: graphql.arg({ type: graphql.nonNull(list.types.uniqueWhere) }),
+      data: graphql.arg({ type: graphql.nonNull(list.types.update) }),
+    },
+    resolve(_rootVal, args, context) {
+      return createAndUpdate.updateOne(args, list, context);
+    },
+  });
 
   const createOne = graphql.field({
     type: list.types.output,
@@ -42,17 +70,6 @@ export function getMutationsForList(list: InitialisedList) {
       return promisesButSettledWhenAllSettledAndInOrder(
         await createAndUpdate.createMany(args, list, context)
       );
-    },
-  });
-
-  const updateOne = graphql.field({
-    type: list.types.output,
-    args: {
-      where: graphql.arg({ type: graphql.nonNull(list.types.uniqueWhere) }),
-      data: graphql.arg({ type: graphql.nonNull(list.types.update) }),
-    },
-    resolve(_rootVal, args, context) {
-      return createAndUpdate.updateOne(args, list, context);
     },
   });
 
@@ -114,4 +131,12 @@ export function getMutationsForList(list: InitialisedList) {
     },
     updateManyInput,
   };
+}
+
+export function getMutationsForSchema(list: InitialisedSchema) {
+  if (list.kind === 'singleton') {
+    return getMutationsForSingleton(list);
+  }
+
+  return getMutationsForList(list);
 }

@@ -9,7 +9,7 @@ import {
 } from '../../types';
 
 import { PrismaClient } from '../core/utils';
-import { InitialisedList } from '../core/types-for-lists';
+import { InitialisedSchema } from '../core/types-for-lists';
 import { createImagesContext } from '../assets/createImagesContext';
 import { createFilesContext } from '../assets/createFilesContext';
 import { getDbAPIFactory, itemAPIForList } from './itemAPI';
@@ -27,7 +27,7 @@ export function makeCreateContext({
   config: KeystoneConfig;
   prismaClient: PrismaClient;
   gqlNamesByList: Record<string, GqlNames>;
-  lists: Record<string, InitialisedList>;
+  lists: Record<string, InitialisedSchema>;
 }) {
   const images = createImagesContext(config);
   const files = createFilesContext(config);
@@ -41,12 +41,12 @@ export function makeCreateContext({
 
   const publicDbApiFactories: Record<string, ReturnType<typeof getDbAPIFactory>> = {};
   for (const [listKey, gqlNames] of Object.entries(gqlNamesByList)) {
-    publicDbApiFactories[listKey] = getDbAPIFactory(gqlNames, graphQLSchema);
+    publicDbApiFactories[listKey] = getDbAPIFactory(gqlNames, graphQLSchema, lists[listKey].kind);
   }
 
   const sudoDbApiFactories: Record<string, ReturnType<typeof getDbAPIFactory>> = {};
   for (const [listKey, gqlNames] of Object.entries(gqlNamesByList)) {
-    sudoDbApiFactories[listKey] = getDbAPIFactory(gqlNames, sudoGraphQLSchema);
+    sudoDbApiFactories[listKey] = getDbAPIFactory(gqlNames, sudoGraphQLSchema, lists[listKey].kind);
   }
 
   const createContext = ({
