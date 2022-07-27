@@ -6,7 +6,10 @@ import type { ListHooks } from './hooks';
 import type { ListAccessControl } from './access-control';
 import type { BaseFields, FilterOrderArgs } from './fields';
 
-export type ListSchemaConfig = Record<string, ListConfig<any, BaseFields<BaseSchemaTypeTypeInfo>>>;
+export type SchemaConfig = Record<
+  string,
+  SchemaTypeConfig<any, BaseFields<BaseSchemaTypeTypeInfo>>
+>;
 
 export type IdFieldConfig =
   | { kind: 'cuid' | 'uuid' }
@@ -19,7 +22,7 @@ export type IdFieldConfig =
       type?: 'Int' | 'BigInt';
     };
 
-export type ListConfig<
+export type SchemaTypeConfig<
   SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo,
   Fields extends BaseFields<SchemaTypeTypeInfo>
 > = {

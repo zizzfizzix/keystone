@@ -9,7 +9,7 @@ import type {
   KeystoneConfig,
   KeystoneContext,
   BaseKeystoneTypeInfo,
-  ListConfig,
+  SchemaTypeConfig,
 } from '../types';
 
 export function config<TypeInfo extends BaseKeystoneTypeInfo>(config: KeystoneConfig<TypeInfo>) {
@@ -19,7 +19,7 @@ export function config<TypeInfo extends BaseKeystoneTypeInfo>(config: KeystoneCo
 export function list<
   Fields extends BaseFields<SchemaTypeTypeInfo>,
   SchemaTypeTypeInfo extends BaseSchemaTypeTypeInfo
->(config: ListConfig<SchemaTypeTypeInfo, Fields>): ListConfig<SchemaTypeTypeInfo, any> {
+>(config: SchemaTypeConfig<SchemaTypeTypeInfo, Fields>): SchemaTypeConfig<SchemaTypeTypeInfo, any> {
   return config;
 }
 
