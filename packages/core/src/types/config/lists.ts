@@ -1,12 +1,12 @@
 import type { CacheHint } from 'apollo-server-types';
 import type { MaybePromise } from '../utils';
-import { BaseListTypeInfo } from '../type-info';
+import { BaseSchemaTypeTypeInfo } from '../type-info';
 import { KeystoneContextFromListTypeInfo } from '..';
 import type { ListHooks } from './hooks';
 import type { ListAccessControl } from './access-control';
 import type { BaseFields, FilterOrderArgs } from './fields';
 
-export type ListSchemaConfig = Record<string, ListConfig<any, BaseFields<BaseListTypeInfo>>>;
+export type ListSchemaConfig = Record<string, ListConfig<any, BaseFields<BaseSchemaTypeTypeInfo>>>;
 
 export type IdFieldConfig =
   | { kind: 'cuid' | 'uuid' }
@@ -20,7 +20,7 @@ export type IdFieldConfig =
     };
 
 export type ListConfig<
-  ListTypeInfo extends BaseListTypeInfo,
+  ListTypeInfo extends BaseSchemaTypeTypeInfo,
   Fields extends BaseFields<ListTypeInfo>
 > = {
   /*
@@ -62,7 +62,7 @@ export type ListConfig<
 };
 
 export type ListAdminUIConfig<
-  ListTypeInfo extends BaseListTypeInfo,
+  ListTypeInfo extends BaseSchemaTypeTypeInfo,
   Fields extends BaseFields<ListTypeInfo>
 > = {
   /**
@@ -184,7 +184,7 @@ export type ListAdminUIConfig<
 
 export type MaybeSessionFunction<
   T extends string | boolean,
-  ListTypeInfo extends BaseListTypeInfo
+  ListTypeInfo extends BaseSchemaTypeTypeInfo
 > =
   | T
   | ((args: {
@@ -192,7 +192,7 @@ export type MaybeSessionFunction<
       context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
     }) => MaybePromise<T>);
 
-export type MaybeItemFunction<T, ListTypeInfo extends BaseListTypeInfo> =
+export type MaybeItemFunction<T, ListTypeInfo extends BaseSchemaTypeTypeInfo> =
   | T
   | ((args: {
       session: any;

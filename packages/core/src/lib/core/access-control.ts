@@ -1,6 +1,6 @@
 import { assertInputObjectType } from 'graphql';
 import {
-  BaseListTypeInfo,
+  BaseSchemaTypeTypeInfo,
   CreateListItemAccessControl,
   FieldAccessControl,
   IndividualFieldAccessControl,
@@ -17,11 +17,11 @@ import {
 } from '../../types';
 import { coerceAndValidateForGraphQLInput } from '../coerceAndValidateForGraphQLInput';
 import { accessReturnError, extensionError } from './graphql-errors';
-import { InitialisedList } from './types-for-lists';
+import { InitialisedSchemaType } from './types-for-lists';
 import { InputFilter } from './where-inputs';
 
 export async function getOperationAccess(
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   operation: 'delete' | 'create' | 'update' | 'query'
 ) {
@@ -52,7 +52,7 @@ export async function getOperationAccess(
 }
 
 export async function getAccessFilters(
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   operation: 'update' | 'query' | 'delete'
 ): Promise<boolean | InputFilter> {
@@ -80,7 +80,7 @@ export async function getAccessFilters(
 }
 
 export function parseFieldAccessControl(
-  access: FieldAccessControl<BaseListTypeInfo> | undefined
+  access: FieldAccessControl<BaseSchemaTypeTypeInfo> | undefined
 ): ResolvedFieldAccessControl {
   if (typeof access === 'boolean' || typeof access === 'function') {
     return { read: access, create: access, update: access };
@@ -95,13 +95,13 @@ export function parseFieldAccessControl(
 }
 
 export type ResolvedFieldAccessControl = {
-  read: IndividualFieldAccessControl<FieldReadItemAccessArgs<BaseListTypeInfo>>;
-  create: IndividualFieldAccessControl<FieldCreateItemAccessArgs<BaseListTypeInfo>>;
-  update: IndividualFieldAccessControl<FieldUpdateItemAccessArgs<BaseListTypeInfo>>;
+  read: IndividualFieldAccessControl<FieldReadItemAccessArgs<BaseSchemaTypeTypeInfo>>;
+  create: IndividualFieldAccessControl<FieldCreateItemAccessArgs<BaseSchemaTypeTypeInfo>>;
+  update: IndividualFieldAccessControl<FieldUpdateItemAccessArgs<BaseSchemaTypeTypeInfo>>;
 };
 
 export function parseListAccessControl(
-  access: ListAccessControl<BaseListTypeInfo> | undefined
+  access: ListAccessControl<BaseSchemaTypeTypeInfo> | undefined
 ): ResolvedListAccessControl {
   let item, filter, operation;
 
@@ -151,21 +151,21 @@ export function parseListAccessControl(
 
 export type ResolvedListAccessControl = {
   operation: {
-    create: ListOperationAccessControl<'create', BaseListTypeInfo>;
-    query: ListOperationAccessControl<'query', BaseListTypeInfo>;
-    update: ListOperationAccessControl<'update', BaseListTypeInfo>;
-    delete: ListOperationAccessControl<'delete', BaseListTypeInfo>;
+    create: ListOperationAccessControl<'create', BaseSchemaTypeTypeInfo>;
+    query: ListOperationAccessControl<'query', BaseSchemaTypeTypeInfo>;
+    update: ListOperationAccessControl<'update', BaseSchemaTypeTypeInfo>;
+    delete: ListOperationAccessControl<'delete', BaseSchemaTypeTypeInfo>;
   };
   filter: {
     // create: not supported
-    query: ListFilterAccessControl<'query', BaseListTypeInfo>;
-    update: ListFilterAccessControl<'update', BaseListTypeInfo>;
-    delete: ListFilterAccessControl<'delete', BaseListTypeInfo>;
+    query: ListFilterAccessControl<'query', BaseSchemaTypeTypeInfo>;
+    update: ListFilterAccessControl<'update', BaseSchemaTypeTypeInfo>;
+    delete: ListFilterAccessControl<'delete', BaseSchemaTypeTypeInfo>;
   };
   item: {
-    create: CreateListItemAccessControl<BaseListTypeInfo>;
+    create: CreateListItemAccessControl<BaseSchemaTypeTypeInfo>;
     // query: not supported
-    update: UpdateListItemAccessControl<BaseListTypeInfo>;
-    delete: DeleteListItemAccessControl<BaseListTypeInfo>;
+    update: UpdateListItemAccessControl<BaseSchemaTypeTypeInfo>;
+    delete: DeleteListItemAccessControl<BaseSchemaTypeTypeInfo>;
   };
 };

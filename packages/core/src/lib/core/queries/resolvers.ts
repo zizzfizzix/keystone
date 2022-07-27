@@ -10,7 +10,7 @@ import {
   InputFilter,
 } from '../where-inputs';
 import { limitsExceededError, userInputError } from '../graphql-errors';
-import { InitialisedList } from '../types-for-lists';
+import { InitialisedSchemaType } from '../types-for-lists';
 import { getDBFieldKeyForFieldOnMultiField, runWithPrisma } from '../utils';
 import { checkFilterOrderAccess } from '../filter-order-access';
 
@@ -25,10 +25,10 @@ export function mapUniqueWhereToWhere(uniqueWhere: UniquePrismaFilter): PrismaFi
 }
 
 function traverseQuery(
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   inputFilter: InputFilter,
-  filterFields: Record<string, { fieldKey: string; list: InitialisedList }>
+  filterFields: Record<string, { fieldKey: string; list: InitialisedSchemaType }>
 ) {
   // Recursively traverse a where filter to find all the fields which are being
   // filtered on.
@@ -52,18 +52,18 @@ function traverseQuery(
 }
 
 export async function checkFilterAccess(
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   inputFilter: InputFilter
 ) {
   if (!inputFilter) return;
-  const filterFields: Record<string, { fieldKey: string; list: InitialisedList }> = {};
+  const filterFields: Record<string, { fieldKey: string; list: InitialisedSchemaType }> = {};
   traverseQuery(list, context, inputFilter, filterFields);
   await checkFilterOrderAccess(Object.values(filterFields), context, 'filter');
 }
 
 export async function accessControlledFilter(
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   resolvedWhere: PrismaFilter,
   accessFilters: boolean | InputFilter
@@ -78,7 +78,7 @@ export async function accessControlledFilter(
 
 export async function findOne(
   args: { where: UniqueInputFilter },
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -108,7 +108,7 @@ export async function findOne(
 
 export async function findMany(
   { where, take, skip, orderBy: rawOrderBy }: FindManyArgsValue,
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   info: GraphQLResolveInfo,
   extraFilter?: PrismaFilter
@@ -156,7 +156,7 @@ export async function findMany(
 
 async function resolveOrderBy(
   orderBy: readonly Record<string, any>[],
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext
 ): Promise<readonly Record<string, OrderDirection>[]> {
   // Check input format. FIXME: Group all errors
@@ -212,7 +212,7 @@ async function resolveOrderBy(
 
 export async function count(
   { where }: { where: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   info: GraphQLResolveInfo,
   extraFilter?: PrismaFilter
@@ -252,7 +252,7 @@ export async function count(
   return count;
 }
 
-function applyEarlyMaxResults(_take: number | null | undefined, list: InitialisedList) {
+function applyEarlyMaxResults(_take: number | null | undefined, list: InitialisedSchemaType) {
   const take = Math.abs(_take ?? Infinity);
   // We want to help devs by failing fast and noisily if limits are violated.
   // Unfortunately, we can't always be sure of intent.
@@ -266,7 +266,11 @@ function applyEarlyMaxResults(_take: number | null | undefined, list: Initialise
   }
 }
 
-function applyMaxResults(results: unknown[], list: InitialisedList, context: KeystoneContext) {
+function applyMaxResults(
+  results: unknown[],
+  list: InitialisedSchemaType,
+  context: KeystoneContext
+) {
   if (results.length > list.maxResults) {
     throw limitsExceededError({ list: list.listKey, type: 'maxResults', limit: list.maxResults });
   }

@@ -3,7 +3,7 @@ import { mergeSchemas } from '@graphql-tools/schema';
 
 import type {
   BaseFields,
-  BaseListTypeInfo,
+  BaseSchemaTypeTypeInfo,
   ExtendGraphqlSchema,
   GraphQLSchemaExtension,
   KeystoneConfig,
@@ -18,7 +18,7 @@ export function config<TypeInfo extends BaseKeystoneTypeInfo>(config: KeystoneCo
 
 export function list<
   Fields extends BaseFields<ListTypeInfo>,
-  ListTypeInfo extends BaseListTypeInfo
+  ListTypeInfo extends BaseSchemaTypeTypeInfo
 >(config: ListConfig<ListTypeInfo, Fields>): ListConfig<ListTypeInfo, any> {
   return config;
 }

@@ -4,7 +4,7 @@ import {
   GraphQLTypesForList,
   getGqlNames,
   NextFieldType,
-  BaseListTypeInfo,
+  BaseSchemaTypeTypeInfo,
   ListGraphQLTypes,
   ListHooks,
   KeystoneConfig,
@@ -29,32 +29,32 @@ import { assertFieldsValid } from './field-assertions';
 export type InitialisedField = Omit<NextFieldType, 'dbField' | 'access' | 'graphql'> & {
   dbField: ResolvedDBField;
   access: ResolvedFieldAccessControl;
-  hooks: FieldHooks<BaseListTypeInfo>;
+  hooks: FieldHooks<BaseSchemaTypeTypeInfo>;
   graphql: {
     isEnabled: {
       read: boolean;
       create: boolean;
       update: boolean;
-      filter: boolean | ((args: FilterOrderArgs<BaseListTypeInfo>) => MaybePromise<boolean>);
-      orderBy: boolean | ((args: FilterOrderArgs<BaseListTypeInfo>) => MaybePromise<boolean>);
+      filter: boolean | ((args: FilterOrderArgs<BaseSchemaTypeTypeInfo>) => MaybePromise<boolean>);
+      orderBy: boolean | ((args: FilterOrderArgs<BaseSchemaTypeTypeInfo>) => MaybePromise<boolean>);
     };
     cacheHint: CacheHint | undefined;
   };
 };
 
-export type InitialisedList = {
+export type InitialisedSchemaType = {
   fields: Record<string, InitialisedField>;
   /** This will include the opposites to one-sided relationships */
   resolvedDbFields: Record<string, ResolvedDBField>;
   pluralGraphQLName: string;
   types: GraphQLTypesForList;
   access: ResolvedListAccessControl;
-  hooks: ListHooks<BaseListTypeInfo>;
+  hooks: ListHooks<BaseSchemaTypeTypeInfo>;
   adminUILabels: { label: string; singular: string; plural: string; path: string };
   cacheHint: ((args: CacheHintArgs) => CacheHint) | undefined;
   maxResults: number;
   listKey: string;
-  lists: Record<string, InitialisedList>;
+  lists: Record<string, InitialisedSchemaType>;
   dbMap: string | undefined;
   graphql: {
     isEnabled: IsEnabled;
@@ -67,8 +67,8 @@ type IsEnabled = {
   create: boolean;
   update: boolean;
   delete: boolean;
-  filter: boolean | ((args: FilterOrderArgs<BaseListTypeInfo>) => MaybePromise<boolean>);
-  orderBy: boolean | ((args: FilterOrderArgs<BaseListTypeInfo>) => MaybePromise<boolean>);
+  filter: boolean | ((args: FilterOrderArgs<BaseSchemaTypeTypeInfo>) => MaybePromise<boolean>);
+  orderBy: boolean | ((args: FilterOrderArgs<BaseSchemaTypeTypeInfo>) => MaybePromise<boolean>);
 };
 
 function throwIfNotAFilter(x: unknown, listKey: string, fieldKey: string) {
@@ -194,7 +194,7 @@ function getListsWithInitialisedFields(
 
 function getListGraphqlTypes(
   listsConfig: KeystoneConfig['lists'],
-  lists: Record<string, InitialisedList>,
+  lists: Record<string, InitialisedSchemaType>,
   intermediateLists: Record<string, { graphql: { isEnabled: IsEnabled } }>
 ): Record<string, ListGraphQLTypes> {
   const graphQLTypes: Record<string, ListGraphQLTypes> = {};
@@ -434,7 +434,7 @@ function getListGraphqlTypes(
  * 5. Handle relationships - ensure correct linking between two sides of all relationships (including one-sided relationships)
  * 6.
  */
-export function initialiseLists(config: KeystoneConfig): Record<string, InitialisedList> {
+export function initialiseLists(config: KeystoneConfig): Record<string, InitialisedSchemaType> {
   const listsConfig = config.lists;
 
   let intermediateLists;
@@ -451,7 +451,7 @@ export function initialiseLists(config: KeystoneConfig): Record<string, Initiali
    *
    * The object will be populated at the end of this function, and the reference will be maintained
    */
-  const listsRef: Record<string, InitialisedList> = {};
+  const listsRef: Record<string, InitialisedSchemaType> = {};
 
   {
     const listGraphqlTypes = getListGraphqlTypes(listsConfig, listsRef, intermediateLists);

@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 import { graphql } from '..';
-import { BaseListTypeInfo } from './type-info';
+import { BaseSchemaTypeTypeInfo } from './type-info';
 import { CommonFieldConfig } from './config';
 import { DatabaseProvider } from './core';
 import { AdminMetaRootVal, JSONValue, KeystoneContext, MaybePromise, StorageConfig } from '.';
@@ -19,7 +19,7 @@ export type FieldData = {
   fieldKey: string;
 };
 
-export type FieldTypeFunc<ListTypeInfo extends BaseListTypeInfo> = (
+export type FieldTypeFunc<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   data: FieldData
 ) => NextFieldType<
   DBField,
@@ -49,7 +49,7 @@ export type NextFieldType<
     graphql.NullableInputType,
     false
   >,
-  ListTypeInfo extends BaseListTypeInfo = BaseListTypeInfo
+  ListTypeInfo extends BaseSchemaTypeTypeInfo = BaseSchemaTypeTypeInfo
 > = {
   dbField: TDBField;
 } & FieldTypeWithoutDBField<
@@ -375,7 +375,7 @@ export type FieldTypeWithoutDBField<
     graphql.NullableInputType,
     false
   >,
-  ListTypeInfo extends BaseListTypeInfo = BaseListTypeInfo
+  ListTypeInfo extends BaseSchemaTypeTypeInfo = BaseSchemaTypeTypeInfo
 > = {
   input?: {
     uniqueWhere?: UniqueWhereFieldInputArg<DBFieldUniqueWhere<TDBField>, UniqueWhereArg>;
@@ -452,7 +452,7 @@ export type FindManyArgs = {
 export type FindManyArgsValue = graphql.InferValueFromArgs<FindManyArgs>;
 
 // fieldType(dbField)(fieldInfo) => { ...fieldInfo, dbField };
-export function fieldType<TDBField extends DBField, ListTypeInfo extends BaseListTypeInfo>(
+export function fieldType<TDBField extends DBField, ListTypeInfo extends BaseSchemaTypeTypeInfo>(
   dbField: TDBField
 ) {
   return function <

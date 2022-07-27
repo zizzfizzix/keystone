@@ -1,6 +1,6 @@
 import { humanize } from '../../../lib/utils';
 import {
-  BaseListTypeInfo,
+  BaseSchemaTypeTypeInfo,
   fieldType,
   FieldTypeFunc,
   CommonFieldConfig,
@@ -16,7 +16,7 @@ import {
 import { resolveView } from '../../resolve-view';
 import { TimestampFieldMeta } from './views';
 
-export type TimestampFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+export type TimestampFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
   CommonFieldConfig<ListTypeInfo> & {
     isIndexed?: boolean | 'unique';
     validation?: {
@@ -35,7 +35,7 @@ export type TimestampFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
   };
 
 export const timestamp =
-  <ListTypeInfo extends BaseListTypeInfo>({
+  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
     isIndexed,
     validation,
     defaultValue,

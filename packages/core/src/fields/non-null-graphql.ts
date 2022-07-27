@@ -1,6 +1,6 @@
-import { BaseListTypeInfo, FieldAccessControl, FieldData } from '../types';
+import { BaseSchemaTypeTypeInfo, FieldAccessControl, FieldData } from '../types';
 
-export function hasReadAccessControl<ListTypeInfo extends BaseListTypeInfo>(
+export function hasReadAccessControl<ListTypeInfo extends BaseSchemaTypeTypeInfo>(
   access: FieldAccessControl<ListTypeInfo> | undefined
 ) {
   if (access === undefined) {
@@ -9,7 +9,7 @@ export function hasReadAccessControl<ListTypeInfo extends BaseListTypeInfo>(
   return typeof access === 'function' || typeof access.read === 'function';
 }
 
-export function hasCreateAccessControl<ListTypeInfo extends BaseListTypeInfo>(
+export function hasCreateAccessControl<ListTypeInfo extends BaseSchemaTypeTypeInfo>(
   access: FieldAccessControl<ListTypeInfo> | undefined
 ) {
   if (access === undefined) {
@@ -31,7 +31,7 @@ export function getResolvedIsNullable(
   return true;
 }
 
-export function assertReadIsNonNullAllowed<ListTypeInfo extends BaseListTypeInfo>(
+export function assertReadIsNonNullAllowed<ListTypeInfo extends BaseSchemaTypeTypeInfo>(
   meta: FieldData,
   config: {
     access?: FieldAccessControl<ListTypeInfo> | undefined;
@@ -55,7 +55,7 @@ export function assertReadIsNonNullAllowed<ListTypeInfo extends BaseListTypeInfo
   }
 }
 
-export function assertCreateIsNonNullAllowed<ListTypeInfo extends BaseListTypeInfo>(
+export function assertCreateIsNonNullAllowed<ListTypeInfo extends BaseSchemaTypeTypeInfo>(
   meta: FieldData,
   config: {
     access?: FieldAccessControl<ListTypeInfo> | undefined;

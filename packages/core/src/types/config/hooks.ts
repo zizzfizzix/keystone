@@ -1,7 +1,7 @@
 import type { KeystoneContextFromListTypeInfo } from '..';
-import { BaseListTypeInfo } from '../type-info';
+import { BaseSchemaTypeTypeInfo } from '../type-info';
 
-type CommonArgs<ListTypeInfo extends BaseListTypeInfo> = {
+type CommonArgs<ListTypeInfo extends BaseSchemaTypeTypeInfo> = {
   context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
   /**
    * The key of the list that the operation is occurring on
@@ -9,7 +9,7 @@ type CommonArgs<ListTypeInfo extends BaseListTypeInfo> = {
   listKey: string;
 };
 
-export type ListHooks<ListTypeInfo extends BaseListTypeInfo> = {
+export type ListHooks<ListTypeInfo extends BaseSchemaTypeTypeInfo> = {
   /**
    * Used to **modify the input** for create and update operations after default values and access control have been applied
    */
@@ -42,30 +42,31 @@ type AddFieldPathArgToAllPropsOnObj<T extends Record<string, (arg: any) => any>>
   [Key in keyof T]: AddFieldPathToObj<T[Key]>;
 };
 
-export type FieldHooks<ListTypeInfo extends BaseListTypeInfo> = AddFieldPathArgToAllPropsOnObj<{
-  /**
-   * Used to **modify the input** for create and update operations after default values and access control have been applied
-   */
-  resolveInput?: ResolveInputFieldHook<ListTypeInfo>;
-  /**
-   * Used to **validate the input** for create and update operations once all resolveInput hooks resolved
-   */
-  validateInput?: ValidateInputHook<ListTypeInfo>;
-  /**
-   * Used to **validate** that a delete operation can happen after access control has occurred
-   */
-  validateDelete?: ValidateDeleteHook<ListTypeInfo>;
-  /**
-   * Used to **cause side effects** before a create, update, or delete operation once all validateInput hooks have resolved
-   */
-  beforeOperation?: BeforeOperationHook<ListTypeInfo>;
-  /**
-   * Used to **cause side effects** after a create, update, or delete operation operation has occurred
-   */
-  afterOperation?: AfterOperationHook<ListTypeInfo>;
-}>;
+export type FieldHooks<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
+  AddFieldPathArgToAllPropsOnObj<{
+    /**
+     * Used to **modify the input** for create and update operations after default values and access control have been applied
+     */
+    resolveInput?: ResolveInputFieldHook<ListTypeInfo>;
+    /**
+     * Used to **validate the input** for create and update operations once all resolveInput hooks resolved
+     */
+    validateInput?: ValidateInputHook<ListTypeInfo>;
+    /**
+     * Used to **validate** that a delete operation can happen after access control has occurred
+     */
+    validateDelete?: ValidateDeleteHook<ListTypeInfo>;
+    /**
+     * Used to **cause side effects** before a create, update, or delete operation once all validateInput hooks have resolved
+     */
+    beforeOperation?: BeforeOperationHook<ListTypeInfo>;
+    /**
+     * Used to **cause side effects** after a create, update, or delete operation operation has occurred
+     */
+    afterOperation?: AfterOperationHook<ListTypeInfo>;
+  }>;
 
-type ArgsForCreateOrUpdateOperation<ListTypeInfo extends BaseListTypeInfo> =
+type ArgsForCreateOrUpdateOperation<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
   | {
       operation: 'create';
       // technically this will never actually exist for a create
@@ -95,7 +96,7 @@ type ArgsForCreateOrUpdateOperation<ListTypeInfo extends BaseListTypeInfo> =
       resolvedData: ListTypeInfo['inputs']['update'];
     };
 
-type ResolveInputListHook<ListTypeInfo extends BaseListTypeInfo> = (
+type ResolveInputListHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   args: ArgsForCreateOrUpdateOperation<ListTypeInfo> & CommonArgs<ListTypeInfo>
 ) =>
   | Promise<ListTypeInfo['inputs']['create'] | ListTypeInfo['inputs']['update']>
@@ -109,7 +110,7 @@ type ResolveInputListHook<ListTypeInfo extends BaseListTypeInfo> = (
   | boolean
   | null;
 
-type ResolveInputFieldHook<ListTypeInfo extends BaseListTypeInfo> = (
+type ResolveInputFieldHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   args: ArgsForCreateOrUpdateOperation<ListTypeInfo> & CommonArgs<ListTypeInfo>
 ) =>
   | Promise<ListTypeInfo['inputs']['create'] | ListTypeInfo['inputs']['update']>
@@ -125,13 +126,13 @@ type ResolveInputFieldHook<ListTypeInfo extends BaseListTypeInfo> = (
   // Fields need to be able to return `undefined` to say "don't touch this field"
   | undefined;
 
-type ValidateInputHook<ListTypeInfo extends BaseListTypeInfo> = (
+type ValidateInputHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   args: ArgsForCreateOrUpdateOperation<ListTypeInfo> & {
     addValidationError: (error: string) => void;
   } & CommonArgs<ListTypeInfo>
 ) => Promise<void> | void;
 
-type ValidateDeleteHook<ListTypeInfo extends BaseListTypeInfo> = (
+type ValidateDeleteHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   args: {
     operation: 'delete';
     item: ListTypeInfo['item'];
@@ -139,7 +140,7 @@ type ValidateDeleteHook<ListTypeInfo extends BaseListTypeInfo> = (
   } & CommonArgs<ListTypeInfo>
 ) => Promise<void> | void;
 
-type BeforeOperationHook<ListTypeInfo extends BaseListTypeInfo> = (
+type BeforeOperationHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   args: (
     | ArgsForCreateOrUpdateOperation<ListTypeInfo>
     | {
@@ -152,7 +153,7 @@ type BeforeOperationHook<ListTypeInfo extends BaseListTypeInfo> = (
     CommonArgs<ListTypeInfo>
 ) => Promise<void> | void;
 
-type AfterOperationHook<ListTypeInfo extends BaseListTypeInfo> = (
+type AfterOperationHook<ListTypeInfo extends BaseSchemaTypeTypeInfo> = (
   args: (
     | ArgsForCreateOrUpdateOperation<ListTypeInfo>
     | {

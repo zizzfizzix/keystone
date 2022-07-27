@@ -1,16 +1,16 @@
 import { extensionError, validationFailureError } from '../graphql-errors';
-import { InitialisedList } from '../types-for-lists';
+import { InitialisedSchemaType } from '../types-for-lists';
 
 type DistributiveOmit<T, K extends keyof T> = T extends any ? Omit<T, K> : never;
 
 type UpdateCreateHookArgs = Parameters<
-  Exclude<InitialisedList['hooks']['validateInput'], undefined>
+  Exclude<InitialisedSchemaType['hooks']['validateInput'], undefined>
 >[0];
 export async function validateUpdateCreate({
   list,
   hookArgs,
 }: {
-  list: InitialisedList;
+  list: InitialisedSchemaType;
   hookArgs: DistributiveOmit<UpdateCreateHookArgs, 'addValidationError'>;
 }) {
   const messages: string[] = [];
@@ -46,12 +46,14 @@ export async function validateUpdateCreate({
   }
 }
 
-type DeleteHookArgs = Parameters<Exclude<InitialisedList['hooks']['validateDelete'], undefined>>[0];
+type DeleteHookArgs = Parameters<
+  Exclude<InitialisedSchemaType['hooks']['validateDelete'], undefined>
+>[0];
 export async function validateDelete({
   list,
   hookArgs,
 }: {
-  list: InitialisedList;
+  list: InitialisedSchemaType;
   hookArgs: Omit<DeleteHookArgs, 'addValidationError'>;
 }) {
   const messages: string[] = [];

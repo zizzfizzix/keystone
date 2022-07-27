@@ -1,6 +1,6 @@
 import { KeystoneContext, BaseItem } from '../../../types';
 import { ResolvedDBField } from '../resolve-relationships';
-import { InitialisedList } from '../types-for-lists';
+import { InitialisedSchemaType } from '../types-for-lists';
 import {
   promiseAllRejectWithAllErrors,
   getDBFieldKeyForFieldOnMultiField,
@@ -32,7 +32,7 @@ import { validateUpdateCreate } from './validation';
 
 async function createSingle(
   { data: rawData }: { data: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   operationAccess: boolean
 ) {
@@ -68,7 +68,7 @@ export class NestedMutationState {
   constructor(context: KeystoneContext) {
     this.#context = context;
   }
-  async create(data: Record<string, any>, list: InitialisedList) {
+  async create(data: Record<string, any>, list: InitialisedSchemaType) {
     const context = this.#context;
 
     // Check operation permission to pass into single operation
@@ -87,7 +87,7 @@ export class NestedMutationState {
 
 export async function createOne(
   createInput: { data: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -102,7 +102,7 @@ export async function createOne(
 
 export async function createMany(
   createInputs: { data: Record<string, any>[] },
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -119,7 +119,7 @@ export async function createMany(
 
 async function updateSingle(
   updateInput: { where: UniqueInputFilter; data: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   accessFilters: boolean | InputFilter,
   operationAccess: boolean
@@ -168,7 +168,7 @@ async function updateSingle(
 
 export async function updateOne(
   updateInput: { where: UniqueInputFilter; data: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -182,7 +182,7 @@ export async function updateOne(
 
 export async function updateMany(
   { data }: { data: { where: UniqueInputFilter; data: Record<string, any> }[] },
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -197,7 +197,7 @@ export async function updateMany(
 }
 
 async function getResolvedData(
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   hookArgs: {
     context: KeystoneContext;
     listKey: string;
@@ -333,7 +333,7 @@ async function getResolvedData(
 }
 
 async function resolveInputForCreateOrUpdate(
-  list: InitialisedList,
+  list: InitialisedSchemaType,
   context: KeystoneContext,
   inputData: Record<string, any>,
   item: BaseItem | undefined

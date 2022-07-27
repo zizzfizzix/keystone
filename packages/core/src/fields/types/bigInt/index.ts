@@ -1,6 +1,6 @@
 import { humanize } from '../../../lib/utils';
 import {
-  BaseListTypeInfo,
+  BaseSchemaTypeTypeInfo,
   fieldType,
   FieldTypeFunc,
   CommonFieldConfig,
@@ -15,7 +15,7 @@ import {
 } from '../../non-null-graphql';
 import { resolveView } from '../../resolve-view';
 
-export type BigIntFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+export type BigIntFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
   CommonFieldConfig<ListTypeInfo> & {
     isIndexed?: boolean | 'unique';
     defaultValue?: bigint | { kind: 'autoincrement' };
@@ -43,7 +43,7 @@ const MAX_INT = 9223372036854775807n;
 const MIN_INT = -9223372036854775808n;
 
 export const bigInt =
-  <ListTypeInfo extends BaseListTypeInfo>({
+  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
     isIndexed,
     defaultValue: _defaultValue,
     validation: _validation,

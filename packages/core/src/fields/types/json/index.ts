@@ -1,5 +1,5 @@
 import {
-  BaseListTypeInfo,
+  BaseSchemaTypeTypeInfo,
   JSONValue,
   FieldTypeFunc,
   CommonFieldConfig,
@@ -8,14 +8,14 @@ import {
 import { graphql } from '../../..';
 import { resolveView } from '../../resolve-view';
 
-export type JsonFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+export type JsonFieldConfig<ListTypeInfo extends BaseSchemaTypeTypeInfo> =
   CommonFieldConfig<ListTypeInfo> & {
     defaultValue?: JSONValue;
     db?: { map?: string };
   };
 
 export const json =
-  <ListTypeInfo extends BaseListTypeInfo>({
+  <ListTypeInfo extends BaseSchemaTypeTypeInfo>({
     defaultValue = null,
     ...config
   }: JsonFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>

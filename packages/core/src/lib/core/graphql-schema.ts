@@ -1,12 +1,12 @@
 import { GraphQLNamedType, GraphQLSchema } from 'graphql';
 import { graphql } from '../..';
-import { InitialisedList } from './types-for-lists';
+import { InitialisedSchemaType } from './types-for-lists';
 
 import { getMutationsForList } from './mutations';
 import { getQueriesForList } from './queries';
 
 export function getGraphQLSchema(
-  lists: Record<string, InitialisedList>,
+  lists: Record<string, InitialisedSchemaType>,
   extraFields: {
     mutation: Record<string, graphql.Field<unknown, any, graphql.OutputType, string>>;
     query: Record<string, graphql.Field<unknown, any, graphql.OutputType, string>>;
@@ -45,7 +45,7 @@ export function getGraphQLSchema(
 }
 
 function collectTypes(
-  lists: Record<string, InitialisedList>,
+  lists: Record<string, InitialisedSchemaType>,
   updateManyByList: Record<string, graphql.InputObjectType<any>>
 ) {
   const collectedTypes: GraphQLNamedType[] = [];

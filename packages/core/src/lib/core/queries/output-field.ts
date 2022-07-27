@@ -3,7 +3,7 @@ import { GraphQLResolveInfo } from 'graphql';
 import {
   NextFieldType,
   IndividualFieldAccessControl,
-  BaseListTypeInfo,
+  BaseSchemaTypeTypeInfo,
   BaseItem,
   FindManyArgsValue,
   KeystoneContext,
@@ -13,7 +13,7 @@ import {
 import { graphql } from '../../..';
 import { getOperationAccess, getAccessFilters } from '../access-control';
 import { ResolvedDBField, ResolvedRelationDBField } from '../resolve-relationships';
-import { InitialisedList } from '../types-for-lists';
+import { InitialisedSchemaType } from '../types-for-lists';
 import { IdType, getDBFieldKeyForFieldOnMultiField, runWithPrisma } from '../utils';
 import { accessReturnError, extensionError } from '../graphql-errors';
 import { accessControlledFilter } from './resolvers';
@@ -22,7 +22,7 @@ import * as queries from './resolvers';
 function getRelationVal(
   dbField: ResolvedRelationDBField,
   id: IdType,
-  foreignList: InitialisedList,
+  foreignList: InitialisedSchemaType,
   context: KeystoneContext,
   info: GraphQLResolveInfo,
   fk?: IdType
@@ -99,7 +99,7 @@ function getValueForDBField(
   id: IdType,
   fieldPath: string,
   context: KeystoneContext,
-  lists: Record<string, InitialisedList>,
+  lists: Record<string, InitialisedSchemaType>,
   info: GraphQLResolveInfo
 ) {
   if (dbField.kind === 'multi') {
@@ -126,10 +126,10 @@ export function outputTypeField(
   output: NextFieldType['output'],
   dbField: ResolvedDBField,
   cacheHint: CacheHint | undefined,
-  access: IndividualFieldAccessControl<FieldReadItemAccessArgs<BaseListTypeInfo>>,
+  access: IndividualFieldAccessControl<FieldReadItemAccessArgs<BaseSchemaTypeTypeInfo>>,
   listKey: string,
   fieldKey: string,
-  lists: Record<string, InitialisedList>
+  lists: Record<string, InitialisedSchemaType>
 ) {
   return graphql.field({
     type: output.type,
