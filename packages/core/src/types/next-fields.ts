@@ -413,6 +413,7 @@ export type GraphqlTypesForSingleton = {
 };
 
 export type GraphQLTypesForList = {
+  kind: 'list'
   update: AnyInputObj;
   create: AnyInputObj;
   uniqueWhere: AnyInputObj;
