@@ -6,9 +6,9 @@ import { ChevronRightIcon } from '@keystone-ui/icons/icons/ChevronRightIcon';
 import { HTMLAttributes, ReactNode } from 'react';
 import { Container } from '../../../../admin-ui/components/Container';
 import { Link } from '../../../../admin-ui/router';
-import { ListMeta } from '../../../../types';
+import { SchemaTypeMeta } from '../../../../types';
 
-export function ItemPageHeader(props: { list: ListMeta; label: string }) {
+export function ItemPageHeader(props: { list: SchemaTypeMeta; label: string }) {
   const { palette, spacing } = useTheme();
 
   return (

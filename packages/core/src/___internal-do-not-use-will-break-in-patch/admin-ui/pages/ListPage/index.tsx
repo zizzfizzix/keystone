@@ -11,7 +11,7 @@ import { LoadingDots } from '@keystone-ui/loading';
 import { AlertDialog } from '@keystone-ui/modals';
 import { useToasts } from '@keystone-ui/toast';
 
-import { ListMeta } from '../../../../types';
+import { SchemaTypeMeta } from '../../../../types';
 import {
   getRootGraphQLFieldsFromFieldController,
   DataGetter,
@@ -421,7 +421,7 @@ function DeleteManyButton({
   refetch,
 }: {
   selectedItems: ReadonlySet<string>;
-  list: ListMeta;
+  list: SchemaTypeMeta;
   refetch: () => void;
 }) {
   const [deleteItems, deleteItemsState] = useMutation(

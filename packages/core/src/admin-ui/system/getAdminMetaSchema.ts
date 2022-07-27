@@ -3,7 +3,7 @@ import {
   KeystoneContext,
   KeystoneConfig,
   AdminMetaRootVal,
-  ListMetaRootVal,
+  SchemaTypeMetaRootVal,
   FieldMetaRootVal,
   BaseItem,
 } from '../../types';
@@ -236,7 +236,7 @@ export function getAdminMetaSchema({
     },
   });
 
-  const KeystoneAdminUISort = graphql.object<NonNullable<ListMetaRootVal['initialSort']>>()({
+  const KeystoneAdminUISort = graphql.object<NonNullable<SchemaTypeMetaRootVal['initialSort']>>()({
     name: 'KeystoneAdminUISort',
     fields: {
       field: graphql.field({ type: graphql.nonNull(graphql.String) }),
@@ -251,7 +251,7 @@ export function getAdminMetaSchema({
     },
   });
 
-  const KeystoneAdminUIListMeta = graphql.object<ListMetaRootVal>()({
+  const KeystoneAdminUIListMeta = graphql.object<SchemaTypeMetaRootVal>()({
     name: 'KeystoneAdminUIListMeta',
     fields: {
       key: graphql.field({ type: graphql.nonNull(graphql.String) }),

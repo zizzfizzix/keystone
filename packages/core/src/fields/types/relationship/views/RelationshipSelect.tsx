@@ -7,7 +7,7 @@ import { RefObject, useEffect, useMemo, useState, createContext, useContext, use
 import { jsx } from '@keystone-ui/core';
 import { MultiSelect, Select, selectComponents } from '@keystone-ui/fields';
 import { validate as validateUUID } from 'uuid';
-import { IdFieldConfig, ListMeta } from '../../../../types';
+import { IdFieldConfig, SchemaTypeMeta } from '../../../../types';
 import {
   ApolloClient,
   gql,
@@ -56,7 +56,7 @@ function useDebouncedValue<T>(value: T, limitMs: number): T {
   return debouncedValue;
 }
 
-function useFilter(search: string, list: ListMeta) {
+function useFilter(search: string, list: SchemaTypeMeta) {
   return useMemo(() => {
     let conditions: Record<string, any>[] = [];
     if (search.length) {
@@ -111,7 +111,7 @@ export const RelationshipSelect = ({
   controlShouldRenderValue: boolean;
   isDisabled: boolean;
   isLoading?: boolean;
-  list: ListMeta;
+  list: SchemaTypeMeta;
   placeholder?: string;
   portalMenu?: true | undefined;
   state:
@@ -209,7 +209,7 @@ export const RelationshipSelect = ({
   const [lastFetchMore, setLastFetchMore] = useState<{
     where: Record<string, any>;
     extraSelection: string;
-    list: ListMeta;
+    list: SchemaTypeMeta;
     skip: number;
   } | null>(null);
 

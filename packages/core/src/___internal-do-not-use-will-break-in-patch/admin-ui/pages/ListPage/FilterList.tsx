@@ -5,11 +5,11 @@ import { Button } from '@keystone-ui/button';
 import { usePopover, PopoverDialog } from '@keystone-ui/popover';
 import { FormEvent, Fragment, useState } from 'react';
 import { Pill } from '@keystone-ui/pill';
-import { FieldMeta, ListMeta } from '../../../../types';
+import { FieldMeta, SchemaTypeMeta } from '../../../../types';
 import { useRouter } from '../../../../admin-ui/router';
 import { Filter } from './useFilters';
 
-export function FilterList({ filters, list }: { filters: Filter[]; list: ListMeta }) {
+export function FilterList({ filters, list }: { filters: Filter[]; list: SchemaTypeMeta }) {
   return (
     <Inline gap="small">
       {filters.map(filter => {

@@ -13,7 +13,7 @@ import {
   FieldController,
   FieldControllerConfig,
   FieldProps,
-  ListMeta,
+  SchemaTypeMeta,
 } from '../../../../types';
 import { Link } from '../../../../admin-ui/router';
 import { useKeystone, useList } from '../../../../admin-ui/context';
@@ -31,7 +31,7 @@ function LinkToRelatedItems({
 }: {
   itemId: string | null;
   value: FieldProps<typeof controller>['value'] & { kind: 'many' | 'one' };
-  list: ListMeta;
+  list: SchemaTypeMeta;
   refFieldKey?: string;
 }) {
   function constructQuery({
@@ -623,7 +623,7 @@ export const controller = (
   };
 };
 
-function useRelationshipFilterValues({ value, list }: { value: string; list: ListMeta }) {
+function useRelationshipFilterValues({ value, list }: { value: string; list: SchemaTypeMeta }) {
   const foreignIds = getForeignIds(value);
   const where = { id: { in: foreignIds } };
 

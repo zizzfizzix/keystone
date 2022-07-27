@@ -4,7 +4,7 @@ import { GqlNames, JSONValue } from './utils';
 
 export type NavigationProps = {
   authenticatedItem: AuthenticatedItem;
-  lists: ListMeta[];
+  lists: SchemaTypeMeta[];
 };
 
 export type AuthenticatedItem =
@@ -91,7 +91,7 @@ export type FieldMeta = {
   };
 };
 
-export type ListMeta = {
+export type SchemaTypeMeta = {
   key: string;
   path: string;
   label: string;
@@ -109,7 +109,7 @@ export type ListMeta = {
 export type AdminMeta = {
   enableSignout: boolean;
   enableSessionItem: boolean;
-  lists: { [list: string]: ListMeta };
+  schema: { [schemaTypeKey: string]: SchemaTypeMeta };
 };
 
 export type FieldProps<FieldControllerFn extends (...args: any) => FieldController<any, any>> = {
@@ -169,7 +169,7 @@ export type FieldMetaRootVal = {
   search: 'default' | 'insensitive' | null;
 };
 
-export type ListMetaRootVal = {
+export type SchemaTypeMetaRootVal = {
   key: string;
   path: string;
   label: string;
@@ -188,7 +188,7 @@ export type ListMetaRootVal = {
 export type AdminMetaRootVal = {
   enableSignout: boolean;
   enableSessionItem: boolean;
-  lists: Array<ListMetaRootVal>;
-  listsByKey: Record<string, ListMetaRootVal>;
+  lists: Array<SchemaTypeMetaRootVal>;
+  listsByKey: Record<string, SchemaTypeMetaRootVal>;
   views: string[];
 };

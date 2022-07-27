@@ -24,7 +24,7 @@ import { Notice } from '@keystone-ui/notice';
 import { useToasts } from '@keystone-ui/toast';
 import { Tooltip } from '@keystone-ui/tooltip';
 import { FieldLabel, TextInput } from '@keystone-ui/fields';
-import { ListMeta } from '../../../../types';
+import { SchemaTypeMeta } from '../../../../types';
 import {
   DataGetter,
   DeepNullable,
@@ -201,7 +201,7 @@ function DeleteButton({
 }: {
   itemLabel: string;
   itemId: string;
-  list: ListMeta;
+  list: SchemaTypeMeta;
 }) {
   const toasts = useToasts();
   const [deleteItem, { loading }] = useMutation(
