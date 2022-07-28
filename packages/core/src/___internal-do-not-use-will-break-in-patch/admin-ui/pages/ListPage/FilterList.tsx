@@ -9,11 +9,17 @@ import { FieldMeta, SchemaCccMeta } from '../../../../types';
 import { useRouter } from '../../../../admin-ui/router';
 import { Filter } from './useFilters';
 
-export function FilterList({ filters, list }: { filters: Filter[]; list: SchemaCccMeta }) {
+export function FilterSchemaCcc({
+  filters,
+  schemaCcc,
+}: {
+  filters: Filter[];
+  schemaCcc: SchemaCccMeta;
+}) {
   return (
     <Inline gap="small">
       {filters.map(filter => {
-        const field = list.fields[filter.field];
+        const field = schemaCcc.fields[filter.field];
         return <FilterPill key={`${filter.field}_${filter.type}`} field={field} filter={filter} />;
       })}
     </Inline>

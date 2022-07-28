@@ -26,7 +26,7 @@ import { useSchemaCcc } from '../../../../admin-ui/context';
 import { Link, useRouter } from '../../../../admin-ui/router';
 import { FieldSelection } from './FieldSelection';
 import { FilterAdd } from './FilterAdd';
-import { FilterList } from './FilterList';
+import { FilterSchemaCcc } from './FilterList';
 import { SortSelection } from './SortSelection';
 import { useFilters } from './useFilters';
 import { useSelectedFields } from './useSelectedFields';
@@ -41,11 +41,11 @@ type FetchedFieldMeta = {
   listView: { fieldMode: 'read' | 'hidden' };
 };
 
-let listMetaGraphqlQuery: TypedDocumentNode<
+let schemaCccMetaGraphqlQuery: TypedDocumentNode<
   {
     keystone: {
       adminMeta: {
-        list: {
+        schemaCcc: {
           hideCreate: boolean;
           hideDelete: boolean;
           fields: FetchedFieldMeta[];
@@ -58,7 +58,7 @@ let listMetaGraphqlQuery: TypedDocumentNode<
   query ($schemaCccKey: String!) {
     keystone {
       adminMeta {
-        list(key: $schemaCccKey) {
+        schemaCcc(key: $schemaCccKey) {
           hideDelete
           hideCreate
           fields {
@@ -79,7 +79,7 @@ const storeableQueries = ['sortBy', 'fields'];
 
 function useQueryParamsFromLocalStorage(schemaCccKey: string) {
   const router = useRouter();
-  const localStorageKey = `keystone.list.${schemaCccKey}.list.page.info`;
+  const localStorageKey = `keystone.schemaPpp.${schemaCccKey}.schemaCcc.page.info`;
 
   const resetToDefaults = () => {
     localStorage.removeItem(localStorageKey);
@@ -90,11 +90,11 @@ function useQueryParamsFromLocalStorage(schemaCccKey: string) {
   // MERGE QUERY PARAMS FROM CACHE WITH QUERY PARAMS FROM ROUTER
   useEffect(
     () => {
-      let hasSomeQueryParamsWhichAreAboutListPage = Object.keys(router.query).some(x => {
+      let hasSomeQueryParamsWhichAreAboutSchemaCccPage = Object.keys(router.query).some(x => {
         return x.startsWith('!') || storeableQueries.includes(x);
       });
 
-      if (!hasSomeQueryParamsWhichAreAboutListPage && router.isReady) {
+      if (!hasSomeQueryParamsWhichAreAboutSchemaCccPage && router.isReady) {
         const queryParamsFromLocalStorage = localStorage.getItem(localStorageKey);
         let parsed;
         try {
@@ -125,9 +125,9 @@ function useQueryParamsFromLocalStorage(schemaCccKey: string) {
   return { resetToDefaults };
 }
 
-export const getListPage = (props: ListPageProps) => () => <ListPage {...props} />;
+export const getSchemaCccPage = (props: ListPageProps) => () => <SchemaCccPage {...props} />;
 
-const ListPage = ({ schemaCccKey }: ListPageProps) => {
+const SchemaCccPage = ({ schemaCccKey }: ListPageProps) => {
   const schemaCcc = useSchemaCcc(schemaCccKey);
 
   const { query } = useRouter();
@@ -141,13 +141,13 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
       ? parseInt(query.pageSize)
       : schemaCcc.pageSize;
 
-  let metaQuery = useQuery(listMetaGraphqlQuery, { variables: { schemaCccKey } });
+  let metaQuery = useQuery(schemaCccMetaGraphqlQuery, { variables: { schemaCccKey } });
 
   let { listViewFieldModesByField, filterableFields, orderableFields } = useMemo(() => {
     const listViewFieldModesByField: Record<string, 'read' | 'hidden'> = {};
     const orderableFields = new Set<string>();
     const filterableFields = new Set<string>();
-    for (const field of metaQuery.data?.keystone.adminMeta.list?.fields || []) {
+    for (const field of metaQuery.data?.keystone.adminMeta.schemaCcc?.fields || []) {
       listViewFieldModesByField[field.path] = field.listView.fieldMode;
       if (field.isOrderable) {
         orderableFields.add(field.path);
@@ -158,7 +158,7 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
     }
 
     return { listViewFieldModesByField, orderableFields, filterableFields };
-  }, [metaQuery.data?.keystone.adminMeta.list?.fields]);
+  }, [metaQuery.data?.keystone.adminMeta.schemaCcc?.fields]);
 
   const sort = useSort(schemaCcc, orderableFields);
 
@@ -256,7 +256,7 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
               <FilterAdd schemaCccKey={schemaCccKey} filterableFields={filterableFields} />
             ) : null}
             {filters.filters.length ? (
-              <FilterList filters={filters.filters} list={schemaCcc} />
+              <FilterSchemaCcc filters={filters.filters} schemaCcc={schemaCcc} />
             ) : null}
             {Boolean(filters.filters.length || query.sortBy || query.fields) && (
               <Button size="small" onClick={resetToDefaults}>
@@ -299,7 +299,7 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
                       <SortSelection list={schemaCcc} orderableFields={orderableFields} />
                       with{' '}
                       <FieldSelection
-                        list={schemaCcc}
+                        schemaCcc={schemaCcc}
                         fieldModesByFieldPath={listViewFieldModesByField}
                       />{' '}
                       {loading && (

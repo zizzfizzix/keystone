@@ -386,7 +386,7 @@ const ItemPage = ({ schemaCccKey }: ItemPageProps) => {
               <ItemForm
                 fieldModes={itemViewFieldModesByField}
                 selectedFields={selectedFields}
-                showDelete={!data.keystone.adminMeta.list!.hideDelete}
+                showDelete={!data.keystone.adminMeta.schemaCcc!.hideDelete}
                 schemaCccKey={schemaCccKey}
                 itemGetter={dataGetter.get('item') as DataGetter<ItemData>}
               />

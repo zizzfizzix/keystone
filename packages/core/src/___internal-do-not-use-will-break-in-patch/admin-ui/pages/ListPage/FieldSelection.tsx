@@ -35,17 +35,17 @@ const Option: typeof OptionPrimitive = props => {
 export const fieldSelectionOptionsComponents = { Option };
 
 export function FieldSelection({
-  list,
+  schemaCcc,
   fieldModesByFieldPath,
 }: {
-  list: SchemaCccMeta;
+  schemaCcc: SchemaCccMeta;
   fieldModesByFieldPath: Record<string, 'hidden' | 'read'>;
 }) {
   const router = useRouter();
-  const selectedFields = useSelectedFields(list, fieldModesByFieldPath);
+  const selectedFields = useSelectedFields(schemaCcc, fieldModesByFieldPath);
 
   const setNewSelectedFields = (selectedFields: string[]) => {
-    if (isArrayEqual(selectedFields, list.initialColumns)) {
+    if (isArrayEqual(selectedFields, schemaCcc.initialColumns)) {
       const { fields: _ignore, ...otherQueryFields } = router.query;
       router.push({ query: otherQueryFields });
     } else {
@@ -57,7 +57,7 @@ export function FieldSelection({
     if (fieldModesByFieldPath[fieldPath] === 'read') {
       fields.push({
         value: fieldPath,
-        label: list.fields[fieldPath].label,
+        label: schemaCcc.fields[fieldPath].label,
         isDisabled: selectedFields.size === 1 && selectedFields.has(fieldPath),
       });
     }
@@ -65,7 +65,7 @@ export function FieldSelection({
 
   return (
     <Popover
-      aria-label={`Columns options, list of column options to apply to the ${list.key} list`}
+      aria-label={`Columns options, schema ccc of column options to apply to the ${schemaCcc.key} schema ccc`}
       triggerRenderer={({ triggerProps }) => {
         return (
           <Button weight="link" css={{ padding: 4 }} {...triggerProps}>

@@ -63,12 +63,12 @@ export function FilterAdd({
         onClick={() => setOpen(!isOpen)}
       >
         <Box as="span" marginRight="xsmall">
-          Filter List
+          Filter Schema Ccc
         </Box>
         <ChevronDownIcon size="small" />
       </Button>
       <PopoverDialog
-        aria-label={`Filters options, list of filters to apply to the ${schemaCccKey} list`}
+        aria-label={`Filters options, schema ccc of filters to apply to the ${schemaCccKey} schema ccc`}
         arrow={arrow}
         isVisible={isOpen}
         {...dialog.props}
