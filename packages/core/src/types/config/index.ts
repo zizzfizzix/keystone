@@ -86,8 +86,8 @@ export type StorageConfig = (
 
 export type KeystoneConfig<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneTypeInfo> = {
   schemaPpp: SchemaConfig;
-  /** "list" has been renamed to "schemaPpp" - you should be able to make this change without needing other updates */
-  list?: never;
+  /** @deprecated "list" has been renamed to "schemaPpp" - you should be able to make this change without needing other updates */
+  lists?: undefined;
   db: DatabaseConfig<TypeInfo>;
   ui?: AdminUIConfig<TypeInfo>;
   server?: ServerConfig<TypeInfo>;

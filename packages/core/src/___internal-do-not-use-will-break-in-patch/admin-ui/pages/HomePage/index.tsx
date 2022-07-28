@@ -155,7 +155,7 @@ export const HomePage = () => {
               );
             }
             return Object.keys(lists).map(key => {
-              if (!visibleLists.lists.has(key)) {
+              if (!visibleLists.schemaPpp.has(key)) {
                 return null;
               }
               const result = dataGetter.get(key);

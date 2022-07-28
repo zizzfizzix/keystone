@@ -1,15 +1,15 @@
 import { GraphQLError } from 'graphql';
 import { useMemo } from 'react';
-import type { AuthenticatedItem, VisibleLists, CreateViewFieldModes } from '../../types';
+import type { AuthenticatedItem, VisibleSchemaPpp, CreateViewFieldModes } from '../../types';
 import { DocumentNode, useQuery, QueryResult, ServerError, ServerParseError } from '../apollo';
 import { DeepNullable, makeDataGetter } from './dataGetter';
 
-export type { AuthenticatedItem, VisibleLists, CreateViewFieldModes };
+export type { AuthenticatedItem, VisibleSchemaPpp as VisibleLists, CreateViewFieldModes };
 
 export function useLazyMetadata(query: DocumentNode): {
   authenticatedItem: AuthenticatedItem;
   refetch: () => void;
-  visibleLists: VisibleLists;
+  visibleLists: VisibleSchemaPpp;
   createViewFieldModes: CreateViewFieldModes;
 } {
   let result = useQuery(query, { errorPolicy: 'all', fetchPolicy: 'network-only' });
@@ -73,7 +73,7 @@ function getCreateViewFieldModes(
         lists[list.key][field.path] = field.createView.fieldMode;
       });
     });
-    return { state: 'loaded', lists };
+    return { state: 'loaded', schemaPpp: lists };
   }
 
   return { state: 'loading' };
@@ -82,7 +82,7 @@ function getCreateViewFieldModes(
 function getVisibleLists(
   { data }: QueryResult,
   error?: Error | ServerParseError | ServerError | readonly [GraphQLError, ...GraphQLError[]]
-): VisibleLists {
+): VisibleSchemaPpp {
   if (error) {
     return { state: 'error', error };
   }
@@ -93,7 +93,7 @@ function getVisibleLists(
         lists.add(list.key);
       }
     });
-    return { state: 'loaded', lists };
+    return { state: 'loaded', schemaPpp: lists };
   }
 
   return { state: 'loading' };

@@ -83,7 +83,7 @@ export function useCreateItem(list: SchemaCccMeta): CreateItemHookResult {
     props: {
       fields: list.fields,
       fieldModes:
-        createViewFieldModes.state === 'loaded' ? createViewFieldModes.lists[list.key] : null,
+        createViewFieldModes.state === 'loaded' ? createViewFieldModes.schemaPpp[list.key] : null,
       forceValidation,
       invalidFields,
       value,

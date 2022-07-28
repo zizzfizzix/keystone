@@ -61,11 +61,11 @@ function getSudoGraphQLSchema(config: KeystoneConfig) {
 }
 
 export function createSystem(config: KeystoneConfig, isLiveReload?: boolean) {
-  const lists = initialiseLists(config);
+  const schemaPpp = initialiseLists(config);
 
-  const adminMeta = createAdminMeta(config, lists);
+  const adminMeta = createAdminMeta(config, schemaPpp);
 
-  const graphQLSchema = createGraphQLSchema(config, lists, adminMeta);
+  const graphQLSchema = createGraphQLSchema(config, schemaPpp, adminMeta);
 
   const sudoGraphQLSchema = getSudoGraphQLSchema(config);
 
@@ -91,10 +91,10 @@ export function createSystem(config: KeystoneConfig, isLiveReload?: boolean) {
         sudoGraphQLSchema,
         config,
         prismaClient,
-        gqlNamesByList: Object.fromEntries(
-          Object.entries(lists).map(([schemaCccKey, list]) => [schemaCccKey, getGqlNames(list)])
+        gqlNamesBySchemaCcc: Object.fromEntries(
+          Object.entries(schemaPpp).map(([schemaCccKey, list]) => [schemaCccKey, getGqlNames(list)])
         ),
-        lists,
+        schemaPpp,
       });
 
       return {

@@ -218,7 +218,7 @@ export const Navigation = () => {
   }
   const renderableLists = Object.keys(lists)
     .map(key => {
-      if (!visibleLists.lists.has(key)) return null;
+      if (!visibleLists.schemaPpp.has(key)) return null;
       return lists[key];
     })
     .filter((x): x is NonNullable<typeof x> => Boolean(x));
