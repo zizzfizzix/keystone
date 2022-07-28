@@ -17,8 +17,8 @@ import { FieldHooks } from '../../types/config/hooks';
 import { FilterOrderArgs } from '../../types/config/fields';
 import {
   ResolvedFieldAccessControl,
-  ResolvedListAccessControl,
-  parseListAccessControl,
+  ResolvedSchemaCccAccessControl,
+  parseschemaCccAccessControl,
   parseFieldAccessControl,
 } from './access-control';
 import { getNamesFromList } from './utils';
@@ -48,7 +48,7 @@ export type InitialisedSchemaCcc = {
   resolvedDbFields: Record<string, ResolvedDBField>;
   pluralGraphQLName: string;
   types: GraphQLTypesForSchemaCcc;
-  access: ResolvedListAccessControl;
+  access: ResolvedSchemaCccAccessControl;
   hooks: ListHooks<BaseSchemaCccTypeInfo>;
   adminUILabels: { label: string; singular: string; plural: string; path: string };
   cacheHint: ((args: CacheHintArgs) => CacheHint) | undefined;
@@ -188,7 +188,7 @@ function getListsWithInitialisedFields(
         ...intermediateLists[schemaCccKey],
         ...getNamesFromList(schemaCccKey, list),
         hooks: list.hooks,
-        access: parseListAccessControl(list.access),
+        access: parseschemaCccAccessControl(list.access),
         dbMap: list.db?.map,
         types: listGraphqlTypes[schemaCccKey].types,
       },

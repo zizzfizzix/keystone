@@ -1,17 +1,17 @@
 import { assertInputObjectType } from 'graphql';
 import {
   BaseSchemaCccTypeInfo,
-  CreateListItemAccessControl,
+  CreateSchemaCccItemAccessControl,
   FieldAccessControl,
   IndividualFieldAccessControl,
-  ListAccessControl,
-  DeleteListItemAccessControl,
+  SchemaCccAccessControl,
+  DeleteSchemaCccItemAccessControl,
   FieldCreateItemAccessArgs,
   FieldReadItemAccessArgs,
   FieldUpdateItemAccessArgs,
-  UpdateListItemAccessControl,
-  ListOperationAccessControl,
-  ListFilterAccessControl,
+  UpdateSchemaCccItemAccessControl,
+  SchemaCccOperationAccessControl,
+  SchemaPppFilterAccessControl,
   KeystoneContext,
   getGqlNames,
 } from '../../types';
@@ -21,20 +21,25 @@ import { InitialisedSchemaCcc } from './types-for-lists';
 import { InputFilter } from './where-inputs';
 
 export async function getOperationAccess(
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext,
   operation: 'delete' | 'create' | 'update' | 'query'
 ) {
-  const args = { operation, session: context.session, schemaCccKey: list.schemaCccKey, context };
+  const args = {
+    operation,
+    session: context.session,
+    schemaCccKey: schemaCcc.schemaCccKey,
+    context,
+  };
   // Check the mutation access
-  const access = list.access.operation[operation];
+  const access = schemaCcc.access.operation[operation];
   let result;
   try {
     // @ts-ignore
     result = await access(args);
   } catch (error: any) {
     throw extensionError('Access control', [
-      { error, tag: `${list.schemaCccKey}.access.operation.${args.operation}` },
+      { error, tag: `${schemaCcc.schemaCccKey}.access.operation.${args.operation}` },
     ]);
   }
 
@@ -52,13 +57,18 @@ export async function getOperationAccess(
 }
 
 export async function getAccessFilters(
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext,
   operation: 'update' | 'query' | 'delete'
 ): Promise<boolean | InputFilter> {
-  const args = { operation, session: context.session, schemaCccKey: list.schemaCccKey, context };
+  const args = {
+    operation,
+    session: context.session,
+    schemaCccKey: schemaCcc.schemaCccKey,
+    context,
+  };
   // Check the mutation access
-  const access = list.access.filter[operation];
+  const access = schemaCcc.access.filter[operation];
   try {
     // @ts-ignore
     let filters = typeof access === 'function' ? await access(args) : access;
@@ -66,7 +76,7 @@ export async function getAccessFilters(
       return filters;
     }
     const schema = context.sudo().graphql.schema;
-    const whereInput = assertInputObjectType(schema.getType(getGqlNames(list).whereInputName));
+    const whereInput = assertInputObjectType(schema.getType(getGqlNames(schemaCcc).whereInputName));
     const result = coerceAndValidateForGraphQLInput(schema, whereInput, filters);
     if (result.kind === 'valid') {
       return result.value;
@@ -100,9 +110,9 @@ export type ResolvedFieldAccessControl = {
   update: IndividualFieldAccessControl<FieldUpdateItemAccessArgs<BaseSchemaCccTypeInfo>>;
 };
 
-export function parseListAccessControl(
-  access: ListAccessControl<BaseSchemaCccTypeInfo> | undefined
-): ResolvedListAccessControl {
+export function parseschemaCccAccessControl(
+  access: SchemaCccAccessControl<BaseSchemaCccTypeInfo> | undefined
+): ResolvedSchemaCccAccessControl {
   let item, filter, operation;
 
   if (typeof access?.operation === 'function') {
@@ -149,23 +159,23 @@ export function parseListAccessControl(
   return { operation, filter, item };
 }
 
-export type ResolvedListAccessControl = {
+export type ResolvedSchemaCccAccessControl = {
   operation: {
-    create: ListOperationAccessControl<'create', BaseSchemaCccTypeInfo>;
-    query: ListOperationAccessControl<'query', BaseSchemaCccTypeInfo>;
-    update: ListOperationAccessControl<'update', BaseSchemaCccTypeInfo>;
-    delete: ListOperationAccessControl<'delete', BaseSchemaCccTypeInfo>;
+    create: SchemaCccOperationAccessControl<'create', BaseSchemaCccTypeInfo>;
+    query: SchemaCccOperationAccessControl<'query', BaseSchemaCccTypeInfo>;
+    update: SchemaCccOperationAccessControl<'update', BaseSchemaCccTypeInfo>;
+    delete: SchemaCccOperationAccessControl<'delete', BaseSchemaCccTypeInfo>;
   };
   filter: {
     // create: not supported
-    query: ListFilterAccessControl<'query', BaseSchemaCccTypeInfo>;
-    update: ListFilterAccessControl<'update', BaseSchemaCccTypeInfo>;
-    delete: ListFilterAccessControl<'delete', BaseSchemaCccTypeInfo>;
+    query: SchemaPppFilterAccessControl<'query', BaseSchemaCccTypeInfo>;
+    update: SchemaPppFilterAccessControl<'update', BaseSchemaCccTypeInfo>;
+    delete: SchemaPppFilterAccessControl<'delete', BaseSchemaCccTypeInfo>;
   };
   item: {
-    create: CreateListItemAccessControl<BaseSchemaCccTypeInfo>;
+    create: CreateSchemaCccItemAccessControl<BaseSchemaCccTypeInfo>;
     // query: not supported
-    update: UpdateListItemAccessControl<BaseSchemaCccTypeInfo>;
-    delete: DeleteListItemAccessControl<BaseSchemaCccTypeInfo>;
+    update: UpdateSchemaCccItemAccessControl<BaseSchemaCccTypeInfo>;
+    delete: DeleteSchemaCccItemAccessControl<BaseSchemaCccTypeInfo>;
   };
 };

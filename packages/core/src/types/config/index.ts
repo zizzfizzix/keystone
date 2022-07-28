@@ -290,22 +290,18 @@ export type ImagesConfig = {
 
 // Exports from sibling packages
 
-export type {
-  SchemaCccHooks as ListHooks,
-  SchemaCccAccessControl as ListAccessControl,
-  FieldAccessControl,
-};
+export type { SchemaCccHooks as ListHooks, SchemaCccAccessControl, FieldAccessControl };
 
 export type {
   FieldCreateItemAccessArgs,
   FieldReadItemAccessArgs,
   FieldUpdateItemAccessArgs,
   IndividualFieldAccessControl,
-  CreateSchemaCccItemAccessControl as CreateListItemAccessControl,
-  UpdateSchemaCccItemAccessControl as UpdateListItemAccessControl,
-  DeleteSchemaCccItemAccessControl as DeleteListItemAccessControl,
-  SchemaCccOperationAccessControl as ListOperationAccessControl,
-  SchemaPppFilterAccessControl as ListFilterAccessControl,
+  CreateSchemaCccItemAccessControl,
+  UpdateSchemaCccItemAccessControl,
+  DeleteSchemaCccItemAccessControl,
+  SchemaCccOperationAccessControl,
+  SchemaPppFilterAccessControl,
 } from './access-control';
 export type { CommonFieldConfig } from './fields';
 export type { CacheHintArgs, IdFieldConfig } from './lists';

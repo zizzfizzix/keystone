@@ -263,21 +263,17 @@ function applyEarlyMaxResults(_take: number | null | undefined, list: Initialise
   // * The query has no "take", and has more results than the limit
   if (take < Infinity && take > list.maxResults) {
     throw limitsExceededError({
-      list: list.schemaCccKey,
+      schemaCcc: list.schemaCccKey,
       type: 'maxResults',
       limit: list.maxResults,
     });
   }
 }
 
-function applyMaxResults(
-  results: unknown[],
-  list: InitialisedSchemaCcc,
-  context: KeystoneContext
-) {
+function applyMaxResults(results: unknown[], list: InitialisedSchemaCcc, context: KeystoneContext) {
   if (results.length > list.maxResults) {
     throw limitsExceededError({
-      list: list.schemaCccKey,
+      schemaCcc: list.schemaCccKey,
       type: 'maxResults',
       limit: list.maxResults,
     });
@@ -286,7 +282,7 @@ function applyMaxResults(
     context.totalResults += results.length;
     if (context.totalResults > context.maxTotalResults) {
       throw limitsExceededError({
-        list: list.schemaCccKey,
+        schemaCcc: list.schemaCccKey,
         type: 'maxTotalResults',
         limit: context.maxTotalResults,
       });
