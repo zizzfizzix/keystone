@@ -26,12 +26,12 @@ import { RelationshipSelect } from './RelationshipSelect';
 function LinkToRelatedItems({
   itemId,
   value,
-  list,
+  schemaCcc,
   refFieldKey,
 }: {
   itemId: string | null;
   value: FieldProps<typeof controller>['value'] & { kind: 'many' | 'one' };
-  list: SchemaCccMeta;
+  schemaCcc: SchemaCccMeta;
   refFieldKey?: string;
 }) {
   function constructQuery({
@@ -60,15 +60,15 @@ function LinkToRelatedItems({
   if (value.kind === 'many') {
     const query = constructQuery({ refFieldKey, value, itemId });
     return (
-      <Button {...commonProps} as={Link} href={`/${list.path}?${query}`}>
-        View related {list.plural}
+      <Button {...commonProps} as={Link} href={`/${schemaCcc.path}?${query}`}>
+        View related {schemaCcc.plural}
       </Button>
     );
   }
 
   return (
-    <Button {...commonProps} as={Link} href={`/${list.path}/${value.value?.id}`}>
-      View {list.singular} details
+    <Button {...commonProps} as={Link} href={`/${schemaCcc.path}/${value.value?.id}`}>
+      View {schemaCcc.singular} details
     </Button>
   );
 }
@@ -81,8 +81,8 @@ export const Field = ({
   forceValidation,
 }: FieldProps<typeof controller>) => {
   const keystone = useKeystone();
-  const foreignList = useSchemaCcc(field.refschemaCccKey);
-  const localList = useSchemaCcc(field.schemaCccKey);
+  const foreignSchemaCcc = useSchemaCcc(field.refschemaCccKey);
+  const localSchemaCcc = useSchemaCcc(field.schemaCccKey);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   if (value.kind === 'cards-view') {
@@ -96,8 +96,8 @@ export const Field = ({
           id={value.id}
           value={value}
           onChange={onChange}
-          foreignList={foreignList}
-          localList={localList}
+          foreignSchemaCcc={foreignSchemaCcc}
+          localSchemaCcc={localSchemaCcc}
         />
       </FieldContainer>
     );
@@ -110,9 +110,9 @@ export const Field = ({
         <FieldDescription id={`${field.path}-description`}>{field.description}</FieldDescription>
         <div>
           {value.count === 1
-            ? `There is 1 ${foreignList.singular} `
-            : `There are ${value.count} ${foreignList.plural} `}
-          linked to this {localList.singular}
+            ? `There is 1 ${foreignSchemaCcc.singular} `
+            : `There are ${value.count} ${foreignSchemaCcc.plural} `}
+          linked to this {localSchemaCcc.singular}
         </div>
       </Stack>
     );
@@ -131,7 +131,7 @@ export const Field = ({
             aria-describedby={field.description === null ? undefined : `${field.path}-description`}
             autoFocus={autoFocus}
             isDisabled={onChange === undefined}
-            list={foreignList}
+            list={foreignSchemaCcc}
             portalMenu
             state={
               value.kind === 'many'
@@ -168,7 +168,7 @@ export const Field = ({
                   setIsDrawerOpen(true);
                 }}
               >
-                Create related {foreignList.singular}
+                Create related {foreignSchemaCcc.singular}
               </Button>
             )}
             {onChange !== undefined &&
@@ -207,7 +207,7 @@ export const Field = ({
               <LinkToRelatedItems
                 itemId={value.id}
                 refFieldKey={field.refFieldKey}
-                list={foreignList}
+                schemaCcc={foreignSchemaCcc}
                 value={value}
               />
             )}
@@ -216,7 +216,7 @@ export const Field = ({
         {onChange !== undefined && (
           <DrawerController isOpen={isDrawerOpen}>
             <CreateItemDrawer
-              schemaCccKey={foreignList.key}
+              schemaCccKey={foreignSchemaCcc.key}
               onClose={() => {
                 setIsDrawerOpen(false);
               }}
@@ -243,14 +243,14 @@ export const Field = ({
 };
 
 export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
-  const list = useSchemaCcc(field.refschemaCccKey);
+  const schemaCcc = useSchemaCcc(field.refschemaCccKey);
   const { colors } = useTheme();
 
   if (field.display === 'count') {
     const count = item[`${field.path}Count`] ?? 0;
     return (
       <CellContainer>
-        {count} {count === 1 ? list.singular : list.plural}
+        {count} {count === 1 ? schemaCcc.singular : schemaCcc.plural}
       </CellContainer>
     );
   }
@@ -273,7 +273,7 @@ export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
       {displayItems.map((item, index) => (
         <Fragment key={item.id}>
           {!!index ? ', ' : ''}
-          <Link href={`/${list.path}/[id]`} as={`/${list.path}/${item.id}`} css={styles}>
+          <Link href={`/${schemaCcc.path}/[id]`} as={`/${schemaCcc.path}/${item.id}`} css={styles}>
             {item.label || item.id}
           </Link>
         </Fragment>
@@ -284,7 +284,7 @@ export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
 };
 
 export const CardValue: CardValueComponent<typeof controller> = ({ field, item }) => {
-  const list = useSchemaCcc(field.refschemaCccKey);
+  const schemaCcc = useSchemaCcc(field.refschemaCccKey);
   const data = item[field.path];
   return (
     <FieldContainer>
@@ -294,7 +294,7 @@ export const CardValue: CardValueComponent<typeof controller> = ({ field, item }
         .map((item, index) => (
           <Fragment key={item.id}>
             {!!index ? ', ' : ''}
-            <Link href={`/${list.path}/[id]`} as={`/${list.path}/${item.id}`}>
+            <Link href={`/${schemaCcc.path}/[id]`} as={`/${schemaCcc.path}/${item.id}`}>
               {item.label || item.id}
             </Link>
           </Fragment>
@@ -479,10 +479,10 @@ export const controller = (
     },
     filter: {
       Filter: ({ onChange, value }) => {
-        const foreignList = useSchemaCcc(config.fieldMeta.refschemaCccKey);
+        const foreignSchemaCcc = useSchemaCcc(config.fieldMeta.refschemaCccKey);
         const { filterValues, loading } = useRelationshipFilterValues({
           value,
-          list: foreignList,
+          list: foreignSchemaCcc,
         });
         const state: {
           kind: 'many';
@@ -498,7 +498,7 @@ export const controller = (
         return (
           <RelationshipSelect
             controlShouldRenderValue
-            list={foreignList}
+            list={foreignSchemaCcc}
             isLoading={loading}
             isDisabled={onChange === undefined}
             state={state}
@@ -527,10 +527,10 @@ export const controller = (
         };
       },
       Label({ value }) {
-        const foreignList = useSchemaCcc(config.fieldMeta.refschemaCccKey);
+        const foreignSchemaCcc = useSchemaCcc(config.fieldMeta.refschemaCccKey);
         const { filterValues } = useRelationshipFilterValues({
           value,
-          list: foreignList,
+          list: foreignSchemaCcc,
         });
 
         if (!filterValues.length) {

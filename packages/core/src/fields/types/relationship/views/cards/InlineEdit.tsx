@@ -21,24 +21,24 @@ import { useFieldsObj } from './useItemState';
 
 export function InlineEdit({
   fields,
-  list,
+  schemaCcc,
   selectedFields,
   itemGetter,
   onCancel,
   onSave,
 }: {
   fields: readonly string[];
-  list: SchemaCccMeta;
+  schemaCcc: SchemaCccMeta;
   selectedFields: string;
   itemGetter: DataGetter<ItemData>;
   onCancel: () => void;
   onSave: (newItemGetter: DataGetter<ItemData>) => void;
 }) {
-  const fieldsObj = useFieldsObj(list, fields);
+  const fieldsObj = useFieldsObj(schemaCcc, fields);
 
   const [update, { loading, error }] = useMutation(
-    gql`mutation ($data: ${list.gqlNames.updateInputName}!, $id: ID!) {
-          item: ${list.gqlNames.updateMutationName}(where: { id: $id }, data: $data) {
+    gql`mutation ($data: ${schemaCcc.gqlNames.updateInputName}!, $id: ID!) {
+          item: ${schemaCcc.gqlNames.updateMutationName}(where: { id: $id }, data: $data) {
             ${selectedFields}
           }
         }`,
@@ -96,7 +96,7 @@ export function InlineEdit({
               });
             } else {
               toasts.addToast({
-                title: data.item[list.labelField] || data.item.id,
+                title: data.item[schemaCcc.labelField] || data.item.id,
                 tone: 'positive',
                 message: 'Saved successfully',
               });

@@ -65,16 +65,16 @@ const CardContainer = forwardRefWithAs(({ mode = 'view', ...props }: CardContain
 });
 
 export function Cards({
-  localList,
+  localSchemaCcc,
   field,
-  foreignList,
+  foreignSchemaCcc,
   id,
   value,
   onChange,
   forceValidation,
 }: {
-  foreignList: SchemaCccMeta;
-  localList: SchemaCccMeta;
+  foreignSchemaCcc: SchemaCccMeta;
+  localSchemaCcc: SchemaCccMeta;
   id: string | null;
   value: { kind: 'cards-view' };
 } & FieldProps<typeof controller>) {
@@ -83,17 +83,17 @@ export function Cards({
     ...new Set([...displayOptions.cardFields, ...(displayOptions.inlineEdit?.fields || [])]),
   ]
     .map(fieldPath => {
-      return foreignList.fields[fieldPath].controller.graphqlSelection;
+      return foreignSchemaCcc.fields[fieldPath].controller.graphqlSelection;
     })
     .join('\n');
   if (!displayOptions.cardFields.includes('id')) {
     selectedFields += '\nid';
   }
   if (
-    !displayOptions.cardFields.includes(foreignList.labelField) &&
-    foreignList.labelField !== 'id'
+    !displayOptions.cardFields.includes(foreignSchemaCcc.labelField) &&
+    foreignSchemaCcc.labelField !== 'id'
   ) {
-    selectedFields += `\n${foreignList.labelField}`;
+    selectedFields += `\n${foreignSchemaCcc.labelField}`;
   }
 
   const {
@@ -102,7 +102,7 @@ export function Cards({
     state: itemsState,
   } = useItemState({
     selectedFields,
-    localList,
+    localSchemaCcc,
     id,
     field,
   });
@@ -166,7 +166,7 @@ export function Cards({
                 } mode`}</VisuallyHidden>
                 {isEditMode ? (
                   <InlineEdit
-                    list={foreignList}
+                    schemaCcc={foreignSchemaCcc}
                     fields={displayOptions.inlineEdit!.fields}
                     onSave={newItemGetter => {
                       setItems({
@@ -194,7 +194,7 @@ export function Cards({
                 ) : (
                   <Stack gap="xlarge">
                     {displayOptions.cardFields.map(fieldPath => {
-                      const field = foreignList.fields[fieldPath];
+                      const field = foreignSchemaCcc.fields[fieldPath];
                       const itemForField: Record<string, any> = {};
                       for (const graphqlField of getRootGraphQLFieldsFromFieldController(
                         field.controller
@@ -264,9 +264,9 @@ export function Cards({
                           tone="active"
                           css={{ textDecoration: 'none' }}
                           as={Link}
-                          href={`/${foreignList.path}/${id}`}
+                          href={`/${foreignSchemaCcc.path}/${id}`}
                         >
-                          View {foreignList.singular} details
+                          View {foreignSchemaCcc.singular} details
                         </Button>
                       )}
                     </Stack>
@@ -294,9 +294,9 @@ export function Cards({
               autoFocus
               controlShouldRenderValue={isLoadingLazyItems}
               isDisabled={onChange === undefined}
-              list={foreignList}
+              list={foreignSchemaCcc}
               isLoading={isLoadingLazyItems}
-              placeholder={`Select a ${foreignList.singular}`}
+              placeholder={`Select a ${foreignSchemaCcc.singular}`}
               portalMenu
               state={{
                 kind: 'many',
@@ -312,7 +312,7 @@ export function Cards({
                     try {
                       const { data, errors } = await client.query({
                         query: gql`query ($ids: [ID!]!) {
-                      items: ${foreignList.gqlNames.schemaCccQueryName}(where: { id: { in: $ids }}) {
+                      items: ${foreignSchemaCcc.gqlNames.schemaCccQueryName}(where: { id: { in: $ids }}) {
                         ${selectedFields}
                       }
                     }`,
@@ -368,7 +368,7 @@ export function Cards({
           <InlineCreate
             selectedFields={selectedFields}
             fields={displayOptions.inlineCreate!.fields}
-            list={foreignList}
+            list={foreignSchemaCcc}
             onCancel={() => {
               onChange({ ...value, itemBeingCreated: false });
             }}
@@ -398,7 +398,7 @@ export function Cards({
                   });
                 }}
               >
-                Create {foreignList.singular}
+                Create {foreignSchemaCcc.singular}
               </Button>
             )}
             {displayOptions.inlineConnect && (
@@ -411,7 +411,7 @@ export function Cards({
                   setHideConnectItemsLabel('Cancel');
                 }}
               >
-                Link existing {foreignList.singular}
+                Link existing {foreignSchemaCcc.singular}
               </Button>
             )}
           </Stack>
@@ -420,8 +420,8 @@ export function Cards({
       {/* TODO: this may not be visible to the user when they invoke the save action. Maybe scroll to it? */}
       {forceValidation && (
         <Text color="red600" size="small">
-          You must finish creating and editing any related {foreignList.label.toLowerCase()} before
-          saving the {localList.singular.toLowerCase()}
+          You must finish creating and editing any related {foreignSchemaCcc.label.toLowerCase()}{' '}
+          before saving the {localSchemaCcc.singular.toLowerCase()}
         </Text>
       )}
     </Stack>

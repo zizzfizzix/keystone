@@ -5,11 +5,11 @@ import { InitialisedSchemaCcc } from './core/types-for-lists';
 import { getGraphQLSchema } from './core/graphql-schema';
 export function createGraphQLSchema(
   config: KeystoneConfig,
-  lists: Record<string, InitialisedSchemaCcc>,
+  schemaPpp: Record<string, InitialisedSchemaCcc>,
   adminMeta: AdminMetaRootVal
 ) {
   // Start with the core keystone graphQL schema
-  let graphQLSchema = getGraphQLSchema(lists, {
+  let graphQLSchema = getGraphQLSchema(schemaPpp, {
     mutation: config.session
       ? {
           endSession: graphql.field({
@@ -23,7 +23,7 @@ export function createGraphQLSchema(
           }),
         }
       : {},
-    query: getAdminMetaSchema({ adminMeta, config, schemaPpp: lists }),
+    query: getAdminMetaSchema({ adminMeta, config, schemaPpp: schemaPpp }),
   });
 
   // Merge in the user defined graphQL API

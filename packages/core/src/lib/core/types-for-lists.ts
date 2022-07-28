@@ -5,7 +5,7 @@ import {
   getGqlNames,
   NextFieldType,
   BaseSchemaCccTypeInfo,
-  ListGraphQLTypes,
+  SchemaCccGraphQLTypes,
   ListHooks,
   KeystoneConfig,
   FindManyArgs,
@@ -130,7 +130,7 @@ function getIsEnabled(listsConfig: KeystoneConfig['schemaPpp']) {
 
 function getListsWithInitialisedFields(
   { storage: configStorage, schemaPpp: listsConfig, db: { provider } }: KeystoneConfig,
-  listGraphqlTypes: Record<string, ListGraphQLTypes>,
+  listGraphqlTypes: Record<string, SchemaCccGraphQLTypes>,
   intermediateLists: Record<string, { graphql: { isEnabled: IsEnabled } }>
 ) {
   return Object.fromEntries(
@@ -200,8 +200,8 @@ function getListGraphqlTypes(
   listsConfig: KeystoneConfig['schemaPpp'],
   lists: Record<string, InitialisedSchemaCcc>,
   intermediateLists: Record<string, { graphql: { isEnabled: IsEnabled } }>
-): Record<string, ListGraphQLTypes> {
-  const graphQLTypes: Record<string, ListGraphQLTypes> = {};
+): Record<string, SchemaCccGraphQLTypes> {
+  const graphQLTypes: Record<string, SchemaCccGraphQLTypes> = {};
 
   for (const [schemaCccKey, listConfig] of Object.entries(listsConfig)) {
     const names = getGqlNames({

@@ -15,18 +15,18 @@ type Items = Record<string, DataGetter<{ id: string; [key: string]: any }>>;
 
 export function useItemState({
   selectedFields,
-  localList,
+  localSchemaCcc: localSchemaCcc,
   id,
   field,
 }: {
   selectedFields: string;
-  localList: SchemaCccMeta;
+  localSchemaCcc: SchemaCccMeta;
   field: ReturnType<typeof controller>;
   id: string | null;
 }) {
   const { data, error, loading } = useQuery(
     gql`query($id: ID!) {
-  item: ${localList.gqlNames.itemQueryName}(where: {id: $id}) {
+  item: ${localSchemaCcc.gqlNames.itemQueryName}(where: {id: $id}) {
     id
     relationship: ${field.path} {
       ${selectedFields}
@@ -135,12 +135,12 @@ export function useItemState({
   };
 }
 
-export function useFieldsObj(list: SchemaCccMeta, fields: readonly string[] | undefined) {
+export function useFieldsObj(schemaCcc: SchemaCccMeta, fields: readonly string[] | undefined) {
   return useMemo(() => {
     const editFields: Record<string, FieldMeta> = {};
     fields?.forEach(fieldPath => {
-      editFields[fieldPath] = list.fields[fieldPath];
+      editFields[fieldPath] = schemaCcc.fields[fieldPath];
     });
     return editFields;
-  }, [fields, list.fields]);
+  }, [fields, schemaCcc.fields]);
 }

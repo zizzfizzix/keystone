@@ -9,10 +9,10 @@ export { Decimal };
 
 export type BaseItem = { id: { toString(): string }; [key: string]: unknown };
 
-export type ListGraphQLTypes = { types: GraphQLTypesForSchemaCcc };
+export type SchemaCccGraphQLTypes = { types: GraphQLTypesForSchemaCcc };
 
 export type FieldData = {
-  schemaPpp: Record<string, ListGraphQLTypes>;
+  schemaPpp: Record<string, SchemaCccGraphQLTypes>;
   provider: DatabaseProvider;
   getStorage: (storage: string) => StorageConfig | undefined;
   schemaCccKey: string;
@@ -448,9 +448,7 @@ export type GraphQLTypesForSchemaCcc = {
 export type FindManyArgs = {
   where: graphql.Arg<graphql.NonNullType<GraphQLTypesForSchemaCcc['where']>, true>;
   orderBy: graphql.Arg<
-    graphql.NonNullType<
-      graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaCcc['orderBy']>>
-    >,
+    graphql.NonNullType<graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaCcc['orderBy']>>>,
     true
   >;
   take: graphql.Arg<typeof graphql.Int>;

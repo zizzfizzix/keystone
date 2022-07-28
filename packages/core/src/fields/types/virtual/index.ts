@@ -5,7 +5,7 @@ import {
   CommonFieldConfig,
   FieldTypeFunc,
   fieldType,
-  ListGraphQLTypes,
+  SchemaCccGraphQLTypes,
   getGqlNames,
 } from '../../../types';
 import { graphql } from '../../..';
@@ -23,7 +23,7 @@ export type VirtualFieldConfig<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> 
     field:
       | VirtualFieldGraphQLField<SchemaCccTypeInfo['item']>
       | ((
-          lists: Record<string, ListGraphQLTypes>
+          schemaPpp: Record<string, SchemaCccGraphQLTypes>
         ) => VirtualFieldGraphQLField<SchemaCccTypeInfo['item']>);
     unreferencedConcreteInterfaceImplementations?: readonly graphql.ObjectType<any>[];
     ui?: {
