@@ -115,7 +115,7 @@ export function printGeneratedTypes(
         uniqueWhere: ${gqlNames.whereUniqueInputName};
         create: ${gqlNames.createInputName};
         update: ${gqlNames.updateInputName};
-        orderBy: ${gqlNames.listOrderName};
+        orderBy: ${gqlNames.schemaCccOrderName};
       };
       all: __TypeInfo;
     };

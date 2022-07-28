@@ -313,7 +313,7 @@ function getListGraphqlTypes(
     });
 
     const orderBy = graphql.inputObject({
-      name: names.listOrderName,
+      name: names.schemaCccOrderName,
       fields: () => {
         const { fields } = lists[schemaCccKey];
         return Object.fromEntries(

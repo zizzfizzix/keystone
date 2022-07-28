@@ -50,9 +50,9 @@ export function getGqlNames({
   return {
     outputTypeName: schemaCccKey,
     itemQueryName: lowerSingularName,
-    listQueryName: lowerPluralName,
-    listQueryCountName: `${lowerPluralName}Count`,
-    listOrderName: `${schemaCccKey}OrderByInput`,
+    schemaCccQueryName: lowerPluralName,
+    schemaCccQueryCountName: `${lowerPluralName}Count`,
+    schemaCccOrderName: `${schemaCccKey}OrderByInput`,
     deleteMutationName: `delete${schemaCccKey}`,
     updateMutationName: `update${schemaCccKey}`,
     createMutationName: `create${schemaCccKey}`,

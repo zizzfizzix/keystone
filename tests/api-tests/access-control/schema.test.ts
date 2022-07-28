@@ -150,12 +150,12 @@ describe(`Public schema`, () => {
         // Queries are only accessible when reading
         if (config.omit !== true && (config.omit === undefined || !config.omit.includes('query'))) {
           expect(queries).toContain(gqlNames.itemQueryName);
-          expect(queries).toContain(gqlNames.listQueryName);
-          expect(queries).toContain(gqlNames.listQueryCountName);
+          expect(queries).toContain(gqlNames.schemaCccQueryName);
+          expect(queries).toContain(gqlNames.schemaCccQueryCountName);
         } else {
           expect(queries).not.toContain(gqlNames.itemQueryName);
-          expect(queries).not.toContain(gqlNames.listQueryName);
-          expect(queries).not.toContain(gqlNames.listQueryCountName);
+          expect(queries).not.toContain(gqlNames.schemaCccQueryName);
+          expect(queries).not.toContain(gqlNames.schemaCccQueryCountName);
         }
 
         if (
@@ -445,8 +445,8 @@ describe(`Sudo schema`, () => {
         expect(updateFromMany).toContain('set');
         expect(types).toContain(gqlNames.whereInputName);
         expect(queries).toContain(gqlNames.itemQueryName);
-        expect(queries).toContain(gqlNames.listQueryName);
-        expect(queries).toContain(gqlNames.listQueryCountName);
+        expect(queries).toContain(gqlNames.schemaCccQueryName);
+        expect(queries).toContain(gqlNames.schemaCccQueryCountName);
         expect(mutations).toContain(gqlNames.createMutationName);
         expect(mutations).toContain(gqlNames.updateMutationName);
         expect(mutations).toContain(gqlNames.deleteMutationName);

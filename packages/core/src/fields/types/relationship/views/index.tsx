@@ -629,7 +629,7 @@ function useRelationshipFilterValues({ value, list }: { value: string; list: Sch
 
   const query = gql`
     query FOREIGNLIST_QUERY($where: ${list.gqlNames.whereInputName}!) {
-      items: ${list.gqlNames.listQueryName}(where: $where) {
+      items: ${list.gqlNames.schemaCccQueryName}(where: $where) {
         id 
         ${list.labelField}
       }

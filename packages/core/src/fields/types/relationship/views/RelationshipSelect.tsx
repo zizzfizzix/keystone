@@ -139,12 +139,12 @@ export const RelationshipSelect = ({
     { where: Record<string, any>; take: number; skip: number }
   > = gql`
     query RelationshipSelect($where: ${list.gqlNames.whereInputName}!, $take: Int!, $skip: Int!) {
-      items: ${list.gqlNames.listQueryName}(where: $where, take: $take, skip: $skip) {
+      items: ${list.gqlNames.schemaCccQueryName}(where: $where, take: $take, skip: $skip) {
         ${idField}: id
         ${labelField}: ${list.labelField}
         ${extraSelection}
       }
-      count: ${list.gqlNames.listQueryCountName}(where: $where)
+      count: ${list.gqlNames.schemaCccQueryCountName}(where: $where)
     }
   `;
 
@@ -162,7 +162,7 @@ export const RelationshipSelect = ({
           typePolicies: {
             Query: {
               fields: {
-                [list.gqlNames.listQueryName]: {
+                [list.gqlNames.schemaCccQueryName]: {
                   keyArgs: ['where'],
                   merge: (existing: readonly unknown[], incoming: readonly unknown[], { args }) => {
                     const merged = existing ? existing.slice() : [];
@@ -178,7 +178,7 @@ export const RelationshipSelect = ({
           },
         }),
       }),
-    [link, list.gqlNames.listQueryName]
+    [link, list.gqlNames.schemaCccQueryName]
   );
 
   const { data, error, loading, fetchMore } = useQuery(QUERY, {
@@ -231,7 +231,7 @@ export const RelationshipSelect = ({
           { where: Record<string, any>; take: number; skip: number }
         > = gql`
               query RelationshipSelectMore($where: ${list.gqlNames.whereInputName}!, $take: Int!, $skip: Int!) {
-                items: ${list.gqlNames.listQueryName}(where: $where, take: $take, skip: $skip) {
+                items: ${list.gqlNames.schemaCccQueryName}(where: $where, take: $take, skip: $skip) {
                   ${labelField}: ${list.labelField}
                   ${idField}: id
                   ${extraSelection}

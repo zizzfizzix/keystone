@@ -32,8 +32,8 @@ export function getQueriesForList(list: InitialisedSchemaCcc) {
   });
 
   return {
-    [names.listQueryName]: findMany,
+    [names.schemaCccQueryName]: findMany,
     [names.itemQueryName]: findOne,
-    [names.listQueryCountName]: countQuery,
+    [names.schemaCccQueryCountName]: countQuery,
   };
 }

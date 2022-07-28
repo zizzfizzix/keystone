@@ -9,9 +9,9 @@ export type JSONValue =
 export type GqlNames = {
   outputTypeName: string;
   itemQueryName: string;
-  listQueryName: string;
-  listQueryCountName: string;
-  listOrderName: string;
+  schemaCccQueryName: string;
+  schemaCccQueryCountName: string;
+  schemaCccOrderName: string;
   deleteMutationName: string;
   updateMutationName: string;
   createMutationName: string;

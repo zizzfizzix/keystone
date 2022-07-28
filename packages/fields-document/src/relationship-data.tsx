@@ -92,7 +92,7 @@ export async function fetchRelationshipData(
   const labelField = getLabelFieldsForLists(context.graphql.schema)[listKey];
   const val = await context.graphql.run({
     query: `query($ids: [ID!]!) {items:${
-      context.gqlNames(listKey).listQueryName
+      context.gqlNames(listKey).schemaCccQueryName
     }(where: { id: { in: $ids } }) {${idFieldAlias}:id ${labelFieldAlias}:${labelField}\n${
       selection || ''
     }}}`,
