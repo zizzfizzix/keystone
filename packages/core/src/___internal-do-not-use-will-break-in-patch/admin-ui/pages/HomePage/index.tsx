@@ -13,7 +13,7 @@ import { gql, useQuery } from '../../../../admin-ui/apollo';
 import { useKeystone, useSchemaCcc } from '../../../../admin-ui/context';
 import { Link, LinkProps } from '../../../../admin-ui/router';
 
-type ListCardProps = {
+type SchemaCccCardProps = {
   schemaCccKey: string;
   hideCreate: boolean;
   count:
@@ -23,13 +23,13 @@ type ListCardProps = {
     | { type: 'loading' };
 };
 
-const ListCard = ({ schemaCccKey, count, hideCreate }: ListCardProps) => {
+const SchemaCccCard = ({ schemaCccKey, count, hideCreate }: SchemaCccCardProps) => {
   const { colors, palette, radii, spacing } = useTheme();
-  const list = useSchemaCcc(schemaCccKey);
+  const schemaCcc = useSchemaCcc(schemaCccKey);
   return (
     <div css={{ position: 'relative' }}>
       <Link
-        href={`/${list.path}`}
+        href={`/${schemaCcc.path}`}
         css={{
           backgroundColor: colors.background,
           borderColor: colors.border,
@@ -49,7 +49,7 @@ const ListCard = ({ schemaCccKey, count, hideCreate }: ListCardProps) => {
           },
         }}
       >
-        <h3 css={{ margin: `0 0 ${spacing.small}px 0` }}>{list.label} </h3>
+        <h3 css={{ margin: `0 0 ${spacing.small}px 0` }}>{schemaCcc.label} </h3>
         {count.type === 'success' ? (
           <span css={{ color: colors.foreground, textDecoration: 'none' }}>
             {count.count} item{count.count !== 1 ? 's' : ''}
@@ -57,15 +57,15 @@ const ListCard = ({ schemaCccKey, count, hideCreate }: ListCardProps) => {
         ) : count.type === 'error' ? (
           count.message
         ) : count.type === 'loading' ? (
-          <LoadingDots label={`Loading count of ${list.plural}`} size="small" tone="passive" />
+          <LoadingDots label={`Loading count of ${schemaCcc.plural}`} size="small" tone="passive" />
         ) : (
           'No access'
         )}
       </Link>
       {hideCreate === false && (
-        <CreateButton title={`Create ${list.singular}`} href={`/${list.path}/create`}>
+        <CreateButton title={`Create ${schemaCcc.singular}`} href={`/${schemaCcc.path}/create`}>
           <PlusIcon size="large" />
-          <VisuallyHidden>Create {list.singular}</VisuallyHidden>
+          <VisuallyHidden>Create {schemaCcc.singular}</VisuallyHidden>
         </CreateButton>
       )}
     </div>
@@ -105,14 +105,14 @@ const CreateButton = (props: LinkProps) => {
 export const HomePage = () => {
   const {
     adminMeta: { schemaPpp },
-    visibleLists,
+    visibleSchemaPpp,
   } = useKeystone();
   const query = useMemo(
     () => gql`
     query {
       keystone {
         adminMeta {
-          lists {
+          schemaPpp {
             key
             hideCreate
           }
@@ -133,9 +133,9 @@ export const HomePage = () => {
 
   return (
     <PageContainer header={<Heading type="h3">Dashboard</Heading>}>
-      {visibleLists.state === 'loading' ? (
+      {visibleSchemaPpp.state === 'loading' ? (
         <Center css={{ height: `calc(100vh - ${HEADER_HEIGHT}px)` }}>
-          <LoadingDots label="Loading lists" size="large" tone="passive" />
+          <LoadingDots label="Loading schema ppp" size="large" tone="passive" />
         </Center>
       ) : (
         <Inline
@@ -148,22 +148,22 @@ export const HomePage = () => {
           }}
         >
           {(() => {
-            if (visibleLists.state === 'error') {
+            if (visibleSchemaPpp.state === 'error') {
               return (
                 <span css={{ color: 'red' }}>
-                  {visibleLists.error instanceof Error
-                    ? visibleLists.error.message
-                    : visibleLists.error[0].message}
+                  {visibleSchemaPpp.error instanceof Error
+                    ? visibleSchemaPpp.error.message
+                    : visibleSchemaPpp.error[0].message}
                 </span>
               );
             }
             return Object.keys(schemaPpp).map(key => {
-              if (!visibleLists.schemaPpp.has(key)) {
+              if (!visibleSchemaPpp.schemaPpp.has(key)) {
                 return null;
               }
               const result = dataGetter.get(key);
               return (
-                <ListCard
+                <SchemaCccCard
                   count={
                     data
                       ? result.errors
@@ -172,8 +172,9 @@ export const HomePage = () => {
                       : { type: 'loading' }
                   }
                   hideCreate={
-                    data?.keystone.adminMeta.lists.find((list: any) => list.key === key)
-                      ?.hideCreate ?? false
+                    data?.keystone.adminMeta.schemaPpp.find(
+                      (schemaCcc: any) => schemaCcc.key === key
+                    )?.hideCreate ?? false
                   }
                   key={key}
                   schemaCccKey={key}

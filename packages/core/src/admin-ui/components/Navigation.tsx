@@ -170,27 +170,28 @@ export const NavigationContainer = ({ authenticatedItem, children }: NavigationC
   );
 };
 
-export const ListNavItem = ({ list }: { list: SchemaCccMeta }) => {
+export const SchemaCccItem = ({ schemaCcc }: { schemaCcc: SchemaCccMeta }) => {
   const router = useRouter();
   return (
     <NavItem
-      isSelected={router.pathname.split('/')[1] === `/${list.path}`.split('/')[1]}
-      href={`/${list.path}`}
+      isSelected={router.pathname.split('/')[1] === `/${schemaCcc.path}`.split('/')[1]}
+      href={`/${schemaCcc.path}`}
     >
-      {list.label}
+      {schemaCcc.label}
     </NavItem>
   );
 };
 
 type NavItemsProps = Pick<NavigationProps, 'lists'> & { include?: string[] };
 
-export const ListNavItems = ({ lists = [], include = [] }: NavItemsProps) => {
-  const renderedList = include.length > 0 ? lists.filter(i => include.includes(i.key)) : lists;
+export const SchemaCccNavItems = ({ lists: schemaPpp = [], include = [] }: NavItemsProps) => {
+  const renderedList =
+    include.length > 0 ? schemaPpp.filter(i => include.includes(i.key)) : schemaPpp;
 
   return (
     <Fragment>
-      {renderedList.map((list: SchemaCccMeta) => {
-        return <ListNavItem key={list.key} list={list} />;
+      {renderedList.map((schemaPpp: SchemaCccMeta) => {
+        return <SchemaCccItem key={schemaPpp.key} schemaCcc={schemaPpp} />;
       })}
     </Fragment>
   );
@@ -198,10 +199,10 @@ export const ListNavItems = ({ lists = [], include = [] }: NavItemsProps) => {
 
 export const Navigation = () => {
   const {
-    adminMeta: { lists },
+    adminMeta: { schemaPpp },
     adminConfig,
     authenticatedItem,
-    visibleLists,
+    visibleSchemaPpp: visibleLists,
   } = useKeystone();
 
   if (visibleLists.state === 'loading') return null;
@@ -216,10 +217,10 @@ export const Navigation = () => {
       </Text>
     );
   }
-  const renderableLists = Object.keys(lists)
+  const renderableLists = Object.keys(schemaPpp)
     .map(key => {
       if (!visibleLists.schemaPpp.has(key)) return null;
-      return lists[key];
+      return schemaPpp[key];
     })
     .filter((x): x is NonNullable<typeof x> => Boolean(x));
 
@@ -235,7 +236,7 @@ export const Navigation = () => {
   return (
     <NavigationContainer authenticatedItem={authenticatedItem}>
       <NavItem href="/">Dashboard</NavItem>
-      <ListNavItems lists={renderableLists} />
+      <SchemaCccNavItems lists={renderableLists} />
     </NavigationContainer>
   );
 };

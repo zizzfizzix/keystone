@@ -104,7 +104,7 @@ export const useKeystone = (): {
   adminConfig: AdminConfig;
   adminMeta: AdminMeta;
   authenticatedItem: AuthenticatedItem;
-  visibleLists: VisibleLists;
+  visibleSchemaPpp: VisibleLists;
   createViewFieldModes: CreateViewFieldModes;
   apiPath: string;
 } => {
@@ -126,7 +126,7 @@ export const useKeystone = (): {
     adminConfig: value.adminConfig,
     adminMeta: value.adminMeta.value,
     authenticatedItem: value.authenticatedItem,
-    visibleLists: value.visibleLists,
+    visibleSchemaPpp: value.visibleLists,
     createViewFieldModes: value.createViewFieldModes,
     apiPath: value.apiPath,
   };

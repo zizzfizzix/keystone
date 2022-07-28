@@ -13,8 +13,8 @@ import { SchemaCccMeta } from '../../../../types';
 import { useCreateItem } from '../../../../admin-ui/utils/useCreateItem';
 import { BaseToolbar, ColumnLayout, ItemPageHeader } from '../ItemPage/common';
 
-function CreatePageForm(props: { list: SchemaCccMeta }) {
-  const createItem = useCreateItem(props.list);
+function CreatePageForm(props: { schemaCcc: SchemaCccMeta }) {
+  const createItem = useCreateItem(props.schemaCcc);
   const router = useRouter();
   return (
     <Box paddingTop="xlarge">
@@ -30,7 +30,7 @@ function CreatePageForm(props: { list: SchemaCccMeta }) {
           event.preventDefault();
           const item = await createItem.create();
           if (item) {
-            router.push(`/${props.list.path}/${item.id}`);
+            router.push(`/${props.schemaCcc.path}/${item.id}`);
           }
         }}
       >
@@ -42,7 +42,7 @@ function CreatePageForm(props: { list: SchemaCccMeta }) {
             weight="bold"
             tone="active"
           >
-            Create {props.list.singular}
+            Create {props.schemaCcc.singular}
           </Button>
         </BaseToolbar>
       </form>
@@ -62,7 +62,7 @@ function CreateItemPage(props: CreateItemPageProps) {
   return (
     <PageContainer
       title={`Create ${schemaCcc.singular}`}
-      header={<ItemPageHeader list={schemaCcc} label="Create" />}
+      header={<ItemPageHeader schemaCcc={schemaCcc} label="Create" />}
     >
       <ColumnLayout>
         <Box>
@@ -77,7 +77,7 @@ function CreateItemPage(props: CreateItemPageProps) {
             />
           )}
           {createViewFieldModes.state === 'loading' && <LoadingDots label="Loading create form" />}
-          <CreatePageForm list={schemaCcc} />
+          <CreatePageForm schemaCcc={schemaCcc} />
         </Box>
       </ColumnLayout>
     </PageContainer>

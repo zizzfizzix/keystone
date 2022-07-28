@@ -132,10 +132,8 @@ function ItemForm({
           });
         } else {
           toasts.addToast({
-            // title: data.item[list.labelField] || data.item.id,
             tone: 'positive',
             title: 'Saved successfully',
-            // message: 'Saved successfully',
           });
         }
       })
@@ -182,7 +180,7 @@ function ItemForm({
           () =>
             showDelete ? (
               <DeleteButton
-                list={schemaCcc}
+                schemaCcc={schemaCcc}
                 itemLabel={(labelFieldValue ?? itemId) as string}
                 itemId={itemId}
               />
@@ -197,16 +195,16 @@ function ItemForm({
 function DeleteButton({
   itemLabel,
   itemId,
-  list,
+  schemaCcc,
 }: {
   itemLabel: string;
   itemId: string;
-  list: SchemaCccMeta;
+  schemaCcc: SchemaCccMeta;
 }) {
   const toasts = useToasts();
   const [deleteItem, { loading }] = useMutation(
     gql`mutation ($id: ID!) {
-      ${list.gqlNames.deleteMutationName}(where: { id: $id }) {
+      ${schemaCcc.gqlNames.deleteMutationName}(where: { id: $id }) {
         id
       }
     }`,
@@ -238,15 +236,15 @@ function DeleteButton({
                 await deleteItem();
               } catch (err: any) {
                 return toasts.addToast({
-                  title: `Failed to delete ${list.singular} item: ${itemLabel}`,
+                  title: `Failed to delete ${schemaCcc.singular} item: ${itemLabel}`,
                   message: err.message,
                   tone: 'negative',
                 });
               }
-              router.push(`/${list.path}`);
+              router.push(`/${schemaCcc.path}`);
               return toasts.addToast({
                 title: itemLabel,
-                message: `Deleted ${list.singular} item successfully`,
+                message: `Deleted ${schemaCcc.singular} item successfully`,
                 tone: 'positive',
               });
             },
@@ -269,12 +267,12 @@ function DeleteButton({
 export const getItemPage = (props: ItemPageProps) => () => <ItemPage {...props} />;
 
 const ItemPage = ({ schemaCccKey }: ItemPageProps) => {
-  const list = useSchemaCcc(schemaCccKey);
+  const schemaCcc = useSchemaCcc(schemaCccKey);
   const id = useRouter().query.id as string;
   const { spacing, typography } = useTheme();
 
   const { query, selectedFields } = useMemo(() => {
-    let selectedFields = Object.entries(list.fields)
+    let selectedFields = Object.entries(schemaCcc.fields)
       .filter(
         ([fieldKey, field]) =>
           field.itemView.fieldMode !== 'hidden' ||
@@ -282,19 +280,19 @@ const ItemPage = ({ schemaCccKey }: ItemPageProps) => {
           fieldKey === 'id'
       )
       .map(([fieldKey]) => {
-        return list.fields[fieldKey].controller.graphqlSelection;
+        return schemaCcc.fields[fieldKey].controller.graphqlSelection;
       })
       .join('\n');
     return {
       selectedFields,
       query: gql`
         query ItemPage($id: ID!, $schemaCccKey: String!) {
-          item: ${list.gqlNames.itemQueryName}(where: {id: $id}) {
+          item: ${schemaCcc.gqlNames.itemQueryName}(where: {id: $id}) {
             ${selectedFields}
           }
           keystone {
             adminMeta {
-              list(key: $schemaCccKey) {
+              schemaCcc(key: $schemaCccKey) {
                 hideCreate
                 hideDelete
                 fields {
@@ -309,7 +307,7 @@ const ItemPage = ({ schemaCccKey }: ItemPageProps) => {
         }
       `,
     };
-  }, [list]);
+  }, [schemaCcc]);
   let { data, error, loading } = useQuery(query, {
     variables: { id, schemaCccKey },
     errorPolicy: 'all',
@@ -322,7 +320,9 @@ const ItemPage = ({ schemaCccKey }: ItemPageProps) => {
       item: ItemData;
       keystone: {
         adminMeta: {
-          list: { fields: { path: string; itemView: { fieldMode: 'edit' | 'read' | 'hidden' } }[] };
+          schemaCcc: {
+            fields: { path: string; itemView: { fieldMode: 'edit' | 'read' | 'hidden' } }[];
+          };
         };
       };
     }>
@@ -330,30 +330,30 @@ const ItemPage = ({ schemaCccKey }: ItemPageProps) => {
 
   let itemViewFieldModesByField = useMemo(() => {
     let itemViewFieldModesByField: Record<string, 'edit' | 'read' | 'hidden'> = {};
-    dataGetter.data?.keystone?.adminMeta?.list?.fields?.forEach(field => {
+    dataGetter.data?.keystone?.adminMeta?.schemaCcc?.fields?.forEach(field => {
       if (field !== null && field.path !== null && field?.itemView?.fieldMode != null) {
         itemViewFieldModesByField[field.path] = field.itemView.fieldMode;
       }
     });
     return itemViewFieldModesByField;
-  }, [dataGetter.data?.keystone?.adminMeta?.list?.fields]);
+  }, [dataGetter.data?.keystone?.adminMeta?.schemaCcc?.fields]);
 
   const metaQueryErrors = dataGetter.get('keystone').errors;
 
   const pageTitle: string = loading
     ? undefined
-    : (data && data.item && (data.item[list.labelField] || data.item.id)) || id;
+    : (data && data.item && (data.item[schemaCcc.labelField] || data.item.id)) || id;
 
   return (
     <PageContainer
       title={pageTitle}
       header={
         <ItemPageHeader
-          list={list}
+          schemaCcc={schemaCcc}
           label={
             loading
               ? 'Loading...'
-              : (data && data.item && (data.item[list.labelField] || data.item.id)) || id
+              : (data && data.item && (data.item[schemaCcc.labelField] || data.item.id)) || id
           }
         />
       }

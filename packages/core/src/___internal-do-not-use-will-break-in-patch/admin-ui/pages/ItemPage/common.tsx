@@ -8,7 +8,7 @@ import { Container } from '../../../../admin-ui/components/Container';
 import { Link } from '../../../../admin-ui/router';
 import { SchemaCccMeta } from '../../../../types';
 
-export function ItemPageHeader(props: { list: SchemaCccMeta; label: string }) {
+export function ItemPageHeader(props: { schemaCcc: SchemaCccMeta; label: string }) {
   const { palette, spacing } = useTheme();
 
   return (
@@ -29,8 +29,8 @@ export function ItemPageHeader(props: { list: SchemaCccMeta; label: string }) {
         }}
       >
         <Heading type="h3">
-          <Link href={`/${props.list.path}`} css={{ textDecoration: 'none' }}>
-            {props.list.label}
+          <Link href={`/${props.schemaCcc.path}`} css={{ textDecoration: 'none' }}>
+            {props.schemaCcc.label}
           </Link>
         </Heading>
         <div
