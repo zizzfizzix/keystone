@@ -93,7 +93,7 @@ function getLazyMetadataQuery(
     parse(`fragment x on y {
     keystone {
       adminMeta {
-        lists {
+        schema {
           key
           isHidden
           fields {

@@ -66,26 +66,29 @@ export function useAdminMeta(adminMetaHash: string, fieldViews: FieldViews) {
     const runtimeAdminMeta: AdminMeta = {
       enableSessionItem: adminMeta.enableSessionItem,
       enableSignout: adminMeta.enableSignout,
-      lists: {},
+      schema: {},
     };
-    adminMeta.lists.forEach(list => {
-      runtimeAdminMeta.lists[list.key] = {
-        ...list,
-        gqlNames: getGqlNames({ schemaTypeKey: list.key, pluralGraphQLName: list.listQueryName }),
+    adminMeta.schema.forEach(schemaType => {
+      runtimeAdminMeta.schema[schemaType.key] = {
+        ...schemaType,
+        gqlNames: getGqlNames({
+          schemaTypeKey: schemaType.key,
+          pluralGraphQLName: schemaType.schemaTypeQueryName,
+        }),
         fields: {},
       };
-      list.fields.forEach(field => {
+      schemaType.fields.forEach(field => {
         expectedExports.forEach(exportName => {
           if ((fieldViews[field.viewsIndex] as any)[exportName] === undefined) {
             throw new Error(
-              `The view for the field at ${list.key}.${field.path} is missing the ${exportName} export`
+              `The view for the field at ${schemaType.key}.${field.path} is missing the ${exportName} export`
             );
           }
         });
         Object.keys(fieldViews[field.viewsIndex]).forEach(exportName => {
           if (!expectedExports.has(exportName) && exportName !== 'allowedExportsOnCustomViews') {
             throw new Error(
-              `Unexpected export named ${exportName} from the view from the field at ${list.key}.${field.path}`
+              `Unexpected export named ${exportName} from the view from the field at ${schemaType.key}.${field.path}`
             );
           }
         });
@@ -102,19 +105,19 @@ export function useAdminMeta(adminMetaHash: string, fieldViews: FieldViews) {
               (views as any)[exportName] = customViewsSource[exportName];
             } else {
               throw new Error(
-                `Unexpected export named ${exportName} from the custom view from field at ${list.key}.${field.path}`
+                `Unexpected export named ${exportName} from the custom view from field at ${schemaType.key}.${field.path}`
               );
             }
           });
         }
-        runtimeAdminMeta.lists[list.key].fields[field.path] = {
+        runtimeAdminMeta.schema[schemaType.key].fields[field.path] = {
           ...field,
           itemView: {
             fieldMode: field.itemView?.fieldMode ?? null,
           },
           views,
           controller: fieldViews[field.viewsIndex].controller({
-            schemaTypeKey: list.key,
+            schemaTypeKey: schemaType.key,
             fieldMeta: field.fieldMeta,
             label: field.label,
             description: field.description,

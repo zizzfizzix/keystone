@@ -50,7 +50,7 @@ export const virtual =
     ...config
   }: VirtualFieldConfig<SchemaTypeTypeInfo>): FieldTypeFunc<SchemaTypeTypeInfo> =>
   meta => {
-    const usableField = typeof field === 'function' ? field(meta.lists) : field;
+    const usableField = typeof field === 'function' ? field(meta.schema) : field;
     const namedType = getNamedType(usableField.type.graphQLType);
     const hasRequiredArgs =
       usableField.args &&

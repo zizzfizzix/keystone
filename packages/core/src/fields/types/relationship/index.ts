@@ -90,7 +90,7 @@ export const relationship =
       getAdminMeta: (
         adminMetaRoot: AdminMetaRootVal
       ): Parameters<typeof import('./views').controller>[0]['fieldMeta'] => {
-        if (!meta.lists[foreignschemaTypeKey]) {
+        if (!meta.schema[foreignschemaTypeKey]) {
           throw new Error(
             `The ref [${ref}] on relationship [${meta.schemaTypeKey}.${meta.fieldKey}] is invalid`
           );

@@ -88,7 +88,7 @@ export const lists = {
       file: file({ ui: { description }, storage: 'files' }),
       document: document({
         ui: { views: require.resolve('../component-blocks.tsx') },
-        relationships: { mention: { label: 'Mention', listKey: 'User' } },
+        relationships: { mention: { label: 'Mention', schemaTypeKey: 'User' } },
         formatting: true,
         layouts: [
           [1, 1],
