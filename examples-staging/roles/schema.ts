@@ -5,23 +5,23 @@ import { isSignedIn, permissions, rules } from './access';
 
 /*
   The set of permissions a role could have would change based on application requirements, so the
-  checkboxes in the Role list below are fairly arbitary to demonstrate the idea.
+  checkboxes in the Role schema ccc below are fairly arbitary to demonstrate the idea.
 
   The default permissions (not assigned with roles) in this example are:
   - All users can sign into the Admin UI
   - All users can see and manage todo items assigned to themselves
 */
 
-export const lists = {
+export const schemaPpp = {
   Todo: list({
     /*
       SPEC
       - [x] Block all public access
-      - [x] Restrict list create based on canCreateTodos
-      - [x] Restrict list read based on canManageAllTodos and isPrivate
+      - [x] Restrict schema ccc create based on canCreateTodos
+      - [x] Restrict schema ccc read based on canManageAllTodos and isPrivate
         - [x] Users without canManageAllTodos can only see their own todo items
         - [x] Users can never see todo items with isPrivate unless assigned to themselves
-      - [x] Restrict list update / delete based on canManageAllTodos
+      - [x] Restrict schema ccc update / delete based on canManageAllTodos
         - [x] Users can always update / delete their own todo items
         - [x] Users can only update / delete todo items assigned to other people with canManageAllTodos
       - [ ] Validate assignment on create based on canManageAllTodos
@@ -81,10 +81,10 @@ export const lists = {
     /*
       SPEC
       - [x] Block all public access
-      - [x] Restrict list create based on canManagePeople
-      - [x] Restrict list read based on canSeeOtherPeople
-      - [x] Restrict list update based on canEditOtherPeople
-      - [x] Restrict list delete based on canManagePeople
+      - [x] Restrict schema ccc create based on canManagePeople
+      - [x] Restrict schema ccc read based on canSeeOtherPeople
+      - [x] Restrict schema ccc update based on canEditOtherPeople
+      - [x] Restrict schema ccc delete based on canManagePeople
       - [x] Restrict role field update based on canManagePeople
       - [x] Restrict password field update based on same item or canManagePeople
       - [x] Restrict tasks based on same item or canManageTodos
@@ -159,7 +159,7 @@ export const lists = {
             // check the canManageAllTodos permission here
             fieldMode: args => (permissions.canManageAllTodos(args) ? 'edit' : 'hidden'),
           },
-          // Todo lists can be potentially quite large, so it's impractical to edit this field in
+          // Todo schema cccs can be potentially quite large, so it's impractical to edit this field in
           // the item view. Always set it to read mode.
           itemView: { fieldMode: 'read' },
         },
@@ -206,7 +206,7 @@ export const lists = {
          - update and delete Todo items not assigned to the current user */
       canManageAllTodos: checkbox({ defaultValue: false }),
       /* See Other Users means:
-         - list all users in the database (users can always see themselves) */
+         - schema ccc all users in the database (users can always see themselves) */
       canSeeOtherPeople: checkbox({ defaultValue: false }),
       /* Edit Other Users means:
          - edit other users in the database (users can always edit their own item) */
@@ -218,7 +218,7 @@ export const lists = {
       /* Manage Roles means:
          - create, edit, and delete roles */
       canManageRoles: checkbox({ defaultValue: false }),
-      /* This list of People assigned to this role */
+      /* This schema ccc of People assigned to this role */
       assignedTo: relationship({
         ref: 'Person.role',
         many: true,

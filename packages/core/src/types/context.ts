@@ -8,7 +8,7 @@ import { GqlNames, BaseKeystoneTypeInfo } from '.';
 export type KeystoneContext<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneTypeInfo> = {
   req?: IncomingMessage;
   db: KeystoneDbAPI<TypeInfo['schemaCcc']>;
-  query: KeystoneSchemaCccAPI<TypeInfo['schemaCcc']>;
+  query: KeystoneSchemaPppAPI<TypeInfo['schemaCcc']>;
   graphql: KeystoneGraphQLAPI;
   sudo: () => KeystoneContext<TypeInfo>;
   exitSudo: () => KeystoneContext<TypeInfo>;
@@ -33,7 +33,7 @@ export type KeystoneContext<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystone
 // TODO: Work out whether we can generate useful return types based on the GraphQL Query
 // passed to List API functions (see `readonly Record<string, any>` below)
 
-export type KeystoneSchemaCccAPI<
+export type KeystoneSchemaPppAPI<
   KeystoneSchemaCccTypeInfo extends Record<string, BaseSchemaCccTypeInfo>
 > = {
   [Key in keyof KeystoneSchemaCccTypeInfo]: {

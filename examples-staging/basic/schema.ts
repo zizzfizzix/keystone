@@ -17,7 +17,7 @@ import * as Keystone from '.keystone/types';
 type AccessArgs = {
   session?: {
     itemId?: string;
-    listKey?: string;
+    schemaCccKey?: string;
     data: {
       name?: string;
       isAdmin: boolean;
@@ -32,7 +32,7 @@ export const access = {
 
 const randomNumber = () => Math.round(Math.random() * 10);
 
-const User: Keystone.Lists.User = list({
+const User: Keystone.SchemaPpp.User = list({
   ui: {
     listView: {
       initialColumns: ['name', 'posts', 'avatar'],
@@ -91,7 +91,7 @@ const User: Keystone.Lists.User = list({
   },
 });
 
-export const lists: Keystone.Lists = {
+export const schemaPpp: Keystone.SchemaPpp = {
   User,
   PhoneNumber: list({
     ui: {

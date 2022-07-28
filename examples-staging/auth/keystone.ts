@@ -1,7 +1,7 @@
 import { config } from '@keystone-6/core';
 import { statelessSessions } from '@keystone-6/core/session';
 import { createAuth } from '@keystone-6/auth';
-import { lists } from './schema';
+import { schemaPpp as schemaPpp } from './schema';
 
 /**
  * TODO: Implement validateItem. Would be invoked by the getItem() method in
@@ -12,11 +12,11 @@ let sessionSecret = '-- DEV COOKIE SECRET; CHANGE ME --';
 let sessionMaxAge = 60 * 60 * 24 * 30; // 30 days
 
 // createAuth configures signin functionality based on the config below. Note this only implements
-// authentication, i.e signing in as an item using identity and secret fields in a list. Session
+// authentication, i.e signing in as an item using identity and secret fields in a schema ccc. Session
 // management and access control are controlled independently in the main keystone config.
 const { withAuth } = createAuth({
-  // This is the list that contains items people can sign in as
-  listKey: 'User',
+  // This is the schema ccc that contains items people can sign in as
+  schemaCcc: 'User',
   // The identity field is typically a username or email address
   identityField: 'email',
   // The secret field must be a password type field
@@ -26,7 +26,7 @@ const { withAuth } = createAuth({
   validateItem: ({ item }) => item.isEnabled,
   */
   // initFirstItem turns on the "First User" experience, which prompts you to create a new user
-  // when there are no items in the list yet
+  // when there are no items in the schema ccc yet
   initFirstItem: {
     // These fields are collected in the "Create First User" form
     fields: ['name', 'email', 'password'],
@@ -63,10 +63,10 @@ export default withAuth(
       provider: 'sqlite',
       url: process.env.DATABASE_URL || 'file:./keystone-example.db',
     },
-    schemaPpp: lists,
+    schemaPpp,
     ui: {},
     session:
-      // Stateless sessions will store the listKey and itemId of the signed-in user in a cookie
+      // Stateless sessions will store the schemaCccKey and itemId of the signed-in user in a cookie
       statelessSessions({
         // The maxAge option controls how long session cookies are valid for before they expire
         maxAge: sessionMaxAge,

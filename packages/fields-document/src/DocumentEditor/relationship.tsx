@@ -106,7 +106,7 @@ export function RelationshipElement({
           <RelationshipSelect
             controlShouldRenderValue
             isDisabled={false}
-            list={keystone.adminMeta.lists[relationship.listKey]}
+            list={keystone.adminMeta.schemaPpp[relationship.schemaCccKey]}
             portalMenu
             state={{
               kind: 'one',

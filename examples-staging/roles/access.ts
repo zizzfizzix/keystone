@@ -1,10 +1,10 @@
-import { ListAccessArgs } from './types';
+import { SchemaCccAccessArgs } from './types';
 
 /*
   The basic level of access to the system is being signed in as a valid user. This gives you access
   to the Admin UI, access to your own User and Todo items, and read access to roles.
 */
-export const isSignedIn = ({ session }: ListAccessArgs) => {
+export const isSignedIn = ({ session }: SchemaCccAccessArgs) => {
   return !!session;
 };
 
@@ -13,18 +13,18 @@ export const isSignedIn = ({ session }: ListAccessArgs) => {
   permission boolean set to true
 */
 export const permissions = {
-  canCreateTodos: ({ session }: ListAccessArgs) => !!session?.data.role?.canCreateTodos,
-  canManageAllTodos: ({ session }: ListAccessArgs) => !!session?.data.role?.canManageAllTodos,
-  canManagePeople: ({ session }: ListAccessArgs) => !!session?.data.role?.canManagePeople,
-  canManageRoles: ({ session }: ListAccessArgs) => !!session?.data.role?.canManageRoles,
+  canCreateTodos: ({ session }: SchemaCccAccessArgs) => !!session?.data.role?.canCreateTodos,
+  canManageAllTodos: ({ session }: SchemaCccAccessArgs) => !!session?.data.role?.canManageAllTodos,
+  canManagePeople: ({ session }: SchemaCccAccessArgs) => !!session?.data.role?.canManagePeople,
+  canManageRoles: ({ session }: SchemaCccAccessArgs) => !!session?.data.role?.canManageRoles,
 };
 
 /*
-  Rules are logical functions that can be used for list access, and may return a boolean (meaning
+  Rules are logical functions that can be used for schema ccc access, and may return a boolean (meaning
   all or no items are available) or a set of filters that limit the available items
 */
 export const rules = {
-  canReadTodos: ({ session }: ListAccessArgs) => {
+  canReadTodos: ({ session }: SchemaCccAccessArgs) => {
     if (!session) {
       // No session? No todos.
       return false;
@@ -42,7 +42,7 @@ export const rules = {
       return { assignedTo: { id: { equals: session.itemId } } };
     }
   },
-  canManageTodos: ({ session }: ListAccessArgs) => {
+  canManageTodos: ({ session }: SchemaCccAccessArgs) => {
     if (!session) {
       // No session? No todos.
       return false;
@@ -54,7 +54,7 @@ export const rules = {
       return { assignedTo: { id: { equals: session.itemId } } };
     }
   },
-  canReadPeople: ({ session }: ListAccessArgs) => {
+  canReadPeople: ({ session }: SchemaCccAccessArgs) => {
     if (!session) {
       // No session? No people.
       return false;
@@ -66,7 +66,7 @@ export const rules = {
       return { id: { equals: session.itemId } };
     }
   },
-  canUpdatePeople: ({ session }: ListAccessArgs) => {
+  canUpdatePeople: ({ session }: SchemaCccAccessArgs) => {
     if (!session) {
       // No session? No people.
       return false;

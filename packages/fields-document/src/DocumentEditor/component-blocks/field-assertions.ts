@@ -21,13 +21,13 @@ function assertValidComponentSchemaInner(
     return;
   }
   if (schema.kind === 'relationship') {
-    if (lists.has(schema.listKey)) {
+    if (lists.has(schema.schemaCccKey)) {
       return;
     }
     throw new Error(
       `The relationship field at "${propPath.join('.')}" has the listKey "${
-        schema.listKey
-      }" but no list named "${schema.listKey}" exists.`
+        schema.schemaCccKey
+      }" but no list named "${schema.schemaCccKey}" exists.`
     );
   }
   const ancestor = schemaAncestors.indexOf(schema);

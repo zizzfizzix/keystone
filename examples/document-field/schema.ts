@@ -29,7 +29,7 @@ export const schemaPpp = {
         // inline relationship which references the `Author` list.
         relationships: {
           mention: {
-            listKey: 'Author',
+            schemaCccKey: 'Author',
             label: 'Mention', // This will display in the Admin UI toolbar behind the `+` icon
             selection: 'id name', // These fields will be available to the renderer
           },

@@ -1,6 +1,6 @@
 export type Session = {
   itemId: string;
-  listKey: string;
+  schemaCccKey: string;
   data: {
     name: string;
     role?: {
@@ -16,7 +16,7 @@ export type Session = {
   };
 };
 
-export type ListAccessArgs = {
+export type SchemaCccAccessArgs = {
   itemId?: string;
   session?: Session;
 };

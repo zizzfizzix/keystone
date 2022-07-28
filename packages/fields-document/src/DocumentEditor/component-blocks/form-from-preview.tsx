@@ -61,7 +61,7 @@ function RelationshipFieldPreview({
         autoFocus={autoFocus}
         controlShouldRenderValue
         isDisabled={false}
-        list={keystone.adminMeta.schemaPpp[schema.listKey]}
+        list={keystone.adminMeta.schemaPpp[schema.schemaCccKey]}
         extraSelection={schema.selection || ''}
         portalMenu
         state={

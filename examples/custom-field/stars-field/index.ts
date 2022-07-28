@@ -13,18 +13,18 @@ import { graphql } from '@keystone-6/core';
 // and a different input in the Admin UI
 // https://github.com/keystonejs/keystone/tree/main/packages/core/src/fields/types/integer
 
-export type StarsFieldConfig<ListTypeInfo extends BaseSchemaCccTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type StarsFieldConfig<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
+  CommonFieldConfig<SchemaCccTypeInfo> & {
     isIndexed?: boolean | 'unique';
     maxStars?: number;
   };
 
 export const stars =
-  <ListTypeInfo extends BaseSchemaCccTypeInfo>({
+  <SchemaCccTypeInfo extends BaseSchemaCccTypeInfo>({
     isIndexed,
     maxStars = 5,
     ...config
-  }: StarsFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
+  }: StarsFieldConfig<SchemaCccTypeInfo> = {}): FieldTypeFunc<SchemaCccTypeInfo> =>
   meta =>
     fieldType({
       // this configures what data is stored in the database

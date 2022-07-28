@@ -26,7 +26,7 @@ const defaultAccess = ({ context }: { context: KeystoneContext }) => !!context.s
 
 function setup(options?: any) {
   const auth = createAuth({
-    listKey: 'User',
+    schemaCcc: 'User',
     identityField: 'email',
     secretField: 'password',
     sessionData: 'id name email isAdmin',

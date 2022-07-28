@@ -12,7 +12,7 @@ import { PropValidationError, validateAndNormalizeDocument } from './validation'
 const relationships: Relationships = {
   inline: {
     label: 'Inline',
-    listKey: 'Post',
+    schemaCccKey: 'Post',
     selection: `something`,
   },
 };

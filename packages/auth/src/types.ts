@@ -37,7 +37,7 @@ export type AuthTokenTypeConfig = {
 
 export type AuthConfig<ListTypeInfo extends BaseSchemaCccTypeInfo> = {
   /** The key of the list to authenticate users with */
-  listKey: ListTypeInfo['key'];
+  schemaCcc: ListTypeInfo['key'];
   /** The path of the field the identity is stored in; must be text-ish */
   identityField: ListTypeInfo['fields'];
   /** The path of the field the secret is stored in; must be password-ish */

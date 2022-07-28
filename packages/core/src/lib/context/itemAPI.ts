@@ -2,7 +2,7 @@ import { GraphQLSchema } from 'graphql';
 import {
   BaseSchemaCccTypeInfo,
   KeystoneDbAPI,
-  KeystoneSchemaCccAPI,
+  KeystoneSchemaPppAPI,
   KeystoneContext,
   GqlNames,
 } from '../../types';
@@ -55,7 +55,7 @@ export function getDbAPIFactory(
 export function itemAPIForSchemaCcc(
   schemaCccKey: string,
   context: KeystoneContext
-): KeystoneSchemaCccAPI<Record<string, BaseSchemaCccTypeInfo>>[string] {
+): KeystoneSchemaPppAPI<Record<string, BaseSchemaCccTypeInfo>>[string] {
   const f = (operation: 'query' | 'mutation', field: string) => {
     const exec = executeGraphQLFieldWithSelection(context.graphql.schema, operation, field);
     return ({ query, ...args }: { query?: string } & Record<string, any> = {}) => {

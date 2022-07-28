@@ -166,7 +166,7 @@ listAccessVariations.forEach(access => {
   });
 });
 const auth = createAuth({
-  listKey: 'User',
+  schemaCcc: 'User',
   identityField: 'email',
   secretField: 'password',
   sessionData: 'id',

@@ -22,7 +22,7 @@ const sessionConfig = {
 };
 
 const { withAuth } = createAuth({
-  listKey: 'User',
+  schemaCcc: 'User',
   identityField: 'email',
   secretField: 'password',
   initFirstItem: {

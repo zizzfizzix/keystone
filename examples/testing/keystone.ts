@@ -4,25 +4,25 @@ import { createAuth } from '@keystone-6/auth';
 import { schemaPpp } from './schema';
 
 // createAuth configures signin functionality based on the config below. Note this only implements
-// authentication, i.e signing in as an item using identity and secret fields in a list. Session
+// authentication, i.e signing in as an item using identity and secret fields in a schema ccc. Session
 // management and access control are controlled independently in the main keystone config.
 const { withAuth } = createAuth({
-  // This is the list that contains items people can sign in as
-  listKey: 'Person',
+  // This is the schema ccc that contains items people can sign in as
+  schemaCcc: 'Person',
   // The identity field is typically a username or email address
   identityField: 'email',
   // The secret field must be a password type field
   secretField: 'password',
 
   // initFirstItem turns on the "First User" experience, which prompts you to create a new user
-  // when there are no items in the list yet
+  // when there are no items in the schema ccc yet
   initFirstItem: {
     // These fields are collected in the "Create First User" form
     fields: ['name', 'email', 'password'],
   },
 });
 
-// Stateless sessions will store the listKey and itemId of the signed-in user in a cookie.
+// Stateless sessions will store the schemaCccKey and itemId of the signed-in user in a cookie.
 // This session object will be made available on the context object used in hooks, access-control,
 // resolvers, etc.
 const session = statelessSessions({

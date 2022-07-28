@@ -95,7 +95,7 @@ export const schemaPpp: schemaPpp = {
       name: text({ validation: { isRequired: true } }),
       email: text({ isIndexed: 'unique', validation: { isRequired: true } }),
       posts: relationship({ ref: 'Post.author', many: true }),
-      // A virtual field which returns a type derived from a Keystone list.
+      // A virtual field which returns a type derived from a Keystone schema ccc.
       latestPost: virtual({
         field: schemaPpp =>
           graphql.field({

@@ -1,24 +1,24 @@
 import { Permission, permissionsList } from './schemas/fields';
-import { ListAccessArgs } from './types';
+import { SchemaCccAccessArgs } from './types';
 // At it's simplest, the access control returns a yes or no value depending on the users session
 
-export function isSignedIn({ session }: ListAccessArgs) {
+export function isSignedIn({ session }: SchemaCccAccessArgs) {
   return !!session;
 }
 
 const generatedPermissions = Object.fromEntries(
   permissionsList.map(permission => [
     permission,
-    function ({ session }: ListAccessArgs) {
+    function ({ session }: SchemaCccAccessArgs) {
       return !!session?.data.role?.[permission];
     },
   ])
-) as Record<Permission, ({ session }: ListAccessArgs) => boolean>;
+) as Record<Permission, ({ session }: SchemaCccAccessArgs) => boolean>;
 
 // Permissions check if someone meets a criteria - yes or no.
 export const permissions = {
   ...generatedPermissions,
-  isAwesome({ session }: ListAccessArgs): boolean {
+  isAwesome({ session }: SchemaCccAccessArgs): boolean {
     return !!session?.data.name.includes('wes');
   },
 };
@@ -26,7 +26,7 @@ export const permissions = {
 // Rule based function
 // Rules can return a boolean - yes or no - or a filter which limits which products they can CRUD.
 export const rules = {
-  canManageProducts({ session }: ListAccessArgs) {
+  canManageProducts({ session }: SchemaCccAccessArgs) {
     if (!isSignedIn({ session })) {
       return false;
     }
@@ -37,7 +37,7 @@ export const rules = {
     // 2. If not, do they own this item?
     return { user: { id: { equals: session?.itemId } } };
   },
-  canOrder({ session }: ListAccessArgs) {
+  canOrder({ session }: SchemaCccAccessArgs) {
     if (!isSignedIn({ session })) {
       return false;
     }
@@ -48,7 +48,7 @@ export const rules = {
     // 2. If not, do they own this item?
     return { user: { id: { equals: session?.itemId } } };
   },
-  canManageOrderItems({ session }: ListAccessArgs) {
+  canManageOrderItems({ session }: SchemaCccAccessArgs) {
     if (!isSignedIn({ session })) {
       return false;
     }
@@ -59,7 +59,7 @@ export const rules = {
     // 2. If not, do they own this item?
     return { order: { user: { id: { equals: session?.itemId } } } };
   },
-  canReadProducts({ session }: ListAccessArgs) {
+  canReadProducts({ session }: SchemaCccAccessArgs) {
     if (!isSignedIn({ session })) {
       return false;
     }
@@ -69,7 +69,7 @@ export const rules = {
     // They should only see available products (based on the status field)
     return { status: { equals: 'AVAILABLE' } };
   },
-  canManageUsers({ session }: ListAccessArgs) {
+  canManageUsers({ session }: SchemaCccAccessArgs) {
     if (!isSignedIn({ session })) {
       return false;
     }

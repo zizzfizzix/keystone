@@ -21,7 +21,7 @@ import { initTemplate } from './templates/init';
  * Generates config for Keystone to implement standard auth features.
  */
 export function createAuth<ListTypeInfo extends BaseSchemaCccTypeInfo>({
-  listKey,
+  schemaCcc: listKey,
   secretField,
   initFirstItem,
   identityField,

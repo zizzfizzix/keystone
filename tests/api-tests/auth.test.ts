@@ -18,7 +18,7 @@ const COOKIE_SECRET = 'qwertyuiopasdfghjlkzxcvbmnm1234567890';
 let MAGIC_TOKEN: string;
 
 const auth = createAuth({
-  listKey: 'User',
+  schemaCcc: 'User',
   identityField: 'email',
   secretField: 'password',
   sessionData: 'id name',

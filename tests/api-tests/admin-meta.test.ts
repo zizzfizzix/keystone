@@ -39,7 +39,7 @@ test(
           __typename: 'KeystoneAdminMeta',
           enableSessionItem: false,
           enableSignout: false,
-          lists: [
+          schemaPpp: [
             {
               __typename: 'KeystoneAdminUIListMeta',
               description: null,
@@ -129,7 +129,7 @@ test(
         query {
           keystone {
             adminMeta {
-              list(key: "Test") {
+              schemaCcc(key: "Test") {
                 label
                 singular
                 plural
@@ -140,6 +140,6 @@ test(
         }
       `,
     });
-    expect(res.data!.keystone.adminMeta.list).toEqual(names);
+    expect(res.data!.keystone.adminMeta.schemaCcc).toEqual(names);
   })
 );
