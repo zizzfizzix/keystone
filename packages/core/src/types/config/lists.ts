@@ -28,7 +28,7 @@ export type SchemaCccConfig<
 > = {
   /*
       A note on defaults: several options default based on the schemaCccKey, including label, path,
-      singular, plural, itemQueryName and listQueryName. All these options default independently, so
+      singular, plural, itemQueryName and schemaCccQueryName. All these options default independently, so
       changing the singular or plural will not change the label or queryName options (and vice-versa)
       Note from Mitchell: The above is incorrect based on Keystone's current implementation.
     */
@@ -41,8 +41,8 @@ export type SchemaCccConfig<
    */
   access?: SchemaCccAccessControl<SchemaCccTypeInfo>;
 
-  /** Config for how this list should act in the Admin UI */
-  ui?: ListAdminUIConfig<SchemaCccTypeInfo, Fields>;
+  /** Config for how this schema ccc should act in the Admin UI */
+  ui?: SchemaCccAdminUIConfig<SchemaCccTypeInfo, Fields>;
 
   /**
    * Hooks to modify the behaviour of GraphQL operations at certain points
@@ -50,9 +50,9 @@ export type SchemaCccConfig<
    */
   hooks?: SchemaCccHooks<SchemaCccTypeInfo>;
 
-  graphql?: ListGraphQLConfig;
+  graphql?: SchemaCccGraphQLConfig;
 
-  db?: ListDBConfig;
+  db?: SchemaCccDBConfig;
 
   /**
    * Defaults the Admin UI and GraphQL descriptions
@@ -62,13 +62,13 @@ export type SchemaCccConfig<
   // Defaults to apply to all fields.
   defaultIsFilterable?:
     | false
-    | ((args: FilterOrderArgs<SchemaCccTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.filter on all fields for this list
+    | ((args: FilterOrderArgs<SchemaCccTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.filter on all fields for this schema ccc
   defaultIsOrderable?:
     | false
-    | ((args: FilterOrderArgs<SchemaCccTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.orderBy on all fields for this list
+    | ((args: FilterOrderArgs<SchemaCccTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.orderBy on all fields for this schema ccc
 };
 
-export type ListAdminUIConfig<
+export type SchemaCccAdminUIConfig<
   SchemaCccTypeInfo extends BaseSchemaCccTypeInfo,
   Fields extends BaseFields<SchemaCccTypeInfo>
 > = {
@@ -78,35 +78,35 @@ export type ListAdminUIConfig<
    */
   labelField?: 'id' | keyof Fields;
   /**
-   * The fields used by the Admin UI when searching this list.
+   * The fields used by the Admin UI when searching this schema ccc.
    * It is always possible to search by id and `id` should not be specified in this option.
    * @default The `labelField` if it has a string `contains` filter, otherwise none.
    */
   searchFields?: readonly Extract<keyof Fields, string>[];
 
-  /** The path that the list should be at in the Admin UI */
-  // Not currently used. Should be passed into `keystone.createList()`.
+  /** The path that the schema ccc should be at in the Admin UI */
+  // Not currently used. Should be passed into `keystone.createSchemaCcc()`.
   // path?: string;
   /**
-   * The description shown on the list page
-   * @default listConfig.description
+   * The description shown on the schema ccc page
+   * @default schemaCccConfig.description
    */
   description?: string; // the description displayed below the field in the Admin UI
 
   /**
-   * Excludes this list from the Admin UI
+   * Excludes this schema ccc from the Admin UI
    * @default false
    */
   isHidden?: MaybeSessionFunction<boolean, SchemaCccTypeInfo>;
   /**
    * Hides the create button in the Admin UI.
-   * Note that this does **not** disable creating items through the GraphQL API, it only hides the button to create an item for this list in the Admin UI.
+   * Note that this does **not** disable creating items through the GraphQL API, it only hides the button to create an item for this schema ccc in the Admin UI.
    * @default false
    */
   hideCreate?: MaybeSessionFunction<boolean, SchemaCccTypeInfo>;
   /**
    * Hides the delete button in the Admin UI.
-   * Note that this does **not** disable deleting items through the GraphQL API, it only hides the button to delete an item for this list in the Admin UI.
+   * Note that this does **not** disable deleting items through the GraphQL API, it only hides the button to delete an item for this schema ccc in the Admin UI.
    * @default false
    */
   hideDelete?: MaybeSessionFunction<boolean, SchemaCccTypeInfo>;
@@ -115,7 +115,7 @@ export type ListAdminUIConfig<
    */
   createView?: {
     /**
-     * The default field mode for fields on the create view for this list.
+     * The default field mode for fields on the create view for this schema ccc.
      * Specific field modes on a per-field basis via a field's config.
      * @default 'edit'
      */
@@ -127,7 +127,7 @@ export type ListAdminUIConfig<
    */
   itemView?: {
     /**
-     * The default field mode for fields on the item view for this list.
+     * The default field mode for fields on the item view for this schema ccc.
      * This controls what people can do for fields
      * Specific field modes on a per-field basis via a field's config.
      * @default 'edit'
@@ -140,7 +140,7 @@ export type ListAdminUIConfig<
    */
   listView?: {
     /**
-     * The default field mode for fields on the list view for this list.
+     * The default field mode for fields on the list view for this schema ccc.
      * Specific field modes on a per-field basis via a field's config.
      * @default 'read'
      */
@@ -148,7 +148,7 @@ export type ListAdminUIConfig<
     /**
      * The columns(which refer to fields) that should be shown to users of the Admin UI.
      * Users of the Admin UI can select different columns to show in the UI.
-     * @default the first three fields in the list
+     * @default the first three fields in the schema ccc
      */
     initialColumns?: readonly ('id' | keyof Fields)[];
     // was previously top-level defaultSort
@@ -159,13 +159,13 @@ export type ListAdminUIConfig<
   };
 
   /**
-   * The label used to identify the list in navigation and etc.
+   * The label used to identify the schema ccc in navigation and etc.
    * @default schemaCccKey.replace(/([a-z])([A-Z])/g, '$1 $2').split(/\s|_|\-/).filter(i => i).map(upcase).join(' ');
    */
   label?: string;
 
   /**
-   * The singular form of the list key.
+   * The singular form of the schema ccc key.
    *
    * It is used in sentences like `Are you sure you want to delete these {plural}?`
    * @default pluralize.singular(label)
@@ -173,7 +173,7 @@ export type ListAdminUIConfig<
   singular?: string;
 
   /**
-   * The plural form of the list key.
+   * The plural form of the schema ccc key.
    *
    * It is used in sentences like `Are you sure you want to delete this {singular}?`.
    * @default pluralize.plural(label)
@@ -181,7 +181,7 @@ export type ListAdminUIConfig<
   plural?: string;
 
   /**
-   * The path segment to identify the list in URLs.
+   * The path segment to identify the schema ccc in URLs.
    *
    * It must match the pattern `/^[a-z-_][a-z0-9-_]*$/`.
    * @default label.split(' ').join('-').toLowerCase()
@@ -207,17 +207,17 @@ export type MaybeItemFunction<T, SchemaCccTypeInfo extends BaseSchemaCccTypeInfo
       item: SchemaCccTypeInfo['item'];
     }) => MaybePromise<T>);
 
-export type ListGraphQLConfig = {
+export type SchemaCccGraphQLConfig = {
   /**
    * The description added to the GraphQL schema
-   * @default listConfig.description
+   * @default schemaCccConfig.description
    */
   description?: string;
   /**
-   * The plural form of the list key to use in the generated GraphQL schema.
+   * The plural form of the schema ccc key to use in the generated GraphQL schema.
    * Note that there is no singular here because the singular used in the GraphQL schema is the list key.
    */
-  // was previously top-level listQueryName
+  // was previously top-level schemaCccQueryName
   plural?: string;
   // was previously top-level queryLimits
   queryLimits?: {
@@ -231,8 +231,8 @@ export type ListGraphQLConfig = {
   //   'create': Does createItem/createItems exist? Does `create` exist on the RelationshipInput types?
   //   'update': Does updateItem/updateItems exist?
   //   'delete': Does deleteItem/deleteItems exist?
-  // If `true`, then everything will be omitted, including the output type. This makes it a DB only list,
-  // including from the point of view of relationships to this list.
+  // If `true`, then everything will be omitted, including the output type. This makes it a DB only schema ccc,
+  // including from the point of view of relationships to this schema ccc.
   //
   // Default: undefined
   omit?: true | readonly ('query' | 'create' | 'update' | 'delete')[];
@@ -240,7 +240,7 @@ export type ListGraphQLConfig = {
 
 export type CacheHintArgs = { results: any; operationName?: string; meta: boolean };
 
-export type ListDBConfig = {
+export type SchemaCccDBConfig = {
   /**
    * The kind of id to use.
    * @default { kind: "cuid" }
@@ -248,7 +248,7 @@ export type ListDBConfig = {
   idField?: IdFieldConfig;
   /**
    * Specifies an alternative name name for the table to use, if you don't want
-   * the default (derived from the list key)
+   * the default (derived from the schema ccc key)
    */
   map?: string;
 };

@@ -7,8 +7,8 @@ import { GqlNames, BaseKeystoneTypeInfo } from '.';
 
 export type KeystoneContext<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneTypeInfo> = {
   req?: IncomingMessage;
-  db: KeystoneDbAPI<TypeInfo['lists']>;
-  query: KeystoneSchemaCccAPI<TypeInfo['lists']>;
+  db: KeystoneDbAPI<TypeInfo['schemaCcc']>;
+  query: KeystoneSchemaCccAPI<TypeInfo['schemaCcc']>;
   graphql: KeystoneGraphQLAPI;
   sudo: () => KeystoneContext<TypeInfo>;
   exitSudo: () => KeystoneContext<TypeInfo>;
@@ -21,7 +21,7 @@ export type KeystoneContext<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystone
   /** @deprecated */
   gqlNames: (schemaCccKey: string) => GqlNames;
   experimental?: {
-    /** @deprecated This value is only available if you have config.experimental.contextInitialisedLists = true.
+    /** @deprecated This value is only available if you have config.experimental.initialisedSchemaPpp = true.
      * This is not a stable API and may contain breaking changes in `patch` level releases.
      */
     initialisedSchemaPpp: Record<string, InitialisedSchemaCcc>;
@@ -97,46 +97,47 @@ type ResolveFields = {
   readonly query?: string;
 };
 
-export type KeystoneDbAPI<KeystoneListsTypeInfo extends Record<string, BaseSchemaCccTypeInfo>> = {
-  [Key in keyof KeystoneListsTypeInfo]: {
-    findMany(args?: {
-      readonly where?: KeystoneListsTypeInfo[Key]['inputs']['where'];
-      readonly take?: number;
-      readonly skip?: number;
-      readonly orderBy?:
-        | KeystoneListsTypeInfo[Key]['inputs']['orderBy']
-        | readonly KeystoneListsTypeInfo[Key]['inputs']['orderBy'][];
-    }): Promise<readonly KeystoneListsTypeInfo[Key]['item'][]>;
-    findOne(args: {
-      readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
-    }): Promise<KeystoneListsTypeInfo[Key]['item'] | null>;
-    count(args?: {
-      readonly where?: KeystoneListsTypeInfo[Key]['inputs']['where'];
-    }): Promise<number>;
-    updateOne(args: {
-      readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
-      readonly data: KeystoneListsTypeInfo[Key]['inputs']['update'];
-    }): Promise<KeystoneListsTypeInfo[Key]['item']>;
-    updateMany(args: {
-      readonly data: readonly {
-        readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
-        readonly data: KeystoneListsTypeInfo[Key]['inputs']['update'];
-      }[];
-    }): Promise<KeystoneListsTypeInfo[Key]['item'][]>;
-    createOne(args: {
-      readonly data: KeystoneListsTypeInfo[Key]['inputs']['create'];
-    }): Promise<KeystoneListsTypeInfo[Key]['item']>;
-    createMany(args: {
-      readonly data: readonly KeystoneListsTypeInfo[Key]['inputs']['create'][];
-    }): Promise<KeystoneListsTypeInfo[Key]['item'][]>;
-    deleteOne(args: {
-      readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
-    }): Promise<KeystoneListsTypeInfo[Key]['item']>;
-    deleteMany(args: {
-      readonly where: readonly KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'][];
-    }): Promise<KeystoneListsTypeInfo[Key]['item'][]>;
+export type KeystoneDbAPI<KeystoneSchemaCccTypeInfo extends Record<string, BaseSchemaCccTypeInfo>> =
+  {
+    [Key in keyof KeystoneSchemaCccTypeInfo]: {
+      findMany(args?: {
+        readonly where?: KeystoneSchemaCccTypeInfo[Key]['inputs']['where'];
+        readonly take?: number;
+        readonly skip?: number;
+        readonly orderBy?:
+          | KeystoneSchemaCccTypeInfo[Key]['inputs']['orderBy']
+          | readonly KeystoneSchemaCccTypeInfo[Key]['inputs']['orderBy'][];
+      }): Promise<readonly KeystoneSchemaCccTypeInfo[Key]['item'][]>;
+      findOne(args: {
+        readonly where: KeystoneSchemaCccTypeInfo[Key]['inputs']['uniqueWhere'];
+      }): Promise<KeystoneSchemaCccTypeInfo[Key]['item'] | null>;
+      count(args?: {
+        readonly where?: KeystoneSchemaCccTypeInfo[Key]['inputs']['where'];
+      }): Promise<number>;
+      updateOne(args: {
+        readonly where: KeystoneSchemaCccTypeInfo[Key]['inputs']['uniqueWhere'];
+        readonly data: KeystoneSchemaCccTypeInfo[Key]['inputs']['update'];
+      }): Promise<KeystoneSchemaCccTypeInfo[Key]['item']>;
+      updateMany(args: {
+        readonly data: readonly {
+          readonly where: KeystoneSchemaCccTypeInfo[Key]['inputs']['uniqueWhere'];
+          readonly data: KeystoneSchemaCccTypeInfo[Key]['inputs']['update'];
+        }[];
+      }): Promise<KeystoneSchemaCccTypeInfo[Key]['item'][]>;
+      createOne(args: {
+        readonly data: KeystoneSchemaCccTypeInfo[Key]['inputs']['create'];
+      }): Promise<KeystoneSchemaCccTypeInfo[Key]['item']>;
+      createMany(args: {
+        readonly data: readonly KeystoneSchemaCccTypeInfo[Key]['inputs']['create'][];
+      }): Promise<KeystoneSchemaCccTypeInfo[Key]['item'][]>;
+      deleteOne(args: {
+        readonly where: KeystoneSchemaCccTypeInfo[Key]['inputs']['uniqueWhere'];
+      }): Promise<KeystoneSchemaCccTypeInfo[Key]['item']>;
+      deleteMany(args: {
+        readonly where: readonly KeystoneSchemaCccTypeInfo[Key]['inputs']['uniqueWhere'][];
+      }): Promise<KeystoneSchemaCccTypeInfo[Key]['item'][]>;
+    };
   };
-};
 
 // GraphQL API
 

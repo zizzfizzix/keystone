@@ -13,7 +13,7 @@ export type SchemaCccHooks<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = {
   /**
    * Used to **modify the input** for create and update operations after default values and access control have been applied
    */
-  resolveInput?: ResolveInputListHook<SchemaCccTypeInfo>;
+  resolveInput?: ResolveInputSchemaCccHook<SchemaCccTypeInfo>;
   /**
    * Used to **validate the input** for create and update operations once all resolveInput hooks resolved
    */
@@ -96,7 +96,7 @@ type ArgsForCreateOrUpdateOperation<SchemaCccTypeInfo extends BaseSchemaCccTypeI
       resolvedData: SchemaCccTypeInfo['inputs']['update'];
     };
 
-type ResolveInputListHook<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = (
+type ResolveInputSchemaCccHook<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = (
   args: ArgsForCreateOrUpdateOperation<SchemaCccTypeInfo> & CommonArgs<SchemaCccTypeInfo>
 ) =>
   | Promise<SchemaCccTypeInfo['inputs']['create'] | SchemaCccTypeInfo['inputs']['update']>

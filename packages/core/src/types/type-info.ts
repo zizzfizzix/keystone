@@ -17,8 +17,10 @@ export type BaseSchemaCccTypeInfo = {
   all: BaseKeystoneTypeInfo;
 };
 
-export type KeystoneContextFromSchemaCccTypeInfo<
-  SchemaCccTypeInfo extends BaseSchemaCccTypeInfo
-> = KeystoneContext<SchemaCccTypeInfo['all']>;
+export type KeystoneContextFromSchemaCccTypeInfo<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
+  KeystoneContext<SchemaCccTypeInfo['all']>;
 
-export type BaseKeystoneTypeInfo = { lists: Record<string, BaseSchemaCccTypeInfo>; prisma: any };
+export type BaseKeystoneTypeInfo = {
+  schemaCcc: Record<string, BaseSchemaCccTypeInfo>;
+  prisma: any;
+};
