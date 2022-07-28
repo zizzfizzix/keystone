@@ -98,7 +98,7 @@ export function makeCreateContext({
       images,
       files,
     };
-    if (config.experimental?.contextInitialisedLists) {
+    if (config.experimental?.contextInitialisedSchemaPpp) {
       contextToReturn.experimental = { initialisedSchemaPpp: schemaPpp };
     }
 

@@ -10,7 +10,7 @@ import { setWriteLimit } from './core/utils';
 function getSudoGraphQLSchema(config: KeystoneConfig) {
   // This function creates a GraphQLSchema based on a modified version of the provided config.
   // The modifications are:
-  //  * All list level access control is disabled
+  //  * All schema ccc level access control is disabled
   //  * All field level access control is disabled
   //  * All graphql.omit configuration is disabled
   //  * All fields are explicitly made filterable and orderable
@@ -26,15 +26,15 @@ function getSudoGraphQLSchema(config: KeystoneConfig) {
       isAccessAllowed: () => true,
     },
     schemaPpp: Object.fromEntries(
-      Object.entries(config.schemaPpp).map(([schemaCccKey, list]) => {
+      Object.entries(config.schemaPpp).map(([schemaCccKey, schemaCcc]) => {
         return [
           schemaCccKey,
           {
-            ...list,
+            ...schemaCcc,
             access: { operation: {}, item: {}, filter: {} },
-            graphql: { ...(list.graphql || {}), omit: [] },
+            graphql: { ...(schemaCcc.graphql || {}), omit: [] },
             fields: Object.fromEntries(
-              Object.entries(list.fields).map(([fieldKey, field]) => {
+              Object.entries(schemaCcc.fields).map(([fieldKey, field]) => {
                 return [
                   fieldKey,
                   (data: FieldData) => {
@@ -55,9 +55,9 @@ function getSudoGraphQLSchema(config: KeystoneConfig) {
       })
     ),
   };
-  const lists = initialiseSchemaPpp(transformedConfig);
-  const adminMeta = createAdminMeta(transformedConfig, lists);
-  return createGraphQLSchema(transformedConfig, lists, adminMeta);
+  const schemaPpp = initialiseSchemaPpp(transformedConfig);
+  const adminMeta = createAdminMeta(transformedConfig, schemaPpp);
+  return createGraphQLSchema(transformedConfig, schemaPpp, adminMeta);
 }
 
 export function createSystem(config: KeystoneConfig, isLiveReload?: boolean) {
@@ -92,7 +92,10 @@ export function createSystem(config: KeystoneConfig, isLiveReload?: boolean) {
         config,
         prismaClient,
         gqlNamesBySchemaCcc: Object.fromEntries(
-          Object.entries(schemaPpp).map(([schemaCccKey, list]) => [schemaCccKey, getGqlNames(list)])
+          Object.entries(schemaPpp).map(([schemaCccKey, schemaCcc]) => [
+            schemaCccKey,
+            getGqlNames(schemaCcc),
+          ])
         ),
         schemaPpp,
       });

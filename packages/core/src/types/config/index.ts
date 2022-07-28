@@ -113,7 +113,7 @@ export type KeystoneConfig<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneT
     /** Adds the internal data structure `experimental.initialisedLists` to the context object.
      * This is not a stable API and may contain breaking changes in `patch` level releases.
      */
-    contextInitialisedLists?: boolean;
+    contextInitialisedSchemaPpp?: boolean;
   };
 };
 

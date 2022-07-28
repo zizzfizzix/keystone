@@ -77,7 +77,7 @@ function printInputTypesFromSchema(schema: GraphQLSchema, scalars: Record<string
 
 export function printGeneratedTypes(
   graphQLSchema: GraphQLSchema,
-  lists: Record<string, InitialisedSchemaCcc>
+  schemaPpp: Record<string, InitialisedSchemaCcc>
 ) {
   let scalars = {
     ID: 'string',
@@ -91,22 +91,22 @@ export function printGeneratedTypes(
 
   const printedTypes = printInputTypesFromSchema(graphQLSchema, scalars);
 
-  let allListsStr = '';
-  let listsNamespaceStr = '\nexport declare namespace Lists {';
+  let allschemaCccStr = '';
+  let schemaPppNamespaceStr = '\nexport declare namespace SchemaPpp {';
 
-  for (const [schemaCccKey, list] of Object.entries(lists)) {
-    const gqlNames = getGqlNames(list);
+  for (const [schemaCccKey, schemaCcc] of Object.entries(schemaPpp)) {
+    const gqlNames = getGqlNames(schemaCcc);
 
-    const SchemaCccTypeInfoName = `Lists.${schemaCccKey}.TypeInfo`;
+    const SchemaCccTypeInfoName = `SchemaPpp.${schemaCccKey}.TypeInfo`;
 
-    allListsStr += `\n  readonly ${schemaCccKey}: ${SchemaCccTypeInfoName};`;
-    listsNamespaceStr += `
-  export type ${schemaCccKey} = import('@keystone-6/core').ListConfig<${SchemaCccTypeInfoName}, any>;
+    allschemaCccStr += `\n  readonly ${schemaCccKey}: ${SchemaCccTypeInfoName};`;
+    schemaPppNamespaceStr += `
+  export type ${schemaCccKey} = import('@keystone-6/core').SchemaCccConfig<${SchemaCccTypeInfoName}, any>;
   namespace ${schemaCccKey} {
     export type Item = import('.prisma/client').${schemaCccKey};
     export type TypeInfo = {
       key: ${JSON.stringify(schemaCccKey)};
-      fields: ${Object.keys(list.fields)
+      fields: ${Object.keys(schemaCcc.fields)
         .map(x => JSON.stringify(x))
         .join(' | ')}
       item: Item;
@@ -121,13 +121,13 @@ export function printGeneratedTypes(
     };
   }`;
   }
-  listsNamespaceStr += '\n}';
+  schemaPppNamespaceStr += '\n}';
 
   const postlude = `
 export type Context = import('@keystone-6/core/types').KeystoneContext<TypeInfo>;
 
 export type TypeInfo = {
-  lists: {${allListsStr}
+  schemaPpp: {${allschemaCccStr}
   };
   prisma: import('.prisma/client').PrismaClient;
 };
@@ -137,9 +137,9 @@ ${
 }
 type __TypeInfo = TypeInfo;
 
-export type Lists = {
-  [Key in keyof TypeInfo['lists']]?: import('@keystone-6/core').ListConfig<TypeInfo['lists'][Key], any>
-} & Record<string, import('@keystone-6/core').ListConfig<any, any>>;
+export type SchemaPpp = {
+  [Key in keyof TypeInfo['schemaPpp']]?: import('@keystone-6/core').SchemaCccConfig<TypeInfo['schemaPpp'][Key], any>
+} & Record<string, import('@keystone-6/core').SchemaCccConfig<any, any>>;
 `;
-  return printedTypes + listsNamespaceStr + postlude;
+  return printedTypes + schemaPppNamespaceStr + postlude;
 }

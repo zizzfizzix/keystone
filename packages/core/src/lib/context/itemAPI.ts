@@ -68,9 +68,8 @@ export function itemAPIForSchemaCcc(
     findOne: f('query', gqlNames.itemQueryName),
     findMany: f('query', gqlNames.schemaCccQueryName),
     async count({ where = {} } = {}) {
-      const { schemaCccQueryCountName: listQueryCountName, whereInputName } =
-        context.gqlNames(schemaCccKey);
-      const query = `query ($where: ${whereInputName}!) { count: ${listQueryCountName}(where: $where)  }`;
+      const { schemaCccQueryCountName, whereInputName } = context.gqlNames(schemaCccKey);
+      const query = `query ($where: ${whereInputName}!) { count: ${schemaCccQueryCountName}(where: $where)  }`;
       const response = await context.graphql.run({ query, variables: { where } });
       return response.count;
     },
