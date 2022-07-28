@@ -37,7 +37,7 @@ import {
 } from '../../../../admin-ui/utils';
 
 import { gql, useMutation, useQuery } from '../../../../admin-ui/apollo';
-import { useList } from '../../../../admin-ui/context';
+import { useSchemaCcc } from '../../../../admin-ui/context';
 import { PageContainer, HEADER_HEIGHT } from '../../../../admin-ui/components/PageContainer';
 import { GraphQLErrorNotice } from '../../../../admin-ui/components/GraphQLErrorNotice';
 import { usePreventNavigation } from '../../../../admin-ui/utils/usePreventNavigation';
@@ -71,11 +71,11 @@ function ItemForm({
   fieldModes: Record<string, 'edit' | 'read' | 'hidden'>;
   showDelete: boolean;
 }) {
-  const list = useList(schemaCccKey);
+  const schemaCcc = useSchemaCcc(schemaCccKey);
 
   const [update, { loading, error, data }] = useMutation(
-    gql`mutation ($data: ${list.gqlNames.updateInputName}!, $id: ID!) {
-      item: ${list.gqlNames.updateMutationName}(where: { id: $id }, data: $data) {
+    gql`mutation ($data: ${schemaCcc.gqlNames.updateInputName}!, $id: ID!) {
+      item: ${schemaCcc.gqlNames.updateMutationName}(where: { id: $id }, data: $data) {
         ${selectedFields}
       }
     }`,
@@ -89,7 +89,7 @@ function ItemForm({
     }, [data, error]) ?? itemGetter;
 
   const [state, setValue] = useState(() => {
-    const value = deserializeValue(list.fields, itemGetter);
+    const value = deserializeValue(schemaCcc.fields, itemGetter);
     return { value, item: itemGetter };
   });
   if (
@@ -97,17 +97,17 @@ function ItemForm({
     state.item.data !== itemGetter.data &&
     (itemGetter.errors || []).every(x => x.path?.length !== 1)
   ) {
-    const value = deserializeValue(list.fields, itemGetter);
+    const value = deserializeValue(schemaCcc.fields, itemGetter);
     setValue({ value, item: itemGetter });
   }
 
   const { changedFields, dataForUpdate } = useChangedFieldsAndDataForUpdate(
-    list.fields,
+    schemaCcc.fields,
     state.item,
     state.value
   );
 
-  const invalidFields = useInvalidFields(list.fields, state.value);
+  const invalidFields = useInvalidFields(schemaCcc.fields, state.value);
 
   const [forceValidation, setForceValidation] = useState(false);
   const toasts = useToasts();
@@ -143,7 +143,7 @@ function ItemForm({
         toasts.addToast({ title: 'Failed to update item', tone: 'negative', message: err.message });
       });
   });
-  const labelFieldValue = state.item.data?.[list.labelField];
+  const labelFieldValue = state.item.data?.[schemaCcc.labelField];
   const itemId = state.item.data?.id!;
   const hasChangedFields = !!changedFields.size;
   usePreventNavigation(useMemo(() => ({ current: hasChangedFields }), [hasChangedFields]));
@@ -157,7 +157,7 @@ function ItemForm({
       />
       <Fields
         fieldModes={fieldModes}
-        fields={list.fields}
+        fields={schemaCcc.fields}
         forceValidation={forceValidation}
         invalidFields={invalidFields}
         onChange={useCallback(
@@ -174,7 +174,7 @@ function ItemForm({
         onReset={useEventCallback(() => {
           setValue(state => ({
             item: state.item,
-            value: deserializeValue(list.fields, state.item),
+            value: deserializeValue(schemaCcc.fields, state.item),
           }));
         })}
         loading={loading}
@@ -182,12 +182,12 @@ function ItemForm({
           () =>
             showDelete ? (
               <DeleteButton
-                list={list}
+                list={schemaCcc}
                 itemLabel={(labelFieldValue ?? itemId) as string}
                 itemId={itemId}
               />
             ) : undefined,
-          [showDelete, list, labelFieldValue, itemId]
+          [showDelete, schemaCcc, labelFieldValue, itemId]
         )}
       />
     </Box>
@@ -269,7 +269,7 @@ function DeleteButton({
 export const getItemPage = (props: ItemPageProps) => () => <ItemPage {...props} />;
 
 const ItemPage = ({ schemaCccKey }: ItemPageProps) => {
-  const list = useList(schemaCccKey);
+  const list = useSchemaCcc(schemaCccKey);
   const id = useRouter().query.id as string;
   const { spacing, typography } = useTheme();
 

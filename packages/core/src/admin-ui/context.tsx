@@ -148,13 +148,13 @@ export const useRawKeystone = () => {
   return value;
 };
 
-export const useList = (key: string) => {
+export const useSchemaCcc = (key: string) => {
   const {
-    adminMeta: { lists },
+    adminMeta: { schemaPpp },
   } = useKeystone();
-  if (lists[key]) {
-    return lists[key];
+  if (schemaPpp[key]) {
+    return schemaPpp[key];
   } else {
-    throw new Error(`Invalid list key provided to useList: ${key}`);
+    throw new Error(`Invalid list key provided to useSchemaCcc: ${key}`);
   }
 };

@@ -16,7 +16,7 @@ import {
   SchemaCccMeta,
 } from '../../../../types';
 import { Link } from '../../../../admin-ui/router';
-import { useKeystone, useList } from '../../../../admin-ui/context';
+import { useKeystone, useSchemaCcc } from '../../../../admin-ui/context';
 import { gql, useQuery } from '../../../../admin-ui/apollo';
 import { CellContainer, CreateItemDrawer } from '../../../../admin-ui/components';
 
@@ -81,8 +81,8 @@ export const Field = ({
   forceValidation,
 }: FieldProps<typeof controller>) => {
   const keystone = useKeystone();
-  const foreignList = useList(field.refschemaCccKey);
-  const localList = useList(field.schemaCccKey);
+  const foreignList = useSchemaCcc(field.refschemaCccKey);
+  const localList = useSchemaCcc(field.schemaCccKey);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   if (value.kind === 'cards-view') {
@@ -243,7 +243,7 @@ export const Field = ({
 };
 
 export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
-  const list = useList(field.refschemaCccKey);
+  const list = useSchemaCcc(field.refschemaCccKey);
   const { colors } = useTheme();
 
   if (field.display === 'count') {
@@ -284,7 +284,7 @@ export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
 };
 
 export const CardValue: CardValueComponent<typeof controller> = ({ field, item }) => {
-  const list = useList(field.refschemaCccKey);
+  const list = useSchemaCcc(field.refschemaCccKey);
   const data = item[field.path];
   return (
     <FieldContainer>
@@ -479,7 +479,7 @@ export const controller = (
     },
     filter: {
       Filter: ({ onChange, value }) => {
-        const foreignList = useList(config.fieldMeta.refschemaCccKey);
+        const foreignList = useSchemaCcc(config.fieldMeta.refschemaCccKey);
         const { filterValues, loading } = useRelationshipFilterValues({
           value,
           list: foreignList,
@@ -527,7 +527,7 @@ export const controller = (
         };
       },
       Label({ value }) {
-        const foreignList = useList(config.fieldMeta.refschemaCccKey);
+        const foreignList = useSchemaCcc(config.fieldMeta.refschemaCccKey);
         const { filterValues } = useRelationshipFilterValues({
           value,
           list: foreignList,

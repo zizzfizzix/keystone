@@ -7,7 +7,7 @@ import { Button } from '@keystone-ui/button';
 import { useRouter } from 'next/router';
 import { Fields } from '../../../../admin-ui/utils';
 import { PageContainer } from '../../../../admin-ui/components/PageContainer';
-import { useKeystone, useList } from '../../../../admin-ui';
+import { useKeystone, useSchemaCcc } from '../../../../admin-ui';
 import { GraphQLErrorNotice } from '../../../../admin-ui/components';
 import { SchemaCccMeta } from '../../../../types';
 import { useCreateItem } from '../../../../admin-ui/utils/useCreateItem';
@@ -56,13 +56,13 @@ export const getCreateItemPage = (props: CreateItemPageProps) => () =>
   <CreateItemPage {...props} />;
 
 function CreateItemPage(props: CreateItemPageProps) {
-  const list = useList(props.schemaCccKey);
+  const schemaCcc = useSchemaCcc(props.schemaCccKey);
   const { createViewFieldModes } = useKeystone();
 
   return (
     <PageContainer
-      title={`Create ${list.singular}`}
-      header={<ItemPageHeader list={list} label="Create" />}
+      title={`Create ${schemaCcc.singular}`}
+      header={<ItemPageHeader list={schemaCcc} label="Create" />}
     >
       <ColumnLayout>
         <Box>
@@ -77,7 +77,7 @@ function CreateItemPage(props: CreateItemPageProps) {
             />
           )}
           {createViewFieldModes.state === 'loading' && <LoadingDots label="Loading create form" />}
-          <CreatePageForm list={list} />
+          <CreatePageForm list={schemaCcc} />
         </Box>
       </ColumnLayout>
     </PageContainer>

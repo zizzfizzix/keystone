@@ -438,7 +438,7 @@ function getListGraphqlTypes(
  * 5. Handle relationships - ensure correct linking between two sides of all relationships (including one-sided relationships)
  * 6.
  */
-export function initialiseLists(config: KeystoneConfig): Record<string, InitialisedSchemaCcc> {
+export function initialiseSchemaPpp(config: KeystoneConfig): Record<string, InitialisedSchemaCcc> {
   const listsConfig = config.schemaPpp;
 
   let intermediateLists;
@@ -450,8 +450,8 @@ export function initialiseLists(config: KeystoneConfig): Record<string, Initiali
   );
 
   /**
-   * Lists is instantiated here so that it can be passed into the `getListGraphqlTypes` function
-   * This function attaches this list object to the various graphql functions
+   * Schema Ppp is instantiated here so that it can be passed into the `getSchemaCccGraphqlTypes` function
+   * This function attaches this schema ccc object to the various graphql functions
    *
    * The object will be populated at the end of this function, and the reference will be maintained
    */

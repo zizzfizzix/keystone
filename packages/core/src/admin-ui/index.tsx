@@ -1,7 +1,7 @@
 export {
   KeystoneProvider,
   useKeystone,
-  useList,
+  useSchemaCcc,
   useRawKeystone,
   useReinitContext,
 } from './context';

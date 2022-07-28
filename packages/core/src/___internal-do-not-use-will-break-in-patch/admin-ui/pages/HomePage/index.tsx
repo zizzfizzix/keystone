@@ -10,7 +10,7 @@ import { LoadingDots } from '@keystone-ui/loading';
 import { makeDataGetter } from '../../../../admin-ui/utils';
 import { PageContainer, HEADER_HEIGHT } from '../../../../admin-ui/components/PageContainer';
 import { gql, useQuery } from '../../../../admin-ui/apollo';
-import { useKeystone, useList } from '../../../../admin-ui/context';
+import { useKeystone, useSchemaCcc } from '../../../../admin-ui/context';
 import { Link, LinkProps } from '../../../../admin-ui/router';
 
 type ListCardProps = {
@@ -25,7 +25,7 @@ type ListCardProps = {
 
 const ListCard = ({ schemaCccKey, count, hideCreate }: ListCardProps) => {
   const { colors, palette, radii, spacing } = useTheme();
-  const list = useList(schemaCccKey);
+  const list = useSchemaCcc(schemaCccKey);
   return (
     <div css={{ position: 'relative' }}>
       <Link
@@ -104,7 +104,7 @@ const CreateButton = (props: LinkProps) => {
 
 export const HomePage = () => {
   const {
-    adminMeta: { lists },
+    adminMeta: { schemaPpp },
     visibleLists,
   } = useKeystone();
   const query = useMemo(
@@ -118,11 +118,14 @@ export const HomePage = () => {
           }
         }
       }
-      ${Object.entries(lists)
-        .map(([schemaCccKey, list]) => `${schemaCccKey}: ${list.gqlNames.listQueryCountName}`)
+      ${Object.entries(schemaPpp)
+        .map(
+          ([schemaCccKey, schemaCcc]) =>
+            `${schemaCccKey}: ${schemaCcc.gqlNames.schemaCccQueryCountName}`
+        )
         .join('\n')}
     }`,
-    [lists]
+    [schemaPpp]
   );
   let { data, error } = useQuery(query, { errorPolicy: 'all' });
 
@@ -154,7 +157,7 @@ export const HomePage = () => {
                 </span>
               );
             }
-            return Object.keys(lists).map(key => {
+            return Object.keys(schemaPpp).map(key => {
               if (!visibleLists.schemaPpp.has(key)) {
                 return null;
               }

@@ -12,7 +12,7 @@ import { OptionPrimitive, Options } from '@keystone-ui/options';
 import { PopoverDialog, usePopover } from '@keystone-ui/popover';
 
 import { FieldMeta, JSONValue } from '../../../../types';
-import { useList } from '../../../../admin-ui/context';
+import { useSchemaCcc } from '../../../../admin-ui/context';
 import { useRouter } from '../../../../admin-ui/router';
 
 type State =
@@ -97,21 +97,21 @@ function FilterAddPopoverContent({
   schemaCccKey: string;
   filterableFields: Set<string>;
 }) {
-  const list = useList(schemaCccKey);
+  const schemaCcc = useSchemaCcc(schemaCccKey);
   const router = useRouter();
   const fieldsWithFilters = useMemo(() => {
     const fieldsWithFilters: Record<
       string,
       FieldMeta & { controller: { filter: NonNullable<FieldMeta['controller']['filter']> } }
     > = {};
-    Object.keys(list.fields).forEach(fieldPath => {
-      const field = list.fields[fieldPath];
+    Object.keys(schemaCcc.fields).forEach(fieldPath => {
+      const field = schemaCcc.fields[fieldPath];
       if (filterableFields.has(fieldPath) && field.controller.filter) {
         fieldsWithFilters[fieldPath] = field as any;
       }
     });
     return fieldsWithFilters;
-  }, [list.fields, filterableFields]);
+  }, [schemaCcc.fields, filterableFields]);
   const filtersByFieldThenType = useMemo(() => {
     const filtersByFieldThenType: Record<string, Record<string, string>> = {};
     Object.keys(fieldsWithFilters).forEach(fieldPath => {
@@ -176,7 +176,7 @@ function FilterAddPopoverContent({
                 return 'Filter';
               }
               case 'filter-value': {
-                return list.fields[state.fieldPath].label;
+                return schemaCcc.fields[state.fieldPath].label;
               }
             }
           })()}

@@ -4,7 +4,7 @@ import { FieldData, KeystoneConfig, getGqlNames } from '../types';
 import { createAdminMeta } from '../admin-ui/system/createAdminMeta';
 import { createGraphQLSchema } from './createGraphQLSchema';
 import { makeCreateContext } from './context/createContext';
-import { initialiseLists } from './core/types-for-lists';
+import { initialiseSchemaPpp } from './core/types-for-lists';
 import { setWriteLimit } from './core/utils';
 
 function getSudoGraphQLSchema(config: KeystoneConfig) {
@@ -55,13 +55,13 @@ function getSudoGraphQLSchema(config: KeystoneConfig) {
       })
     ),
   };
-  const lists = initialiseLists(transformedConfig);
+  const lists = initialiseSchemaPpp(transformedConfig);
   const adminMeta = createAdminMeta(transformedConfig, lists);
   return createGraphQLSchema(transformedConfig, lists, adminMeta);
 }
 
 export function createSystem(config: KeystoneConfig, isLiveReload?: boolean) {
-  const schemaPpp = initialiseLists(config);
+  const schemaPpp = initialiseSchemaPpp(config);
 
   const adminMeta = createAdminMeta(config, schemaPpp);
 

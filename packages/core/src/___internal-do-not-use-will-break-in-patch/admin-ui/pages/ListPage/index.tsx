@@ -22,7 +22,7 @@ import { gql, TypedDocumentNode, useMutation, useQuery } from '../../../../admin
 import { CellLink } from '../../../../admin-ui/components';
 import { PageContainer, HEADER_HEIGHT } from '../../../../admin-ui/components/PageContainer';
 import { Pagination, PaginationLabel } from '../../../../admin-ui/components/Pagination';
-import { useList } from '../../../../admin-ui/context';
+import { useSchemaCcc } from '../../../../admin-ui/context';
 import { Link, useRouter } from '../../../../admin-ui/router';
 import { FieldSelection } from './FieldSelection';
 import { FilterAdd } from './FilterAdd';
@@ -128,7 +128,7 @@ function useQueryParamsFromLocalStorage(schemaCccKey: string) {
 export const getListPage = (props: ListPageProps) => () => <ListPage {...props} />;
 
 const ListPage = ({ schemaCccKey }: ListPageProps) => {
-  const list = useList(schemaCccKey);
+  const schemaCcc = useSchemaCcc(schemaCccKey);
 
   const { query } = useRouter();
 
@@ -139,7 +139,7 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
   let pageSize =
     typeof query.pageSize === 'string' && !Number.isNaN(parseInt(query.pageSize))
       ? parseInt(query.pageSize)
-      : list.pageSize;
+      : schemaCcc.pageSize;
 
   let metaQuery = useQuery(listMetaGraphqlQuery, { variables: { schemaCccKey } });
 
@@ -160,11 +160,11 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
     return { listViewFieldModesByField, orderableFields, filterableFields };
   }, [metaQuery.data?.keystone.adminMeta.list?.fields]);
 
-  const sort = useSort(list, orderableFields);
+  const sort = useSort(schemaCcc, orderableFields);
 
-  const filters = useFilters(list, filterableFields);
+  const filters = useFilters(schemaCcc, filterableFields);
 
-  let selectedFields = useSelectedFields(list, listViewFieldModesByField);
+  let selectedFields = useSelectedFields(schemaCcc, listViewFieldModesByField);
 
   let {
     data: newData,
@@ -175,15 +175,15 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
     useMemo(() => {
       let selectedGqlFields = [...selectedFields]
         .map(fieldPath => {
-          return list.fields[fieldPath].controller.graphqlSelection;
+          return schemaCcc.fields[fieldPath].controller.graphqlSelection;
         })
         .join('\n');
       return gql`
-      query ($where: ${list.gqlNames.whereInputName}, $take: Int!, $skip: Int!, $orderBy: [${
-        list.gqlNames.listOrderName
+      query ($where: ${schemaCcc.gqlNames.whereInputName}, $take: Int!, $skip: Int!, $orderBy: [${
+        schemaCcc.gqlNames.schemaCccOrderName
       }!]) {
         items: ${
-          list.gqlNames.listQueryName
+          schemaCcc.gqlNames.schemaCccQueryName
         }(where: $where,take: $take, skip: $skip, orderBy: $orderBy) {
           ${
             // TODO: maybe namespace all the fields instead of doing this
@@ -191,10 +191,10 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
           }
           ${selectedGqlFields}
         }
-        count: ${list.gqlNames.listQueryCountName}(where: $where)
+        count: ${schemaCcc.gqlNames.schemaCccQueryCountName}(where: $where)
       }
     `;
-    }, [list, selectedFields]),
+    }, [schemaCcc, selectedFields]),
     {
       fetchPolicy: 'cache-and-network',
       errorPolicy: 'all',
@@ -241,21 +241,23 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
   const showCreate = !(metaQuery.data?.keystone.adminMeta.list?.hideCreate ?? true) || null;
 
   return (
-    <PageContainer header={<ListPageHeader schemaCccKey={schemaCccKey} />} title={list.label}>
+    <PageContainer header={<ListPageHeader schemaCccKey={schemaCccKey} />} title={schemaCcc.label}>
       {metaQuery.error ? (
         // TODO: Show errors nicely and with information
         'Error...'
       ) : data && metaQuery.data ? (
         <Fragment>
-          {list.description !== null && (
-            <p css={{ marginTop: '24px', maxWidth: '704px' }}>{list.description}</p>
+          {schemaCcc.description !== null && (
+            <p css={{ marginTop: '24px', maxWidth: '704px' }}>{schemaCcc.description}</p>
           )}
           <Stack across gap="medium" align="center" marginTop="xlarge">
             {showCreate && <CreateButton schemaCccKey={schemaCccKey} />}
             {data.count || filters.filters.length ? (
               <FilterAdd schemaCccKey={schemaCccKey} filterableFields={filterableFields} />
             ) : null}
-            {filters.filters.length ? <FilterList filters={filters.filters} list={list} /> : null}
+            {filters.filters.length ? (
+              <FilterList filters={filters.filters} list={schemaCcc} />
+            ) : null}
             {Boolean(filters.filters.length || query.sortBy || query.fields) && (
               <Button size="small" onClick={resetToDefaults}>
                 Reset to defaults
@@ -276,7 +278,7 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
                         </span>
                         {!(metaQuery.data?.keystone.adminMeta.list?.hideDelete ?? true) && (
                           <DeleteManyButton
-                            list={list}
+                            list={schemaCcc}
                             selectedItems={selectedItems}
                             refetch={refetch}
                           />
@@ -289,14 +291,15 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
                       <PaginationLabel
                         currentPage={currentPage}
                         pageSize={pageSize}
-                        plural={list.plural}
-                        singular={list.singular}
+                        plural={schemaCcc.plural}
+                        singular={schemaCcc.singular}
                         total={data.count}
                       />
-                      , sorted by <SortSelection list={list} orderableFields={orderableFields} />
+                      , sorted by{' '}
+                      <SortSelection list={schemaCcc} orderableFields={orderableFields} />
                       with{' '}
                       <FieldSelection
-                        list={list}
+                        list={schemaCcc}
                         fieldModesByFieldPath={listViewFieldModesByField}
                       />{' '}
                       {loading && (
@@ -325,7 +328,7 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
               />
             </Fragment>
           ) : (
-            <ResultsSummaryContainer>No {list.plural} found.</ResultsSummaryContainer>
+            <ResultsSummaryContainer>No {schemaCcc.plural} found.</ResultsSummaryContainer>
           )}
         </Fragment>
       ) : (
@@ -338,7 +341,7 @@ const ListPage = ({ schemaCccKey }: ListPageProps) => {
 };
 
 const CreateButton = ({ schemaCccKey }: { schemaCccKey: string }) => {
-  const list = useList(schemaCccKey);
+  const list = useSchemaCcc(schemaCccKey);
 
   return (
     <Fragment>
@@ -362,7 +365,7 @@ const CreateButton = ({ schemaCccKey }: { schemaCccKey: string }) => {
 };
 
 const ListPageHeader = ({ schemaCccKey }: { schemaCccKey: string }) => {
-  const list = useList(schemaCccKey);
+  const schemaCcc = useSchemaCcc(schemaCccKey);
   return (
     <Fragment>
       <div
@@ -373,7 +376,7 @@ const ListPageHeader = ({ schemaCccKey }: { schemaCccKey: string }) => {
           justifyContent: 'space-between',
         }}
       >
-        <Heading type="h3">{list.label}</Heading>
+        <Heading type="h3">{schemaCcc.label}</Heading>
         {/* <CreateButton schemaCccKey={schemaCccKey} /> */}
       </div>
     </Fragment>
@@ -570,14 +573,14 @@ function ListTable({
   onSelectedItemsChange(selectedItems: ReadonlySet<string>): void;
   orderableFields: Set<string>;
 }) {
-  const list = useList(schemaCccKey);
+  const schemaCcc = useSchemaCcc(schemaCccKey);
   const { query } = useRouter();
   const shouldShowLinkIcon =
-    !list.fields[selectedFields.keys().next().value].views.Cell.supportsLinkTo;
+    !schemaCcc.fields[selectedFields.keys().next().value].views.Cell.supportsLinkTo;
   return (
     <Box paddingBottom="xlarge">
       <TableContainer>
-        <VisuallyHidden as="caption">{list.label} list</VisuallyHidden>
+        <VisuallyHidden as="caption">{schemaCcc.label} list</VisuallyHidden>
         <colgroup>
           <col width="30" />
           {shouldShowLinkIcon && <col width="30" />}
@@ -615,7 +618,7 @@ function ListTable({
           </TableHeaderCell>
           {shouldShowLinkIcon && <TableHeaderCell />}
           {[...selectedFields].map(path => {
-            const label = list.fields[path].label;
+            const label = schemaCcc.fields[path].label;
             if (!orderableFields.has(path)) {
               return <TableHeaderCell key={path}>{label}</TableHeaderCell>;
             }
@@ -693,16 +696,16 @@ function ListTable({
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}
-                      href={`/${list.path}/[id]`}
-                      as={`/${list.path}/${encodeURIComponent(itemId)}`}
+                      href={`/${schemaCcc.path}/[id]`}
+                      as={`/${schemaCcc.path}/${encodeURIComponent(itemId)}`}
                     >
                       <ArrowRightCircleIcon size="smallish" aria-label="Go to item" />
                     </Link>
                   </TableBodyCell>
                 )}
                 {[...selectedFields].map((path, i) => {
-                  const field = list.fields[path];
-                  let { Cell } = list.fields[path].views;
+                  const field = schemaCcc.fields[path];
+                  let { Cell } = schemaCcc.fields[path].views;
                   const itemForField: Record<string, any> = {};
                   for (const graphqlField of getRootGraphQLFieldsFromFieldController(
                     field.controller
@@ -714,8 +717,8 @@ function ListTable({
                         <TableBodyCell css={{ color: 'red' }} key={path}>
                           {i === 0 && Cell.supportsLinkTo ? (
                             <CellLink
-                              href={`/${list.path}/[id]`}
-                              as={`/${list.path}/${encodeURIComponent(itemId)}`}
+                              href={`/${schemaCcc.path}/[id]`}
+                              as={`/${schemaCcc.path}/${encodeURIComponent(itemId)}`}
                             >
                               {errorMessage}
                             </CellLink>
@@ -736,8 +739,8 @@ function ListTable({
                         linkTo={
                           i === 0 && Cell.supportsLinkTo
                             ? {
-                                href: `/${list.path}/[id]`,
-                                as: `/${list.path}/${encodeURIComponent(itemId)}`,
+                                href: `/${schemaCcc.path}/[id]`,
+                                as: `/${schemaCcc.path}/${encodeURIComponent(itemId)}`,
                               }
                             : undefined
                         }
@@ -750,7 +753,7 @@ function ListTable({
           })}
         </tbody>
       </TableContainer>
-      <Pagination list={list} total={count} currentPage={currentPage} pageSize={pageSize} />
+      <Pagination list={schemaCcc} total={count} currentPage={currentPage} pageSize={pageSize} />
     </Box>
   );
 }
