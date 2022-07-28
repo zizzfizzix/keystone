@@ -6,7 +6,10 @@ import type { SchemaCccHooks } from './hooks';
 import type { SchemaCccAccessControl } from './access-control';
 import type { BaseFields, FilterOrderArgs } from './fields';
 
-export type SchemaConfig = Record<string, SchemaCccConfig<any, BaseFields<BaseSchemaCccTypeInfo>>>;
+export type SchemaPppConfig = Record<
+  string,
+  SchemaCccConfig<any, BaseFields<BaseSchemaCccTypeInfo>>
+>;
 
 export type IdFieldConfig =
   | { kind: 'cuid' | 'uuid' }

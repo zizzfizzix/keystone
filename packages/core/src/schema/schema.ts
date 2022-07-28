@@ -16,6 +16,7 @@ export function config<TypeInfo extends BaseKeystoneTypeInfo>(config: KeystoneCo
   return config;
 }
 
+// DO NOT RENAME
 export function list<
   Fields extends BaseFields<SchemaCccTypeInfo>,
   SchemaCccTypeInfo extends BaseSchemaCccTypeInfo

@@ -16,7 +16,7 @@ import type {
 import { SessionStrategy } from '../session';
 import type { MaybePromise } from '../utils';
 import type {
-  SchemaConfig,
+  SchemaPppConfig,
   SchemaCccConfig,
   MaybeSessionFunction,
   MaybeItemFunction,
@@ -85,7 +85,7 @@ export type StorageConfig = (
   FileOrImage;
 
 export type KeystoneConfig<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneTypeInfo> = {
-  schemaPpp: SchemaConfig;
+  schemaPpp: SchemaPppConfig;
   /** @deprecated "list" has been renamed to "schemaPpp" - you should be able to make this change without needing other updates */
   lists?: undefined;
   db: DatabaseConfig<TypeInfo>;
@@ -117,9 +117,15 @@ export type KeystoneConfig<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneT
   };
 };
 
-// config.lists
+// config.schemaPpp
 
-export type { SchemaConfig, SchemaCccConfig, BaseFields, MaybeSessionFunction, MaybeItemFunction };
+export type {
+  SchemaPppConfig,
+  SchemaCccConfig,
+  BaseFields,
+  MaybeSessionFunction,
+  MaybeItemFunction,
+};
 
 // config.db
 

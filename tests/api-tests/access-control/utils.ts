@@ -1,5 +1,5 @@
 import { text, password } from '@keystone-6/core/fields';
-import { list, ListSchemaConfig } from '@keystone-6/core';
+import { list, SchemaPppConfig } from '@keystone-6/core';
 import { statelessSessions } from '@keystone-6/core/session';
 import { createAuth } from '@keystone-6/auth';
 import { apiTestConfig } from '../utils';
@@ -103,7 +103,7 @@ const createFieldImperative = (fieldAccess: BooleanAccess) => ({
   }),
 });
 
-const lists: ListSchemaConfig = {
+const lists: SchemaPppConfig = {
   User: list({
     fields: {
       name: text(),
