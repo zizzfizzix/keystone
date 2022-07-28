@@ -9,7 +9,7 @@ import {
 } from '../../types';
 
 import { PrismaClient } from '../core/utils';
-import { InitialisedList } from '../core/types-for-lists';
+import { InitialisedSchemaCcc } from '../core/types-for-lists';
 import { createImagesContext } from '../assets/createImagesContext';
 import { createFilesContext } from '../assets/createFilesContext';
 import { getDbAPIFactory, itemAPIForList } from './itemAPI';
@@ -27,7 +27,7 @@ export function makeCreateContext({
   config: KeystoneConfig;
   prismaClient: PrismaClient;
   gqlNamesByList: Record<string, GqlNames>;
-  lists: Record<string, InitialisedList>;
+  lists: Record<string, InitialisedSchemaCcc>;
 }) {
   const images = createImagesContext(config);
   const files = createFilesContext(config);
@@ -40,13 +40,13 @@ export function makeCreateContext({
   // doing is more obvious(even though in reality it's much smaller than the alternative)
 
   const publicDbApiFactories: Record<string, ReturnType<typeof getDbAPIFactory>> = {};
-  for (const [listKey, gqlNames] of Object.entries(gqlNamesByList)) {
-    publicDbApiFactories[listKey] = getDbAPIFactory(gqlNames, graphQLSchema);
+  for (const [schemaCccKey, gqlNames] of Object.entries(gqlNamesByList)) {
+    publicDbApiFactories[schemaCccKey] = getDbAPIFactory(gqlNames, graphQLSchema);
   }
 
   const sudoDbApiFactories: Record<string, ReturnType<typeof getDbAPIFactory>> = {};
-  for (const [listKey, gqlNames] of Object.entries(gqlNamesByList)) {
-    sudoDbApiFactories[listKey] = getDbAPIFactory(gqlNames, sudoGraphQLSchema);
+  for (const [schemaCccKey, gqlNames] of Object.entries(gqlNamesByList)) {
+    sudoDbApiFactories[schemaCccKey] = getDbAPIFactory(gqlNames, sudoGraphQLSchema);
   }
 
   const createContext = ({
@@ -94,7 +94,7 @@ export function makeCreateContext({
       ...sessionContext,
       // Note: This field lets us use the server-side-graphql-client library.
       // We may want to remove it once the updated itemAPI w/ query is available.
-      gqlNames: (listKey: string) => gqlNamesByList[listKey],
+      gqlNames: (schemaCccKey: string) => gqlNamesByList[schemaCccKey],
       images,
       files,
     };
@@ -103,9 +103,9 @@ export function makeCreateContext({
     }
 
     const dbAPIFactories = sudo ? sudoDbApiFactories : publicDbApiFactories;
-    for (const listKey of Object.keys(gqlNamesByList)) {
-      dbAPI[listKey] = dbAPIFactories[listKey](contextToReturn);
-      itemAPI[listKey] = itemAPIForList(listKey, contextToReturn);
+    for (const schemaCccKey of Object.keys(gqlNamesByList)) {
+      dbAPI[schemaCccKey] = dbAPIFactories[schemaCccKey](contextToReturn);
+      itemAPI[schemaCccKey] = itemAPIForList(schemaCccKey, contextToReturn);
     }
     return contextToReturn;
   };

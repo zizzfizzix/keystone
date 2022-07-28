@@ -119,7 +119,7 @@ lists.RelatedToAll = list({
 });
 
 const config = apiTestConfig({
-  lists,
+  schemaPpp: lists,
   session: statelessSessions({ secret: COOKIE_SECRET }),
   ui: {
     isAccessAllowed: () => true,

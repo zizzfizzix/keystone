@@ -1,12 +1,12 @@
 import { GraphQLNamedType, GraphQLSchema } from 'graphql';
 import { graphql } from '../..';
-import { InitialisedList } from './types-for-lists';
+import { InitialisedSchemaCcc } from './types-for-lists';
 
 import { getMutationsForList } from './mutations';
 import { getQueriesForList } from './queries';
 
 export function getGraphQLSchema(
-  lists: Record<string, InitialisedList>,
+  lists: Record<string, InitialisedSchemaCcc>,
   extraFields: {
     mutation: Record<string, graphql.Field<unknown, any, graphql.OutputType, string>>;
     query: Record<string, graphql.Field<unknown, any, graphql.OutputType, string>>;
@@ -29,7 +29,7 @@ export function getGraphQLSchema(
       {},
       ...Object.values(lists).map(list => {
         const { mutations, updateManyInput } = getMutationsForList(list);
-        updateManyByList[list.listKey] = updateManyInput;
+        updateManyByList[list.schemaCccKey] = updateManyInput;
         return mutations;
       }),
       extraFields.mutation
@@ -45,7 +45,7 @@ export function getGraphQLSchema(
 }
 
 function collectTypes(
-  lists: Record<string, InitialisedList>,
+  lists: Record<string, InitialisedSchemaCcc>,
   updateManyByList: Record<string, graphql.InputObjectType<any>>
 ) {
   const collectedTypes: GraphQLNamedType[] = [];
@@ -75,7 +75,7 @@ function collectTypes(
     }
     if (isEnabled.update) {
       collectedTypes.push(list.types.update.graphQLType);
-      collectedTypes.push(updateManyByList[list.listKey].graphQLType);
+      collectedTypes.push(updateManyByList[list.schemaCccKey].graphQLType);
     }
     if (isEnabled.create) {
       collectedTypes.push(list.types.create.graphQLType);

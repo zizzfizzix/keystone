@@ -48,7 +48,7 @@ if (unsupportedModules.length > 0) {
             async () =>
               await setupTestEnv({
                 config: apiTestConfig({
-                  lists: {
+                  schemaPpp: {
                     [listKey]: list({
                       fields: { name: text(), ...mod.getTestFields(matrixValue) },
                     }),

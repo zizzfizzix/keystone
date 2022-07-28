@@ -1,6 +1,6 @@
 import { KeystoneContext, BaseItem } from '../../../types';
 import { ResolvedDBField } from '../resolve-relationships';
-import { InitialisedList } from '../types-for-lists';
+import { InitialisedSchemaCcc } from '../types-for-lists';
 import {
   promiseAllRejectWithAllErrors,
   getDBFieldKeyForFieldOnMultiField,
@@ -32,14 +32,14 @@ import { validateUpdateCreate } from './validation';
 
 async function createSingle(
   { data: rawData }: { data: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   operationAccess: boolean
 ) {
   // Operation level access control
   if (!operationAccess) {
     throw accessDeniedError(
-      `You cannot perform the 'create' operation on the list '${list.listKey}'.`
+      `You cannot perform the 'create' operation on the list '${list.schemaCccKey}'.`
     );
   }
 
@@ -68,7 +68,7 @@ export class NestedMutationState {
   constructor(context: KeystoneContext) {
     this.#context = context;
   }
-  async create(data: Record<string, any>, list: InitialisedList) {
+  async create(data: Record<string, any>, list: InitialisedSchemaCcc) {
     const context = this.#context;
 
     // Check operation permission to pass into single operation
@@ -87,7 +87,7 @@ export class NestedMutationState {
 
 export async function createOne(
   createInput: { data: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -102,7 +102,7 @@ export async function createOne(
 
 export async function createMany(
   createInputs: { data: Record<string, any>[] },
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -119,7 +119,7 @@ export async function createMany(
 
 async function updateSingle(
   updateInput: { where: UniqueInputFilter; data: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   accessFilters: boolean | InputFilter,
   operationAccess: boolean
@@ -127,7 +127,7 @@ async function updateSingle(
   // Operation level access control
   if (!operationAccess) {
     throw accessDeniedError(
-      `You cannot perform the 'update' operation on the list '${list.listKey}'.`
+      `You cannot perform the 'update' operation on the list '${list.schemaCccKey}'.`
     );
   }
 
@@ -168,7 +168,7 @@ async function updateSingle(
 
 export async function updateOne(
   updateInput: { where: UniqueInputFilter; data: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -182,7 +182,7 @@ export async function updateOne(
 
 export async function updateMany(
   { data }: { data: { where: UniqueInputFilter; data: Record<string, any> }[] },
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -197,10 +197,10 @@ export async function updateMany(
 }
 
 async function getResolvedData(
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   hookArgs: {
     context: KeystoneContext;
-    listKey: string;
+    schemaCccKey: string;
     inputData: Record<string, any>;
   } & ({ operation: 'create'; item: undefined } | { operation: 'update'; item: BaseItem }),
   nestedMutationState: NestedMutationState
@@ -221,7 +221,7 @@ async function getResolvedData(
           try {
             input = await inputResolver(input, context, undefined);
           } catch (error: any) {
-            resolverErrors.push({ error, tag: `${list.listKey}.${fieldKey}` });
+            resolverErrors.push({ error, tag: `${list.schemaCccKey}.${fieldKey}` });
           }
         }
         return [fieldKey, input] as const;
@@ -240,7 +240,7 @@ async function getResolvedData(
         const inputResolver = field.input?.[operation]?.resolve;
         let input = resolvedData[fieldKey];
         if (inputResolver && field.dbField.kind === 'relation') {
-          const tag = `${list.listKey}.${fieldKey}`;
+          const tag = `${list.schemaCccKey}.${fieldKey}`;
           try {
             input = await inputResolver(
               input,
@@ -255,7 +255,7 @@ async function getResolvedData(
                   // No-op: Should this be UserInputError?
                   return () => undefined;
                 }
-                const foreignList = list.lists[field.dbField.list];
+                const foreignList = list.schemaCcc[field.dbField.list];
                 let resolver;
                 if (field.dbField.mode === 'many') {
                   if (operation === 'create') {
@@ -309,7 +309,10 @@ async function getResolvedData(
               }),
             ];
           } catch (error: any) {
-            fieldsErrors.push({ error, tag: `${list.listKey}.${fieldKey}.hooks.${hookName}` });
+            fieldsErrors.push({
+              error,
+              tag: `${list.schemaCccKey}.${fieldKey}.hooks.${hookName}`,
+            });
             return [fieldKey, undefined];
           }
         }
@@ -325,7 +328,7 @@ async function getResolvedData(
     try {
       resolvedData = (await list.hooks.resolveInput({ ...hookArgs, resolvedData })) as any;
     } catch (error: any) {
-      throw extensionError(hookName, [{ error, tag: `${list.listKey}.hooks.${hookName}` }]);
+      throw extensionError(hookName, [{ error, tag: `${list.schemaCccKey}.hooks.${hookName}` }]);
     }
   }
 
@@ -333,7 +336,7 @@ async function getResolvedData(
 }
 
 async function resolveInputForCreateOrUpdate(
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   inputData: Record<string, any>,
   item: BaseItem | undefined
@@ -341,7 +344,7 @@ async function resolveInputForCreateOrUpdate(
   const nestedMutationState = new NestedMutationState(context);
   const baseHookArgs = {
     context,
-    listKey: list.listKey,
+    schemaCccKey: list.schemaCccKey,
     inputData,
     resolvedData: {},
   };

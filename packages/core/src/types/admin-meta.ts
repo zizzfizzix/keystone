@@ -4,12 +4,12 @@ import { GqlNames, JSONValue } from './utils';
 
 export type NavigationProps = {
   authenticatedItem: AuthenticatedItem;
-  lists: ListMeta[];
+  lists: SchemaCccMeta[];
 };
 
 export type AuthenticatedItem =
   | { state: 'unauthenticated' }
-  | { state: 'authenticated'; label: string; id: string; listKey: string }
+  | { state: 'authenticated'; label: string; id: string; schemaCccKey: string }
   | { state: 'loading' }
   | { state: 'error'; error: Error | readonly [GraphQLError, ...GraphQLError[]] };
 
@@ -31,7 +31,7 @@ export type AdminConfig = {
 };
 
 export type FieldControllerConfig<FieldMeta extends JSONValue | undefined = undefined> = {
-  listKey: string;
+  schemaCccKey: string;
   path: string;
   label: string;
   description: string | null;
@@ -91,7 +91,7 @@ export type FieldMeta = {
   };
 };
 
-export type ListMeta = {
+export type SchemaCccMeta = {
   key: string;
   path: string;
   label: string;
@@ -109,7 +109,7 @@ export type ListMeta = {
 export type AdminMeta = {
   enableSignout: boolean;
   enableSessionItem: boolean;
-  lists: { [list: string]: ListMeta };
+  schemaPpp: { [schemaCccKey: string]: SchemaCccMeta };
 };
 
 export type FieldProps<FieldControllerFn extends (...args: any) => FieldController<any, any>> = {
@@ -165,11 +165,11 @@ export type FieldMetaRootVal = {
   fieldMeta: JSONValue | null;
   viewsIndex: number;
   customViewsIndex: number | null;
-  listKey: string;
+  schemaCccKey: string;
   search: 'default' | 'insensitive' | null;
 };
 
-export type ListMetaRootVal = {
+export type SchemaCccMetaRootVal = {
   key: string;
   path: string;
   label: string;
@@ -188,7 +188,7 @@ export type ListMetaRootVal = {
 export type AdminMetaRootVal = {
   enableSignout: boolean;
   enableSessionItem: boolean;
-  lists: Array<ListMetaRootVal>;
-  listsByKey: Record<string, ListMetaRootVal>;
+  lists: Array<SchemaCccMetaRootVal>;
+  listsByKey: Record<string, SchemaCccMetaRootVal>;
   views: string[];
 };

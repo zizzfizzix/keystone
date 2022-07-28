@@ -16,15 +16,15 @@ import type {
 import { SessionStrategy } from '../session';
 import type { MaybePromise } from '../utils';
 import type {
-  ListSchemaConfig,
-  ListConfig,
+  SchemaConfig,
+  SchemaCccConfig,
   MaybeSessionFunction,
   MaybeItemFunction,
   IdFieldConfig,
 } from './lists';
 import type { BaseFields } from './fields';
 import type { ListAccessControl, FieldAccessControl } from './access-control';
-import type { ListHooks } from './hooks';
+import type { SchemaCccHooks } from './hooks';
 
 type FileOrImage =
   // is given full file name, returns file name that will be used at
@@ -85,7 +85,9 @@ export type StorageConfig = (
   FileOrImage;
 
 export type KeystoneConfig<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneTypeInfo> = {
-  lists: ListSchemaConfig;
+  schemaPpp: SchemaConfig;
+  /** "list" has been renamed to "schemaPpp" - you should be able to make this change without needing other updates */
+  list?: never;
   db: DatabaseConfig<TypeInfo>;
   ui?: AdminUIConfig<TypeInfo>;
   server?: ServerConfig<TypeInfo>;
@@ -117,7 +119,7 @@ export type KeystoneConfig<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneT
 
 // config.lists
 
-export type { ListSchemaConfig, ListConfig, BaseFields, MaybeSessionFunction, MaybeItemFunction };
+export type { SchemaConfig, SchemaCccConfig, BaseFields, MaybeSessionFunction, MaybeItemFunction };
 
 // config.db
 
@@ -282,7 +284,7 @@ export type ImagesConfig = {
 
 // Exports from sibling packages
 
-export type { ListHooks, ListAccessControl, FieldAccessControl };
+export type { SchemaCccHooks as ListHooks, ListAccessControl, FieldAccessControl };
 
 export type {
   FieldCreateItemAccessArgs,

@@ -8,7 +8,7 @@ import { apiTestConfig } from '../utils';
 
 const runner = setupTestRunner({
   config: apiTestConfig({
-    lists: {
+    schemaPpp: {
       User: list({
         fields: {
           name: text(),

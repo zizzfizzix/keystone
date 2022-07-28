@@ -2,7 +2,7 @@ import { KeystoneContext } from '../../../types';
 import { getOperationAccess, getAccessFilters } from '../access-control';
 import { checkFilterOrderAccess } from '../filter-order-access';
 import { accessDeniedError } from '../graphql-errors';
-import { InitialisedList } from '../types-for-lists';
+import { InitialisedSchemaCcc } from '../types-for-lists';
 import { getWriteLimit, runWithPrisma } from '../utils';
 import { InputFilter, resolveUniqueWhereInput, UniqueInputFilter } from '../where-inputs';
 import { getAccessControlledItemForDelete } from './access-control';
@@ -11,7 +11,7 @@ import { validateDelete } from './validation';
 
 async function deleteSingle(
   uniqueInput: UniqueInputFilter,
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   accessFilters: boolean | InputFilter,
   operationAccess: boolean
@@ -19,7 +19,7 @@ async function deleteSingle(
   // Operation level access control
   if (!operationAccess) {
     throw accessDeniedError(
-      `You cannot perform the 'delete' operation on the list '${list.listKey}'.`
+      `You cannot perform the 'delete' operation on the list '${list.schemaCccKey}'.`
     );
   }
 
@@ -35,7 +35,7 @@ async function deleteSingle(
 
   const hookArgs = {
     operation: 'delete' as const,
-    listKey: list.listKey,
+    schemaCccKey: list.schemaCccKey,
     context,
     item,
     resolvedData: undefined,
@@ -65,7 +65,7 @@ async function deleteSingle(
 
 export async function deleteMany(
   uniqueInputs: UniqueInputFilter[],
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -81,7 +81,7 @@ export async function deleteMany(
 
 export async function deleteOne(
   uniqueInput: UniqueInputFilter,
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation

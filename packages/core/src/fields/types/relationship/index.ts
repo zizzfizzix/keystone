@@ -1,5 +1,5 @@
 import {
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   FieldTypeFunc,
   CommonFieldConfig,
   fieldType,
@@ -66,8 +66,8 @@ type ManyDbConfig = {
   };
 };
 
-export type RelationshipFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type RelationshipFieldConfig<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
+  CommonFieldConfig<SchemaCccTypeInfo> & {
     many?: boolean;
     ref: string;
     ui?: {
@@ -77,22 +77,22 @@ export type RelationshipFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
     (SelectDisplayConfig | CardsDisplayConfig | CountDisplayConfig);
 
 export const relationship =
-  <ListTypeInfo extends BaseListTypeInfo>({
+  <SchemaCccTypeInfo extends BaseSchemaCccTypeInfo>({
     ref,
     ...config
-  }: RelationshipFieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
+  }: RelationshipFieldConfig<SchemaCccTypeInfo>): FieldTypeFunc<SchemaCccTypeInfo> =>
   meta => {
     const { many = false } = config;
-    const [foreignListKey, foreignFieldKey] = ref.split('.');
+    const [foreignschemaCccKey, foreignFieldKey] = ref.split('.');
     const commonConfig = {
       ...config,
       views: resolveView('relationship/views'),
       getAdminMeta: (
         adminMetaRoot: AdminMetaRootVal
       ): Parameters<typeof import('./views').controller>[0]['fieldMeta'] => {
-        if (!meta.lists[foreignListKey]) {
+        if (!meta.schemaPpp[foreignschemaCccKey]) {
           throw new Error(
-            `The ref [${ref}] on relationship [${meta.listKey}.${meta.fieldKey}] is invalid`
+            `The ref [${ref}] on relationship [${meta.schemaCccKey}.${meta.fieldKey}] is invalid`
           );
         }
         if (config.ui?.displayMode === 'cards') {
@@ -100,12 +100,12 @@ export const relationship =
           // in newer versions of keystone, it will be there and it will not be there for older versions of keystone.
           // this is so that relationship fields doesn't break in confusing ways
           // if people are using a slightly older version of keystone
-          const currentField = adminMetaRoot.listsByKey[meta.listKey].fields.find(
+          const currentField = adminMetaRoot.listsByKey[meta.schemaCccKey].fields.find(
             x => x.path === meta.fieldKey
           );
           if (currentField) {
             const allForeignFields = new Set(
-              adminMetaRoot.listsByKey[foreignListKey].fields.map(x => x.path)
+              adminMetaRoot.listsByKey[foreignschemaCccKey].fields.map(x => x.path)
             );
             for (const [configOption, foreignFields] of [
               ['ui.cardFields', config.ui.cardFields],
@@ -115,7 +115,7 @@ export const relationship =
               for (const foreignField of foreignFields) {
                 if (!allForeignFields.has(foreignField)) {
                   throw new Error(
-                    `The ${configOption} option on the relationship field at ${meta.listKey}.${meta.fieldKey} includes the "${foreignField}" field but that field does not exist on the "${foreignListKey}" list`
+                    `The ${configOption} option on the relationship field at ${meta.schemaCccKey}.${meta.fieldKey} includes the "${foreignField}" field but that field does not exist on the "${foreignschemaCccKey}" list`
                   );
                 }
               }
@@ -124,7 +124,7 @@ export const relationship =
         }
         return {
           refFieldKey: foreignFieldKey,
-          refListKey: foreignListKey,
+          refschemaCccKey: foreignschemaCccKey,
           many,
           hideCreate: config.ui?.hideCreate ?? false,
           ...(config.ui?.displayMode === 'cards'
@@ -136,28 +136,28 @@ export const relationship =
                 inlineCreate: config.ui.inlineCreate ?? null,
                 inlineEdit: config.ui.inlineEdit ?? null,
                 inlineConnect: config.ui.inlineConnect ?? false,
-                refLabelField: adminMetaRoot.listsByKey[foreignListKey].labelField,
+                refLabelField: adminMetaRoot.listsByKey[foreignschemaCccKey].labelField,
               }
             : config.ui?.displayMode === 'count'
             ? { displayMode: 'count' }
             : {
                 displayMode: 'select',
-                refLabelField: adminMetaRoot.listsByKey[foreignListKey].labelField,
+                refLabelField: adminMetaRoot.listsByKey[foreignschemaCccKey].labelField,
               }),
         };
       },
     };
-    if (!meta.lists[foreignListKey]) {
+    if (!meta.lists[foreignschemaCccKey]) {
       throw new Error(
-        `Unable to resolve related list '${foreignListKey}' from ${meta.listKey}.${meta.fieldKey}`
+        `Unable to resolve related list '${foreignschemaCccKey}' from ${meta.schemaCccKey}.${meta.fieldKey}`
       );
     }
-    const listTypes = meta.lists[foreignListKey].types;
+    const listTypes = meta.lists[foreignschemaCccKey].types;
     if (config.many) {
       return fieldType({
         kind: 'relation',
         mode: 'many',
-        list: foreignListKey,
+        list: foreignschemaCccKey,
         field: foreignFieldKey,
         relationName: config.db?.relationName,
       })({
@@ -207,7 +207,7 @@ export const relationship =
     return fieldType({
       kind: 'relation',
       mode: 'one',
-      list: foreignListKey,
+      list: foreignschemaCccKey,
       field: foreignFieldKey,
       foreignKey: config.db?.foreignKey,
     })({

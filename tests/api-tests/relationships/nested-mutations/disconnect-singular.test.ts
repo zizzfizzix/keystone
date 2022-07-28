@@ -8,7 +8,7 @@ const alphanumGenerator = gen.alphaNumString.notEmpty();
 
 const runner = setupTestRunner({
   config: apiTestConfig({
-    lists: {
+    schemaPpp: {
       Group: list({
         fields: {
           name: text(),

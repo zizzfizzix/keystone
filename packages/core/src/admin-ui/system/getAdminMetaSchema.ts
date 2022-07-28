@@ -3,13 +3,13 @@ import {
   KeystoneContext,
   KeystoneConfig,
   AdminMetaRootVal,
-  ListMetaRootVal,
+  SchemaCccMetaRootVal,
   FieldMetaRootVal,
   BaseItem,
 } from '../../types';
 import { graphql as graphqlBoundToKeystoneContext } from '../..';
 
-import { InitialisedList } from '../../lib/core/types-for-lists';
+import { InitialisedSchemaCcc } from '../../lib/core/types-for-lists';
 
 const graphql = {
   ...graphqlBoundToKeystoneContext,
@@ -25,7 +25,7 @@ export function getAdminMetaSchema({
 }: {
   adminMeta: AdminMetaRootVal;
   config: KeystoneConfig;
-  lists: Record<string, InitialisedList>;
+  lists: Record<string, InitialisedSchemaCcc>;
 }) {
   const isAccessAllowed =
     config.ui?.isAccessAllowed ??
@@ -46,15 +46,16 @@ export function getAdminMetaSchema({
               'KeystoneAdminUIFieldMeta.isOrderable cannot be resolved during the build process'
             );
           }
-          if (!lists[rootVal.listKey].fields[rootVal.path].input?.orderBy) {
+          if (!lists[rootVal.schemaCccKey].fields[rootVal.path].input?.orderBy) {
             return false;
           }
-          const isOrderable = lists[rootVal.listKey].fields[rootVal.path].graphql.isEnabled.orderBy;
+          const isOrderable =
+            lists[rootVal.schemaCccKey].fields[rootVal.path].graphql.isEnabled.orderBy;
           if (typeof isOrderable === 'function') {
             return isOrderable({
               context,
               fieldKey: rootVal.path,
-              listKey: rootVal.listKey,
+              schemaCccKey: rootVal.schemaCccKey,
               session: context.session,
             });
           }
@@ -69,15 +70,16 @@ export function getAdminMetaSchema({
               'KeystoneAdminUIFieldMeta.isOrderable cannot be resolved during the build process'
             );
           }
-          if (!lists[rootVal.listKey].fields[rootVal.path].input?.where) {
+          if (!lists[rootVal.schemaCccKey].fields[rootVal.path].input?.where) {
             return false;
           }
-          const isFilterable = lists[rootVal.listKey].fields[rootVal.path].graphql.isEnabled.filter;
+          const isFilterable =
+            lists[rootVal.schemaCccKey].fields[rootVal.path].graphql.isEnabled.filter;
           if (typeof isFilterable === 'function') {
             return isFilterable({
               context,
               fieldKey: rootVal.path,
-              listKey: rootVal.listKey,
+              schemaCccKey: rootVal.schemaCccKey,
               session: context.session,
             });
           }
@@ -89,7 +91,7 @@ export function getAdminMetaSchema({
       customViewsIndex: graphql.field({ type: graphql.Int }),
       createView: graphql.field({
         resolve(rootVal) {
-          return { fieldPath: rootVal.path, listKey: rootVal.listKey };
+          return { fieldPath: rootVal.path, schemaCccKey: rootVal.schemaCccKey };
         },
         type: graphql.nonNull(
           graphql.object<FieldIdentifier>()({
@@ -108,13 +110,15 @@ export function getAdminMetaSchema({
                       'KeystoneAdminUIFieldMetaCreateView.fieldMode cannot be resolved during the build process'
                     );
                   }
-                  if (!lists[rootVal.listKey].fields[rootVal.fieldPath].graphql.isEnabled.create) {
+                  if (
+                    !lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled.create
+                  ) {
                     return 'hidden';
                   }
-                  const listConfig = config.lists[rootVal.listKey];
+                  const listConfig = config.schemaPpp[rootVal.schemaCccKey];
                   const sessionFunction =
-                    lists[rootVal.listKey].fields[rootVal.fieldPath].ui?.createView?.fieldMode ??
-                    listConfig.ui?.createView?.defaultFieldMode;
+                    lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].ui?.createView
+                      ?.fieldMode ?? listConfig.ui?.createView?.defaultFieldMode;
                   return runMaybeFunction(sessionFunction, 'edit', {
                     session: context.session,
                     context,
@@ -127,7 +131,7 @@ export function getAdminMetaSchema({
       }),
       listView: graphql.field({
         resolve(rootVal) {
-          return { fieldPath: rootVal.path, listKey: rootVal.listKey };
+          return { fieldPath: rootVal.path, schemaCccKey: rootVal.schemaCccKey };
         },
         type: graphql.nonNull(
           graphql.object<FieldIdentifier>()({
@@ -146,13 +150,15 @@ export function getAdminMetaSchema({
                       'KeystoneAdminUIFieldMetaListView.fieldMode cannot be resolved during the build process'
                     );
                   }
-                  if (!lists[rootVal.listKey].fields[rootVal.fieldPath].graphql.isEnabled.read) {
+                  if (
+                    !lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled.read
+                  ) {
                     return 'hidden';
                   }
-                  const listConfig = config.lists[rootVal.listKey];
+                  const listConfig = config.schemaPpp[rootVal.schemaCccKey];
                   const sessionFunction =
-                    lists[rootVal.listKey].fields[rootVal.fieldPath].ui?.listView?.fieldMode ??
-                    listConfig.ui?.listView?.defaultFieldMode;
+                    lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].ui?.listView
+                      ?.fieldMode ?? listConfig.ui?.listView?.defaultFieldMode;
                   return runMaybeFunction(sessionFunction, 'read', {
                     session: context.session,
                     context,
@@ -170,7 +176,11 @@ export function getAdminMetaSchema({
           }),
         },
         resolve(rootVal, args) {
-          return { fieldPath: rootVal.path, listKey: rootVal.listKey, itemId: args.id ?? null };
+          return {
+            fieldPath: rootVal.path,
+            schemaCccKey: rootVal.schemaCccKey,
+            itemId: args.id ?? null,
+          };
         },
         type: graphql.object<FieldIdentifier & { itemId: string | null }>()({
           name: 'KeystoneAdminUIFieldMetaItemView',
@@ -186,17 +196,19 @@ export function getAdminMetaSchema({
                     'KeystoneAdminUIFieldMetaItemView.fieldMode cannot be resolved during the build process if an id is provided'
                   );
                 }
-                if (!lists[rootVal.listKey].fields[rootVal.fieldPath].graphql.isEnabled.read) {
+                if (
+                  !lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled.read
+                ) {
                   return 'hidden';
                 } else if (
-                  !lists[rootVal.listKey].fields[rootVal.fieldPath].graphql.isEnabled.update
+                  !lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled.update
                 ) {
                   return 'read';
                 }
-                const listConfig = config.lists[rootVal.listKey];
+                const listConfig = config.schemaPpp[rootVal.schemaCccKey];
 
                 const sessionFunction =
-                  lists[rootVal.listKey].fields[rootVal.fieldPath].ui?.itemView?.fieldMode ??
+                  lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].ui?.itemView?.fieldMode ??
                   listConfig.ui?.itemView?.defaultFieldMode ??
                   'edit';
                 if (typeof sessionFunction === 'string') {
@@ -212,7 +224,7 @@ export function getAdminMetaSchema({
                 // uhhh, for some reason TypeScript only understands this if it's assigned
                 // to a variable and then returned
                 let ret = fetchItemForItemViewFieldMode(context)(
-                  rootVal.listKey,
+                  rootVal.schemaCccKey,
                   rootVal.itemId
                 ).then(item => {
                   if (item === null) {
@@ -236,7 +248,7 @@ export function getAdminMetaSchema({
     },
   });
 
-  const KeystoneAdminUISort = graphql.object<NonNullable<ListMetaRootVal['initialSort']>>()({
+  const KeystoneAdminUISort = graphql.object<NonNullable<SchemaCccMetaRootVal['initialSort']>>()({
     name: 'KeystoneAdminUISort',
     fields: {
       field: graphql.field({ type: graphql.nonNull(graphql.String) }),
@@ -251,7 +263,7 @@ export function getAdminMetaSchema({
     },
   });
 
-  const KeystoneAdminUIListMeta = graphql.object<ListMetaRootVal>()({
+  const KeystoneAdminUIListMeta = graphql.object<SchemaCccMetaRootVal>()({
     name: 'KeystoneAdminUIListMeta',
     fields: {
       key: graphql.field({ type: graphql.nonNull(graphql.String) }),
@@ -269,7 +281,7 @@ export function getAdminMetaSchema({
               'KeystoneAdminUIListMeta.hideCreate cannot be resolved during the build process'
             );
           }
-          const listConfig = config.lists[rootVal.key];
+          const listConfig = config.schemaPpp[rootVal.key];
           return runMaybeFunction(listConfig.ui?.hideCreate, false, {
             session: context.session,
             context,
@@ -284,7 +296,7 @@ export function getAdminMetaSchema({
               'KeystoneAdminUIListMeta.hideDelete cannot be resolved during the build process'
             );
           }
-          const listConfig = config.lists[rootVal.key];
+          const listConfig = config.schemaPpp[rootVal.key];
           return runMaybeFunction(listConfig.ui?.hideDelete, false, {
             session: context.session,
             context,
@@ -313,7 +325,7 @@ export function getAdminMetaSchema({
               'KeystoneAdminUIListMeta.isHidden cannot be resolved during the build process'
             );
           }
-          const listConfig = config.lists[rootVal.key];
+          const listConfig = config.schemaPpp[rootVal.key];
           return runMaybeFunction(listConfig.ui?.isHidden, false, {
             session: context.session,
             context,
@@ -382,7 +394,7 @@ export function getAdminMetaSchema({
   };
 }
 
-type FieldIdentifier = { listKey: string; fieldPath: string };
+type FieldIdentifier = { schemaCccKey: string; fieldPath: string };
 
 type NoInfer<T> = T & { [K in keyof T]: T[K] };
 
@@ -403,18 +415,18 @@ function runMaybeFunction<Return extends string | boolean, T>(
 function fakeAssert<T>(val: any): asserts val is T {}
 
 const fetchItemForItemViewFieldMode = extendContext(context => {
-  type ListKey = string;
+  type schemaCccKey = string;
   type ItemId = string;
-  const lists = new Map<ListKey, Map<ItemId, Promise<BaseItem | null>>>();
-  return (listKey: ListKey, id: ItemId) => {
-    if (!lists.has(listKey)) {
-      lists.set(listKey, new Map());
+  const lists = new Map<schemaCccKey, Map<ItemId, Promise<BaseItem | null>>>();
+  return (schemaCccKey: schemaCccKey, id: ItemId) => {
+    if (!lists.has(schemaCccKey)) {
+      lists.set(schemaCccKey, new Map());
     }
-    const items = lists.get(listKey)!;
+    const items = lists.get(schemaCccKey)!;
     if (items.has(id)) {
       return items.get(id)!;
     }
-    let promise = context.db[listKey].findOne({ where: { id } });
+    let promise = context.db[schemaCccKey].findOne({ where: { id } });
     items.set(id, promise);
     return promise;
   };

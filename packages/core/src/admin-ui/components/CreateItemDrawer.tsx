@@ -12,16 +12,16 @@ import { useCreateItem } from '../utils/useCreateItem';
 import { GraphQLErrorNotice } from './GraphQLErrorNotice';
 
 export function CreateItemDrawer({
-  listKey,
+  schemaCccKey,
   onClose,
   onCreate,
 }: {
-  listKey: string;
+  schemaCccKey: string;
   onClose: () => void;
   onCreate: (item: { id: string; label: string }) => void;
 }) {
   const { createViewFieldModes } = useKeystone();
-  const list = useList(listKey);
+  const list = useList(schemaCccKey);
   const createItemState = useCreateItem(list);
 
   return (

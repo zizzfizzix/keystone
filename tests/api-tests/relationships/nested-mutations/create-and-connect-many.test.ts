@@ -10,7 +10,7 @@ type IdType = any;
 
 const runner = setupTestRunner({
   config: apiTestConfig({
-    lists: {
+    schemaPpp: {
       Note: list({
         fields: {
           content: text(),

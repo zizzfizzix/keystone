@@ -10,7 +10,7 @@ import {
   InputFilter,
 } from '../where-inputs';
 import { limitsExceededError, userInputError } from '../graphql-errors';
-import { InitialisedList } from '../types-for-lists';
+import { InitialisedSchemaCcc } from '../types-for-lists';
 import { getDBFieldKeyForFieldOnMultiField, runWithPrisma } from '../utils';
 import { checkFilterOrderAccess } from '../filter-order-access';
 
@@ -25,10 +25,10 @@ export function mapUniqueWhereToWhere(uniqueWhere: UniquePrismaFilter): PrismaFi
 }
 
 function traverseQuery(
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   inputFilter: InputFilter,
-  filterFields: Record<string, { fieldKey: string; list: InitialisedList }>
+  filterFields: Record<string, { fieldKey: string; list: InitialisedSchemaCcc }>
 ) {
   // Recursively traverse a where filter to find all the fields which are being
   // filtered on.
@@ -40,30 +40,30 @@ function traverseQuery(
     } else if (fieldKey === 'some' || fieldKey === 'none' || fieldKey === 'every') {
       traverseQuery(list, context, value, filterFields);
     } else {
-      filterFields[`${list.listKey}.${fieldKey}`] = { fieldKey, list };
+      filterFields[`${list.schemaCccKey}.${fieldKey}`] = { fieldKey, list };
       // If it's a relationship, check the nested filters.
       const field = list.fields[fieldKey];
       if (field.dbField.kind === 'relation' && value !== null) {
         const foreignList = field.dbField.list;
-        traverseQuery(list.lists[foreignList], context, value, filterFields);
+        traverseQuery(list.schemaCcc[foreignList], context, value, filterFields);
       }
     }
   });
 }
 
 export async function checkFilterAccess(
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   inputFilter: InputFilter
 ) {
   if (!inputFilter) return;
-  const filterFields: Record<string, { fieldKey: string; list: InitialisedList }> = {};
+  const filterFields: Record<string, { fieldKey: string; list: InitialisedSchemaCcc }> = {};
   traverseQuery(list, context, inputFilter, filterFields);
   await checkFilterOrderAccess(Object.values(filterFields), context, 'filter');
 }
 
 export async function accessControlledFilter(
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   resolvedWhere: PrismaFilter,
   accessFilters: boolean | InputFilter
@@ -78,7 +78,7 @@ export async function accessControlledFilter(
 
 export async function findOne(
   args: { where: UniqueInputFilter },
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
@@ -108,7 +108,7 @@ export async function findOne(
 
 export async function findMany(
   { where, take, skip, orderBy: rawOrderBy }: FindManyArgsValue,
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   info: GraphQLResolveInfo,
   extraFilter?: PrismaFilter
@@ -156,7 +156,7 @@ export async function findMany(
 
 async function resolveOrderBy(
   orderBy: readonly Record<string, any>[],
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext
 ): Promise<readonly Record<string, OrderDirection>[]> {
   // Check input format. FIXME: Group all errors
@@ -212,7 +212,7 @@ async function resolveOrderBy(
 
 export async function count(
   { where }: { where: Record<string, any> },
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   info: GraphQLResolveInfo,
   extraFilter?: PrismaFilter
@@ -252,7 +252,7 @@ export async function count(
   return count;
 }
 
-function applyEarlyMaxResults(_take: number | null | undefined, list: InitialisedList) {
+function applyEarlyMaxResults(_take: number | null | undefined, list: InitialisedSchemaCcc) {
   const take = Math.abs(_take ?? Infinity);
   // We want to help devs by failing fast and noisily if limits are violated.
   // Unfortunately, we can't always be sure of intent.
@@ -262,19 +262,31 @@ function applyEarlyMaxResults(_take: number | null | undefined, list: Initialise
   // * The query explicitly has a "take" that exceeds the limit
   // * The query has no "take", and has more results than the limit
   if (take < Infinity && take > list.maxResults) {
-    throw limitsExceededError({ list: list.listKey, type: 'maxResults', limit: list.maxResults });
+    throw limitsExceededError({
+      list: list.schemaCccKey,
+      type: 'maxResults',
+      limit: list.maxResults,
+    });
   }
 }
 
-function applyMaxResults(results: unknown[], list: InitialisedList, context: KeystoneContext) {
+function applyMaxResults(
+  results: unknown[],
+  list: InitialisedSchemaCcc,
+  context: KeystoneContext
+) {
   if (results.length > list.maxResults) {
-    throw limitsExceededError({ list: list.listKey, type: 'maxResults', limit: list.maxResults });
+    throw limitsExceededError({
+      list: list.schemaCccKey,
+      type: 'maxResults',
+      limit: list.maxResults,
+    });
   }
   if (context) {
     context.totalResults += results.length;
     if (context.totalResults > context.maxTotalResults) {
       throw limitsExceededError({
-        list: list.listKey,
+        list: list.schemaCccKey,
         type: 'maxTotalResults',
         limit: context.maxTotalResults,
       });

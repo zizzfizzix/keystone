@@ -1,6 +1,6 @@
 import { GraphQLSchema } from 'graphql';
 import {
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   KeystoneDbAPI,
   KeystoneListsAPI,
   KeystoneContext,
@@ -18,7 +18,7 @@ const objectEntriesButUsingKeyof: <T extends Record<string, any>>(
 export function getDbAPIFactory(
   gqlNames: GqlNames,
   schema: GraphQLSchema
-): (context: KeystoneContext) => KeystoneDbAPI<Record<string, BaseListTypeInfo>>[string] {
+): (context: KeystoneContext) => KeystoneDbAPI<Record<string, BaseSchemaCccTypeInfo>>[string] {
   const f = (operation: 'query' | 'mutation', fieldName: string) => {
     const rootType = operation === 'mutation' ? schema.getMutationType()! : schema.getQueryType()!;
     const field = rootType.getFields()[fieldName];
@@ -53,9 +53,9 @@ export function getDbAPIFactory(
 }
 
 export function itemAPIForList(
-  listKey: string,
+  schemaCccKey: string,
   context: KeystoneContext
-): KeystoneListsAPI<Record<string, BaseListTypeInfo>>[string] {
+): KeystoneListsAPI<Record<string, BaseSchemaCccTypeInfo>>[string] {
   const f = (operation: 'query' | 'mutation', field: string) => {
     const exec = executeGraphQLFieldWithSelection(context.graphql.schema, operation, field);
     return ({ query, ...args }: { query?: string } & Record<string, any> = {}) => {
@@ -63,12 +63,12 @@ export function itemAPIForList(
       return exec(args, returnFields, context);
     };
   };
-  const gqlNames = context.gqlNames(listKey);
+  const gqlNames = context.gqlNames(schemaCccKey);
   return {
     findOne: f('query', gqlNames.itemQueryName),
     findMany: f('query', gqlNames.listQueryName),
     async count({ where = {} } = {}) {
-      const { listQueryCountName, whereInputName } = context.gqlNames(listKey);
+      const { listQueryCountName, whereInputName } = context.gqlNames(schemaCccKey);
       const query = `query ($where: ${whereInputName}!) { count: ${listQueryCountName}(where: $where)  }`;
       const response = await context.graphql.run({ query, variables: { where } });
       return response.count;

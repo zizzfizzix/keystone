@@ -45,7 +45,7 @@ testModules
 
         const runner = setupTestRunner({
           config: apiTestConfig({
-            lists: {
+            schemaPpp: {
               Test: list({
                 fields: {
                   name: text(),

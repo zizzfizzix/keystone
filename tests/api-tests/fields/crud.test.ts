@@ -21,7 +21,7 @@ testModules
       const listKey = 'Test';
       const runner = setupTestRunner({
         config: apiTestConfig({
-          lists: {
+          schemaPpp: {
             [listKey]: list({
               fields: {
                 name: text(),

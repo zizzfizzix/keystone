@@ -100,7 +100,7 @@ const getCompanyAndLocation = async (
 
 const runner = setupTestRunner({
   config: apiTestConfig({
-    lists: {
+    schemaPpp: {
       Company: list({
         fields: {
           name: text(),

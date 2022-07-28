@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 import { graphql } from '..';
-import { BaseListTypeInfo } from './type-info';
+import { BaseSchemaCccTypeInfo } from './type-info';
 import { CommonFieldConfig } from './config';
 import { DatabaseProvider } from './core';
 import { AdminMetaRootVal, JSONValue, KeystoneContext, MaybePromise, StorageConfig } from '.';
@@ -9,17 +9,17 @@ export { Decimal };
 
 export type BaseItem = { id: { toString(): string }; [key: string]: unknown };
 
-export type ListGraphQLTypes = { types: GraphQLTypesForList };
+export type ListGraphQLTypes = { types: GraphQLTypesForSchemaCcc };
 
 export type FieldData = {
-  lists: Record<string, ListGraphQLTypes>;
+  schemaPpp: Record<string, ListGraphQLTypes>;
   provider: DatabaseProvider;
   getStorage: (storage: string) => StorageConfig | undefined;
-  listKey: string;
+  schemaCccKey: string;
   fieldKey: string;
 };
 
-export type FieldTypeFunc<ListTypeInfo extends BaseListTypeInfo> = (
+export type FieldTypeFunc<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = (
   data: FieldData
 ) => NextFieldType<
   DBField,
@@ -28,7 +28,7 @@ export type FieldTypeFunc<ListTypeInfo extends BaseListTypeInfo> = (
   graphql.Arg<graphql.NullableInputType, false>,
   graphql.Arg<graphql.NullableInputType, false>,
   graphql.Arg<graphql.NullableInputType, false>,
-  ListTypeInfo
+  SchemaCccTypeInfo
 >;
 
 export type NextFieldType<
@@ -49,7 +49,7 @@ export type NextFieldType<
     graphql.NullableInputType,
     false
   >,
-  ListTypeInfo extends BaseListTypeInfo = BaseListTypeInfo
+  SchemaCccTypeInfo extends BaseSchemaCccTypeInfo = BaseSchemaCccTypeInfo
 > = {
   dbField: TDBField;
 } & FieldTypeWithoutDBField<
@@ -59,7 +59,7 @@ export type NextFieldType<
   UniqueWhereArg,
   OrderByArg,
   FilterArg,
-  ListTypeInfo
+  SchemaCccTypeInfo
 >;
 
 type ScalarPrismaTypes = {
@@ -375,7 +375,7 @@ export type FieldTypeWithoutDBField<
     graphql.NullableInputType,
     false
   >,
-  ListTypeInfo extends BaseListTypeInfo = BaseListTypeInfo
+  SchemaCccTypeInfo extends BaseSchemaCccTypeInfo = BaseSchemaCccTypeInfo
 > = {
   input?: {
     uniqueWhere?: UniqueWhereFieldInputArg<DBFieldUniqueWhere<TDBField>, UniqueWhereArg>;
@@ -389,11 +389,11 @@ export type FieldTypeWithoutDBField<
   extraOutputFields?: Record<string, FieldTypeOutputField<TDBField>>;
   getAdminMeta?: (adminMeta: AdminMetaRootVal) => JSONValue;
   unreferencedConcreteInterfaceImplementations?: readonly graphql.ObjectType<any>[];
-} & CommonFieldConfig<ListTypeInfo>;
+} & CommonFieldConfig<SchemaCccTypeInfo>;
 
 type AnyInputObj = graphql.InputObjectType<Record<string, graphql.Arg<graphql.InputType, any>>>;
 
-export type GraphQLTypesForList = {
+export type GraphQLTypesForSchemaCcc = {
   update: AnyInputObj;
   create: AnyInputObj;
   uniqueWhere: AnyInputObj;
@@ -410,29 +410,35 @@ export type GraphQLTypesForList = {
       }>;
       create?: graphql.InputObjectType<{
         connect: graphql.Arg<
-          graphql.ListType<graphql.NonNullType<GraphQLTypesForList['uniqueWhere']>>
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaCcc['uniqueWhere']>>
         >;
-        create?: graphql.Arg<graphql.ListType<graphql.NonNullType<GraphQLTypesForList['create']>>>;
+        create?: graphql.Arg<
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaCcc['create']>>
+        >;
       }>;
       update?: graphql.InputObjectType<{
         disconnect: graphql.Arg<
-          graphql.ListType<graphql.NonNullType<GraphQLTypesForList['uniqueWhere']>>
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaCcc['uniqueWhere']>>
         >;
-        set: graphql.Arg<graphql.ListType<graphql.NonNullType<GraphQLTypesForList['uniqueWhere']>>>;
+        set: graphql.Arg<
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaCcc['uniqueWhere']>>
+        >;
         connect: graphql.Arg<
-          graphql.ListType<graphql.NonNullType<GraphQLTypesForList['uniqueWhere']>>
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaCcc['uniqueWhere']>>
         >;
-        create?: graphql.Arg<graphql.ListType<graphql.NonNullType<GraphQLTypesForList['create']>>>;
+        create?: graphql.Arg<
+          graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaCcc['create']>>
+        >;
       }>;
     };
     one: {
       create?: graphql.InputObjectType<{
-        create?: graphql.Arg<GraphQLTypesForList['create']>;
-        connect: graphql.Arg<GraphQLTypesForList['uniqueWhere']>;
+        create?: graphql.Arg<GraphQLTypesForSchemaCcc['create']>;
+        connect: graphql.Arg<GraphQLTypesForSchemaCcc['uniqueWhere']>;
       }>;
       update?: graphql.InputObjectType<{
-        create?: graphql.Arg<GraphQLTypesForList['create']>;
-        connect: graphql.Arg<GraphQLTypesForList['uniqueWhere']>;
+        create?: graphql.Arg<GraphQLTypesForSchemaCcc['create']>;
+        connect: graphql.Arg<GraphQLTypesForSchemaCcc['uniqueWhere']>;
         disconnect: graphql.Arg<typeof graphql.Boolean>;
       }>;
     };
@@ -440,9 +446,11 @@ export type GraphQLTypesForList = {
 };
 
 export type FindManyArgs = {
-  where: graphql.Arg<graphql.NonNullType<GraphQLTypesForList['where']>, true>;
+  where: graphql.Arg<graphql.NonNullType<GraphQLTypesForSchemaCcc['where']>, true>;
   orderBy: graphql.Arg<
-    graphql.NonNullType<graphql.ListType<graphql.NonNullType<GraphQLTypesForList['orderBy']>>>,
+    graphql.NonNullType<
+      graphql.ListType<graphql.NonNullType<GraphQLTypesForSchemaCcc['orderBy']>>
+    >,
     true
   >;
   take: graphql.Arg<typeof graphql.Int>;
@@ -452,9 +460,10 @@ export type FindManyArgs = {
 export type FindManyArgsValue = graphql.InferValueFromArgs<FindManyArgs>;
 
 // fieldType(dbField)(fieldInfo) => { ...fieldInfo, dbField };
-export function fieldType<TDBField extends DBField, ListTypeInfo extends BaseListTypeInfo>(
-  dbField: TDBField
-) {
+export function fieldType<
+  TDBField extends DBField,
+  SchemaCccTypeInfo extends BaseSchemaCccTypeInfo
+>(dbField: TDBField) {
   return function <
     CreateArg extends graphql.Arg<graphql.InputType> | undefined,
     UpdateArg extends graphql.Arg<graphql.InputType>,
@@ -477,7 +486,7 @@ export function fieldType<TDBField extends DBField, ListTypeInfo extends BaseLis
     UniqueWhereArg,
     OrderByArg,
     FilterArg,
-    ListTypeInfo
+    SchemaCccTypeInfo
   > {
     return { ...graphQLInfo, dbField };
   };

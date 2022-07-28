@@ -56,7 +56,7 @@ export default withAuth(
         }
       },
     },
-    lists: {
+    schemaPpp: {
       // Schema items go in here
       User,
       Product,

@@ -79,7 +79,7 @@ const createReadData = async (context: KeystoneContext) => {
 
 const runner = setupTestRunner({
   config: apiTestConfig({
-    lists: {
+    schemaPpp: {
       User: list({
         fields: {
           name: text(),

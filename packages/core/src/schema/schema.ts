@@ -3,13 +3,13 @@ import { mergeSchemas } from '@graphql-tools/schema';
 
 import type {
   BaseFields,
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   ExtendGraphqlSchema,
   GraphQLSchemaExtension,
   KeystoneConfig,
   KeystoneContext,
   BaseKeystoneTypeInfo,
-  ListConfig,
+  SchemaCccConfig,
 } from '../types';
 
 export function config<TypeInfo extends BaseKeystoneTypeInfo>(config: KeystoneConfig<TypeInfo>) {
@@ -17,9 +17,9 @@ export function config<TypeInfo extends BaseKeystoneTypeInfo>(config: KeystoneCo
 }
 
 export function list<
-  Fields extends BaseFields<ListTypeInfo>,
-  ListTypeInfo extends BaseListTypeInfo
->(config: ListConfig<ListTypeInfo, Fields>): ListConfig<ListTypeInfo, any> {
+  Fields extends BaseFields<SchemaCccTypeInfo>,
+  SchemaCccTypeInfo extends BaseSchemaCccTypeInfo
+>(config: SchemaCccConfig<SchemaCccTypeInfo, Fields>): SchemaCccConfig<SchemaCccTypeInfo, any> {
   return config;
 }
 

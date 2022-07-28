@@ -1,12 +1,15 @@
 import type { CacheHint } from 'apollo-server-types';
 import type { MaybePromise } from '../utils';
-import { BaseListTypeInfo } from '../type-info';
-import { KeystoneContextFromListTypeInfo } from '..';
-import type { ListHooks } from './hooks';
+import { BaseSchemaCccTypeInfo } from '../type-info';
+import { KeystoneContextFromSchemaCccTypeInfo } from '..';
+import type { SchemaCccHooks } from './hooks';
 import type { ListAccessControl } from './access-control';
 import type { BaseFields, FilterOrderArgs } from './fields';
 
-export type ListSchemaConfig = Record<string, ListConfig<any, BaseFields<BaseListTypeInfo>>>;
+export type SchemaConfig = Record<
+  string,
+  SchemaCccConfig<any, BaseFields<BaseSchemaCccTypeInfo>>
+>;
 
 export type IdFieldConfig =
   | { kind: 'cuid' | 'uuid' }
@@ -19,12 +22,12 @@ export type IdFieldConfig =
       type?: 'Int' | 'BigInt';
     };
 
-export type ListConfig<
-  ListTypeInfo extends BaseListTypeInfo,
-  Fields extends BaseFields<ListTypeInfo>
+export type SchemaCccConfig<
+  SchemaCccTypeInfo extends BaseSchemaCccTypeInfo,
+  Fields extends BaseFields<SchemaCccTypeInfo>
 > = {
   /*
-      A note on defaults: several options default based on the listKey, including label, path,
+      A note on defaults: several options default based on the schemaCccKey, including label, path,
       singular, plural, itemQueryName and listQueryName. All these options default independently, so
       changing the singular or plural will not change the label or queryName options (and vice-versa)
       Note from Mitchell: The above is incorrect based on Keystone's current implementation.
@@ -36,16 +39,16 @@ export type ListConfig<
    * @default true
    * @see https://www.keystonejs.com/guides/auth-and-access-control
    */
-  access?: ListAccessControl<ListTypeInfo>;
+  access?: ListAccessControl<SchemaCccTypeInfo>;
 
   /** Config for how this list should act in the Admin UI */
-  ui?: ListAdminUIConfig<ListTypeInfo, Fields>;
+  ui?: ListAdminUIConfig<SchemaCccTypeInfo, Fields>;
 
   /**
    * Hooks to modify the behaviour of GraphQL operations at certain points
    * @see https://www.keystonejs.com/guides/hooks
    */
-  hooks?: ListHooks<ListTypeInfo>;
+  hooks?: SchemaCccHooks<SchemaCccTypeInfo>;
 
   graphql?: ListGraphQLConfig;
 
@@ -57,13 +60,17 @@ export type ListConfig<
   description?: string; // defaults both { adminUI: { description }, graphQL: { description } }
 
   // Defaults to apply to all fields.
-  defaultIsFilterable?: false | ((args: FilterOrderArgs<ListTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.filter on all fields for this list
-  defaultIsOrderable?: false | ((args: FilterOrderArgs<ListTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.orderBy on all fields for this list
+  defaultIsFilterable?:
+    | false
+    | ((args: FilterOrderArgs<SchemaCccTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.filter on all fields for this list
+  defaultIsOrderable?:
+    | false
+    | ((args: FilterOrderArgs<SchemaCccTypeInfo>) => MaybePromise<boolean>); // The default value to use for graphql.isEnabled.orderBy on all fields for this list
 };
 
 export type ListAdminUIConfig<
-  ListTypeInfo extends BaseListTypeInfo,
-  Fields extends BaseFields<ListTypeInfo>
+  SchemaCccTypeInfo extends BaseSchemaCccTypeInfo,
+  Fields extends BaseFields<SchemaCccTypeInfo>
 > = {
   /**
    * The field to use as a label in the Admin UI. If you want to base the label off more than a single field, use a virtual field and reference that field here.
@@ -90,19 +97,19 @@ export type ListAdminUIConfig<
    * Excludes this list from the Admin UI
    * @default false
    */
-  isHidden?: MaybeSessionFunction<boolean, ListTypeInfo>;
+  isHidden?: MaybeSessionFunction<boolean, SchemaCccTypeInfo>;
   /**
    * Hides the create button in the Admin UI.
    * Note that this does **not** disable creating items through the GraphQL API, it only hides the button to create an item for this list in the Admin UI.
    * @default false
    */
-  hideCreate?: MaybeSessionFunction<boolean, ListTypeInfo>;
+  hideCreate?: MaybeSessionFunction<boolean, SchemaCccTypeInfo>;
   /**
    * Hides the delete button in the Admin UI.
    * Note that this does **not** disable deleting items through the GraphQL API, it only hides the button to delete an item for this list in the Admin UI.
    * @default false
    */
-  hideDelete?: MaybeSessionFunction<boolean, ListTypeInfo>;
+  hideDelete?: MaybeSessionFunction<boolean, SchemaCccTypeInfo>;
   /**
    * Configuration specific to the create view in the Admin UI
    */
@@ -112,7 +119,7 @@ export type ListAdminUIConfig<
      * Specific field modes on a per-field basis via a field's config.
      * @default 'edit'
      */
-    defaultFieldMode?: MaybeSessionFunction<'edit' | 'hidden', ListTypeInfo>;
+    defaultFieldMode?: MaybeSessionFunction<'edit' | 'hidden', SchemaCccTypeInfo>;
   };
 
   /**
@@ -125,7 +132,7 @@ export type ListAdminUIConfig<
      * Specific field modes on a per-field basis via a field's config.
      * @default 'edit'
      */
-    defaultFieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', ListTypeInfo>;
+    defaultFieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', SchemaCccTypeInfo>;
   };
 
   /**
@@ -137,7 +144,7 @@ export type ListAdminUIConfig<
      * Specific field modes on a per-field basis via a field's config.
      * @default 'read'
      */
-    defaultFieldMode?: MaybeSessionFunction<'read' | 'hidden', ListTypeInfo>;
+    defaultFieldMode?: MaybeSessionFunction<'read' | 'hidden', SchemaCccTypeInfo>;
     /**
      * The columns(which refer to fields) that should be shown to users of the Admin UI.
      * Users of the Admin UI can select different columns to show in the UI.
@@ -153,7 +160,7 @@ export type ListAdminUIConfig<
 
   /**
    * The label used to identify the list in navigation and etc.
-   * @default listKey.replace(/([a-z])([A-Z])/g, '$1 $2').split(/\s|_|\-/).filter(i => i).map(upcase).join(' ');
+   * @default schemaCccKey.replace(/([a-z])([A-Z])/g, '$1 $2').split(/\s|_|\-/).filter(i => i).map(upcase).join(' ');
    */
   label?: string;
 
@@ -184,20 +191,20 @@ export type ListAdminUIConfig<
 
 export type MaybeSessionFunction<
   T extends string | boolean,
-  ListTypeInfo extends BaseListTypeInfo
+  SchemaCccTypeInfo extends BaseSchemaCccTypeInfo
 > =
   | T
   | ((args: {
       session: any;
-      context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
+      context: KeystoneContextFromSchemaCccTypeInfo<SchemaCccTypeInfo>;
     }) => MaybePromise<T>);
 
-export type MaybeItemFunction<T, ListTypeInfo extends BaseListTypeInfo> =
+export type MaybeItemFunction<T, SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
   | T
   | ((args: {
       session: any;
-      context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
-      item: ListTypeInfo['item'];
+      context: KeystoneContextFromSchemaCccTypeInfo<SchemaCccTypeInfo>;
+      item: SchemaCccTypeInfo['item'];
     }) => MaybePromise<T>);
 
 export type ListGraphQLConfig = {

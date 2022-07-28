@@ -124,7 +124,7 @@ function getAuthenticatedItem(
       state: 'authenticated',
       id: data.authenticatedItem.id,
       label: data.authenticatedItem[labelField] || data.authenticatedItem.id,
-      listKey: data.authenticatedItem.__typename,
+      schemaCccKey: data.authenticatedItem.__typename,
     };
   }
 

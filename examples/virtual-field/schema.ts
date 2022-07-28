@@ -1,8 +1,8 @@
 import { list, graphql } from '@keystone-6/core';
 import { select, relationship, text, timestamp, virtual } from '@keystone-6/core/fields';
-import { Lists } from '.keystone/types';
+import { schemaPpp } from '.keystone/types';
 
-export const lists: Lists = {
+export const schemaPpp: schemaPpp = {
   Post: list({
     fields: {
       title: text({ validation: { isRequired: true } }),
@@ -97,9 +97,9 @@ export const lists: Lists = {
       posts: relationship({ ref: 'Post.author', many: true }),
       // A virtual field which returns a type derived from a Keystone list.
       latestPost: virtual({
-        field: lists =>
+        field: schemaPpp =>
           graphql.field({
-            type: lists.Post.types.output,
+            type: schema.Post.types.output,
             async resolve(item, args, context) {
               const { posts } = await context.query.Author.findOne({
                 where: { id: item.id.toString() },

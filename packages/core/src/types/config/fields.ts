@@ -1,31 +1,31 @@
 import { CacheHint } from 'apollo-server-types';
 import { FieldTypeFunc } from '../next-fields';
-import { BaseListTypeInfo } from '../type-info';
-import { KeystoneContextFromListTypeInfo, MaybePromise } from '..';
+import { BaseSchemaCccTypeInfo } from '../type-info';
+import { KeystoneContextFromSchemaCccTypeInfo, MaybePromise } from '..';
 import { MaybeItemFunction, MaybeSessionFunction } from './lists';
 import { FieldHooks } from './hooks';
 import { FieldAccessControl } from './access-control';
 
-export type BaseFields<ListTypeInfo extends BaseListTypeInfo> = {
-  [key: string]: FieldTypeFunc<ListTypeInfo>;
+export type BaseFields<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = {
+  [key: string]: FieldTypeFunc<SchemaCccTypeInfo>;
 };
 
-export type FilterOrderArgs<ListTypeInfo extends BaseListTypeInfo> = {
-  context: KeystoneContextFromListTypeInfo<ListTypeInfo>;
-  session: KeystoneContextFromListTypeInfo<ListTypeInfo>['session'];
-  listKey: string;
+export type FilterOrderArgs<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = {
+  context: KeystoneContextFromSchemaCccTypeInfo<SchemaCccTypeInfo>;
+  session: KeystoneContextFromSchemaCccTypeInfo<SchemaCccTypeInfo>['session'];
+  schemaCccKey: string;
   fieldKey: string;
 };
-export type CommonFieldConfig<ListTypeInfo extends BaseListTypeInfo> = {
-  access?: FieldAccessControl<ListTypeInfo>;
-  hooks?: FieldHooks<ListTypeInfo>;
+export type CommonFieldConfig<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = {
+  access?: FieldAccessControl<SchemaCccTypeInfo>;
+  hooks?: FieldHooks<SchemaCccTypeInfo>;
   label?: string;
   ui?: {
     description?: string;
     views?: string;
-    createView?: { fieldMode?: MaybeSessionFunction<'edit' | 'hidden', ListTypeInfo> };
-    itemView?: { fieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', ListTypeInfo> };
-    listView?: { fieldMode?: MaybeSessionFunction<'read' | 'hidden', ListTypeInfo> };
+    createView?: { fieldMode?: MaybeSessionFunction<'edit' | 'hidden', SchemaCccTypeInfo> };
+    itemView?: { fieldMode?: MaybeItemFunction<'edit' | 'read' | 'hidden', SchemaCccTypeInfo> };
+    listView?: { fieldMode?: MaybeSessionFunction<'read' | 'hidden', SchemaCccTypeInfo> };
   };
   graphql?: {
     cacheHint?: CacheHint;
@@ -42,6 +42,6 @@ export type CommonFieldConfig<ListTypeInfo extends BaseListTypeInfo> = {
     omit?: true | readonly ('read' | 'create' | 'update')[];
   };
   // Disabled by default...
-  isFilterable?: boolean | ((args: FilterOrderArgs<ListTypeInfo>) => MaybePromise<boolean>);
-  isOrderable?: boolean | ((args: FilterOrderArgs<ListTypeInfo>) => MaybePromise<boolean>);
+  isFilterable?: boolean | ((args: FilterOrderArgs<SchemaCccTypeInfo>) => MaybePromise<boolean>);
+  isOrderable?: boolean | ((args: FilterOrderArgs<SchemaCccTypeInfo>) => MaybePromise<boolean>);
 };

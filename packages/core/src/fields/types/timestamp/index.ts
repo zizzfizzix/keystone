@@ -1,6 +1,6 @@
 import { humanize } from '../../../lib/utils';
 import {
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   fieldType,
   FieldTypeFunc,
   CommonFieldConfig,
@@ -16,8 +16,8 @@ import {
 import { resolveView } from '../../resolve-view';
 import { TimestampFieldMeta } from './views';
 
-export type TimestampFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type TimestampFieldConfig<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
+  CommonFieldConfig<SchemaCccTypeInfo> & {
     isIndexed?: boolean | 'unique';
     validation?: {
       isRequired?: boolean;
@@ -35,19 +35,19 @@ export type TimestampFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
   };
 
 export const timestamp =
-  <ListTypeInfo extends BaseListTypeInfo>({
+  <SchemaCccTypeInfo extends BaseSchemaCccTypeInfo>({
     isIndexed,
     validation,
     defaultValue,
     ...config
-  }: TimestampFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
+  }: TimestampFieldConfig<SchemaCccTypeInfo> = {}): FieldTypeFunc<SchemaCccTypeInfo> =>
   meta => {
     if (typeof defaultValue === 'string') {
       try {
         graphql.DateTime.graphQLType.parseValue(defaultValue);
       } catch (err) {
         throw new Error(
-          `The timestamp field at ${meta.listKey}.${
+          `The timestamp field at ${meta.schemaCccKey}.${
             meta.fieldKey
           } specifies defaultValue: ${defaultValue} but values must be provided as a full ISO8601 date-time string such as ${new Date().toISOString()}`
         );

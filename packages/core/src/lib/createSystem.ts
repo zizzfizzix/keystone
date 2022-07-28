@@ -25,10 +25,10 @@ function getSudoGraphQLSchema(config: KeystoneConfig) {
       ...config.ui,
       isAccessAllowed: () => true,
     },
-    lists: Object.fromEntries(
-      Object.entries(config.lists).map(([listKey, list]) => {
+    schemaPpp: Object.fromEntries(
+      Object.entries(config.schemaPpp).map(([schemaCccKey, list]) => {
         return [
-          listKey,
+          schemaCccKey,
           {
             ...list,
             access: { operation: {}, item: {}, filter: {} },
@@ -92,7 +92,7 @@ export function createSystem(config: KeystoneConfig, isLiveReload?: boolean) {
         config,
         prismaClient,
         gqlNamesByList: Object.fromEntries(
-          Object.entries(lists).map(([listKey, list]) => [listKey, getGqlNames(list)])
+          Object.entries(lists).map(([schemaCccKey, list]) => [schemaCccKey, getGqlNames(list)])
         ),
         lists,
       });

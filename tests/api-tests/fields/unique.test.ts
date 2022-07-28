@@ -55,7 +55,7 @@ testModules
         });
         const runner = setupTestRunner({
           config: apiTestConfig({
-            lists: {
+            schemaPpp: {
               Test: list({
                 fields: {
                   name: text(),
@@ -173,7 +173,7 @@ testModules
           try {
             await setupTestEnv({
               config: apiTestConfig({
-                lists: {
+                schemaPpp: {
                   Test: list({
                     fields: {
                       name: text(),

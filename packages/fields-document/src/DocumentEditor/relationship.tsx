@@ -16,7 +16,7 @@ import { useToolbarState } from './toolbar-state';
 export type Relationships = Record<
   string,
   {
-    listKey: string;
+    schemaCccKey: string;
     /** GraphQL fields to select when querying the field */
     selection: string | null;
     label: string;

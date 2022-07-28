@@ -8,7 +8,7 @@ const runner = (enableLogging: boolean) =>
   setupTestRunner({
     config: apiTestConfig({
       db: { enableLogging },
-      lists: {
+      schemaPpp: {
         User: list({ fields: { name: text() } }),
       },
     }),

@@ -9,11 +9,11 @@ import { Fields } from '../../../../admin-ui/utils';
 import { PageContainer } from '../../../../admin-ui/components/PageContainer';
 import { useKeystone, useList } from '../../../../admin-ui';
 import { GraphQLErrorNotice } from '../../../../admin-ui/components';
-import { ListMeta } from '../../../../types';
+import { SchemaCccMeta } from '../../../../types';
 import { useCreateItem } from '../../../../admin-ui/utils/useCreateItem';
 import { BaseToolbar, ColumnLayout, ItemPageHeader } from '../ItemPage/common';
 
-function CreatePageForm(props: { list: ListMeta }) {
+function CreatePageForm(props: { list: SchemaCccMeta }) {
   const createItem = useCreateItem(props.list);
   const router = useRouter();
   return (
@@ -50,13 +50,13 @@ function CreatePageForm(props: { list: ListMeta }) {
   );
 }
 
-type CreateItemPageProps = { listKey: string };
+type CreateItemPageProps = { schemaCccKey: string };
 
 export const getCreateItemPage = (props: CreateItemPageProps) => () =>
   <CreateItemPage {...props} />;
 
 function CreateItemPage(props: CreateItemPageProps) {
-  const list = useList(props.listKey);
+  const list = useList(props.schemaCccKey);
   const { createViewFieldModes } = useKeystone();
 
   return (

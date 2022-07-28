@@ -3,7 +3,7 @@ import pluralize from 'pluralize';
 import { BaseItem, KeystoneConfig, KeystoneContext } from '../../types';
 import { humanize } from '../utils';
 import { prismaError } from './graphql-errors';
-import { InitialisedList } from './types-for-lists';
+import { InitialisedSchemaCcc } from './types-for-lists';
 import { PrismaFilter, UniquePrismaFilter } from './where-inputs';
 
 declare const prisma: unique symbol;
@@ -76,10 +76,10 @@ export type PrismaClient = {
 // Run prisma operations as part of a resolver
 export async function runWithPrisma<T>(
   context: KeystoneContext,
-  { listKey }: InitialisedList,
+  { schemaCccKey: schemaCccKey }: InitialisedSchemaCcc,
   fn: (model: PrismaModel) => Promise<T>
 ) {
-  const model = context.prisma[listKey[0].toLowerCase() + listKey.slice(1)];
+  const model = context.prisma[schemaCccKey[0].toLowerCase() + schemaCccKey.slice(1)];
   try {
     return await fn(model);
   } catch (err: any) {
@@ -120,17 +120,17 @@ export async function promiseAllRejectWithAllErrors<T extends unknown[]>(
 }
 
 export function getNamesFromList(
-  listKey: string,
+  schemaCccKey: string,
   { graphql, ui }: KeystoneConfig['lists'][string]
 ) {
-  const computedSingular = humanize(listKey);
+  const computedSingular = humanize(schemaCccKey);
   const computedPlural = pluralize.plural(computedSingular);
 
   const path = ui?.path || labelToPath(computedPlural);
 
   if (ui?.path !== undefined && !/^[a-z-_][a-z0-9-_]*$/.test(ui.path)) {
     throw new Error(
-      `ui.path for ${listKey} is ${ui.path} but it must only contain lowercase letters, numbers, dashes, and underscores and not start with a number`
+      `ui.path for ${schemaCccKey} is ${ui.path} but it must only contain lowercase letters, numbers, dashes, and underscores and not start with a number`
     );
   }
 
@@ -142,9 +142,9 @@ export function getNamesFromList(
   };
 
   const pluralGraphQLName = graphql?.plural || labelToClass(computedPlural);
-  if (pluralGraphQLName === listKey) {
+  if (pluralGraphQLName === schemaCccKey) {
     throw new Error(
-      `The list key and the plural name used in GraphQL must be different but the list key ${listKey} is the same as the plural GraphQL name, please specify graphql.plural`
+      `The list key and the plural name used in GraphQL must be different but the list key ${schemaCccKey} is the same as the plural GraphQL name, please specify graphql.plural`
     );
   }
   return { pluralGraphQLName, adminUILabels };

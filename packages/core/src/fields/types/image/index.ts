@@ -1,6 +1,6 @@
 import { FileUpload } from 'graphql-upload';
 import {
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   fieldType,
   FieldTypeFunc,
   CommonFieldConfig,
@@ -12,9 +12,9 @@ import { graphql } from '../../..';
 import { resolveView } from '../../resolve-view';
 import { SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 
-export type ImageFieldConfig<ListTypeInfo extends BaseListTypeInfo> = {
+export type ImageFieldConfig<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = {
   storage: string;
-} & CommonFieldConfig<ListTypeInfo>;
+} & CommonFieldConfig<SchemaCccTypeInfo>;
 
 const ImageExtensionEnum = graphql.enum({
   name: 'ImageExtension',
@@ -62,15 +62,15 @@ function isValidImageExtension(extension: string): extension is ImageExtension {
 }
 
 export const image =
-  <ListTypeInfo extends BaseListTypeInfo>(
-    config: ImageFieldConfig<ListTypeInfo>
-  ): FieldTypeFunc<ListTypeInfo> =>
+  <SchemaCccTypeInfo extends BaseSchemaCccTypeInfo>(
+    config: ImageFieldConfig<SchemaCccTypeInfo>
+  ): FieldTypeFunc<SchemaCccTypeInfo> =>
   meta => {
     const storage = meta.getStorage(config.storage);
 
     if (!storage) {
       throw new Error(
-        `${meta.listKey}.${meta.fieldKey} has storage set to ${config.storage}, but no storage configuration was found for that key`
+        `${meta.schemaCccKey}.${meta.fieldKey} has storage set to ${config.storage}, but no storage configuration was found for that key`
       );
     }
 

@@ -29,7 +29,7 @@ export type ResolvedDBField =
 type FieldsWithResolvedRelations = Record<string, ResolvedDBField>;
 
 type Rel = {
-  schemaCccKey: string;
+  listKey: string;
   fieldPath: string;
   field: RelationDBField<'many' | 'one'>;
 };
@@ -42,7 +42,7 @@ function sortRelationships(left: Rel, right: Rel): readonly [Rel, RelWithoutFore
   if (left.field.mode === 'one' && right.field.mode === 'one') {
     if (left.field.foreignKey !== undefined && right.field.foreignKey !== undefined) {
       throw new Error(
-        `You can only set db.foreignKey on one side of a one to one relationship, but foreignKey is set on both ${left.schemaCccKey}.${left.fieldPath} and ${right.schemaCccKey}.${right.fieldPath}`
+        `You can only set db.foreignKey on one side of a one to one relationship, but foreignKey is set on both ${left.listKey}.${left.fieldPath} and ${right.listKey}.${right.fieldPath}`
       );
     }
     if (left.field.foreignKey || right.field.foreignKey) {
@@ -57,7 +57,7 @@ function sortRelationships(left: Rel, right: Rel): readonly [Rel, RelWithoutFore
     // - for the one side, TypeScript will already disallow relationName
     if (rels[1].field.relationName !== undefined) {
       throw new Error(
-        `You can only set db.relationName on one side of a many to many relationship, but db.relationName is set on ${rels[1].schemaCccKey}.${rels[1].fieldPath} which is the many side of a many to one relationship with ${rels[0].schemaCccKey}.${rels[0].fieldPath}`
+        `You can only set db.relationName on one side of a many to many relationship, but db.relationName is set on ${rels[1].listKey}.${rels[1].fieldPath} which is the many side of a many to one relationship with ${rels[0].listKey}.${rels[0].fieldPath}`
       );
     }
     return rels;
@@ -69,12 +69,12 @@ function sortRelationships(left: Rel, right: Rel): readonly [Rel, RelWithoutFore
   ) {
     if (left.field.relationName !== undefined && right.field.relationName !== undefined) {
       throw new Error(
-        `You can only set db.relationName on one side of a many to many relationship, but db.relationName is set on both ${left.schemaCccKey}.${left.fieldPath} and ${right.schemaCccKey}.${right.fieldPath}`
+        `You can only set db.relationName on one side of a many to many relationship, but db.relationName is set on both ${left.listKey}.${left.fieldPath} and ${right.listKey}.${right.fieldPath}`
       );
     }
     return left.field.relationName !== undefined ? [left, right] : [right, left];
   }
-  const order = left.schemaCccKey.localeCompare(right.schemaCccKey);
+  const order = left.listKey.localeCompare(right.listKey);
   if (order > 0) {
     // left comes after right, so swap them.
     return [right, left];
@@ -99,10 +99,10 @@ export function resolveRelationships(
 ): ListsWithResolvedRelations {
   const alreadyResolvedTwoSidedRelationships = new Set<string>();
   const resolvedLists: Record<string, Record<string, ResolvedDBField>> = Object.fromEntries(
-    Object.keys(lists).map(schemaCccKey => [schemaCccKey, {}])
+    Object.keys(lists).map(listKey => [listKey, {}])
   );
-  for (const [schemaCccKey, fields] of Object.entries(lists)) {
-    const resolvedList = resolvedLists[schemaCccKey];
+  for (const [listKey, fields] of Object.entries(lists)) {
+    const resolvedList = resolvedLists[listKey];
     for (const [fieldPath, { dbField: field }] of Object.entries(fields.fields)) {
       if (field.kind !== 'relation') {
         resolvedList[fieldPath] = field;
@@ -111,11 +111,11 @@ export function resolveRelationships(
       const foreignUnresolvedList = lists[field.list];
       if (!foreignUnresolvedList) {
         throw new Error(
-          `The relationship field at ${schemaCccKey}.${fieldPath} points to the list ${schemaCccKey} which does not exist`
+          `The relationship field at ${listKey}.${fieldPath} points to the list ${listKey} which does not exist`
         );
       }
       if (field.field) {
-        const localRef = `${schemaCccKey}.${fieldPath}`;
+        const localRef = `${listKey}.${fieldPath}`;
         const foreignRef = `${field.list}.${field.field}`;
         if (alreadyResolvedTwoSidedRelationships.has(localRef)) {
           continue;
@@ -134,36 +134,36 @@ export function resolveRelationships(
           );
         }
 
-        if (foreignField.list !== schemaCccKey) {
+        if (foreignField.list !== listKey) {
           throw new Error(
-            `The relationship field at ${localRef} points to ${foreignRef} but ${foreignRef} points to the list ${foreignField.list} rather than ${schemaCccKey}`
+            `The relationship field at ${localRef} points to ${foreignRef} but ${foreignRef} points to the list ${foreignField.list} rather than ${listKey}`
           );
         }
 
         if (foreignField.field === undefined) {
           throw new Error(
-            `The relationship field at ${localRef} points to ${foreignRef}, ${localRef} points to ${schemaCccKey} correctly but does not point to the ${fieldPath} field when it should`
+            `The relationship field at ${localRef} points to ${foreignRef}, ${localRef} points to ${listKey} correctly but does not point to the ${fieldPath} field when it should`
           );
         }
 
         if (foreignField.field !== fieldPath) {
           throw new Error(
-            `The relationship field at ${localRef} points to ${foreignRef}, ${localRef} points to ${schemaCccKey} correctly but points to the ${foreignField.field} field instead of ${fieldPath}`
+            `The relationship field at ${localRef} points to ${foreignRef}, ${localRef} points to ${listKey} correctly but points to the ${foreignField.field} field instead of ${fieldPath}`
           );
         }
 
         let [leftRel, rightRel] = sortRelationships(
-          { schemaCccKey, fieldPath, field },
-          { schemaCccKey: field.list, fieldPath: field.field, field: foreignField }
+          { listKey, fieldPath, field },
+          { listKey: field.list, fieldPath: field.field, field: foreignField }
         );
 
         if (leftRel.field.mode === 'one' && rightRel.field.mode === 'one') {
-          const relationName = `${leftRel.schemaCccKey}_${leftRel.fieldPath}`;
-          resolvedLists[leftRel.schemaCccKey][leftRel.fieldPath] = {
+          const relationName = `${leftRel.listKey}_${leftRel.fieldPath}`;
+          resolvedLists[leftRel.listKey][leftRel.fieldPath] = {
             kind: 'relation',
             mode: 'one',
             field: rightRel.fieldPath,
-            list: rightRel.schemaCccKey,
+            list: rightRel.listKey,
             foreignIdField: {
               kind: 'owned-unique',
               map:
@@ -173,11 +173,11 @@ export function resolveRelationships(
             },
             relationName,
           };
-          resolvedLists[rightRel.schemaCccKey][rightRel.fieldPath] = {
+          resolvedLists[rightRel.listKey][rightRel.fieldPath] = {
             kind: 'relation',
             mode: 'one',
             field: leftRel.fieldPath,
-            list: leftRel.schemaCccKey,
+            list: leftRel.listKey,
             foreignIdField: { kind: 'none' },
             relationName,
           };
@@ -185,29 +185,29 @@ export function resolveRelationships(
         }
         if (leftRel.field.mode === 'many' && rightRel.field.mode === 'many') {
           const relationName =
-            leftRel.field.relationName ?? `${leftRel.schemaCccKey}_${leftRel.fieldPath}`;
-          resolvedLists[leftRel.schemaCccKey][leftRel.fieldPath] = {
+            leftRel.field.relationName ?? `${leftRel.listKey}_${leftRel.fieldPath}`;
+          resolvedLists[leftRel.listKey][leftRel.fieldPath] = {
             kind: 'relation',
             mode: 'many',
             field: rightRel.fieldPath,
-            list: rightRel.schemaCccKey,
+            list: rightRel.listKey,
             relationName,
           };
-          resolvedLists[rightRel.schemaCccKey][rightRel.fieldPath] = {
+          resolvedLists[rightRel.listKey][rightRel.fieldPath] = {
             kind: 'relation',
             mode: 'many',
             field: leftRel.fieldPath,
-            list: leftRel.schemaCccKey,
+            list: leftRel.listKey,
             relationName,
           };
           continue;
         }
-        const relationName = `${leftRel.schemaCccKey}_${leftRel.fieldPath}`;
-        resolvedLists[leftRel.schemaCccKey][leftRel.fieldPath] = {
+        const relationName = `${leftRel.listKey}_${leftRel.fieldPath}`;
+        resolvedLists[leftRel.listKey][leftRel.fieldPath] = {
           kind: 'relation',
           mode: 'one',
           field: rightRel.fieldPath,
-          list: rightRel.schemaCccKey,
+          list: rightRel.listKey,
           foreignIdField: {
             kind: 'owned',
             map:
@@ -217,28 +217,28 @@ export function resolveRelationships(
           },
           relationName,
         };
-        resolvedLists[rightRel.schemaCccKey][rightRel.fieldPath] = {
+        resolvedLists[rightRel.listKey][rightRel.fieldPath] = {
           kind: 'relation',
           mode: 'many',
           field: leftRel.fieldPath,
-          list: leftRel.schemaCccKey,
+          list: leftRel.listKey,
           relationName,
         };
         continue;
       }
-      const foreignFieldPath = `from_${schemaCccKey}_${fieldPath}`;
+      const foreignFieldPath = `from_${listKey}_${fieldPath}`;
       if (foreignUnresolvedList.fields[foreignFieldPath]) {
         throw new Error(
-          `The relationship field at ${schemaCccKey}.${fieldPath} points to the list ${field.list}, Keystone needs to a create a relationship field at ${field.list}.${foreignFieldPath} to support the relationship at ${schemaCccKey}.${fieldPath} but ${field.list} already has a field named ${foreignFieldPath}`
+          `The relationship field at ${listKey}.${fieldPath} points to the list ${field.list}, Keystone needs to a create a relationship field at ${field.list}.${foreignFieldPath} to support the relationship at ${listKey}.${fieldPath} but ${field.list} already has a field named ${foreignFieldPath}`
         );
       }
 
       if (field.mode === 'many') {
-        const relationName = field.relationName ?? `${schemaCccKey}_${fieldPath}`;
+        const relationName = field.relationName ?? `${listKey}_${fieldPath}`;
         resolvedLists[field.list][foreignFieldPath] = {
           kind: 'relation',
           mode: 'many',
-          list: schemaCccKey,
+          list: listKey,
           field: fieldPath,
           relationName,
         };
@@ -250,11 +250,11 @@ export function resolveRelationships(
           relationName,
         };
       } else {
-        const relationName = `${schemaCccKey}_${fieldPath}`;
+        const relationName = `${listKey}_${fieldPath}`;
         resolvedLists[field.list][foreignFieldPath] = {
           kind: 'relation',
           mode: 'many',
-          list: schemaCccKey,
+          list: listKey,
           field: fieldPath,
           relationName,
         };
@@ -277,18 +277,15 @@ export function resolveRelationships(
   // doesn't really change the behaviour of anything but it means that the order of the fields in the prisma schema will be
   // the same as the user provided
   return Object.fromEntries(
-    Object.entries(resolvedLists).map(([schemaCccKey, outOfOrderDbFields]) => {
+    Object.entries(resolvedLists).map(([listKey, outOfOrderDbFields]) => {
       // this adds the fields based on the order that the user passed in
       // (except it will not add the opposites to one-sided relations)
       const resolvedDbFields = Object.fromEntries(
-        Object.keys(lists[schemaCccKey].fields).map(fieldKey => [
-          fieldKey,
-          outOfOrderDbFields[fieldKey],
-        ])
+        Object.keys(lists[listKey].fields).map(fieldKey => [fieldKey, outOfOrderDbFields[fieldKey]])
       );
       // then we add the opposites to one-sided relations
       Object.assign(resolvedDbFields, outOfOrderDbFields);
-      return [schemaCccKey, resolvedDbFields];
+      return [listKey, resolvedDbFields];
     })
   );
 }

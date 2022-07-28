@@ -1,5 +1,5 @@
 import {
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   fieldType,
   FieldTypeFunc,
   CommonFieldConfig,
@@ -13,14 +13,14 @@ import { graphql } from '@keystone-6/core';
 // and a different input in the Admin UI
 // https://github.com/keystonejs/keystone/tree/main/packages/core/src/fields/types/integer
 
-export type StarsFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+export type StarsFieldConfig<ListTypeInfo extends BaseSchemaCccTypeInfo> =
   CommonFieldConfig<ListTypeInfo> & {
     isIndexed?: boolean | 'unique';
     maxStars?: number;
   };
 
 export const stars =
-  <ListTypeInfo extends BaseListTypeInfo>({
+  <ListTypeInfo extends BaseSchemaCccTypeInfo>({
     isIndexed,
     maxStars = 5,
     ...config

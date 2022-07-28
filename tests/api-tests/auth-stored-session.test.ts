@@ -36,7 +36,7 @@ function setup(options?: any) {
   return setupTestRunner({
     config: auth.withAuth(
       apiTestConfig({
-        lists: {
+        schemaPpp: {
           Post: list({
             fields: {
               title: text(),

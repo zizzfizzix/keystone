@@ -9,7 +9,7 @@ const runner = setupTestRunner({
     ui: {
       isAccessAllowed: () => false,
     },
-    lists: { User: list({ fields: { name: text() } }) },
+    schemaPpp: { User: list({ fields: { name: text() } }) },
   }),
 });
 
@@ -116,7 +116,7 @@ test(
 
   setupTestRunner({
     config: apiTestConfig({
-      lists: {
+      schemaPpp: {
         Test: list({
           fields: { name: text() },
           ui: names,

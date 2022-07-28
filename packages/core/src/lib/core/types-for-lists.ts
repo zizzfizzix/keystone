@@ -1,10 +1,10 @@
 import { CacheHint } from 'apollo-server-types';
 import {
   BaseItem,
-  GraphQLTypesForList,
+  GraphQLTypesForSchemaCcc,
   getGqlNames,
   NextFieldType,
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   ListGraphQLTypes,
   ListHooks,
   KeystoneConfig,
@@ -29,32 +29,32 @@ import { assertFieldsValid } from './field-assertions';
 export type InitialisedField = Omit<NextFieldType, 'dbField' | 'access' | 'graphql'> & {
   dbField: ResolvedDBField;
   access: ResolvedFieldAccessControl;
-  hooks: FieldHooks<BaseListTypeInfo>;
+  hooks: FieldHooks<BaseSchemaCccTypeInfo>;
   graphql: {
     isEnabled: {
       read: boolean;
       create: boolean;
       update: boolean;
-      filter: boolean | ((args: FilterOrderArgs<BaseListTypeInfo>) => MaybePromise<boolean>);
-      orderBy: boolean | ((args: FilterOrderArgs<BaseListTypeInfo>) => MaybePromise<boolean>);
+      filter: boolean | ((args: FilterOrderArgs<BaseSchemaCccTypeInfo>) => MaybePromise<boolean>);
+      orderBy: boolean | ((args: FilterOrderArgs<BaseSchemaCccTypeInfo>) => MaybePromise<boolean>);
     };
     cacheHint: CacheHint | undefined;
   };
 };
 
-export type InitialisedList = {
+export type InitialisedSchemaCcc = {
   fields: Record<string, InitialisedField>;
   /** This will include the opposites to one-sided relationships */
   resolvedDbFields: Record<string, ResolvedDBField>;
   pluralGraphQLName: string;
-  types: GraphQLTypesForList;
+  types: GraphQLTypesForSchemaCcc;
   access: ResolvedListAccessControl;
-  hooks: ListHooks<BaseListTypeInfo>;
+  hooks: ListHooks<BaseSchemaCccTypeInfo>;
   adminUILabels: { label: string; singular: string; plural: string; path: string };
   cacheHint: ((args: CacheHintArgs) => CacheHint) | undefined;
   maxResults: number;
-  listKey: string;
-  lists: Record<string, InitialisedList>;
+  schemaCccKey: string;
+  schemaCcc: Record<string, InitialisedSchemaCcc>;
   dbMap: string | undefined;
   graphql: {
     isEnabled: IsEnabled;
@@ -67,33 +67,33 @@ type IsEnabled = {
   create: boolean;
   update: boolean;
   delete: boolean;
-  filter: boolean | ((args: FilterOrderArgs<BaseListTypeInfo>) => MaybePromise<boolean>);
-  orderBy: boolean | ((args: FilterOrderArgs<BaseListTypeInfo>) => MaybePromise<boolean>);
+  filter: boolean | ((args: FilterOrderArgs<BaseSchemaCccTypeInfo>) => MaybePromise<boolean>);
+  orderBy: boolean | ((args: FilterOrderArgs<BaseSchemaCccTypeInfo>) => MaybePromise<boolean>);
 };
 
-function throwIfNotAFilter(x: unknown, listKey: string, fieldKey: string) {
+function throwIfNotAFilter(x: unknown, schemaCccKey: string, fieldKey: string) {
   if (['boolean', 'undefined', 'function'].includes(typeof x)) return;
 
   throw new Error(
-    `Configuration option '${listKey}.${fieldKey}' must be either a boolean value or a function. Received '${x}'.`
+    `Configuration option '${schemaCccKey}.${fieldKey}' must be either a boolean value or a function. Received '${x}'.`
   );
 }
 
-function getIsEnabled(listsConfig: KeystoneConfig['lists']) {
+function getIsEnabled(listsConfig: KeystoneConfig['schemaPpp']) {
   const isEnabled: Record<string, IsEnabled> = {};
 
-  for (const [listKey, listConfig] of Object.entries(listsConfig)) {
+  for (const [schemaCccKey, listConfig] of Object.entries(listsConfig)) {
     const omit = listConfig.graphql?.omit;
     const { defaultIsFilterable, defaultIsOrderable } = listConfig;
     if (!omit) {
       // We explicity check for boolean/function values here to ensure the dev hasn't made a mistake
       // when defining these values. We avoid duck-typing here as this is security related
       // and we want to make it hard to write incorrect code.
-      throwIfNotAFilter(defaultIsFilterable, listKey, 'defaultIsFilterable');
-      throwIfNotAFilter(defaultIsOrderable, listKey, 'defaultIsOrderable');
+      throwIfNotAFilter(defaultIsFilterable, schemaCccKey, 'defaultIsFilterable');
+      throwIfNotAFilter(defaultIsOrderable, schemaCccKey, 'defaultIsOrderable');
     }
     if (omit === true) {
-      isEnabled[listKey] = {
+      isEnabled[schemaCccKey] = {
         type: false,
         query: false,
         create: false,
@@ -103,7 +103,7 @@ function getIsEnabled(listsConfig: KeystoneConfig['lists']) {
         orderBy: false,
       };
     } else if (omit === undefined) {
-      isEnabled[listKey] = {
+      isEnabled[schemaCccKey] = {
         type: true,
         query: true,
         create: true,
@@ -113,7 +113,7 @@ function getIsEnabled(listsConfig: KeystoneConfig['lists']) {
         orderBy: defaultIsOrderable ?? true,
       };
     } else {
-      isEnabled[listKey] = {
+      isEnabled[schemaCccKey] = {
         type: true,
         query: !omit.includes('query'),
         create: !omit.includes('create'),
@@ -129,22 +129,24 @@ function getIsEnabled(listsConfig: KeystoneConfig['lists']) {
 }
 
 function getListsWithInitialisedFields(
-  { storage: configStorage, lists: listsConfig, db: { provider } }: KeystoneConfig,
+  { storage: configStorage, schemaPpp: listsConfig, db: { provider } }: KeystoneConfig,
   listGraphqlTypes: Record<string, ListGraphQLTypes>,
   intermediateLists: Record<string, { graphql: { isEnabled: IsEnabled } }>
 ) {
   return Object.fromEntries(
-    Object.entries(listsConfig).map(([listKey, list]) => [
-      listKey,
+    Object.entries(listsConfig).map(([schemaCccKey, list]) => [
+      schemaCccKey,
       {
         fields: Object.fromEntries(
           Object.entries(list.fields).map(([fieldKey, fieldFunc]) => {
             if (typeof fieldFunc !== 'function') {
-              throw new Error(`The field at ${listKey}.${fieldKey} does not provide a function`);
+              throw new Error(
+                `The field at ${schemaCccKey}.${fieldKey} does not provide a function`
+              );
             }
             const f = fieldFunc({
               fieldKey,
-              listKey,
+              schemaCccKey,
               lists: listGraphqlTypes,
               provider,
               getStorage: storage => configStorage?.[storage],
@@ -156,8 +158,8 @@ function getListsWithInitialisedFields(
             // We explicity check for boolean values here to ensure the dev hasn't made a mistake
             // when defining these values. We avoid duck-typing here as this is security related
             // and we want to make it hard to write incorrect code.
-            throwIfNotAFilter(f.isFilterable, listKey, 'isFilterable');
-            throwIfNotAFilter(f.isOrderable, listKey, 'isOrderable');
+            throwIfNotAFilter(f.isFilterable, schemaCccKey, 'isFilterable');
+            throwIfNotAFilter(f.isOrderable, schemaCccKey, 'isOrderable');
 
             const _isEnabled = {
               read,
@@ -166,9 +168,11 @@ function getListsWithInitialisedFields(
               // Filter and orderBy can be defaulted at the list level, otherwise they
               // default to `false` if no value was set at the list level.
               filter:
-                read && (f.isFilterable ?? intermediateLists[listKey].graphql.isEnabled.filter),
+                read &&
+                (f.isFilterable ?? intermediateLists[schemaCccKey].graphql.isEnabled.filter),
               orderBy:
-                read && (f.isOrderable ?? intermediateLists[listKey].graphql.isEnabled.orderBy),
+                read &&
+                (f.isOrderable ?? intermediateLists[schemaCccKey].graphql.isEnabled.orderBy),
             };
             const field = {
               ...f,
@@ -181,34 +185,34 @@ function getListsWithInitialisedFields(
             return [fieldKey, field];
           })
         ),
-        ...intermediateLists[listKey],
-        ...getNamesFromList(listKey, list),
+        ...intermediateLists[schemaCccKey],
+        ...getNamesFromList(schemaCccKey, list),
         hooks: list.hooks,
         access: parseListAccessControl(list.access),
         dbMap: list.db?.map,
-        types: listGraphqlTypes[listKey].types,
+        types: listGraphqlTypes[schemaCccKey].types,
       },
     ])
   );
 }
 
 function getListGraphqlTypes(
-  listsConfig: KeystoneConfig['lists'],
-  lists: Record<string, InitialisedList>,
+  listsConfig: KeystoneConfig['schemaPpp'],
+  lists: Record<string, InitialisedSchemaCcc>,
   intermediateLists: Record<string, { graphql: { isEnabled: IsEnabled } }>
 ): Record<string, ListGraphQLTypes> {
   const graphQLTypes: Record<string, ListGraphQLTypes> = {};
 
-  for (const [listKey, listConfig] of Object.entries(listsConfig)) {
+  for (const [schemaCccKey, listConfig] of Object.entries(listsConfig)) {
     const names = getGqlNames({
-      listKey,
-      pluralGraphQLName: getNamesFromList(listKey, listConfig).pluralGraphQLName,
+      schemaCccKey,
+      pluralGraphQLName: getNamesFromList(schemaCccKey, listConfig).pluralGraphQLName,
     });
 
     const output = graphql.object<BaseItem>()({
       name: names.outputTypeName,
       fields: () => {
-        const { fields } = lists[listKey];
+        const { fields } = lists[schemaCccKey];
         return {
           ...Object.fromEntries(
             Object.entries(fields).flatMap(([fieldPath, field]) => {
@@ -231,7 +235,7 @@ function getListGraphqlTypes(
                     field.dbField,
                     field.graphql?.cacheHint,
                     field.access.read,
-                    listKey,
+                    schemaCccKey,
                     fieldPath,
                     lists
                   ),
@@ -246,7 +250,7 @@ function getListGraphqlTypes(
     const uniqueWhere = graphql.inputObject({
       name: names.whereUniqueInputName,
       fields: () => {
-        const { fields } = lists[listKey];
+        const { fields } = lists[schemaCccKey];
         return Object.fromEntries(
           Object.entries(fields).flatMap(([key, field]) => {
             if (
@@ -262,10 +266,10 @@ function getListGraphqlTypes(
       },
     });
 
-    const where: GraphQLTypesForList['where'] = graphql.inputObject({
+    const where: GraphQLTypesForSchemaCcc['where'] = graphql.inputObject({
       name: names.whereInputName,
       fields: () => {
-        const { fields } = lists[listKey];
+        const { fields } = lists[schemaCccKey];
         return Object.assign(
           {
             AND: graphql.arg({ type: graphql.list(graphql.nonNull(where)) }),
@@ -285,7 +289,7 @@ function getListGraphqlTypes(
     const create = graphql.inputObject({
       name: names.createInputName,
       fields: () => {
-        const { fields } = lists[listKey];
+        const { fields } = lists[schemaCccKey];
         return Object.fromEntries(
           Object.entries(fields).flatMap(([key, field]) => {
             if (!field.input?.create?.arg || !field.graphql.isEnabled.create) return [];
@@ -298,7 +302,7 @@ function getListGraphqlTypes(
     const update = graphql.inputObject({
       name: names.updateInputName,
       fields: () => {
-        const { fields } = lists[listKey];
+        const { fields } = lists[schemaCccKey];
         return Object.fromEntries(
           Object.entries(fields).flatMap(([key, field]) => {
             if (!field.input?.update?.arg || !field.graphql.isEnabled.update) return [];
@@ -311,7 +315,7 @@ function getListGraphqlTypes(
     const orderBy = graphql.inputObject({
       name: names.listOrderName,
       fields: () => {
-        const { fields } = lists[listKey];
+        const { fields } = lists[schemaCccKey];
         return Object.fromEntries(
           Object.entries(fields).flatMap(([key, field]) => {
             if (
@@ -338,7 +342,7 @@ function getListGraphqlTypes(
       skip: graphql.arg({ type: graphql.nonNull(graphql.Int), defaultValue: 0 }),
     };
 
-    const isEnabled = intermediateLists[listKey].graphql.isEnabled;
+    const isEnabled = intermediateLists[schemaCccKey].graphql.isEnabled;
     let relateToManyForCreate, relateToManyForUpdate, relateToOneForCreate, relateToOneForUpdate;
     if (isEnabled.type) {
       relateToManyForCreate = graphql.inputObject({
@@ -395,7 +399,7 @@ function getListGraphqlTypes(
       });
     }
 
-    graphQLTypes[listKey] = {
+    graphQLTypes[schemaCccKey] = {
       types: {
         output,
         uniqueWhere,
@@ -407,7 +411,7 @@ function getListGraphqlTypes(
         relateTo: {
           many: {
             where: graphql.inputObject({
-              name: `${listKey}ManyRelationFilter`,
+              name: `${schemaCccKey}ManyRelationFilter`,
               fields: {
                 every: graphql.arg({ type: where }),
                 some: graphql.arg({ type: where }),
@@ -434,8 +438,8 @@ function getListGraphqlTypes(
  * 5. Handle relationships - ensure correct linking between two sides of all relationships (including one-sided relationships)
  * 6.
  */
-export function initialiseLists(config: KeystoneConfig): Record<string, InitialisedList> {
-  const listsConfig = config.lists;
+export function initialiseLists(config: KeystoneConfig): Record<string, InitialisedSchemaCcc> {
+  const listsConfig = config.schemaPpp;
 
   let intermediateLists;
   intermediateLists = Object.fromEntries(
@@ -451,7 +455,7 @@ export function initialiseLists(config: KeystoneConfig): Record<string, Initiali
    *
    * The object will be populated at the end of this function, and the reference will be maintained
    */
-  const listsRef: Record<string, InitialisedList> = {};
+  const listsRef: Record<string, InitialisedSchemaCcc> = {};
 
   {
     const listGraphqlTypes = getListGraphqlTypes(listsConfig, listsRef, intermediateLists);
@@ -461,22 +465,22 @@ export function initialiseLists(config: KeystoneConfig): Record<string, Initiali
   {
     const resolvedDBFieldsForLists = resolveRelationships(intermediateLists);
     intermediateLists = Object.fromEntries(
-      Object.entries(intermediateLists).map(([listKey, blah]) => [
-        listKey,
-        { ...blah, resolvedDbFields: resolvedDBFieldsForLists[listKey] },
+      Object.entries(intermediateLists).map(([schemaCccKey, blah]) => [
+        schemaCccKey,
+        { ...blah, resolvedDbFields: resolvedDBFieldsForLists[schemaCccKey] },
       ])
     );
   }
 
   intermediateLists = Object.fromEntries(
-    Object.entries(intermediateLists).map(([listKey, list]) => {
+    Object.entries(intermediateLists).map(([schemaCccKey, list]) => {
       const fields: Record<string, InitialisedField> = Object.fromEntries(
         Object.entries(list.fields).map(([fieldKey, field]) => [
           fieldKey,
           { ...field, dbField: list.resolvedDbFields[fieldKey] },
         ])
       );
-      return [listKey, { ...list, fields }];
+      return [schemaCccKey, { ...list, fields }];
     })
   );
 
@@ -505,26 +509,26 @@ export function initialiseLists(config: KeystoneConfig): Record<string, Initiali
   /*
     Error checking
     */
-  for (const [listKey, { fields }] of Object.entries(intermediateLists)) {
-    assertFieldsValid({ listKey, fields });
+  for (const [schemaCccKey, { fields }] of Object.entries(intermediateLists)) {
+    assertFieldsValid({ schemaCccKey, fields });
   }
 
-  for (const [listKey, intermediateList] of Object.entries(intermediateLists)) {
-    listsRef[listKey] = {
+  for (const [schemaCccKey, intermediateList] of Object.entries(intermediateLists)) {
+    listsRef[schemaCccKey] = {
       ...intermediateList,
       /** These properties weren't related to any of the above actions but need to be here */
       hooks: intermediateList.hooks || {},
       cacheHint: (() => {
-        const cacheHint = listsConfig[listKey].graphql?.cacheHint;
+        const cacheHint = listsConfig[schemaCccKey].graphql?.cacheHint;
         if (cacheHint === undefined) {
           return undefined;
         }
         return typeof cacheHint === 'function' ? cacheHint : () => cacheHint;
       })(),
-      maxResults: listsConfig[listKey].graphql?.queryLimits?.maxResults ?? Infinity,
-      listKey,
+      maxResults: listsConfig[schemaCccKey].graphql?.queryLimits?.maxResults ?? Infinity,
+      schemaCccKey: schemaCccKey,
       /** Add self-reference */
-      lists: listsRef,
+      schemaPpp: listsRef,
     };
   }
 

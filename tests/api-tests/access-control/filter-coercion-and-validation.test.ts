@@ -5,7 +5,7 @@ import { apiTestConfig, expectExtensionError } from '../utils';
 
 const runner = setupTestRunner({
   config: apiTestConfig({
-    lists: {
+    schemaPpp: {
       BadAccess: list({
         fields: { name: text() },
         access: {

@@ -1,8 +1,8 @@
 import { IncomingMessage } from 'http';
 import { Readable } from 'stream';
 import { GraphQLSchema, ExecutionResult, DocumentNode } from 'graphql';
-import { InitialisedList } from '../lib/core/types-for-lists';
-import { BaseListTypeInfo } from './type-info';
+import { InitialisedSchemaCcc } from '../lib/core/types-for-lists';
+import { BaseSchemaCccTypeInfo } from './type-info';
 import { GqlNames, BaseKeystoneTypeInfo } from '.';
 
 export type KeystoneContext<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystoneTypeInfo> = {
@@ -19,12 +19,12 @@ export type KeystoneContext<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystone
   totalResults: number;
   maxTotalResults: number;
   /** @deprecated */
-  gqlNames: (listKey: string) => GqlNames;
+  gqlNames: (schemaCccKey: string) => GqlNames;
   experimental?: {
     /** @deprecated This value is only available if you have config.experimental.contextInitialisedLists = true.
      * This is not a stable API and may contain breaking changes in `patch` level releases.
      */
-    initialisedLists: Record<string, InitialisedList>;
+    initialisedLists: Record<string, InitialisedSchemaCcc>;
   };
 } & Partial<SessionContext<any>>;
 
@@ -33,60 +33,61 @@ export type KeystoneContext<TypeInfo extends BaseKeystoneTypeInfo = BaseKeystone
 // TODO: Work out whether we can generate useful return types based on the GraphQL Query
 // passed to List API functions (see `readonly Record<string, any>` below)
 
-export type KeystoneListsAPI<KeystoneListsTypeInfo extends Record<string, BaseListTypeInfo>> = {
-  [Key in keyof KeystoneListsTypeInfo]: {
-    findMany(
-      args?: {
+export type KeystoneListsAPI<KeystoneListsTypeInfo extends Record<string, BaseSchemaCccTypeInfo>> =
+  {
+    [Key in keyof KeystoneListsTypeInfo]: {
+      findMany(
+        args?: {
+          readonly where?: KeystoneListsTypeInfo[Key]['inputs']['where'];
+          readonly take?: number;
+          readonly skip?: number;
+          readonly orderBy?:
+            | KeystoneListsTypeInfo[Key]['inputs']['orderBy']
+            | readonly KeystoneListsTypeInfo[Key]['inputs']['orderBy'][];
+        } & ResolveFields
+      ): Promise<readonly Record<string, any>[]>;
+      findOne(
+        args: {
+          readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
+        } & ResolveFields
+      ): Promise<Record<string, any>>;
+      count(args?: {
         readonly where?: KeystoneListsTypeInfo[Key]['inputs']['where'];
-        readonly take?: number;
-        readonly skip?: number;
-        readonly orderBy?:
-          | KeystoneListsTypeInfo[Key]['inputs']['orderBy']
-          | readonly KeystoneListsTypeInfo[Key]['inputs']['orderBy'][];
-      } & ResolveFields
-    ): Promise<readonly Record<string, any>[]>;
-    findOne(
-      args: {
-        readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
-      } & ResolveFields
-    ): Promise<Record<string, any>>;
-    count(args?: {
-      readonly where?: KeystoneListsTypeInfo[Key]['inputs']['where'];
-    }): Promise<number>;
-    updateOne(
-      args: {
-        readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
-        readonly data: KeystoneListsTypeInfo[Key]['inputs']['update'];
-      } & ResolveFields
-    ): Promise<Record<string, any>>;
-    updateMany(
-      args: {
-        readonly data: readonly {
+      }): Promise<number>;
+      updateOne(
+        args: {
           readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
           readonly data: KeystoneListsTypeInfo[Key]['inputs']['update'];
-        }[];
-      } & ResolveFields
-    ): Promise<Record<string, any>[]>;
-    createOne(
-      args: { readonly data: KeystoneListsTypeInfo[Key]['inputs']['create'] } & ResolveFields
-    ): Promise<Record<string, any>>;
-    createMany(
-      args: {
-        readonly data: readonly KeystoneListsTypeInfo[Key]['inputs']['create'][];
-      } & ResolveFields
-    ): Promise<Record<string, any>[]>;
-    deleteOne(
-      args: {
-        readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
-      } & ResolveFields
-    ): Promise<Record<string, any> | null>;
-    deleteMany(
-      args: {
-        readonly where: readonly KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'][];
-      } & ResolveFields
-    ): Promise<Record<string, any>[]>;
+        } & ResolveFields
+      ): Promise<Record<string, any>>;
+      updateMany(
+        args: {
+          readonly data: readonly {
+            readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
+            readonly data: KeystoneListsTypeInfo[Key]['inputs']['update'];
+          }[];
+        } & ResolveFields
+      ): Promise<Record<string, any>[]>;
+      createOne(
+        args: { readonly data: KeystoneListsTypeInfo[Key]['inputs']['create'] } & ResolveFields
+      ): Promise<Record<string, any>>;
+      createMany(
+        args: {
+          readonly data: readonly KeystoneListsTypeInfo[Key]['inputs']['create'][];
+        } & ResolveFields
+      ): Promise<Record<string, any>[]>;
+      deleteOne(
+        args: {
+          readonly where: KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'];
+        } & ResolveFields
+      ): Promise<Record<string, any> | null>;
+      deleteMany(
+        args: {
+          readonly where: readonly KeystoneListsTypeInfo[Key]['inputs']['uniqueWhere'][];
+        } & ResolveFields
+      ): Promise<Record<string, any>[]>;
+    };
   };
-};
 
 type ResolveFields = {
   /**
@@ -95,7 +96,7 @@ type ResolveFields = {
   readonly query?: string;
 };
 
-export type KeystoneDbAPI<KeystoneListsTypeInfo extends Record<string, BaseListTypeInfo>> = {
+export type KeystoneDbAPI<KeystoneListsTypeInfo extends Record<string, BaseSchemaCccTypeInfo>> = {
   [Key in keyof KeystoneListsTypeInfo]: {
     findMany(args?: {
       readonly where?: KeystoneListsTypeInfo[Key]['inputs']['where'];
@@ -155,7 +156,7 @@ export type SessionContext<T> = {
   // Note: session is typed like this to acknowledge the default session shape
   // if you're using keystone's built-in session implementation, but we don't
   // actually know what it will look like.
-  session?: { itemId: string; listKey: string; data?: Record<string, any> } | any;
+  session?: { itemId: string; schemaCccKey: string; data?: Record<string, any> } | any;
   startSession(data: T): Promise<string>;
   endSession(): Promise<void>;
 };

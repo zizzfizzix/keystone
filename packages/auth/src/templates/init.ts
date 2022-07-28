@@ -1,9 +1,9 @@
-import { BaseListTypeInfo } from '@keystone-6/core/types';
+import { BaseSchemaCccTypeInfo } from '@keystone-6/core/types';
 import { AuthConfig } from '../types';
 
 type InitTemplateArgs = {
   listKey: string;
-  initFirstItem: NonNullable<AuthConfig<BaseListTypeInfo>['initFirstItem']>;
+  initFirstItem: NonNullable<AuthConfig<BaseSchemaCccTypeInfo>['initFirstItem']>;
 };
 
 export const initTemplate = ({ listKey, initFirstItem }: InitTemplateArgs) => {

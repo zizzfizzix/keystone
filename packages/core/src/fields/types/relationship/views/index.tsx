@@ -13,7 +13,7 @@ import {
   FieldController,
   FieldControllerConfig,
   FieldProps,
-  ListMeta,
+  SchemaCccMeta,
 } from '../../../../types';
 import { Link } from '../../../../admin-ui/router';
 import { useKeystone, useList } from '../../../../admin-ui/context';
@@ -31,7 +31,7 @@ function LinkToRelatedItems({
 }: {
   itemId: string | null;
   value: FieldProps<typeof controller>['value'] & { kind: 'many' | 'one' };
-  list: ListMeta;
+  list: SchemaCccMeta;
   refFieldKey?: string;
 }) {
   function constructQuery({
@@ -81,8 +81,8 @@ export const Field = ({
   forceValidation,
 }: FieldProps<typeof controller>) => {
   const keystone = useKeystone();
-  const foreignList = useList(field.refListKey);
-  const localList = useList(field.listKey);
+  const foreignList = useList(field.refschemaCccKey);
+  const localList = useList(field.schemaCccKey);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   if (value.kind === 'cards-view') {
@@ -173,7 +173,7 @@ export const Field = ({
             )}
             {onChange !== undefined &&
               authenticatedItem.state === 'authenticated' &&
-              authenticatedItem.listKey === field.refListKey &&
+              authenticatedItem.schemaCccKey === field.refschemaCccKey &&
               (value.kind === 'many'
                 ? value.value.find(x => x.id === authenticatedItem.id) === undefined
                 : value.value?.id !== authenticatedItem.id) && (
@@ -216,7 +216,7 @@ export const Field = ({
         {onChange !== undefined && (
           <DrawerController isOpen={isDrawerOpen}>
             <CreateItemDrawer
-              listKey={foreignList.key}
+              schemaCccKey={foreignList.key}
               onClose={() => {
                 setIsDrawerOpen(false);
               }}
@@ -243,7 +243,7 @@ export const Field = ({
 };
 
 export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
-  const list = useList(field.refListKey);
+  const list = useList(field.refschemaCccKey);
   const { colors } = useTheme();
 
   if (field.display === 'count') {
@@ -284,7 +284,7 @@ export const Cell: CellComponent<typeof controller> = ({ field, item }) => {
 };
 
 export const CardValue: CardValueComponent<typeof controller> = ({ field, item }) => {
-  const list = useList(field.refListKey);
+  const list = useList(field.refschemaCccKey);
   const data = item[field.path];
   return (
     <FieldContainer>
@@ -343,8 +343,8 @@ type RelationshipController = FieldController<
   string
 > & {
   display: 'count' | 'cards-or-select';
-  listKey: string;
-  refListKey: string;
+  schemaCccKey: string;
+  refschemaCccKey: string;
   refFieldKey?: string;
   hideCreate: boolean;
   many: boolean;
@@ -354,7 +354,7 @@ export const controller = (
   config: FieldControllerConfig<
     {
       refFieldKey?: string;
-      refListKey: string;
+      refschemaCccKey: string;
       many: boolean;
       hideCreate: boolean;
     } & (
@@ -391,12 +391,12 @@ export const controller = (
   return {
     refFieldKey: config.fieldMeta.refFieldKey,
     many: config.fieldMeta.many,
-    listKey: config.listKey,
+    schemaCccKey: config.schemaCccKey,
     path: config.path,
     label: config.label,
     description: config.description,
     display: config.fieldMeta.displayMode === 'count' ? 'count' : 'cards-or-select',
-    refListKey: config.fieldMeta.refListKey,
+    refschemaCccKey: config.fieldMeta.refschemaCccKey,
     graphqlSelection:
       config.fieldMeta.displayMode === 'count'
         ? `${config.path}Count`
@@ -479,7 +479,7 @@ export const controller = (
     },
     filter: {
       Filter: ({ onChange, value }) => {
-        const foreignList = useList(config.fieldMeta.refListKey);
+        const foreignList = useList(config.fieldMeta.refschemaCccKey);
         const { filterValues, loading } = useRelationshipFilterValues({
           value,
           list: foreignList,
@@ -527,7 +527,7 @@ export const controller = (
         };
       },
       Label({ value }) {
-        const foreignList = useList(config.fieldMeta.refListKey);
+        const foreignList = useList(config.fieldMeta.refschemaCccKey);
         const { filterValues } = useRelationshipFilterValues({
           value,
           list: foreignList,
@@ -623,7 +623,7 @@ export const controller = (
   };
 };
 
-function useRelationshipFilterValues({ value, list }: { value: string; list: ListMeta }) {
+function useRelationshipFilterValues({ value, list }: { value: string; list: SchemaCccMeta }) {
   const foreignIds = getForeignIds(value);
   const where = { id: { in: foreignIds } };
 

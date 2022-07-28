@@ -1,13 +1,13 @@
 import { GraphQLString, isInputObjectType } from 'graphql';
 import { KeystoneConfig, AdminMetaRootVal, QueryMode } from '../../types';
 import { humanize } from '../../lib/utils';
-import { InitialisedList } from '../../lib/core/types-for-lists';
+import { InitialisedSchemaCcc } from '../../lib/core/types-for-lists';
 
 export function createAdminMeta(
   config: KeystoneConfig,
-  initialisedLists: Record<string, InitialisedList>
+  initialisedLists: Record<string, InitialisedSchemaCcc>
 ) {
-  const { ui, lists, session } = config;
+  const { ui, schemaPpp: lists, session } = config;
   const adminMetaRoot: AdminMetaRootVal = {
     enableSessionItem: ui?.enableSessionItem || false,
     enableSignout: session !== undefined,
@@ -90,7 +90,7 @@ export function createAdminMeta(
   // Populate .fields array
   for (const [key, list] of Object.entries(initialisedLists)) {
     if (omittedLists.includes(key)) continue;
-    const searchFields = new Set(config.lists[key].ui?.searchFields ?? []);
+    const searchFields = new Set(config.schemaPpp[key].ui?.searchFields ?? []);
     if (searchFields.has('id')) {
       throw new Error(
         `The ui.searchFields option on the ${key} list includes 'id'. Lists can always be searched by an item's id so it must not be specified as a search field`
@@ -109,7 +109,7 @@ export function createAdminMeta(
         );
       }
     }
-    if (config.lists[key].ui?.searchFields === undefined) {
+    if (config.schemaPpp[key].ui?.searchFields === undefined) {
       const labelField = adminMetaRoot.listsByKey[key].labelField;
       if (possibleSearchFields.has(labelField)) {
         searchFields.add(labelField);
@@ -135,7 +135,7 @@ export function createAdminMeta(
         customViewsIndex: field.ui?.views === undefined ? null : getViewId(field.ui.views),
         fieldMeta: null,
         path: fieldKey,
-        listKey: key,
+        schemaCccKey: key,
         search,
       });
     }

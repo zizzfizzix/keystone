@@ -48,13 +48,13 @@ const getRunner = ({
   fields,
 }: {
   storage: Record<string, StorageConfig>;
-  fields: KeystoneConfig['lists'][string]['fields'];
+  fields: KeystoneConfig['schemaPpp'][string]['fields'];
 }) =>
   setupTestRunner({
     config: apiTestConfig({
       db: {},
       storage,
-      lists: {
+      schemaPpp: {
         Test: list({
           fields: {
             name: text(),

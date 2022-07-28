@@ -14,7 +14,7 @@ const basicKeystoneConfig = {
   kind: 'config' as const,
   config: config({
     db: { provider: 'sqlite', url: 'file:./app.db' },
-    lists: {
+    schemaPpp: {
       Todo: list({
         fields: {
           title: text(),

@@ -10,7 +10,7 @@ import {
   introspectionTypes,
 } from 'graphql';
 import { getGqlNames } from '../types';
-import { InitialisedList } from './core/types-for-lists';
+import { InitialisedSchemaCcc } from './core/types-for-lists';
 
 const introspectionTypesSet = new Set(introspectionTypes);
 
@@ -77,7 +77,7 @@ function printInputTypesFromSchema(schema: GraphQLSchema, scalars: Record<string
 
 export function printGeneratedTypes(
   graphQLSchema: GraphQLSchema,
-  lists: Record<string, InitialisedList>
+  lists: Record<string, InitialisedSchemaCcc>
 ) {
   let scalars = {
     ID: 'string',
@@ -94,18 +94,18 @@ export function printGeneratedTypes(
   let allListsStr = '';
   let listsNamespaceStr = '\nexport declare namespace Lists {';
 
-  for (const [listKey, list] of Object.entries(lists)) {
+  for (const [schemaCccKey, list] of Object.entries(lists)) {
     const gqlNames = getGqlNames(list);
 
-    const listTypeInfoName = `Lists.${listKey}.TypeInfo`;
+    const SchemaCccTypeInfoName = `Lists.${schemaCccKey}.TypeInfo`;
 
-    allListsStr += `\n  readonly ${listKey}: ${listTypeInfoName};`;
+    allListsStr += `\n  readonly ${schemaCccKey}: ${SchemaCccTypeInfoName};`;
     listsNamespaceStr += `
-  export type ${listKey} = import('@keystone-6/core').ListConfig<${listTypeInfoName}, any>;
-  namespace ${listKey} {
-    export type Item = import('.prisma/client').${listKey};
+  export type ${schemaCccKey} = import('@keystone-6/core').ListConfig<${SchemaCccTypeInfoName}, any>;
+  namespace ${schemaCccKey} {
+    export type Item = import('.prisma/client').${schemaCccKey};
     export type TypeInfo = {
-      key: ${JSON.stringify(listKey)};
+      key: ${JSON.stringify(schemaCccKey)};
       fields: ${Object.keys(list.fields)
         .map(x => JSON.stringify(x))
         .join(' | ')}

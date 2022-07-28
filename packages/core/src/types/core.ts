@@ -39,34 +39,34 @@ export type GraphQLSchemaExtension<Context extends KeystoneContext> = {
 
 // TODO: don't duplicate this between here and packages/core/ListTypes/list.js
 export function getGqlNames({
-  listKey,
+  schemaCccKey,
   pluralGraphQLName,
 }: {
-  listKey: string;
+  schemaCccKey: string;
   pluralGraphQLName: string;
 }): GqlNames {
   const lowerPluralName = pluralGraphQLName.slice(0, 1).toLowerCase() + pluralGraphQLName.slice(1);
-  const lowerSingularName = listKey.slice(0, 1).toLowerCase() + listKey.slice(1);
+  const lowerSingularName = schemaCccKey.slice(0, 1).toLowerCase() + schemaCccKey.slice(1);
   return {
-    outputTypeName: listKey,
+    outputTypeName: schemaCccKey,
     itemQueryName: lowerSingularName,
     listQueryName: lowerPluralName,
     listQueryCountName: `${lowerPluralName}Count`,
-    listOrderName: `${listKey}OrderByInput`,
-    deleteMutationName: `delete${listKey}`,
-    updateMutationName: `update${listKey}`,
-    createMutationName: `create${listKey}`,
+    listOrderName: `${schemaCccKey}OrderByInput`,
+    deleteMutationName: `delete${schemaCccKey}`,
+    updateMutationName: `update${schemaCccKey}`,
+    createMutationName: `create${schemaCccKey}`,
     deleteManyMutationName: `delete${pluralGraphQLName}`,
     updateManyMutationName: `update${pluralGraphQLName}`,
     createManyMutationName: `create${pluralGraphQLName}`,
-    whereInputName: `${listKey}WhereInput`,
-    whereUniqueInputName: `${listKey}WhereUniqueInput`,
-    updateInputName: `${listKey}UpdateInput`,
-    createInputName: `${listKey}CreateInput`,
-    updateManyInputName: `${listKey}UpdateArgs`,
-    relateToManyForCreateInputName: `${listKey}RelateToManyForCreateInput`,
-    relateToManyForUpdateInputName: `${listKey}RelateToManyForUpdateInput`,
-    relateToOneForCreateInputName: `${listKey}RelateToOneForCreateInput`,
-    relateToOneForUpdateInputName: `${listKey}RelateToOneForUpdateInput`,
+    whereInputName: `${schemaCccKey}WhereInput`,
+    whereUniqueInputName: `${schemaCccKey}WhereUniqueInput`,
+    updateInputName: `${schemaCccKey}UpdateInput`,
+    createInputName: `${schemaCccKey}CreateInput`,
+    updateManyInputName: `${schemaCccKey}UpdateArgs`,
+    relateToManyForCreateInputName: `${schemaCccKey}RelateToManyForCreateInput`,
+    relateToManyForUpdateInputName: `${schemaCccKey}RelateToManyForUpdateInput`,
+    relateToOneForCreateInputName: `${schemaCccKey}RelateToOneForCreateInput`,
+    relateToOneForUpdateInputName: `${schemaCccKey}RelateToOneForUpdateInput`,
   };
 }

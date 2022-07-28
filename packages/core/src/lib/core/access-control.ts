@@ -1,6 +1,6 @@
 import { assertInputObjectType } from 'graphql';
 import {
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   CreateListItemAccessControl,
   FieldAccessControl,
   IndividualFieldAccessControl,
@@ -17,15 +17,15 @@ import {
 } from '../../types';
 import { coerceAndValidateForGraphQLInput } from '../coerceAndValidateForGraphQLInput';
 import { accessReturnError, extensionError } from './graphql-errors';
-import { InitialisedList } from './types-for-lists';
+import { InitialisedSchemaCcc } from './types-for-lists';
 import { InputFilter } from './where-inputs';
 
 export async function getOperationAccess(
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   operation: 'delete' | 'create' | 'update' | 'query'
 ) {
-  const args = { operation, session: context.session, listKey: list.listKey, context };
+  const args = { operation, session: context.session, schemaCccKey: list.schemaCccKey, context };
   // Check the mutation access
   const access = list.access.operation[operation];
   let result;
@@ -34,7 +34,7 @@ export async function getOperationAccess(
     result = await access(args);
   } catch (error: any) {
     throw extensionError('Access control', [
-      { error, tag: `${list.listKey}.access.operation.${args.operation}` },
+      { error, tag: `${list.schemaCccKey}.access.operation.${args.operation}` },
     ]);
   }
 
@@ -44,7 +44,7 @@ export async function getOperationAccess(
   // has accidentally tried to return a filter.
   if (resultType !== 'boolean') {
     throw accessReturnError([
-      { tag: `${args.listKey}.access.operation.${args.operation}`, returned: resultType },
+      { tag: `${args.schemaCccKey}.access.operation.${args.operation}`, returned: resultType },
     ]);
   }
 
@@ -52,11 +52,11 @@ export async function getOperationAccess(
 }
 
 export async function getAccessFilters(
-  list: InitialisedList,
+  list: InitialisedSchemaCcc,
   context: KeystoneContext,
   operation: 'update' | 'query' | 'delete'
 ): Promise<boolean | InputFilter> {
-  const args = { operation, session: context.session, listKey: list.listKey, context };
+  const args = { operation, session: context.session, schemaCccKey: list.schemaCccKey, context };
   // Check the mutation access
   const access = list.access.filter[operation];
   try {
@@ -74,13 +74,13 @@ export async function getAccessFilters(
     throw result.error;
   } catch (error: any) {
     throw extensionError('Access control', [
-      { error, tag: `${args.listKey}.access.filter.${args.operation}` },
+      { error, tag: `${args.schemaCccKey}.access.filter.${args.operation}` },
     ]);
   }
 }
 
 export function parseFieldAccessControl(
-  access: FieldAccessControl<BaseListTypeInfo> | undefined
+  access: FieldAccessControl<BaseSchemaCccTypeInfo> | undefined
 ): ResolvedFieldAccessControl {
   if (typeof access === 'boolean' || typeof access === 'function') {
     return { read: access, create: access, update: access };
@@ -95,13 +95,13 @@ export function parseFieldAccessControl(
 }
 
 export type ResolvedFieldAccessControl = {
-  read: IndividualFieldAccessControl<FieldReadItemAccessArgs<BaseListTypeInfo>>;
-  create: IndividualFieldAccessControl<FieldCreateItemAccessArgs<BaseListTypeInfo>>;
-  update: IndividualFieldAccessControl<FieldUpdateItemAccessArgs<BaseListTypeInfo>>;
+  read: IndividualFieldAccessControl<FieldReadItemAccessArgs<BaseSchemaCccTypeInfo>>;
+  create: IndividualFieldAccessControl<FieldCreateItemAccessArgs<BaseSchemaCccTypeInfo>>;
+  update: IndividualFieldAccessControl<FieldUpdateItemAccessArgs<BaseSchemaCccTypeInfo>>;
 };
 
 export function parseListAccessControl(
-  access: ListAccessControl<BaseListTypeInfo> | undefined
+  access: ListAccessControl<BaseSchemaCccTypeInfo> | undefined
 ): ResolvedListAccessControl {
   let item, filter, operation;
 
@@ -151,21 +151,21 @@ export function parseListAccessControl(
 
 export type ResolvedListAccessControl = {
   operation: {
-    create: ListOperationAccessControl<'create', BaseListTypeInfo>;
-    query: ListOperationAccessControl<'query', BaseListTypeInfo>;
-    update: ListOperationAccessControl<'update', BaseListTypeInfo>;
-    delete: ListOperationAccessControl<'delete', BaseListTypeInfo>;
+    create: ListOperationAccessControl<'create', BaseSchemaCccTypeInfo>;
+    query: ListOperationAccessControl<'query', BaseSchemaCccTypeInfo>;
+    update: ListOperationAccessControl<'update', BaseSchemaCccTypeInfo>;
+    delete: ListOperationAccessControl<'delete', BaseSchemaCccTypeInfo>;
   };
   filter: {
     // create: not supported
-    query: ListFilterAccessControl<'query', BaseListTypeInfo>;
-    update: ListFilterAccessControl<'update', BaseListTypeInfo>;
-    delete: ListFilterAccessControl<'delete', BaseListTypeInfo>;
+    query: ListFilterAccessControl<'query', BaseSchemaCccTypeInfo>;
+    update: ListFilterAccessControl<'update', BaseSchemaCccTypeInfo>;
+    delete: ListFilterAccessControl<'delete', BaseSchemaCccTypeInfo>;
   };
   item: {
-    create: CreateListItemAccessControl<BaseListTypeInfo>;
+    create: CreateListItemAccessControl<BaseSchemaCccTypeInfo>;
     // query: not supported
-    update: UpdateListItemAccessControl<BaseListTypeInfo>;
-    delete: DeleteListItemAccessControl<BaseListTypeInfo>;
+    update: UpdateListItemAccessControl<BaseSchemaCccTypeInfo>;
+    delete: DeleteListItemAccessControl<BaseSchemaCccTypeInfo>;
   };
 };

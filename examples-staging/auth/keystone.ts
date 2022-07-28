@@ -63,7 +63,7 @@ export default withAuth(
       provider: 'sqlite',
       url: process.env.DATABASE_URL || 'file:./keystone-example.db',
     },
-    lists,
+    schemaPpp: lists,
     ui: {},
     session:
       // Stateless sessions will store the listKey and itemId of the signed-in user in a cookie

@@ -1,20 +1,22 @@
-import { KeystoneContext, GraphQLTypesForList } from '../../../types';
+import { KeystoneContext, GraphQLTypesForSchemaCcc } from '../../../types';
 import { graphql } from '../../..';
-import { InitialisedList } from '../types-for-lists';
+import { InitialisedSchemaCcc } from '../types-for-lists';
 import { userInputError } from '../graphql-errors';
 import { NestedMutationState } from './create-update';
 import { checkUniqueItemExists } from './access-control';
 
 type _CreateValueType = Exclude<
   graphql.InferValueFromArg<
-    graphql.Arg<Exclude<GraphQLTypesForList['relateTo']['one']['create'], undefined>>
+    graphql.Arg<Exclude<GraphQLTypesForSchemaCcc['relateTo']['one']['create'], undefined>>
   >,
   null | undefined
 >;
 type _UpdateValueType = Exclude<
   graphql.InferValueFromArg<
     graphql.Arg<
-      graphql.NonNullType<Exclude<GraphQLTypesForList['relateTo']['one']['update'], undefined>>
+      graphql.NonNullType<
+        Exclude<GraphQLTypesForSchemaCcc['relateTo']['one']['update'], undefined>
+      >
     >
   >,
   null | undefined
@@ -24,7 +26,7 @@ async function handleCreateAndUpdate(
   value: _CreateValueType,
   nestedMutationState: NestedMutationState,
   context: KeystoneContext,
-  foreignList: InitialisedList
+  foreignList: InitialisedSchemaCcc
 ) {
   if (value.connect) {
     return { connect: await checkUniqueItemExists(value.connect, foreignList, context, 'connect') };
@@ -37,7 +39,7 @@ async function handleCreateAndUpdate(
 export function resolveRelateToOneForCreateInput(
   nestedMutationState: NestedMutationState,
   context: KeystoneContext,
-  foreignList: InitialisedList
+  foreignList: InitialisedSchemaCcc
 ) {
   return async (value: _CreateValueType) => {
     const numOfKeys = Object.keys(value).length;
@@ -53,7 +55,7 @@ export function resolveRelateToOneForCreateInput(
 export function resolveRelateToOneForUpdateInput(
   nestedMutationState: NestedMutationState,
   context: KeystoneContext,
-  foreignList: InitialisedList
+  foreignList: InitialisedSchemaCcc
 ) {
   return async (value: _UpdateValueType) => {
     if (Object.keys(value).length !== 1) {

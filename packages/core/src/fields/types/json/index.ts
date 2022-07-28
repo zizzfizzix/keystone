@@ -1,5 +1,5 @@
 import {
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   JSONValue,
   FieldTypeFunc,
   CommonFieldConfig,
@@ -8,17 +8,17 @@ import {
 import { graphql } from '../../..';
 import { resolveView } from '../../resolve-view';
 
-export type JsonFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+export type JsonFieldConfig<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
+  CommonFieldConfig<SchemaCccTypeInfo> & {
     defaultValue?: JSONValue;
     db?: { map?: string };
   };
 
 export const json =
-  <ListTypeInfo extends BaseListTypeInfo>({
+  <SchemaCccTypeInfo extends BaseSchemaCccTypeInfo>({
     defaultValue = null,
     ...config
-  }: JsonFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
+  }: JsonFieldConfig<SchemaCccTypeInfo> = {}): FieldTypeFunc<SchemaCccTypeInfo> =>
   meta => {
     if ((config as any).isIndexed === 'unique') {
       throw Error("isIndexed: 'unique' is not a supported option for field type json");

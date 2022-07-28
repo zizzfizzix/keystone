@@ -11,7 +11,7 @@ import { LoadingDots } from '@keystone-ui/loading';
 import { AlertDialog } from '@keystone-ui/modals';
 import { useToasts } from '@keystone-ui/toast';
 
-import { ListMeta } from '../../../../types';
+import { SchemaCccMeta } from '../../../../types';
 import {
   getRootGraphQLFieldsFromFieldController,
   DataGetter,
@@ -32,7 +32,7 @@ import { useFilters } from './useFilters';
 import { useSelectedFields } from './useSelectedFields';
 import { useSort } from './useSort';
 
-type ListPageProps = { listKey: string };
+type ListPageProps = { schemaCccKey: string };
 
 type FetchedFieldMeta = {
   path: string;
@@ -53,12 +53,12 @@ let listMetaGraphqlQuery: TypedDocumentNode<
       };
     };
   },
-  { listKey: string }
+  { schemaCccKey: string }
 > = gql`
-  query ($listKey: String!) {
+  query ($schemaCccKey: String!) {
     keystone {
       adminMeta {
-        list(key: $listKey) {
+        list(key: $schemaCccKey) {
           hideDelete
           hideCreate
           fields {
@@ -77,9 +77,9 @@ let listMetaGraphqlQuery: TypedDocumentNode<
 
 const storeableQueries = ['sortBy', 'fields'];
 
-function useQueryParamsFromLocalStorage(listKey: string) {
+function useQueryParamsFromLocalStorage(schemaCccKey: string) {
   const router = useRouter();
-  const localStorageKey = `keystone.list.${listKey}.list.page.info`;
+  const localStorageKey = `keystone.list.${schemaCccKey}.list.page.info`;
 
   const resetToDefaults = () => {
     localStorage.removeItem(localStorageKey);
@@ -127,12 +127,12 @@ function useQueryParamsFromLocalStorage(listKey: string) {
 
 export const getListPage = (props: ListPageProps) => () => <ListPage {...props} />;
 
-const ListPage = ({ listKey }: ListPageProps) => {
-  const list = useList(listKey);
+const ListPage = ({ schemaCccKey }: ListPageProps) => {
+  const list = useList(schemaCccKey);
 
   const { query } = useRouter();
 
-  const { resetToDefaults } = useQueryParamsFromLocalStorage(listKey);
+  const { resetToDefaults } = useQueryParamsFromLocalStorage(schemaCccKey);
 
   let currentPage =
     typeof query.page === 'string' && !Number.isNaN(parseInt(query.page)) ? Number(query.page) : 1;
@@ -141,7 +141,7 @@ const ListPage = ({ listKey }: ListPageProps) => {
       ? parseInt(query.pageSize)
       : list.pageSize;
 
-  let metaQuery = useQuery(listMetaGraphqlQuery, { variables: { listKey } });
+  let metaQuery = useQuery(listMetaGraphqlQuery, { variables: { schemaCccKey } });
 
   let { listViewFieldModesByField, filterableFields, orderableFields } = useMemo(() => {
     const listViewFieldModesByField: Record<string, 'read' | 'hidden'> = {};
@@ -241,7 +241,7 @@ const ListPage = ({ listKey }: ListPageProps) => {
   const showCreate = !(metaQuery.data?.keystone.adminMeta.list?.hideCreate ?? true) || null;
 
   return (
-    <PageContainer header={<ListPageHeader listKey={listKey} />} title={list.label}>
+    <PageContainer header={<ListPageHeader schemaCccKey={schemaCccKey} />} title={list.label}>
       {metaQuery.error ? (
         // TODO: Show errors nicely and with information
         'Error...'
@@ -251,9 +251,9 @@ const ListPage = ({ listKey }: ListPageProps) => {
             <p css={{ marginTop: '24px', maxWidth: '704px' }}>{list.description}</p>
           )}
           <Stack across gap="medium" align="center" marginTop="xlarge">
-            {showCreate && <CreateButton listKey={listKey} />}
+            {showCreate && <CreateButton schemaCccKey={schemaCccKey} />}
             {data.count || filters.filters.length ? (
-              <FilterAdd listKey={listKey} filterableFields={filterableFields} />
+              <FilterAdd schemaCccKey={schemaCccKey} filterableFields={filterableFields} />
             ) : null}
             {filters.filters.length ? <FilterList filters={filters.filters} list={list} /> : null}
             {Boolean(filters.filters.length || query.sortBy || query.fields) && (
@@ -310,7 +310,7 @@ const ListPage = ({ listKey }: ListPageProps) => {
                 count={data.count}
                 currentPage={currentPage}
                 itemsGetter={dataGetter.get('items')}
-                listKey={listKey}
+                schemaCccKey={schemaCccKey}
                 pageSize={pageSize}
                 selectedFields={selectedFields}
                 sort={sort}
@@ -337,8 +337,8 @@ const ListPage = ({ listKey }: ListPageProps) => {
   );
 };
 
-const CreateButton = ({ listKey }: { listKey: string }) => {
-  const list = useList(listKey);
+const CreateButton = ({ schemaCccKey }: { schemaCccKey: string }) => {
+  const list = useList(schemaCccKey);
 
   return (
     <Fragment>
@@ -361,8 +361,8 @@ const CreateButton = ({ listKey }: { listKey: string }) => {
   );
 };
 
-const ListPageHeader = ({ listKey }: { listKey: string }) => {
-  const list = useList(listKey);
+const ListPageHeader = ({ schemaCccKey }: { schemaCccKey: string }) => {
+  const list = useList(schemaCccKey);
   return (
     <Fragment>
       <div
@@ -374,7 +374,7 @@ const ListPageHeader = ({ listKey }: { listKey: string }) => {
         }}
       >
         <Heading type="h3">{list.label}</Heading>
-        {/* <CreateButton listKey={listKey} /> */}
+        {/* <CreateButton schemaCccKey={schemaCccKey} /> */}
       </div>
     </Fragment>
   );
@@ -421,7 +421,7 @@ function DeleteManyButton({
   refetch,
 }: {
   selectedItems: ReadonlySet<string>;
-  list: ListMeta;
+  list: SchemaCccMeta;
   refetch: () => void;
 }) {
   const [deleteItems, deleteItemsState] = useMutation(
@@ -549,7 +549,7 @@ function DeleteManyButton({
 
 function ListTable({
   selectedFields,
-  listKey,
+  schemaCccKey,
   itemsGetter,
   count,
   sort,
@@ -560,7 +560,7 @@ function ListTable({
   orderableFields,
 }: {
   selectedFields: ReturnType<typeof useSelectedFields>;
-  listKey: string;
+  schemaCccKey: string;
   itemsGetter: DataGetter<DeepNullable<{ id: string; [key: string]: any }[]>>;
   count: number;
   sort: { field: string; direction: 'ASC' | 'DESC' } | null;
@@ -570,7 +570,7 @@ function ListTable({
   onSelectedItemsChange(selectedItems: ReadonlySet<string>): void;
   orderableFields: Set<string>;
 }) {
-  const list = useList(listKey);
+  const list = useList(schemaCccKey);
   const { query } = useRouter();
   const shouldShowLinkIcon =
     !list.fields[selectedFields.keys().next().value].views.Cell.supportsLinkTo;

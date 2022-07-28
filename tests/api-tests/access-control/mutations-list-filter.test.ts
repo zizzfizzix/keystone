@@ -5,7 +5,7 @@ import { apiTestConfig, expectAccessDenied } from '../utils';
 
 const runner = setupTestRunner({
   config: apiTestConfig({
-    lists: {
+    schemaPpp: {
       // Filter access control
       User: list({
         fields: { name: text() },

@@ -70,11 +70,11 @@ export type StaticAdminMetaQuery = {
       __typename: 'KeystoneAdminMeta';
       enableSignout: boolean;
       enableSessionItem: boolean;
-      lists: Array<{
+      schemaPpp: Array<{
         __typename: 'KeystoneAdminUIListMeta';
         key: string;
         itemQueryName: string;
-        listQueryName: string;
+        schemaCccQueryName: string;
         path: string;
         label: string;
         singular: string;

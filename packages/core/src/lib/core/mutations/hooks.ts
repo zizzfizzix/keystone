@@ -14,7 +14,7 @@ export async function runSideEffectOnlyHook<
     hooks: {
       [Key in HookName]?: (args: any) => Promise<void> | void;
     };
-    listKey: string;
+    schemaCccKey: string;
   },
   Args extends Parameters<NonNullable<List['hooks'][HookName]>>[0]
 >(list: List, hookName: HookName, args: Args) {
@@ -39,7 +39,7 @@ export async function runSideEffectOnlyHook<
         try {
           await field.hooks[hookName]?.({ fieldKey, ...args });
         } catch (error: any) {
-          fieldsErrors.push({ error, tag: `${list.listKey}.${fieldKey}.hooks.${hookName}` });
+          fieldsErrors.push({ error, tag: `${list.schemaCccKey}.${fieldKey}.hooks.${hookName}` });
         }
       }
     })
@@ -53,6 +53,6 @@ export async function runSideEffectOnlyHook<
   try {
     await list.hooks[hookName]?.(args);
   } catch (error: any) {
-    throw extensionError(hookName, [{ error, tag: `${list.listKey}.hooks.${hookName}` }]);
+    throw extensionError(hookName, [{ error, tag: `${list.schemaCccKey}.hooks.${hookName}` }]);
   }
 }

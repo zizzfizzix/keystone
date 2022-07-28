@@ -3,16 +3,16 @@ import {
   fieldType,
   FieldTypeFunc,
   CommonFieldConfig,
-  BaseListTypeInfo,
+  BaseSchemaCccTypeInfo,
   KeystoneContext,
   FileMetadata,
 } from '../../../types';
 import { graphql } from '../../..';
 import { resolveView } from '../../resolve-view';
 
-export type FileFieldConfig<ListTypeInfo extends BaseListTypeInfo> = {
+export type FileFieldConfig<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = {
   storage: string;
-} & CommonFieldConfig<ListTypeInfo>;
+} & CommonFieldConfig<SchemaCccTypeInfo>;
 
 const FileFieldInput = graphql.inputObject({
   name: 'FileFieldInput',
@@ -46,15 +46,15 @@ async function inputResolver(storage: string, data: FileFieldInputType, context:
 }
 
 export const file =
-  <ListTypeInfo extends BaseListTypeInfo>(
-    config: FileFieldConfig<ListTypeInfo>
-  ): FieldTypeFunc<ListTypeInfo> =>
+  <SchemaCccTypeInfo extends BaseSchemaCccTypeInfo>(
+    config: FileFieldConfig<SchemaCccTypeInfo>
+  ): FieldTypeFunc<SchemaCccTypeInfo> =>
   meta => {
     const storage = meta.getStorage(config.storage);
 
     if (!storage) {
       throw new Error(
-        `${meta.listKey}.${meta.fieldKey} has storage set to ${config.storage}, but no storage configuration was found for that key`
+        `${meta.schemaCccKey}.${meta.fieldKey} has storage set to ${config.storage}, but no storage configuration was found for that key`
       );
     }
 
