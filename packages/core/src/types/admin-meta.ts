@@ -4,7 +4,7 @@ import { GqlNames, JSONValue } from './utils';
 
 export type NavigationProps = {
   authenticatedItem: AuthenticatedItem;
-  lists: SchemaCccMeta[];
+  schemaPpp: SchemaCccMeta[];
 };
 
 export type AuthenticatedItem =

@@ -182,9 +182,9 @@ export const SchemaCccItem = ({ schemaCcc }: { schemaCcc: SchemaCccMeta }) => {
   );
 };
 
-type NavItemsProps = Pick<NavigationProps, 'lists'> & { include?: string[] };
+type NavItemsProps = Pick<NavigationProps, 'schemaPpp'> & { include?: string[] };
 
-export const SchemaCccNavItems = ({ lists: schemaPpp = [], include = [] }: NavItemsProps) => {
+export const SchemaCccNavItems = ({ schemaPpp = [], include = [] }: NavItemsProps) => {
   const renderedList =
     include.length > 0 ? schemaPpp.filter(i => include.includes(i.key)) : schemaPpp;
 
@@ -228,7 +228,7 @@ export const Navigation = () => {
     return (
       <adminConfig.components.Navigation
         authenticatedItem={authenticatedItem}
-        lists={renderableLists}
+        schemaPpp={renderableLists}
       />
     );
   }
@@ -236,7 +236,7 @@ export const Navigation = () => {
   return (
     <NavigationContainer authenticatedItem={authenticatedItem}>
       <NavItem href="/">Dashboard</NavItem>
-      <SchemaCccNavItems lists={renderableLists} />
+      <SchemaCccNavItems schemaPpp={renderableLists} />
     </NavigationContainer>
   );
 };

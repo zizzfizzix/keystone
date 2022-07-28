@@ -10,8 +10,8 @@ export {
   Navigation,
   NavigationContainer,
   NavItem,
-  SchemaCccNavItems as ListNavItems,
-  SchemaCccItem as ListNavItem,
+  SchemaCccNavItems,
+  SchemaCccItem,
 } from './Navigation';
 
 // co-locating the type with the admin-ui/component for a more a salient mental model.

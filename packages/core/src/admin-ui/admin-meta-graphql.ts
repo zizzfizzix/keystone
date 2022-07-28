@@ -9,11 +9,11 @@ export const staticAdminMetaQuery = gql`
         __typename
         enableSignout
         enableSessionItem
-        lists {
+        schemaPpp {
           __typename
           key
           itemQueryName
-          listQueryName
+          schemaCccQueryName
           initialSort {
             __typename
             field
@@ -71,7 +71,7 @@ export type StaticAdminMetaQuery = {
       enableSignout: boolean;
       enableSessionItem: boolean;
       schemaPpp: Array<{
-        __typename: 'KeystoneAdminUIListMeta';
+        __typename: 'KeystoneAdminUISchemaCccMeta';
         key: string;
         itemQueryName: string;
         schemaCccQueryName: string;
