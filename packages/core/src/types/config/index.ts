@@ -23,7 +23,7 @@ import type {
   IdFieldConfig,
 } from './lists';
 import type { BaseFields } from './fields';
-import type { ListAccessControl, FieldAccessControl } from './access-control';
+import type { SchemaCccAccessControl, FieldAccessControl } from './access-control';
 import type { SchemaCccHooks } from './hooks';
 
 type FileOrImage =
@@ -284,18 +284,22 @@ export type ImagesConfig = {
 
 // Exports from sibling packages
 
-export type { SchemaCccHooks as ListHooks, ListAccessControl, FieldAccessControl };
+export type {
+  SchemaCccHooks as ListHooks,
+  SchemaCccAccessControl as ListAccessControl,
+  FieldAccessControl,
+};
 
 export type {
   FieldCreateItemAccessArgs,
   FieldReadItemAccessArgs,
   FieldUpdateItemAccessArgs,
   IndividualFieldAccessControl,
-  CreateListItemAccessControl,
-  UpdateListItemAccessControl,
-  DeleteListItemAccessControl,
-  ListOperationAccessControl,
-  ListFilterAccessControl,
+  CreateSchemaCccItemAccessControl as CreateListItemAccessControl,
+  UpdateSchemaCccItemAccessControl as UpdateListItemAccessControl,
+  DeleteSchemaCccItemAccessControl as DeleteListItemAccessControl,
+  SchemaCccOperationAccessControl as ListOperationAccessControl,
+  SchemaPppFilterAccessControl as ListFilterAccessControl,
 } from './access-control';
 export type { CommonFieldConfig } from './fields';
 export type { CacheHintArgs, IdFieldConfig } from './lists';

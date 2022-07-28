@@ -8,20 +8,20 @@ type BaseAccessArgs<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = {
   context: KeystoneContextFromSchemaCccTypeInfo<SchemaCccTypeInfo>;
 };
 
-// List Filter Access
+// Schema_Ccc Filter Access
 
 type FilterOutput<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
   | boolean
   | SchemaCccTypeInfo['inputs']['where'];
 
-export type ListFilterAccessControl<
+export type SchemaPppFilterAccessControl<
   Operation extends 'query' | 'update' | 'delete',
   SchemaCccTypeInfo extends BaseSchemaCccTypeInfo
 > = (
   args: BaseAccessArgs<SchemaCccTypeInfo> & { operation: Operation }
 ) => MaybePromise<FilterOutput<SchemaCccTypeInfo>>;
 
-// List Item Access
+// Schema_Ccc Item Access
 
 type CreateItemAccessArgs<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
   BaseAccessArgs<SchemaCccTypeInfo> & {
@@ -32,7 +32,7 @@ type CreateItemAccessArgs<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
     inputData: SchemaCccTypeInfo['inputs']['create'];
   };
 
-export type CreateListItemAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = (
+export type CreateSchemaCccItemAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = (
   args: CreateItemAccessArgs<SchemaCccTypeInfo>
 ) => MaybePromise<boolean>;
 
@@ -49,7 +49,7 @@ type UpdateItemAccessArgs<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
     inputData: SchemaCccTypeInfo['inputs']['update'];
   };
 
-export type UpdateListItemAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = (
+export type UpdateSchemaCccItemAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = (
   args: UpdateItemAccessArgs<SchemaCccTypeInfo>
 ) => MaybePromise<boolean>;
 
@@ -62,11 +62,11 @@ type DeleteItemAccessArgs<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
     item: SchemaCccTypeInfo['item'];
   };
 
-export type DeleteListItemAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = (
+export type DeleteSchemaCccItemAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = (
   args: DeleteItemAccessArgs<SchemaCccTypeInfo>
 ) => MaybePromise<boolean>;
 
-export type ListOperationAccessControl<
+export type SchemaCccOperationAccessControl<
   Operation extends 'create' | 'query' | 'update' | 'delete',
   SchemaCccTypeInfo extends BaseSchemaCccTypeInfo
 > = (args: BaseAccessArgs<SchemaCccTypeInfo> & { operation: Operation }) => MaybePromise<boolean>;
@@ -89,13 +89,13 @@ export type ListOperationAccessControl<
 //     - Many item queries will filter out those items which have access denied, with no errors.
 //     - Count queries will only count those items for which access is not denied, with no errors.
 //
-export type ListAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = {
+export type SchemaCccAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> = {
   // These functions should return `true` if access is allowed or `false` if access is denied.
   operation?: {
-    query?: ListOperationAccessControl<'query', SchemaCccTypeInfo>;
-    create?: ListOperationAccessControl<'create', SchemaCccTypeInfo>;
-    update?: ListOperationAccessControl<'update', SchemaCccTypeInfo>;
-    delete?: ListOperationAccessControl<'delete', SchemaCccTypeInfo>;
+    query?: SchemaCccOperationAccessControl<'query', SchemaCccTypeInfo>;
+    create?: SchemaCccOperationAccessControl<'create', SchemaCccTypeInfo>;
+    update?: SchemaCccOperationAccessControl<'update', SchemaCccTypeInfo>;
+    delete?: SchemaCccOperationAccessControl<'delete', SchemaCccTypeInfo>;
   };
 
   // The 'filter' rules can return either:
@@ -103,9 +103,9 @@ export type ListAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
   //   which may make it appear that some of the items don't exist.
   // - boolean true/false. If false, treated as a filter that never matches.
   filter?: {
-    query?: ListFilterAccessControl<'query', SchemaCccTypeInfo>;
-    update?: ListFilterAccessControl<'update', SchemaCccTypeInfo>;
-    delete?: ListFilterAccessControl<'delete', SchemaCccTypeInfo>;
+    query?: SchemaPppFilterAccessControl<'query', SchemaCccTypeInfo>;
+    update?: SchemaPppFilterAccessControl<'update', SchemaCccTypeInfo>;
+    delete?: SchemaPppFilterAccessControl<'delete', SchemaCccTypeInfo>;
     // create: not supported: FIXME: Add explicit check that people don't try this.
     // FIXME: Write tests for parseAccessControl.
   };
@@ -114,9 +114,9 @@ export type ListAccessControl<SchemaCccTypeInfo extends BaseSchemaCccTypeInfo> =
   // and if false, an access denied error will be returned for the individual operation.
   item?: {
     // query: not supported
-    create?: CreateListItemAccessControl<SchemaCccTypeInfo>;
-    update?: UpdateListItemAccessControl<SchemaCccTypeInfo>;
-    delete?: DeleteListItemAccessControl<SchemaCccTypeInfo>;
+    create?: CreateSchemaCccItemAccessControl<SchemaCccTypeInfo>;
+    update?: UpdateSchemaCccItemAccessControl<SchemaCccTypeInfo>;
+    delete?: DeleteSchemaCccItemAccessControl<SchemaCccTypeInfo>;
   };
 };
 

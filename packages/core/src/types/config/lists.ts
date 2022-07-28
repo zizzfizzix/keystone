@@ -3,13 +3,10 @@ import type { MaybePromise } from '../utils';
 import { BaseSchemaCccTypeInfo } from '../type-info';
 import { KeystoneContextFromSchemaCccTypeInfo } from '..';
 import type { SchemaCccHooks } from './hooks';
-import type { ListAccessControl } from './access-control';
+import type { SchemaCccAccessControl } from './access-control';
 import type { BaseFields, FilterOrderArgs } from './fields';
 
-export type SchemaConfig = Record<
-  string,
-  SchemaCccConfig<any, BaseFields<BaseSchemaCccTypeInfo>>
->;
+export type SchemaConfig = Record<string, SchemaCccConfig<any, BaseFields<BaseSchemaCccTypeInfo>>>;
 
 export type IdFieldConfig =
   | { kind: 'cuid' | 'uuid' }
@@ -39,7 +36,7 @@ export type SchemaCccConfig<
    * @default true
    * @see https://www.keystonejs.com/guides/auth-and-access-control
    */
-  access?: ListAccessControl<SchemaCccTypeInfo>;
+  access?: SchemaCccAccessControl<SchemaCccTypeInfo>;
 
   /** Config for how this list should act in the Admin UI */
   ui?: ListAdminUIConfig<SchemaCccTypeInfo, Fields>;
