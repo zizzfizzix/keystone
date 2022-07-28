@@ -25,40 +25,40 @@ export function mapUniqueWhereToWhere(uniqueWhere: UniquePrismaFilter): PrismaFi
 }
 
 function traverseQuery(
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext,
   inputFilter: InputFilter,
-  filterFields: Record<string, { fieldKey: string; list: InitialisedSchemaCcc }>
+  filterFields: Record<string, { fieldKey: string; schemaCcc: InitialisedSchemaCcc }>
 ) {
   // Recursively traverse a where filter to find all the fields which are being
   // filtered on.
   Object.entries(inputFilter).forEach(([fieldKey, value]) => {
     if (fieldKey === 'OR' || fieldKey === 'AND' || fieldKey === 'NOT') {
       value.forEach((value: any) => {
-        traverseQuery(list, context, value, filterFields);
+        traverseQuery(schemaCcc, context, value, filterFields);
       });
     } else if (fieldKey === 'some' || fieldKey === 'none' || fieldKey === 'every') {
-      traverseQuery(list, context, value, filterFields);
+      traverseQuery(schemaCcc, context, value, filterFields);
     } else {
-      filterFields[`${list.schemaCccKey}.${fieldKey}`] = { fieldKey, list };
+      filterFields[`${schemaCcc.schemaCccKey}.${fieldKey}`] = { fieldKey, schemaCcc };
       // If it's a relationship, check the nested filters.
-      const field = list.fields[fieldKey];
+      const field = schemaCcc.fields[fieldKey];
       if (field.dbField.kind === 'relation' && value !== null) {
-        const foreignList = field.dbField.list;
-        traverseQuery(list.schemaCcc[foreignList], context, value, filterFields);
+        const foreignList = field.dbField.schemaCcc;
+        traverseQuery(schemaCcc.schemaPpp[foreignList], context, value, filterFields);
       }
     }
   });
 }
 
 export async function checkFilterAccess(
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext,
   inputFilter: InputFilter
 ) {
   if (!inputFilter) return;
-  const filterFields: Record<string, { fieldKey: string; list: InitialisedSchemaCcc }> = {};
-  traverseQuery(list, context, inputFilter, filterFields);
+  const filterFields: Record<string, { fieldKey: string; schemaCcc: InitialisedSchemaCcc }> = {};
+  traverseQuery(schemaCcc, context, inputFilter, filterFields);
   await checkFilterOrderAccess(Object.values(filterFields), context, 'filter');
 }
 
@@ -78,32 +78,32 @@ export async function accessControlledFilter(
 
 export async function findOne(
   args: { where: UniqueInputFilter },
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
-  const operationAccess = await getOperationAccess(list, context, 'query');
+  const operationAccess = await getOperationAccess(schemaCcc, context, 'query');
   if (!operationAccess) {
     return null;
   }
 
-  const accessFilters = await getAccessFilters(list, context, 'query');
+  const accessFilters = await getAccessFilters(schemaCcc, context, 'query');
   if (accessFilters === false) {
     return null;
   }
 
   // Validate and resolve the input filter
-  const uniqueWhere = await resolveUniqueWhereInput(args.where, list.fields, context);
+  const uniqueWhere = await resolveUniqueWhereInput(args.where, schemaCcc.fields, context);
   const resolvedWhere = mapUniqueWhereToWhere(uniqueWhere);
 
   // Check filter access
   const fieldKey = Object.keys(args.where)[0];
-  await checkFilterOrderAccess([{ fieldKey, list }], context, 'filter');
+  await checkFilterOrderAccess([{ fieldKey, schemaCcc: schemaCcc }], context, 'filter');
 
   // Apply access control
-  const filter = await accessControlledFilter(list, context, resolvedWhere, accessFilters);
+  const filter = await accessControlledFilter(schemaCcc, context, resolvedWhere, accessFilters);
 
-  return runWithPrisma(context, list, model => model.findFirst({ where: filter }));
+  return runWithPrisma(context, schemaCcc, model => model.findFirst({ where: filter }));
 }
 
 export async function findMany(
@@ -156,7 +156,7 @@ export async function findMany(
 
 async function resolveOrderBy(
   orderBy: readonly Record<string, any>[],
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext
 ): Promise<readonly Record<string, OrderDirection>[]> {
   // Check input format. FIXME: Group all errors
@@ -164,7 +164,7 @@ async function resolveOrderBy(
     const keys = Object.keys(orderBySelection);
     if (keys.length !== 1) {
       throw userInputError(
-        `Only a single key must be passed to ${list.types.orderBy.graphQLType.name}`
+        `Only a single key must be passed to ${schemaCcc.types.orderBy.graphQLType.name}`
       );
     }
 
@@ -178,7 +178,7 @@ async function resolveOrderBy(
   // Check orderBy access
   const orderByKeys = orderBy.map(orderBySelection => ({
     fieldKey: Object.keys(orderBySelection)[0],
-    list,
+    schemaCcc,
   }));
   await checkFilterOrderAccess(orderByKeys, context, 'orderBy');
 
@@ -187,7 +187,7 @@ async function resolveOrderBy(
       const keys = Object.keys(orderBySelection);
       const fieldKey = keys[0];
       const value = orderBySelection[fieldKey];
-      const field = list.fields[fieldKey];
+      const field = schemaCcc.fields[fieldKey];
       const resolve = field.input!.orderBy!.resolve;
       const resolvedValue = resolve ? await resolve(value, context) : value;
       if (field.dbField.kind === 'multi') {

@@ -131,7 +131,7 @@ export const QueryMode = graphql.enum({
 
 export type RelationDBField<Mode extends 'many' | 'one'> = {
   kind: 'relation';
-  list: string;
+  schemaCcc: string;
   field?: string;
   mode: Mode;
   foreignKey?: { one: true | { map: string }; many: undefined }[Mode];

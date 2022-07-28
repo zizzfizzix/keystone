@@ -119,9 +119,9 @@ export async function promiseAllRejectWithAllErrors<T extends unknown[]>(
   return results.map((x: any) => x.value) as any;
 }
 
-export function getNamesFromList(
+export function getNamesFromSchemaCcc(
   schemaCccKey: string,
-  { graphql, ui }: KeystoneConfig['lists'][string]
+  { graphql, ui }: KeystoneConfig['schemaPpp'][string]
 ) {
   const computedSingular = humanize(schemaCccKey);
   const computedPlural = pluralize.plural(computedSingular);
@@ -144,7 +144,7 @@ export function getNamesFromList(
   const pluralGraphQLName = graphql?.plural || labelToClass(computedPlural);
   if (pluralGraphQLName === schemaCccKey) {
     throw new Error(
-      `The list key and the plural name used in GraphQL must be different but the list key ${schemaCccKey} is the same as the plural GraphQL name, please specify graphql.plural`
+      `The schema ccc key and the plural name used in GraphQL must be different but the schema ccc key ${schemaCccKey} is the same as the plural GraphQL name, please specify graphql.plural`
     );
   }
   return { pluralGraphQLName, adminUILabels };

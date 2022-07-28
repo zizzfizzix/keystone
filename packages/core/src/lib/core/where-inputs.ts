@@ -49,7 +49,7 @@ export async function resolveUniqueWhereInput(
 
 export async function resolveWhereInput(
   inputFilter: InputFilter,
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext
 ): Promise<PrismaFilter> {
   return {
@@ -58,11 +58,11 @@ export async function resolveWhereInput(
         if (fieldKey === 'OR' || fieldKey === 'AND' || fieldKey === 'NOT') {
           return {
             [fieldKey]: await Promise.all(
-              value.map((value: any) => resolveWhereInput(value, list, context))
+              value.map((value: any) => resolveWhereInput(value, schemaCcc, context))
             ),
           };
         }
-        const field = list.fields[fieldKey];
+        const field = schemaCcc.fields[fieldKey];
         // we know if there are filters in the input object with the key of a field, the field must have defined a where input so this non null assertion is okay
         const where = field.input!.where!;
         const dbField = field.dbField;
@@ -74,9 +74,9 @@ export async function resolveWhereInput(
                 if (field.dbField.kind !== 'relation') {
                   return undefined as any;
                 }
-                const foreignList = field.dbField.list;
+                const foreignSchemaCcc = field.dbField.schemaCcc;
                 const whereResolver = (val: any) =>
-                  resolveWhereInput(val, list.schemaCcc[foreignList], context);
+                  resolveWhereInput(val, schemaCcc.schemaPpp[foreignSchemaCcc], context);
                 if (field.dbField.mode === 'many') {
                   return async () => {
                     if (value === null) {

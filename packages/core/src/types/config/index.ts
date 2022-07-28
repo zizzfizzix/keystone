@@ -290,7 +290,7 @@ export type ImagesConfig = {
 
 // Exports from sibling packages
 
-export type { SchemaCccHooks as ListHooks, SchemaCccAccessControl, FieldAccessControl };
+export type { SchemaCccHooks, SchemaCccAccessControl, FieldAccessControl };
 
 export type {
   FieldCreateItemAccessArgs,

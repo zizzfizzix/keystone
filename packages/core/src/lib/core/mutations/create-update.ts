@@ -119,7 +119,7 @@ export async function createMany(
 
 async function updateSingle(
   updateInput: { where: UniqueInputFilter; data: Record<string, any> },
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext,
   accessFilters: boolean | InputFilter,
   operationAccess: boolean
@@ -127,21 +127,21 @@ async function updateSingle(
   // Operation level access control
   if (!operationAccess) {
     throw accessDeniedError(
-      `You cannot perform the 'update' operation on the list '${list.schemaCccKey}'.`
+      `You cannot perform the 'update' operation on the schema ccc '${schemaCcc.schemaCccKey}'.`
     );
   }
 
   const { where: uniqueInput, data: rawData } = updateInput;
   // Validate and resolve the input filter
-  const uniqueWhere = await resolveUniqueWhereInput(uniqueInput, list.fields, context);
+  const uniqueWhere = await resolveUniqueWhereInput(uniqueInput, schemaCcc.fields, context);
 
   // Check filter access
   const fieldKey = Object.keys(uniqueWhere)[0];
-  await checkFilterOrderAccess([{ fieldKey, list }], context, 'filter');
+  await checkFilterOrderAccess([{ fieldKey, schemaCcc }], context, 'filter');
 
   // Filter and Item access control. Will throw an accessDeniedError if not allowed.
   const item = await getAccessControlledItemForUpdate(
-    list,
+    schemaCcc,
     context,
     uniqueWhere,
     accessFilters,
@@ -149,7 +149,7 @@ async function updateSingle(
   );
 
   const { afterOperation, data } = await resolveInputForCreateOrUpdate(
-    list,
+    schemaCcc,
     context,
     rawData,
     item
@@ -158,7 +158,7 @@ async function updateSingle(
   const writeLimit = getWriteLimit(context);
 
   const updatedItem = await writeLimit(() =>
-    runWithPrisma(context, list, model => model.update({ where: { id: item.id }, data }))
+    runWithPrisma(context, schemaCcc, model => model.update({ where: { id: item.id }, data }))
   );
 
   await afterOperation(updatedItem);
@@ -168,16 +168,16 @@ async function updateSingle(
 
 export async function updateOne(
   updateInput: { where: UniqueInputFilter; data: Record<string, any> },
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext
 ) {
   // Check operation permission to pass into single operation
-  const operationAccess = await getOperationAccess(list, context, 'update');
+  const operationAccess = await getOperationAccess(schemaCcc, context, 'update');
 
-  // Get list-level access control filters
-  const accessFilters = await getAccessFilters(list, context, 'update');
+  // Get schema ccc-level access control filters
+  const accessFilters = await getAccessFilters(schemaCcc, context, 'update');
 
-  return updateSingle(updateInput, list, context, accessFilters, operationAccess);
+  return updateSingle(updateInput, schemaCcc, context, accessFilters, operationAccess);
 }
 
 export async function updateMany(
@@ -197,7 +197,7 @@ export async function updateMany(
 }
 
 async function getResolvedData(
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   hookArgs: {
     context: KeystoneContext;
     schemaCccKey: string;
@@ -214,14 +214,14 @@ async function getResolvedData(
   const resolverErrors: { error: Error; tag: string }[] = [];
   resolvedData = Object.fromEntries(
     await Promise.all(
-      Object.entries(list.fields).map(async ([fieldKey, field]) => {
+      Object.entries(schemaCcc.fields).map(async ([fieldKey, field]) => {
         const inputResolver = field.input?.[operation]?.resolve;
         let input = resolvedData[fieldKey];
         if (inputResolver && field.dbField.kind !== 'relation') {
           try {
             input = await inputResolver(input, context, undefined);
           } catch (error: any) {
-            resolverErrors.push({ error, tag: `${list.schemaCccKey}.${fieldKey}` });
+            resolverErrors.push({ error, tag: `${schemaCcc.schemaCccKey}.${fieldKey}` });
           }
         }
         return [fieldKey, input] as const;
@@ -236,11 +236,11 @@ async function getResolvedData(
   const relationshipErrors: { error: Error; tag: string }[] = [];
   resolvedData = Object.fromEntries(
     await Promise.all(
-      Object.entries(list.fields).map(async ([fieldKey, field]) => {
+      Object.entries(schemaCcc.fields).map(async ([fieldKey, field]) => {
         const inputResolver = field.input?.[operation]?.resolve;
         let input = resolvedData[fieldKey];
         if (inputResolver && field.dbField.kind === 'relation') {
-          const tag = `${list.schemaCccKey}.${fieldKey}`;
+          const tag = `${schemaCcc.schemaCccKey}.${fieldKey}`;
           try {
             input = await inputResolver(
               input,
@@ -255,7 +255,7 @@ async function getResolvedData(
                   // No-op: Should this be UserInputError?
                   return () => undefined;
                 }
-                const foreignList = list.schemaCcc[field.dbField.list];
+                const foreignList = schemaCcc.schemaPpp[field.dbField.schemaCcc];
                 let resolver;
                 if (field.dbField.mode === 'many') {
                   if (operation === 'create') {
@@ -295,7 +295,7 @@ async function getResolvedData(
   const fieldsErrors: { error: Error; tag: string }[] = [];
   resolvedData = Object.fromEntries(
     await Promise.all(
-      Object.entries(list.fields).map(async ([fieldKey, field]) => {
+      Object.entries(schemaCcc.fields).map(async ([fieldKey, field]) => {
         if (field.hooks.resolveInput === undefined) {
           return [fieldKey, resolvedData[fieldKey]];
         } else {
@@ -311,7 +311,7 @@ async function getResolvedData(
           } catch (error: any) {
             fieldsErrors.push({
               error,
-              tag: `${list.schemaCccKey}.${fieldKey}.hooks.${hookName}`,
+              tag: `${schemaCcc.schemaCccKey}.${fieldKey}.hooks.${hookName}`,
             });
             return [fieldKey, undefined];
           }
@@ -323,12 +323,14 @@ async function getResolvedData(
     throw extensionError(hookName, fieldsErrors);
   }
 
-  // List hooks
-  if (list.hooks.resolveInput) {
+  // Schema Ccc hooks
+  if (schemaCcc.hooks.resolveInput) {
     try {
-      resolvedData = (await list.hooks.resolveInput({ ...hookArgs, resolvedData })) as any;
+      resolvedData = (await schemaCcc.hooks.resolveInput({ ...hookArgs, resolvedData })) as any;
     } catch (error: any) {
-      throw extensionError(hookName, [{ error, tag: `${list.schemaCccKey}.hooks.${hookName}` }]);
+      throw extensionError(hookName, [
+        { error, tag: `${schemaCcc.schemaCccKey}.hooks.${hookName}` },
+      ]);
     }
   }
 
@@ -336,7 +338,7 @@ async function getResolvedData(
 }
 
 async function resolveInputForCreateOrUpdate(
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext,
   inputData: Record<string, any>,
   item: BaseItem | undefined
@@ -344,7 +346,7 @@ async function resolveInputForCreateOrUpdate(
   const nestedMutationState = new NestedMutationState(context);
   const baseHookArgs = {
     context,
-    schemaCccKey: list.schemaCccKey,
+    schemaCccKey: schemaCcc.schemaCccKey,
     inputData,
     resolvedData: {},
   };
@@ -355,22 +357,22 @@ async function resolveInputForCreateOrUpdate(
 
   // Take the original input and resolve all the fields down to what
   // will be saved into the database.
-  hookArgs.resolvedData = await getResolvedData(list, hookArgs, nestedMutationState);
+  hookArgs.resolvedData = await getResolvedData(schemaCcc, hookArgs, nestedMutationState);
 
   // Apply all validation checks
-  await validateUpdateCreate({ list, hookArgs });
+  await validateUpdateCreate({ schemaCcc, hookArgs });
 
   // Run beforeOperation hooks
-  await runSideEffectOnlyHook(list, 'beforeOperation', hookArgs);
+  await runSideEffectOnlyHook(schemaCcc, 'beforeOperation', hookArgs);
 
   // Return the full resolved input (ready for prisma level operation),
   // and the afterOperation hook to be applied
   return {
-    data: flattenMultiDbFields(list.fields, hookArgs.resolvedData),
+    data: flattenMultiDbFields(schemaCcc.fields, hookArgs.resolvedData),
     afterOperation: async (updatedItem: BaseItem) => {
       await nestedMutationState.afterOperation();
       await runSideEffectOnlyHook(
-        list,
+        schemaCcc,
         'afterOperation',
         // at runtime this conditional is pointless
         // but TypeScript needs it because in each case, it will narrow

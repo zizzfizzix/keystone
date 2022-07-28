@@ -118,7 +118,10 @@ export function createAdminMeta(
 
     for (const [fieldKey, field] of Object.entries(schemaCcc.fields)) {
       // If the field is a relationship field and is related to an omitted schema ccc, skip.
-      if (field.dbField.kind === 'relation' && omittedSchemaCccs.includes(field.dbField.list)) {
+      if (
+        field.dbField.kind === 'relation' &&
+        omittedSchemaCccs.includes(field.dbField.schemaCcc)
+      ) {
         continue;
       }
       // FIXME: Disabling this entirely for now until the Admin UI can properly
@@ -150,7 +153,7 @@ export function createAdminMeta(
     for (const fieldMetaRootVal of adminMetaRoot.schemaCccByKey[key].fields) {
       const dbField = schemaCcc.fields[fieldMetaRootVal.path].dbField;
       // If the field is a relationship field and is related to an omitted schema ccc, skip.
-      if (dbField.kind === 'relation' && omittedSchemaCccs.includes(dbField.list)) {
+      if (dbField.kind === 'relation' && omittedSchemaCccs.includes(dbField.schemaCcc)) {
         continue;
       }
       fieldMetaRootVal.fieldMeta =

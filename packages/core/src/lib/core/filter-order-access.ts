@@ -3,7 +3,7 @@ import { accessReturnError, extensionError, filterAccessError } from './graphql-
 import { InitialisedSchemaCcc } from './types-for-lists';
 
 export async function checkFilterOrderAccess(
-  things: { fieldKey: string; list: InitialisedSchemaCcc }[],
+  things: { fieldKey: string; schemaCcc: InitialisedSchemaCcc }[],
   context: KeystoneContext,
   operation: 'filter' | 'orderBy'
 ) {
@@ -11,7 +11,7 @@ export async function checkFilterOrderAccess(
   const failures: string[] = [];
   const returnTypeErrors: any[] = [];
   const accessErrors: any[] = [];
-  for (const { fieldKey, list } of things) {
+  for (const { fieldKey, schemaCcc: list } of things) {
     const field = list.fields[fieldKey];
     const rule = field.graphql.isEnabled[operation];
     // Check isOrderable

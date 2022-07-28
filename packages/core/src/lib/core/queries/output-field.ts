@@ -116,7 +116,7 @@ function getValueForDBField(
     if (dbField.mode === 'one' && dbField.foreignIdField.kind !== 'none') {
       fk = rootVal[`${fieldPath}Id`] as IdType;
     }
-    return getRelationVal(dbField, id, lists[dbField.list], context, info, fk);
+    return getRelationVal(dbField, id, lists[dbField.schemaCcc], context, info, fk);
   } else {
     return rootVal[fieldPath] as any;
   }

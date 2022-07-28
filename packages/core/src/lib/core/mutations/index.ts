@@ -20,94 +20,94 @@ function promisesButSettledWhenAllSettledAndInOrder<T extends Promise<unknown>[]
   }) as T;
 }
 
-export function getMutationsForList(list: InitialisedSchemaCcc) {
-  const names = getGqlNames(list);
+export function getMutationsForSchemaCcc(schemaCcc: InitialisedSchemaCcc) {
+  const names = getGqlNames(schemaCcc);
 
   const createOne = graphql.field({
-    type: list.types.output,
-    args: { data: graphql.arg({ type: graphql.nonNull(list.types.create) }) },
+    type: schemaCcc.types.output,
+    args: { data: graphql.arg({ type: graphql.nonNull(schemaCcc.types.create) }) },
     resolve(_rootVal, { data }, context) {
-      return createAndUpdate.createOne({ data }, list, context);
+      return createAndUpdate.createOne({ data }, schemaCcc, context);
     },
   });
 
   const createMany = graphql.field({
-    type: graphql.list(list.types.output),
+    type: graphql.list(schemaCcc.types.output),
     args: {
       data: graphql.arg({
-        type: graphql.nonNull(graphql.list(graphql.nonNull(list.types.create))),
+        type: graphql.nonNull(graphql.list(graphql.nonNull(schemaCcc.types.create))),
       }),
     },
     async resolve(_rootVal, args, context) {
       return promisesButSettledWhenAllSettledAndInOrder(
-        await createAndUpdate.createMany(args, list, context)
+        await createAndUpdate.createMany(args, schemaCcc, context)
       );
     },
   });
 
   const updateOne = graphql.field({
-    type: list.types.output,
+    type: schemaCcc.types.output,
     args: {
-      where: graphql.arg({ type: graphql.nonNull(list.types.uniqueWhere) }),
-      data: graphql.arg({ type: graphql.nonNull(list.types.update) }),
+      where: graphql.arg({ type: graphql.nonNull(schemaCcc.types.uniqueWhere) }),
+      data: graphql.arg({ type: graphql.nonNull(schemaCcc.types.update) }),
     },
     resolve(_rootVal, args, context) {
-      return createAndUpdate.updateOne(args, list, context);
+      return createAndUpdate.updateOne(args, schemaCcc, context);
     },
   });
 
   const updateManyInput = graphql.inputObject({
     name: names.updateManyInputName,
     fields: {
-      where: graphql.arg({ type: graphql.nonNull(list.types.uniqueWhere) }),
-      data: graphql.arg({ type: graphql.nonNull(list.types.update) }),
+      where: graphql.arg({ type: graphql.nonNull(schemaCcc.types.uniqueWhere) }),
+      data: graphql.arg({ type: graphql.nonNull(schemaCcc.types.update) }),
     },
   });
   const updateMany = graphql.field({
-    type: graphql.list(list.types.output),
+    type: graphql.list(schemaCcc.types.output),
     args: {
       data: graphql.arg({ type: graphql.nonNull(graphql.list(graphql.nonNull(updateManyInput))) }),
     },
     async resolve(_rootVal, args, context) {
       return promisesButSettledWhenAllSettledAndInOrder(
-        await createAndUpdate.updateMany(args, list, context)
+        await createAndUpdate.updateMany(args, schemaCcc, context)
       );
     },
   });
 
   const deleteOne = graphql.field({
-    type: list.types.output,
-    args: { where: graphql.arg({ type: graphql.nonNull(list.types.uniqueWhere) }) },
+    type: schemaCcc.types.output,
+    args: { where: graphql.arg({ type: graphql.nonNull(schemaCcc.types.uniqueWhere) }) },
     resolve(rootVal, { where }, context) {
-      return deletes.deleteOne(where, list, context);
+      return deletes.deleteOne(where, schemaCcc, context);
     },
   });
 
   const deleteMany = graphql.field({
-    type: graphql.list(list.types.output),
+    type: graphql.list(schemaCcc.types.output),
     args: {
       where: graphql.arg({
-        type: graphql.nonNull(graphql.list(graphql.nonNull(list.types.uniqueWhere))),
+        type: graphql.nonNull(graphql.list(graphql.nonNull(schemaCcc.types.uniqueWhere))),
       }),
     },
     async resolve(rootVal, { where }, context) {
       return promisesButSettledWhenAllSettledAndInOrder(
-        await deletes.deleteMany(where, list, context)
+        await deletes.deleteMany(where, schemaCcc, context)
       );
     },
   });
 
   return {
     mutations: {
-      ...(list.graphql.isEnabled.create && {
+      ...(schemaCcc.graphql.isEnabled.create && {
         [names.createMutationName]: createOne,
         [names.createManyMutationName]: createMany,
       }),
-      ...(list.graphql.isEnabled.update && {
+      ...(schemaCcc.graphql.isEnabled.update && {
         [names.updateMutationName]: updateOne,
         [names.updateManyMutationName]: updateMany,
       }),
-      ...(list.graphql.isEnabled.delete && {
+      ...(schemaCcc.graphql.isEnabled.delete && {
         [names.deleteMutationName]: deleteOne,
         [names.deleteManyMutationName]: deleteMany,
       }),

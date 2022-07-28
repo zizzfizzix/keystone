@@ -19,7 +19,7 @@ const missingItem = (operation: string, uniqueWhere: UniquePrismaFilter) =>
   );
 
 async function getFilteredItem(
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext,
   uniqueWhere: UniquePrismaFilter,
   accessFilters: boolean | InputFilter,
@@ -28,16 +28,16 @@ async function getFilteredItem(
   if (accessFilters === false) {
     // Early exit if they want to exclude everything
     throw accessDeniedError(
-      `You cannot perform the '${operation}' operation on the list '${list.schemaCccKey}'.`
+      `You cannot perform the '${operation}' operation on the schema ccc '${schemaCcc.schemaCccKey}'.`
     );
   }
 
   // Merge the filter access control and try to get the item.
   let where = mapUniqueWhereToWhere(uniqueWhere);
   if (typeof accessFilters === 'object') {
-    where = { AND: [where, await resolveWhereInput(accessFilters, list, context)] };
+    where = { AND: [where, await resolveWhereInput(accessFilters, schemaCcc, context)] };
   }
-  const item = await runWithPrisma(context, list, model => model.findFirst({ where }));
+  const item = await runWithPrisma(context, schemaCcc, model => model.findFirst({ where }));
   if (item === null) {
     throw missingItem(operation, uniqueWhere);
   }
@@ -121,7 +121,7 @@ export async function getAccessControlledItemForDelete(
 }
 
 export async function getAccessControlledItemForUpdate(
-  list: InitialisedSchemaCcc,
+  schemaCcc: InitialisedSchemaCcc,
   context: KeystoneContext,
   uniqueWhere: UniquePrismaFilter,
   accessFilters: boolean | InputFilter,
@@ -129,14 +129,14 @@ export async function getAccessControlledItemForUpdate(
 ) {
   const operation = 'update' as const;
   // Apply the filter access control. Will throw an accessDeniedError if the item isn't found.
-  const item = await getFilteredItem(list, context, uniqueWhere!, accessFilters, operation);
+  const item = await getFilteredItem(schemaCcc, context, uniqueWhere!, accessFilters, operation);
 
   // Apply item level access control
-  const access = list.access.item[operation];
+  const access = schemaCcc.access.item[operation];
   const args = {
     operation,
     session: context.session,
-    schemaCccKey: list.schemaCccKey,
+    schemaCccKey: schemaCcc.schemaCccKey,
     context,
     item,
     inputData,
@@ -181,8 +181,8 @@ export async function getAccessControlledItemForUpdate(
       let result;
       try {
         result =
-          typeof list.fields[fieldKey].access[operation] === 'function'
-            ? await list.fields[fieldKey].access[operation]({ ...args, fieldKey })
+          typeof schemaCcc.fields[fieldKey].access[operation] === 'function'
+            ? await schemaCcc.fields[fieldKey].access[operation]({ ...args, fieldKey })
             : access;
       } catch (error: any) {
         accessErrors.push({

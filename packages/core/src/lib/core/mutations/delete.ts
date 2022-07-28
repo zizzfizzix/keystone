@@ -28,7 +28,7 @@ async function deleteSingle(
 
   // Check filter access
   const fieldKey = Object.keys(uniqueWhere)[0];
-  await checkFilterOrderAccess([{ fieldKey, list }], context, 'filter');
+  await checkFilterOrderAccess([{ fieldKey, schemaCcc: list }], context, 'filter');
 
   // Filter and Item access control. Will throw an accessDeniedError if not allowed.
   const item = await getAccessControlledItemForDelete(list, context, uniqueWhere, accessFilters);

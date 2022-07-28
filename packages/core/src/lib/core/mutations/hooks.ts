@@ -2,7 +2,7 @@ import { extensionError } from '../graphql-errors';
 
 export async function runSideEffectOnlyHook<
   HookName extends string,
-  List extends {
+  SchemaCcc extends {
     fields: Record<
       string,
       {
@@ -16,8 +16,8 @@ export async function runSideEffectOnlyHook<
     };
     schemaCccKey: string;
   },
-  Args extends Parameters<NonNullable<List['hooks'][HookName]>>[0]
->(list: List, hookName: HookName, args: Args) {
+  Args extends Parameters<NonNullable<SchemaCcc['hooks'][HookName]>>[0]
+>(schemaCcc: SchemaCcc, hookName: HookName, args: Args) {
   // Runs the before/after operation hooks
 
   let shouldRunFieldLevelHook: (fieldKey: string) => boolean;
@@ -34,12 +34,15 @@ export async function runSideEffectOnlyHook<
   // Field hooks
   const fieldsErrors: { error: Error; tag: string }[] = [];
   await Promise.all(
-    Object.entries(list.fields).map(async ([fieldKey, field]) => {
+    Object.entries(schemaCcc.fields).map(async ([fieldKey, field]) => {
       if (shouldRunFieldLevelHook(fieldKey)) {
         try {
           await field.hooks[hookName]?.({ fieldKey, ...args });
         } catch (error: any) {
-          fieldsErrors.push({ error, tag: `${list.schemaCccKey}.${fieldKey}.hooks.${hookName}` });
+          fieldsErrors.push({
+            error,
+            tag: `${schemaCcc.schemaCccKey}.${fieldKey}.hooks.${hookName}`,
+          });
         }
       }
     })
@@ -49,10 +52,10 @@ export async function runSideEffectOnlyHook<
     throw extensionError(hookName, fieldsErrors);
   }
 
-  // List hooks
+  // Schema Ccc hooks
   try {
-    await list.hooks[hookName]?.(args);
+    await schemaCcc.hooks[hookName]?.(args);
   } catch (error: any) {
-    throw extensionError(hookName, [{ error, tag: `${list.schemaCccKey}.hooks.${hookName}` }]);
+    throw extensionError(hookName, [{ error, tag: `${schemaCcc.schemaCccKey}.hooks.${hookName}` }]);
   }
 }

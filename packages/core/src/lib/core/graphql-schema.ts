@@ -2,11 +2,11 @@ import { GraphQLNamedType, GraphQLSchema } from 'graphql';
 import { graphql } from '../..';
 import { InitialisedSchemaCcc } from './types-for-lists';
 
-import { getMutationsForList } from './mutations';
-import { getQueriesForList } from './queries';
+import { getMutationsForSchemaCcc } from './mutations';
+import { getQueriesForSchemaCcc } from './queries';
 
 export function getGraphQLSchema(
-  lists: Record<string, InitialisedSchemaCcc>,
+  schemaPpp: Record<string, InitialisedSchemaCcc>,
   extraFields: {
     mutation: Record<string, graphql.Field<unknown, any, graphql.OutputType, string>>;
     query: Record<string, graphql.Field<unknown, any, graphql.OutputType, string>>;
@@ -16,20 +16,20 @@ export function getGraphQLSchema(
     name: 'Query',
     fields: Object.assign(
       {},
-      ...Object.values(lists).map(list => getQueriesForList(list)),
+      ...Object.values(schemaPpp).map(schemaCcc => getQueriesForSchemaCcc(schemaCcc)),
       extraFields.query
     ),
   });
 
-  const updateManyByList: Record<string, graphql.InputObjectType<any>> = {};
+  const updateManyBySchemaCcc: Record<string, graphql.InputObjectType<any>> = {};
 
   const mutation = graphql.object()({
     name: 'Mutation',
     fields: Object.assign(
       {},
-      ...Object.values(lists).map(list => {
-        const { mutations, updateManyInput } = getMutationsForList(list);
-        updateManyByList[list.schemaCccKey] = updateManyInput;
+      ...Object.values(schemaPpp).map(schemaCcc => {
+        const { mutations, updateManyInput } = getMutationsForSchemaCcc(schemaCcc);
+        updateManyBySchemaCcc[schemaCcc.schemaCccKey] = updateManyInput;
         return mutations;
       }),
       extraFields.mutation
@@ -39,26 +39,26 @@ export function getGraphQLSchema(
     query: query.graphQLType,
     mutation: mutation.graphQLType,
     // not about behaviour, only ordering
-    types: [...collectTypes(lists, updateManyByList), mutation.graphQLType],
+    types: [...collectTypes(schemaPpp, updateManyBySchemaCcc), mutation.graphQLType],
   });
   return graphQLSchema;
 }
 
 function collectTypes(
-  lists: Record<string, InitialisedSchemaCcc>,
-  updateManyByList: Record<string, graphql.InputObjectType<any>>
+  schemaPpp: Record<string, InitialisedSchemaCcc>,
+  updateManyBySchemaCcc: Record<string, graphql.InputObjectType<any>>
 ) {
   const collectedTypes: GraphQLNamedType[] = [];
-  for (const list of Object.values(lists)) {
-    const { isEnabled } = list.graphql;
+  for (const schemaCcc of Object.values(schemaPpp)) {
+    const { isEnabled } = schemaCcc.graphql;
     if (!isEnabled.type) continue;
     // adding all of these types explicitly isn't strictly necessary but we do it to create a certain order in the schema
-    collectedTypes.push(list.types.output.graphQLType);
+    collectedTypes.push(schemaCcc.types.output.graphQLType);
     if (isEnabled.query || isEnabled.update || isEnabled.delete) {
-      collectedTypes.push(list.types.uniqueWhere.graphQLType);
+      collectedTypes.push(schemaCcc.types.uniqueWhere.graphQLType);
     }
     if (isEnabled.query) {
-      for (const field of Object.values(list.fields)) {
+      for (const field of Object.values(schemaCcc.fields)) {
         if (
           isEnabled.query &&
           field.graphql.isEnabled.read &&
@@ -70,15 +70,15 @@ function collectTypes(
           );
         }
       }
-      collectedTypes.push(list.types.where.graphQLType);
-      collectedTypes.push(list.types.orderBy.graphQLType);
+      collectedTypes.push(schemaCcc.types.where.graphQLType);
+      collectedTypes.push(schemaCcc.types.orderBy.graphQLType);
     }
     if (isEnabled.update) {
-      collectedTypes.push(list.types.update.graphQLType);
-      collectedTypes.push(updateManyByList[list.schemaCccKey].graphQLType);
+      collectedTypes.push(schemaCcc.types.update.graphQLType);
+      collectedTypes.push(updateManyBySchemaCcc[schemaCcc.schemaCccKey].graphQLType);
     }
     if (isEnabled.create) {
-      collectedTypes.push(list.types.create.graphQLType);
+      collectedTypes.push(schemaCcc.types.create.graphQLType);
     }
   }
   // this is not necessary, just about ordering

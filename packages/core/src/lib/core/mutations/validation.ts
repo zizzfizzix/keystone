@@ -7,10 +7,10 @@ type UpdateCreateHookArgs = Parameters<
   Exclude<InitialisedSchemaCcc['hooks']['validateInput'], undefined>
 >[0];
 export async function validateUpdateCreate({
-  list,
+  schemaCcc,
   hookArgs,
 }: {
-  list: InitialisedSchemaCcc;
+  schemaCcc: InitialisedSchemaCcc;
   hookArgs: DistributiveOmit<UpdateCreateHookArgs, 'addValidationError'>;
 }) {
   const messages: string[] = [];
@@ -18,13 +18,16 @@ export async function validateUpdateCreate({
   const fieldsErrors: { error: Error; tag: string }[] = [];
   // Field validation hooks
   await Promise.all(
-    Object.entries(list.fields).map(async ([fieldKey, field]) => {
+    Object.entries(schemaCcc.fields).map(async ([fieldKey, field]) => {
       const addValidationError = (msg: string) =>
-        messages.push(`${list.schemaCccKey}.${fieldKey}: ${msg}`);
+        messages.push(`${schemaCcc.schemaCccKey}.${fieldKey}: ${msg}`);
       try {
         await field.hooks.validateInput?.({ ...hookArgs, addValidationError, fieldKey });
       } catch (error: any) {
-        fieldsErrors.push({ error, tag: `${list.schemaCccKey}.${fieldKey}.hooks.validateInput` });
+        fieldsErrors.push({
+          error,
+          tag: `${schemaCcc.schemaCccKey}.${fieldKey}.hooks.validateInput`,
+        });
       }
     })
   );
@@ -33,13 +36,13 @@ export async function validateUpdateCreate({
     throw extensionError('validateInput', fieldsErrors);
   }
 
-  // List validation hooks
-  const addValidationError = (msg: string) => messages.push(`${list.schemaCccKey}: ${msg}`);
+  // Schema Ccc validation hooks
+  const addValidationError = (msg: string) => messages.push(`${schemaCcc.schemaCccKey}: ${msg}`);
   try {
-    await list.hooks.validateInput?.({ ...hookArgs, addValidationError });
+    await schemaCcc.hooks.validateInput?.({ ...hookArgs, addValidationError });
   } catch (error: any) {
     throw extensionError('validateInput', [
-      { error, tag: `${list.schemaCccKey}.hooks.validateInput` },
+      { error, tag: `${schemaCcc.schemaCccKey}.hooks.validateInput` },
     ]);
   }
 

@@ -29,7 +29,7 @@ export function applyIdFieldDefaults(config: KeystoneConfig): KeystoneConfig['sc
       config.db.provider === 'sqlite'
     ) {
       throw new Error(
-        `BigInt autoincrements are not supported on SQLite but they are configured at db.idField on the ${key} list`
+        `BigInt autoincrements are not supported on SQLite but they are configured at db.idField on the ${key} schema ccc`
       );
     }
     const idField = idFieldType(schemaCccConfig.db?.idField ?? defaultIdField);

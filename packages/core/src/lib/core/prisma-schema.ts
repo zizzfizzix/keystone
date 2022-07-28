@@ -54,7 +54,7 @@ function printField(
   fieldPath: string,
   field: Exclude<ResolvedDBField, { kind: 'none' }>,
   datasourceName: string,
-  lists: Record<string, InitialisedSchemaCcc>
+  schemaPpp: Record<string, InitialisedSchemaCcc>
 ): string {
   if (field.kind === 'scalar') {
     const nativeType = printNativeType(field.nativeType, datasourceName);
@@ -81,22 +81,22 @@ function printField(
           getDBFieldKeyForFieldOnMultiField(fieldPath, subField),
           field,
           datasourceName,
-          lists
+          schemaPpp
         )
       )
       .join('\n');
   }
   if (field.kind === 'relation') {
     if (field.mode === 'many') {
-      return `${fieldPath} ${field.list}[] @relation("${field.relationName}")`;
+      return `${fieldPath} ${field.schemaCcc}[] @relation("${field.relationName}")`;
     }
     if (field.foreignIdField.kind === 'none') {
-      return `${fieldPath} ${field.list}? @relation("${field.relationName}")`;
+      return `${fieldPath} ${field.schemaCcc}? @relation("${field.relationName}")`;
     }
     const relationIdFieldPath = `${fieldPath}Id`;
-    const relationField = `${fieldPath} ${field.list}? @relation("${field.relationName}", fields: [${relationIdFieldPath}], references: [id])`;
-    const foreignIdField = lists[field.list].resolvedDbFields.id;
-    assertDbFieldIsValidForIdField(field.list, foreignIdField);
+    const relationField = `${fieldPath} ${field.schemaCcc}? @relation("${field.relationName}", fields: [${relationIdFieldPath}], references: [id])`;
+    const foreignIdField = schemaPpp[field.schemaCcc].resolvedDbFields.id;
+    assertDbFieldIsValidForIdField(field.schemaCcc, foreignIdField);
     const nativeType = printNativeType(foreignIdField.nativeType, datasourceName);
     const index = printIndex(
       relationIdFieldPath,
@@ -112,9 +112,9 @@ function printField(
   return assertNever(field);
 }
 
-function collectEnums(lists: Record<string, InitialisedSchemaCcc>) {
+function collectEnums(schemaPpp: Record<string, InitialisedSchemaCcc>) {
   const enums: Record<string, { values: readonly string[]; firstDefinedByRef: string }> = {};
-  for (const [schemaCccKey, { resolvedDbFields }] of Object.entries(lists)) {
+  for (const [schemaCccKey, { resolvedDbFields }] of Object.entries(schemaPpp)) {
     for (const [fieldPath, field] of Object.entries(resolvedDbFields)) {
       const fields =
         field.kind === 'multi'
@@ -159,37 +159,37 @@ function assertDbFieldIsValidForIdField(
 ): asserts field is ScalarDBField<'Int' | 'String', 'required'> {
   if (field.kind !== 'scalar') {
     throw new Error(
-      `id fields must be either a String or Int Prisma scalar but the id field for the ${schemaCccKey} list is not a scalar`
+      `id fields must be either a String or Int Prisma scalar but the id field for the ${schemaCccKey} schema ccc is not a scalar`
     );
   }
   // this may be loosened in the future
   if (field.scalar !== 'String' && field.scalar !== 'Int' && field.scalar !== 'BigInt') {
     throw new Error(
-      `id fields must be String, Int or BigInt Prisma scalars but the id field for the ${schemaCccKey} list is a ${field.scalar} scalar`
+      `id fields must be String, Int or BigInt Prisma scalars but the id field for the ${schemaCccKey} schema ccc is a ${field.scalar} scalar`
     );
   }
   if (field.mode !== 'required') {
     throw new Error(
-      `id fields must be a singular required field but the id field for the ${schemaCccKey} list is ${
+      `id fields must be a singular required field but the id field for the ${schemaCccKey} schema ccc is ${
         field.mode === 'many' ? 'a many' : 'an optional'
       } field`
     );
   }
   if (field.index !== undefined) {
     throw new Error(
-      `id fields must not specify indexes themselves but the id field for the ${schemaCccKey} list specifies an index`
+      `id fields must not specify indexes themselves but the id field for the ${schemaCccKey} schema ccc specifies an index`
     );
   }
   // this will likely be loosened in the future
   if (field.default === undefined) {
     throw new Error(
-      `id fields must specify a Prisma/database level default value but the id field for the ${schemaCccKey} list does not`
+      `id fields must specify a Prisma/database level default value but the id field for the ${schemaCccKey} schema ccc does not`
     );
   }
 }
 
 export function printPrismaSchema(
-  lists: Record<string, InitialisedSchemaCcc>,
+  schemaPpp: Record<string, InitialisedSchemaCcc>,
   provider: DatabaseProvider,
   prismaPreviewFeatures: readonly string[] | undefined
 ) {
@@ -211,11 +211,11 @@ generator client {
   output   = "node_modules/.prisma/client"${prismaFlags}
 }
 \n`;
-  for (const [schemaCccKey, { resolvedDbFields, dbMap }] of Object.entries(lists)) {
+  for (const [schemaCccKey, { resolvedDbFields, dbMap }] of Object.entries(schemaPpp)) {
     prismaSchema += `model ${schemaCccKey} {`;
     for (const [fieldPath, field] of Object.entries(resolvedDbFields)) {
       if (field.kind !== 'none') {
-        prismaSchema += '\n' + printField(fieldPath, field, provider, lists);
+        prismaSchema += '\n' + printField(fieldPath, field, provider, schemaPpp);
       }
       if (fieldPath === 'id') {
         assertDbFieldIsValidForIdField(schemaCccKey, field);
@@ -227,7 +227,7 @@ generator client {
     }
     prismaSchema += `\n}\n`;
   }
-  prismaSchema += `\n${collectEnums(lists)}\n`;
+  prismaSchema += `\n${collectEnums(schemaPpp)}\n`;
 
   return prismaSchema;
 }
