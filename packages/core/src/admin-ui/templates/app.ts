@@ -110,7 +110,8 @@ function getLazyMetadataQuery(
 
   const queryType = graphqlSchema.getQueryType();
   if (queryType) {
-    const getListByKey = (name: string) => adminMeta.lists.find(({ key }: any) => key === name);
+    const getSchemaCccByKey = (name: string) =>
+      adminMeta.schemaPpp.find(({ key }: any) => key === name);
     const fields = queryType.getFields();
     if (fields['authenticatedItem'] !== undefined) {
       const authenticatedItemType = fields['authenticatedItem'].type;
@@ -119,21 +120,21 @@ function getLazyMetadataQuery(
         authenticatedItemType.name !== 'AuthenticatedItem'
       ) {
         throw new Error(
-          `The type of Query.authenticatedItem must be a type named AuthenticatedItem and be a union of types that refer to Keystone lists but it is "${authenticatedItemType.toString()}"`
+          `The type of Query.authenticatedItem must be a type named AuthenticatedItem and be a union of types that refer to Keystone schema ccc but it is "${authenticatedItemType.toString()}"`
         );
       }
       for (const type of authenticatedItemType.getTypes()) {
         const fields = type.getFields();
-        const list = getListByKey(type.name);
-        if (list === undefined) {
+        const schemaCcc = getSchemaCccByKey(type.name);
+        if (schemaCcc === undefined) {
           throw new Error(
-            `All members of the AuthenticatedItem union must refer to Keystone lists but "${type.name}" is in the AuthenticatedItem union but is not a Keystone list`
+            `All members of the AuthenticatedItem union must refer to Keystone schema cccs but "${type.name}" is in the AuthenticatedItem union but is not a Keystone schema ccc`
           );
         }
-        let labelGraphQLField = fields[list.labelField];
+        let labelGraphQLField = fields[schemaCcc.labelField];
         if (labelGraphQLField === undefined) {
           throw new Error(
-            `The labelField for the list "${list.key}" is "${list.labelField}" but the GraphQL type does not have a field named "${list.labelField}"`
+            `The labelField for the schema ccc "${schemaCcc.key}" is "${schemaCcc.labelField}" but the GraphQL type does not have a field named "${schemaCcc.labelField}"`
           );
         }
         let labelGraphQLFieldType = labelGraphQLField.type;
@@ -142,7 +143,7 @@ function getLazyMetadataQuery(
         }
         if (!(labelGraphQLFieldType instanceof GraphQLScalarType)) {
           throw new Error(
-            `Label fields must be scalar GraphQL types but the labelField "${list.labelField}" on the list "${list.key}" is not a scalar type`
+            `Label fields must be scalar GraphQL types but the labelField "${schemaCcc.labelField}" on the schema ccc "${schemaCcc.key}" is not a scalar type`
           );
         }
         const requiredArgs = labelGraphQLField.args.filter(
@@ -150,7 +151,7 @@ function getLazyMetadataQuery(
         );
         if (requiredArgs.length) {
           throw new Error(
-            `Label fields must have no required arguments but the labelField "${list.labelField}" on the list "${list.key}" has a required argument "${requiredArgs[0].name}"`
+            `Label fields must have no required arguments but the labelField "${schemaCcc.labelField}" on the schema ccc "${schemaCcc.key}" has a required argument "${requiredArgs[0].name}"`
           );
         }
       }
@@ -167,7 +168,10 @@ function getLazyMetadataQuery(
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: getListByKey(name)!.labelField } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: getSchemaCccByKey(name)!.labelField },
+                },
               ],
             },
           })),

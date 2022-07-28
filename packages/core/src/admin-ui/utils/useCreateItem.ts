@@ -17,23 +17,26 @@ type CreateItemHookResult = {
   create: () => Promise<{ id: string; label: string | null } | undefined>;
 };
 
-export function useCreateItem(list: SchemaCccMeta): CreateItemHookResult {
+export function useCreateItem(schemaCcc: SchemaCccMeta): CreateItemHookResult {
   const toasts = useToasts();
   const { createViewFieldModes } = useKeystone();
 
   const [createItem, { loading, error, data: returnedData }] = useMutation(
-    gql`mutation($data: ${list.gqlNames.createInputName}!) {
-      item: ${list.gqlNames.createMutationName}(data: $data) {
+    gql`mutation($data: ${schemaCcc.gqlNames.createInputName}!) {
+      item: ${schemaCcc.gqlNames.createMutationName}(data: $data) {
         id
-        label: ${list.labelField}
+        label: ${schemaCcc.labelField}
     }
   }`
   );
 
   const [value, setValue] = useState(() => {
     const value: ValueWithoutServerSideErrors = {};
-    Object.keys(list.fields).forEach(fieldPath => {
-      value[fieldPath] = { kind: 'value', value: list.fields[fieldPath].controller.defaultValue };
+    Object.keys(schemaCcc.fields).forEach(fieldPath => {
+      value[fieldPath] = {
+        kind: 'value',
+        value: schemaCcc.fields[fieldPath].controller.defaultValue,
+      };
     });
     return value;
   });
@@ -44,7 +47,7 @@ export function useCreateItem(list: SchemaCccMeta): CreateItemHookResult {
     Object.keys(value).forEach(fieldPath => {
       const val = value[fieldPath].value;
 
-      const validateFn = list.fields[fieldPath].controller.validate;
+      const validateFn = schemaCcc.fields[fieldPath].controller.validate;
       if (validateFn) {
         const result = validateFn(val);
         if (result === false) {
@@ -53,13 +56,13 @@ export function useCreateItem(list: SchemaCccMeta): CreateItemHookResult {
       }
     });
     return invalidFields;
-  }, [list, value]);
+  }, [schemaCcc, value]);
 
   const [forceValidation, setForceValidation] = useState(false);
 
   const data: Record<string, any> = {};
-  Object.keys(list.fields).forEach(fieldPath => {
-    const { controller } = list.fields[fieldPath];
+  Object.keys(schemaCcc.fields).forEach(fieldPath => {
+    const { controller } = schemaCcc.fields[fieldPath];
     const serialized = controller.serialize(value[fieldPath].value);
     if (!isDeepEqual(serialized, controller.serialize(controller.defaultValue))) {
       Object.assign(data, serialized);
@@ -81,9 +84,11 @@ export function useCreateItem(list: SchemaCccMeta): CreateItemHookResult {
     shouldPreventNavigation,
     error,
     props: {
-      fields: list.fields,
+      fields: schemaCcc.fields,
       fieldModes:
-        createViewFieldModes.state === 'loaded' ? createViewFieldModes.schemaPpp[list.key] : null,
+        createViewFieldModes.state === 'loaded'
+          ? createViewFieldModes.schemaPpp[schemaCcc.key]
+          : null,
       forceValidation,
       invalidFields,
       value,

@@ -14,8 +14,8 @@ type SelectDisplayConfig = {
     // Sets the relationship to display as a Select field
     displayMode?: 'select';
     /**
-     * The path of the field to use from the related list for item labels in the select.
-     * Defaults to the labelField configured on the related list.
+     * The path of the field to use from the related schema ccc for item labels in the select.
+     * Defaults to the labelField configured on the related schema ccc.
      */
     labelField?: string;
   };
@@ -23,7 +23,7 @@ type SelectDisplayConfig = {
 
 type CardsDisplayConfig = {
   ui?: {
-    // Sets the relationship to display as a list of Cards
+    // Sets the relationship to display as a schema ccc of Cards
     displayMode: 'cards';
     /* The set of fields to render in the default Card component **/
     cardFields: readonly string[];
@@ -115,7 +115,7 @@ export const relationship =
               for (const foreignField of foreignFields) {
                 if (!allForeignFields.has(foreignField)) {
                   throw new Error(
-                    `The ${configOption} option on the relationship field at ${meta.schemaCccKey}.${meta.fieldKey} includes the "${foreignField}" field but that field does not exist on the "${foreignschemaCccKey}" list`
+                    `The ${configOption} option on the relationship field at ${meta.schemaCccKey}.${meta.fieldKey} includes the "${foreignField}" field but that field does not exist on the "${foreignschemaCccKey}" schema ccc`
                   );
                 }
               }
@@ -147,12 +147,12 @@ export const relationship =
         };
       },
     };
-    if (!meta.lists[foreignschemaCccKey]) {
+    if (!meta.schemaPpp[foreignschemaCccKey]) {
       throw new Error(
-        `Unable to resolve related list '${foreignschemaCccKey}' from ${meta.schemaCccKey}.${meta.fieldKey}`
+        `Unable to resolve related schema ccc '${foreignschemaCccKey}' from ${meta.schemaCccKey}.${meta.fieldKey}`
       );
     }
-    const listTypes = meta.lists[foreignschemaCccKey].types;
+    const schemaCccTypes = meta.schemaPpp[foreignschemaCccKey].types;
     if (config.many) {
       return fieldType({
         kind: 'relation',
@@ -164,27 +164,27 @@ export const relationship =
         ...commonConfig,
         input: {
           where: {
-            arg: graphql.arg({ type: listTypes.relateTo.many.where }),
+            arg: graphql.arg({ type: schemaCccTypes.relateTo.many.where }),
             resolve(value, context, resolve) {
               return resolve(value);
             },
           },
-          create: listTypes.relateTo.many.create && {
-            arg: graphql.arg({ type: listTypes.relateTo.many.create }),
+          create: schemaCccTypes.relateTo.many.create && {
+            arg: graphql.arg({ type: schemaCccTypes.relateTo.many.create }),
             async resolve(value, context, resolve) {
               return resolve(value);
             },
           },
-          update: listTypes.relateTo.many.update && {
-            arg: graphql.arg({ type: listTypes.relateTo.many.update }),
+          update: schemaCccTypes.relateTo.many.update && {
+            arg: graphql.arg({ type: schemaCccTypes.relateTo.many.update }),
             async resolve(value, context, resolve) {
               return resolve(value);
             },
           },
         },
         output: graphql.field({
-          args: listTypes.findManyArgs,
-          type: graphql.list(graphql.nonNull(listTypes.output)),
+          args: schemaCccTypes.findManyArgs,
+          type: graphql.list(graphql.nonNull(schemaCccTypes.output)),
           resolve({ value }, args) {
             return value.findMany(args);
           },
@@ -193,7 +193,7 @@ export const relationship =
           [`${meta.fieldKey}Count`]: graphql.field({
             type: graphql.Int,
             args: {
-              where: graphql.arg({ type: graphql.nonNull(listTypes.where), defaultValue: {} }),
+              where: graphql.arg({ type: graphql.nonNull(schemaCccTypes.where), defaultValue: {} }),
             },
             resolve({ value }, args) {
               return value.count({
@@ -214,27 +214,27 @@ export const relationship =
       ...commonConfig,
       input: {
         where: {
-          arg: graphql.arg({ type: listTypes.where }),
+          arg: graphql.arg({ type: schemaCccTypes.where }),
           resolve(value, context, resolve) {
             return resolve(value);
           },
         },
-        create: listTypes.relateTo.one.create && {
-          arg: graphql.arg({ type: listTypes.relateTo.one.create }),
+        create: schemaCccTypes.relateTo.one.create && {
+          arg: graphql.arg({ type: schemaCccTypes.relateTo.one.create }),
           async resolve(value, context, resolve) {
             return resolve(value);
           },
         },
 
-        update: listTypes.relateTo.one.update && {
-          arg: graphql.arg({ type: listTypes.relateTo.one.update }),
+        update: schemaCccTypes.relateTo.one.update && {
+          arg: graphql.arg({ type: schemaCccTypes.relateTo.one.update }),
           async resolve(value, context, resolve) {
             return resolve(value);
           },
         },
       },
       output: graphql.field({
-        type: listTypes.output,
+        type: schemaCccTypes.output,
         resolve({ value }) {
           return value();
         },

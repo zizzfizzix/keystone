@@ -28,7 +28,7 @@ export function useLazyMetadata(query: DocumentNode): {
           | { __typename: string };
         keystone: {
           adminMeta: {
-            lists: {
+            schemaPpp: {
               key: string;
               isHidden: boolean;
               fields: { path: string; createView: { fieldMode: 'edit' | 'hidden' } }[];
@@ -66,14 +66,14 @@ function getCreateViewFieldModes(
     return { state: 'error', error };
   }
   if (data) {
-    const lists: Record<string, Record<string, 'edit' | 'hidden'>> = {};
-    data.keystone.adminMeta.lists.forEach((list: any) => {
-      lists[list.key] = {};
-      list.fields.forEach((field: any) => {
-        lists[list.key][field.path] = field.createView.fieldMode;
+    const schemaPpp: Record<string, Record<string, 'edit' | 'hidden'>> = {};
+    data.keystone.adminMeta.schemaPpp.forEach((schemaCcc: any) => {
+      schemaPpp[schemaCcc.key] = {};
+      schemaCcc.fields.forEach((field: any) => {
+        schemaPpp[schemaCcc.key][field.path] = field.createView.fieldMode;
       });
     });
-    return { state: 'loaded', schemaPpp: lists };
+    return { state: 'loaded', schemaPpp: schemaPpp };
   }
 
   return { state: 'loading' };
@@ -87,13 +87,13 @@ function getVisibleSchemaPpp(
     return { state: 'error', error };
   }
   if (data) {
-    const lists = new Set<string>();
-    data.keystone.adminMeta.lists.forEach((list: any) => {
-      if (!list.isHidden) {
-        lists.add(list.key);
+    const schemaPpp = new Set<string>();
+    data.keystone.adminMeta.schemaPpp.forEach((schemaCcc: any) => {
+      if (!schemaCcc.isHidden) {
+        schemaPpp.add(schemaCcc.key);
       }
     });
-    return { state: 'loaded', schemaPpp: lists };
+    return { state: 'loaded', schemaPpp: schemaPpp };
   }
 
   return { state: 'loading' };

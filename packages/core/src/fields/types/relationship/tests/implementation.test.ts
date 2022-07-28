@@ -130,10 +130,10 @@ describe('Type Generation', () => {
   });
 });
 
-describe('Referenced list errors', () => {
-  test('throws when list not found', async () => {
+describe('Referenced schema ccc errors', () => {
+  test('throws when schema ccc not found', async () => {
     expect(() => getSchema(relationship({ ref: 'DoesNotExist' }))).toThrow(
-      "Unable to resolve related list 'DoesNotExist' from Test.foo"
+      "Unable to resolve related schema ccc 'DoesNotExist' from Test.foo"
     );
   });
 
@@ -141,7 +141,7 @@ describe('Referenced list errors', () => {
     getSchema(relationship({ many: true, ref: 'Zip' }));
   });
 
-  test('throws when field on list not found', async () => {
+  test('throws when field on schema ccc not found', async () => {
     expect(() => getSchema(relationship({ many: true, ref: 'Zip.bar' }))).toThrow(
       'The relationship field at Test.foo points to Zip.bar but no field at Zip.bar exists'
     );
