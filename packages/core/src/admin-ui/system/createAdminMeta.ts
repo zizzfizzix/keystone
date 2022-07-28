@@ -5,76 +5,76 @@ import { InitialisedSchemaCcc } from '../../lib/core/types-for-lists';
 
 export function createAdminMeta(
   config: KeystoneConfig,
-  initialisedLists: Record<string, InitialisedSchemaCcc>
+  initialisedSchemaPpp: Record<string, InitialisedSchemaCcc>
 ) {
-  const { ui, schemaPpp: lists, session } = config;
+  const { ui, schemaPpp, session } = config;
   const adminMetaRoot: AdminMetaRootVal = {
     enableSessionItem: ui?.enableSessionItem || false,
     enableSignout: session !== undefined,
-    listsByKey: {},
-    lists: [],
+    schemaCccByKey: {},
+    schemaPpp: [],
     views: [],
   };
 
-  const omittedLists: string[] = [];
+  const omittedSchemaCccs: string[] = [];
 
-  for (const [key, list] of Object.entries(initialisedLists)) {
-    const listConfig = lists[key];
-    if (list.graphql.isEnabled.query === false) {
-      // If graphql querying is disabled on the list,
-      // push the key into the ommittedLists array for use further down in the procedure and skip.
-      omittedLists.push(key);
+  for (const [key, schemaCcc] of Object.entries(initialisedSchemaPpp)) {
+    const schemaCccConfig = schemaPpp[key];
+    if (schemaCcc.graphql.isEnabled.query === false) {
+      // If graphql querying is disabled on the schemaCcc,
+      // push the key into the omittedSchemaCcc array for use further down in the procedure and skip.
+      omittedSchemaCccs.push(key);
 
       continue;
     }
     // Default the labelField to `name`, `label`, or `title` if they exist; otherwise fall back to `id`
     const labelField =
-      (listConfig.ui?.labelField as string | undefined) ??
-      (listConfig.fields.label
+      (schemaCccConfig.ui?.labelField as string | undefined) ??
+      (schemaCccConfig.fields.label
         ? 'label'
-        : listConfig.fields.name
+        : schemaCccConfig.fields.name
         ? 'name'
-        : listConfig.fields.title
+        : schemaCccConfig.fields.title
         ? 'title'
         : 'id');
 
     let initialColumns: string[];
-    if (listConfig.ui?.listView?.initialColumns) {
+    if (schemaCccConfig.ui?.listView?.initialColumns) {
       // If they've asked for a particular thing, give them that thing
-      initialColumns = listConfig.ui.listView.initialColumns as string[];
+      initialColumns = schemaCccConfig.ui.listView.initialColumns as string[];
     } else {
       // Otherwise, we'll start with the labelField on the left and then add
       // 2 more fields to the right of that. We don't include the 'id' field
       // unless it happened to be the labelField
       initialColumns = [
         labelField,
-        ...Object.keys(list.fields)
-          .filter(fieldKey => list.fields[fieldKey].graphql.isEnabled.read)
+        ...Object.keys(schemaCcc.fields)
+          .filter(fieldKey => schemaCcc.fields[fieldKey].graphql.isEnabled.read)
           .filter(fieldKey => fieldKey !== labelField)
           .filter(fieldKey => fieldKey !== 'id'),
       ].slice(0, 3);
     }
 
-    adminMetaRoot.listsByKey[key] = {
+    adminMetaRoot.schemaCccByKey[key] = {
       key,
       labelField,
-      description: listConfig.ui?.description ?? listConfig.description ?? null,
-      label: list.adminUILabels.label,
-      singular: list.adminUILabels.singular,
-      plural: list.adminUILabels.plural,
-      path: list.adminUILabels.path,
+      description: schemaCccConfig.ui?.description ?? schemaCccConfig.description ?? null,
+      label: schemaCcc.adminUILabels.label,
+      singular: schemaCcc.adminUILabels.singular,
+      plural: schemaCcc.adminUILabels.plural,
+      path: schemaCcc.adminUILabels.path,
       fields: [],
-      pageSize: listConfig.ui?.listView?.pageSize ?? 50,
+      pageSize: schemaCccConfig.ui?.listView?.pageSize ?? 50,
       initialColumns,
       initialSort:
-        (listConfig.ui?.listView?.initialSort as
+        (schemaCccConfig.ui?.listView?.initialSort as
           | { field: string; direction: 'ASC' | 'DESC' }
           | undefined) ?? null,
       // TODO: probably remove this from the GraphQL schema and here
       itemQueryName: key,
-      listQueryName: list.pluralGraphQLName,
+      schemaCccQueryName: schemaCcc.pluralGraphQLName,
     };
-    adminMetaRoot.lists.push(adminMetaRoot.listsByKey[key]);
+    adminMetaRoot.schemaPpp.push(adminMetaRoot.schemaCccByKey[key]);
   }
   let uniqueViewCount = -1;
   const stringViewsToIndex: Record<string, number> = {};
@@ -88,18 +88,18 @@ export function createAdminMeta(
     return uniqueViewCount;
   }
   // Populate .fields array
-  for (const [key, list] of Object.entries(initialisedLists)) {
-    if (omittedLists.includes(key)) continue;
+  for (const [key, schemaCcc] of Object.entries(initialisedSchemaPpp)) {
+    if (omittedSchemaCccs.includes(key)) continue;
     const searchFields = new Set(config.schemaPpp[key].ui?.searchFields ?? []);
     if (searchFields.has('id')) {
       throw new Error(
-        `The ui.searchFields option on the ${key} list includes 'id'. Lists can always be searched by an item's id so it must not be specified as a search field`
+        `The ui.searchFields option on the ${key} schema ccc includes 'id'. Schema ccc can always be searched by an item's id so it must not be specified as a search field`
       );
     }
-    const whereInputFields = list.types.where.graphQLType.getFields();
+    const whereInputFields = schemaCcc.types.where.graphQLType.getFields();
     const possibleSearchFields = new Map<string, 'default' | 'insensitive' | null>();
 
-    for (const fieldKey of Object.keys(list.fields)) {
+    for (const fieldKey of Object.keys(schemaCcc.fields)) {
       const filterType = whereInputFields[fieldKey]?.type;
       const fieldFilterFields = isInputObjectType(filterType) ? filterType.getFields() : undefined;
       if (fieldFilterFields?.contains?.type === GraphQLString) {
@@ -110,25 +110,27 @@ export function createAdminMeta(
       }
     }
     if (config.schemaPpp[key].ui?.searchFields === undefined) {
-      const labelField = adminMetaRoot.listsByKey[key].labelField;
+      const labelField = adminMetaRoot.schemaCccByKey[key].labelField;
       if (possibleSearchFields.has(labelField)) {
         searchFields.add(labelField);
       }
     }
 
-    for (const [fieldKey, field] of Object.entries(list.fields)) {
-      // If the field is a relationship field and is related to an omitted list, skip.
-      if (field.dbField.kind === 'relation' && omittedLists.includes(field.dbField.list)) continue;
+    for (const [fieldKey, field] of Object.entries(schemaCcc.fields)) {
+      // If the field is a relationship field and is related to an omitted schema ccc, skip.
+      if (field.dbField.kind === 'relation' && omittedSchemaCccs.includes(field.dbField.list)) {
+        continue;
+      }
       // FIXME: Disabling this entirely for now until the Admin UI can properly
       // handle `omit: ['read']` correctly.
       if (field.graphql.isEnabled.read === false) continue;
       let search = searchFields.has(fieldKey) ? possibleSearchFields.get(fieldKey) ?? null : null;
       if (searchFields.has(fieldKey) && search === null) {
         throw new Error(
-          `The ui.searchFields option on the ${key} list includes '${fieldKey}' but that field doesn't have a contains filter that accepts a GraphQL String`
+          `The ui.searchFields option on the ${key} schema ccc includes '${fieldKey}' but that field doesn't have a contains filter that accepts a GraphQL String`
         );
       }
-      adminMetaRoot.listsByKey[key].fields.push({
+      adminMetaRoot.schemaCccByKey[key].fields.push({
         label: field.label ?? humanize(fieldKey),
         description: field.ui?.description ?? null,
         viewsIndex: getViewId(field.views),
@@ -143,16 +145,16 @@ export function createAdminMeta(
 
   // we do this seperately to the above so that fields can check other fields to validate their config or etc.
   // (ofc they won't necessarily be able to see other field's fieldMeta)
-  for (const [key, list] of Object.entries(initialisedLists)) {
-    if (list.graphql.isEnabled.query === false) continue;
-    for (const fieldMetaRootVal of adminMetaRoot.listsByKey[key].fields) {
-      const dbField = list.fields[fieldMetaRootVal.path].dbField;
-      // If the field is a relationship field and is related to an omitted list, skip.
-      if (dbField.kind === 'relation' && omittedLists.includes(dbField.list)) {
+  for (const [key, schemaCcc] of Object.entries(initialisedSchemaPpp)) {
+    if (schemaCcc.graphql.isEnabled.query === false) continue;
+    for (const fieldMetaRootVal of adminMetaRoot.schemaCccByKey[key].fields) {
+      const dbField = schemaCcc.fields[fieldMetaRootVal.path].dbField;
+      // If the field is a relationship field and is related to an omitted schema ccc, skip.
+      if (dbField.kind === 'relation' && omittedSchemaCccs.includes(dbField.list)) {
         continue;
       }
       fieldMetaRootVal.fieldMeta =
-        list.fields[fieldMetaRootVal.path].getAdminMeta?.(adminMetaRoot) ?? null;
+        schemaCcc.fields[fieldMetaRootVal.path].getAdminMeta?.(adminMetaRoot) ?? null;
     }
   }
 

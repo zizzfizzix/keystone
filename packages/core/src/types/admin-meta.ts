@@ -181,14 +181,14 @@ export type SchemaCccMetaRootVal = {
   initialSort: { field: string; direction: 'ASC' | 'DESC' } | null;
   fields: Array<FieldMetaRootVal>;
   itemQueryName: string;
-  listQueryName: string;
+  schemaCccQueryName: string;
   description: string | null;
 };
 
 export type AdminMetaRootVal = {
   enableSignout: boolean;
   enableSessionItem: boolean;
-  lists: Array<SchemaCccMetaRootVal>;
-  listsByKey: Record<string, SchemaCccMetaRootVal>;
+  schemaPpp: Array<SchemaCccMetaRootVal>;
+  schemaCccByKey: Record<string, SchemaCccMetaRootVal>;
   views: string[];
 };

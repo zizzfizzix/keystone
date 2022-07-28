@@ -4,12 +4,12 @@ import type { AuthenticatedItem, VisibleSchemaPpp, CreateViewFieldModes } from '
 import { DocumentNode, useQuery, QueryResult, ServerError, ServerParseError } from '../apollo';
 import { DeepNullable, makeDataGetter } from './dataGetter';
 
-export type { AuthenticatedItem, VisibleSchemaPpp as VisibleLists, CreateViewFieldModes };
+export type { AuthenticatedItem, VisibleSchemaPpp, CreateViewFieldModes };
 
 export function useLazyMetadata(query: DocumentNode): {
   authenticatedItem: AuthenticatedItem;
   refetch: () => void;
-  visibleLists: VisibleSchemaPpp;
+  visibleSchemaPpp: VisibleSchemaPpp;
   createViewFieldModes: CreateViewFieldModes;
 } {
   let result = useQuery(query, { errorPolicy: 'all', fetchPolicy: 'network-only' });
@@ -46,7 +46,7 @@ export function useLazyMetadata(query: DocumentNode): {
         result,
         authenticatedItemGetter.errors || (result.error?.networkError ?? undefined)
       ),
-      visibleLists: getVisibleLists(
+      visibleSchemaPpp: getVisibleSchemaPpp(
         result,
         keystoneMetaGetter.errors || (result.error?.networkError ?? undefined)
       ),
@@ -79,7 +79,7 @@ function getCreateViewFieldModes(
   return { state: 'loading' };
 }
 
-function getVisibleLists(
+function getVisibleSchemaPpp(
   { data }: QueryResult,
   error?: Error | ServerParseError | ServerError | readonly [GraphQLError, ...GraphQLError[]]
 ): VisibleSchemaPpp {

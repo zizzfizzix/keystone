@@ -23,7 +23,7 @@ export function createGraphQLSchema(
           }),
         }
       : {},
-    query: getAdminMetaSchema({ adminMeta, config, lists }),
+    query: getAdminMetaSchema({ adminMeta, config, schemaPpp: lists }),
   });
 
   // Merge in the user defined graphQL API

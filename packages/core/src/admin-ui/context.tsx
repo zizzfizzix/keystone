@@ -9,7 +9,7 @@ import { useAdminMeta } from './utils/useAdminMeta';
 import { ApolloProvider, ApolloClient, InMemoryCache, ApolloError, DocumentNode } from './apollo';
 import {
   AuthenticatedItem,
-  VisibleLists,
+  VisibleSchemaPpp,
   useLazyMetadata,
   CreateViewFieldModes,
 } from './utils/useLazyMetadata';
@@ -21,7 +21,7 @@ type KeystoneContextType = {
     | { state: 'error'; error: ApolloError; refetch: () => void };
   fieldViews: FieldViews;
   authenticatedItem: AuthenticatedItem;
-  visibleLists: VisibleLists;
+  visibleSchemaPpp: VisibleSchemaPpp;
   createViewFieldModes: CreateViewFieldModes;
   reinitContext: () => void;
   apiPath: string;
@@ -47,7 +47,7 @@ function InternalKeystoneProvider({
   apiPath,
 }: KeystoneProviderProps) {
   const adminMeta = useAdminMeta(adminMetaHash, fieldViews);
-  const { authenticatedItem, visibleLists, createViewFieldModes, refetch } =
+  const { authenticatedItem, visibleSchemaPpp, createViewFieldModes, refetch } =
     useLazyMetadata(lazyMetadataQuery);
   const reinitContext = () => {
     adminMeta?.refetch?.();
@@ -71,7 +71,7 @@ function InternalKeystoneProvider({
             fieldViews,
             authenticatedItem,
             reinitContext,
-            visibleLists,
+            visibleSchemaPpp,
             createViewFieldModes,
             apiPath,
           }}
@@ -104,7 +104,7 @@ export const useKeystone = (): {
   adminConfig: AdminConfig;
   adminMeta: AdminMeta;
   authenticatedItem: AuthenticatedItem;
-  visibleSchemaPpp: VisibleLists;
+  visibleSchemaPpp: VisibleSchemaPpp;
   createViewFieldModes: CreateViewFieldModes;
   apiPath: string;
 } => {
@@ -126,7 +126,7 @@ export const useKeystone = (): {
     adminConfig: value.adminConfig,
     adminMeta: value.adminMeta.value,
     authenticatedItem: value.authenticatedItem,
-    visibleSchemaPpp: value.visibleLists,
+    visibleSchemaPpp: value.visibleSchemaPpp,
     createViewFieldModes: value.createViewFieldModes,
     apiPath: value.apiPath,
   };
@@ -155,6 +155,6 @@ export const useSchemaCcc = (key: string) => {
   if (schemaPpp[key]) {
     return schemaPpp[key];
   } else {
-    throw new Error(`Invalid list key provided to useSchemaCcc: ${key}`);
+    throw new Error(`Invalid schema ccc key provided to useSchemaCcc: ${key}`);
   }
 };

@@ -753,7 +753,12 @@ function ListTable({
           })}
         </tbody>
       </TableContainer>
-      <Pagination list={schemaCcc} total={count} currentPage={currentPage} pageSize={pageSize} />
+      <Pagination
+        schemaCcc={schemaCcc}
+        total={count}
+        currentPage={currentPage}
+        pageSize={pageSize}
+      />
     </Box>
   );
 }

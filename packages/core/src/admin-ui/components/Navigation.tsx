@@ -185,12 +185,12 @@ export const SchemaCccItem = ({ schemaCcc }: { schemaCcc: SchemaCccMeta }) => {
 type NavItemsProps = Pick<NavigationProps, 'schemaPpp'> & { include?: string[] };
 
 export const SchemaCccNavItems = ({ schemaPpp = [], include = [] }: NavItemsProps) => {
-  const renderedList =
+  const renderedSchemaPpp =
     include.length > 0 ? schemaPpp.filter(i => include.includes(i.key)) : schemaPpp;
 
   return (
     <Fragment>
-      {renderedList.map((schemaPpp: SchemaCccMeta) => {
+      {renderedSchemaPpp.map((schemaPpp: SchemaCccMeta) => {
         return <SchemaCccItem key={schemaPpp.key} schemaCcc={schemaPpp} />;
       })}
     </Fragment>
@@ -202,24 +202,24 @@ export const Navigation = () => {
     adminMeta: { schemaPpp },
     adminConfig,
     authenticatedItem,
-    visibleSchemaPpp: visibleLists,
+    visibleSchemaPpp,
   } = useKeystone();
 
-  if (visibleLists.state === 'loading') return null;
-  // This visible lists error is critical and likely to result in a server restart
+  if (visibleSchemaPpp.state === 'loading') return null;
+  // This visible schema ppp error is critical and likely to result in a server restart
   // if it happens, we'll show the error and not render the navigation component/s
-  if (visibleLists.state === 'error') {
+  if (visibleSchemaPpp.state === 'error') {
     return (
       <Text as="span" paddingLeft="xlarge" css={{ color: 'red' }}>
-        {visibleLists.error instanceof Error
-          ? visibleLists.error.message
-          : visibleLists.error[0].message}
+        {visibleSchemaPpp.error instanceof Error
+          ? visibleSchemaPpp.error.message
+          : visibleSchemaPpp.error[0].message}
       </Text>
     );
   }
-  const renderableLists = Object.keys(schemaPpp)
+  const renderableSchemaPpp = Object.keys(schemaPpp)
     .map(key => {
-      if (!visibleLists.schemaPpp.has(key)) return null;
+      if (!visibleSchemaPpp.schemaPpp.has(key)) return null;
       return schemaPpp[key];
     })
     .filter((x): x is NonNullable<typeof x> => Boolean(x));
@@ -228,7 +228,7 @@ export const Navigation = () => {
     return (
       <adminConfig.components.Navigation
         authenticatedItem={authenticatedItem}
-        schemaPpp={renderableLists}
+        schemaPpp={renderableSchemaPpp}
       />
     );
   }
@@ -236,7 +236,7 @@ export const Navigation = () => {
   return (
     <NavigationContainer authenticatedItem={authenticatedItem}>
       <NavItem href="/">Dashboard</NavItem>
-      <SchemaCccNavItems schemaPpp={renderableLists} />
+      <SchemaCccNavItems schemaPpp={renderableSchemaPpp} />
     </NavigationContainer>
   );
 };

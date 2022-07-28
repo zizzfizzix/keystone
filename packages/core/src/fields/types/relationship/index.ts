@@ -100,12 +100,12 @@ export const relationship =
           // in newer versions of keystone, it will be there and it will not be there for older versions of keystone.
           // this is so that relationship fields doesn't break in confusing ways
           // if people are using a slightly older version of keystone
-          const currentField = adminMetaRoot.listsByKey[meta.schemaCccKey].fields.find(
+          const currentField = adminMetaRoot.schemaCccByKey[meta.schemaCccKey].fields.find(
             x => x.path === meta.fieldKey
           );
           if (currentField) {
             const allForeignFields = new Set(
-              adminMetaRoot.listsByKey[foreignschemaCccKey].fields.map(x => x.path)
+              adminMetaRoot.schemaCccByKey[foreignschemaCccKey].fields.map(x => x.path)
             );
             for (const [configOption, foreignFields] of [
               ['ui.cardFields', config.ui.cardFields],
@@ -136,13 +136,13 @@ export const relationship =
                 inlineCreate: config.ui.inlineCreate ?? null,
                 inlineEdit: config.ui.inlineEdit ?? null,
                 inlineConnect: config.ui.inlineConnect ?? false,
-                refLabelField: adminMetaRoot.listsByKey[foreignschemaCccKey].labelField,
+                refLabelField: adminMetaRoot.schemaCccByKey[foreignschemaCccKey].labelField,
               }
             : config.ui?.displayMode === 'count'
             ? { displayMode: 'count' }
             : {
                 displayMode: 'select',
-                refLabelField: adminMetaRoot.listsByKey[foreignschemaCccKey].labelField,
+                refLabelField: adminMetaRoot.schemaCccByKey[foreignschemaCccKey].labelField,
               }),
         };
       },

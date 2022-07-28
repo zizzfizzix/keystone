@@ -20,12 +20,12 @@ const graphql = {
 
 export function getAdminMetaSchema({
   config,
-  lists,
+  schemaPpp,
   adminMeta: adminMetaRoot,
 }: {
   adminMeta: AdminMetaRootVal;
   config: KeystoneConfig;
-  lists: Record<string, InitialisedSchemaCcc>;
+  schemaPpp: Record<string, InitialisedSchemaCcc>;
 }) {
   const isAccessAllowed =
     config.ui?.isAccessAllowed ??
@@ -46,11 +46,11 @@ export function getAdminMetaSchema({
               'KeystoneAdminUIFieldMeta.isOrderable cannot be resolved during the build process'
             );
           }
-          if (!lists[rootVal.schemaCccKey].fields[rootVal.path].input?.orderBy) {
+          if (!schemaPpp[rootVal.schemaCccKey].fields[rootVal.path].input?.orderBy) {
             return false;
           }
           const isOrderable =
-            lists[rootVal.schemaCccKey].fields[rootVal.path].graphql.isEnabled.orderBy;
+            schemaPpp[rootVal.schemaCccKey].fields[rootVal.path].graphql.isEnabled.orderBy;
           if (typeof isOrderable === 'function') {
             return isOrderable({
               context,
@@ -70,11 +70,11 @@ export function getAdminMetaSchema({
               'KeystoneAdminUIFieldMeta.isOrderable cannot be resolved during the build process'
             );
           }
-          if (!lists[rootVal.schemaCccKey].fields[rootVal.path].input?.where) {
+          if (!schemaPpp[rootVal.schemaCccKey].fields[rootVal.path].input?.where) {
             return false;
           }
           const isFilterable =
-            lists[rootVal.schemaCccKey].fields[rootVal.path].graphql.isEnabled.filter;
+            schemaPpp[rootVal.schemaCccKey].fields[rootVal.path].graphql.isEnabled.filter;
           if (typeof isFilterable === 'function') {
             return isFilterable({
               context,
@@ -111,14 +111,15 @@ export function getAdminMetaSchema({
                     );
                   }
                   if (
-                    !lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled.create
+                    !schemaPpp[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled
+                      .create
                   ) {
                     return 'hidden';
                   }
-                  const listConfig = config.schemaPpp[rootVal.schemaCccKey];
+                  const schemaCccConfig = config.schemaPpp[rootVal.schemaCccKey];
                   const sessionFunction =
-                    lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].ui?.createView
-                      ?.fieldMode ?? listConfig.ui?.createView?.defaultFieldMode;
+                    schemaPpp[rootVal.schemaCccKey].fields[rootVal.fieldPath].ui?.createView
+                      ?.fieldMode ?? schemaCccConfig.ui?.createView?.defaultFieldMode;
                   return runMaybeFunction(sessionFunction, 'edit', {
                     session: context.session,
                     context,
@@ -151,13 +152,14 @@ export function getAdminMetaSchema({
                     );
                   }
                   if (
-                    !lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled.read
+                    !schemaPpp[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled
+                      .read
                   ) {
                     return 'hidden';
                   }
                   const listConfig = config.schemaPpp[rootVal.schemaCccKey];
                   const sessionFunction =
-                    lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].ui?.listView
+                    schemaPpp[rootVal.schemaCccKey].fields[rootVal.fieldPath].ui?.listView
                       ?.fieldMode ?? listConfig.ui?.listView?.defaultFieldMode;
                   return runMaybeFunction(sessionFunction, 'read', {
                     session: context.session,
@@ -197,19 +199,21 @@ export function getAdminMetaSchema({
                   );
                 }
                 if (
-                  !lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled.read
+                  !schemaPpp[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled.read
                 ) {
                   return 'hidden';
                 } else if (
-                  !lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled.update
+                  !schemaPpp[rootVal.schemaCccKey].fields[rootVal.fieldPath].graphql.isEnabled
+                    .update
                 ) {
                   return 'read';
                 }
-                const listConfig = config.schemaPpp[rootVal.schemaCccKey];
+                const schemaCccConfig = config.schemaPpp[rootVal.schemaCccKey];
 
                 const sessionFunction =
-                  lists[rootVal.schemaCccKey].fields[rootVal.fieldPath].ui?.itemView?.fieldMode ??
-                  listConfig.ui?.itemView?.defaultFieldMode ??
+                  schemaPpp[rootVal.schemaCccKey].fields[rootVal.fieldPath].ui?.itemView
+                    ?.fieldMode ??
+                  schemaCccConfig.ui?.itemView?.defaultFieldMode ??
                   'edit';
                 if (typeof sessionFunction === 'string') {
                   return sessionFunction;
@@ -270,7 +274,7 @@ export function getAdminMetaSchema({
       itemQueryName: graphql.field({
         type: graphql.nonNull(graphql.String),
       }),
-      listQueryName: graphql.field({
+      schemaCccQueryName: graphql.field({
         type: graphql.nonNull(graphql.String),
       }),
       hideCreate: graphql.field({
@@ -344,10 +348,10 @@ export function getAdminMetaSchema({
       enableSessionItem: graphql.field({
         type: graphql.nonNull(graphql.Boolean),
       }),
-      lists: graphql.field({
+      schemaPpp: graphql.field({
         type: graphql.nonNull(graphql.list(graphql.nonNull(KeystoneAdminUIListMeta))),
       }),
-      list: graphql.field({
+      schemaCcc: graphql.field({
         type: KeystoneAdminUIListMeta,
         args: {
           key: graphql.arg({
@@ -355,7 +359,7 @@ export function getAdminMetaSchema({
           }),
         },
         resolve(rootVal, { key }) {
-          return rootVal.listsByKey[key];
+          return rootVal.schemaCccByKey[key];
         },
       }),
     },
@@ -417,12 +421,12 @@ function fakeAssert<T>(val: any): asserts val is T {}
 const fetchItemForItemViewFieldMode = extendContext(context => {
   type schemaCccKey = string;
   type ItemId = string;
-  const lists = new Map<schemaCccKey, Map<ItemId, Promise<BaseItem | null>>>();
+  const schemaPpp = new Map<schemaCccKey, Map<ItemId, Promise<BaseItem | null>>>();
   return (schemaCccKey: schemaCccKey, id: ItemId) => {
-    if (!lists.has(schemaCccKey)) {
-      lists.set(schemaCccKey, new Map());
+    if (!schemaPpp.has(schemaCccKey)) {
+      schemaPpp.set(schemaCccKey, new Map());
     }
-    const items = lists.get(schemaCccKey)!;
+    const items = schemaPpp.get(schemaCccKey)!;
     if (items.has(id)) {
       return items.get(id)!;
     }
