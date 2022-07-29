@@ -1,5 +1,16 @@
 # @keystone-6/fields-document
 
+## 5.0.0
+
+### Minor Changes
+
+- [#7729](https://github.com/keystonejs/keystone/pull/7729) [`36ed1e7e1`](https://github.com/keystonejs/keystone/commit/36ed1e7e14b857a14068685c3eda24b3203379d2) Thanks [@Achisingh](https://github.com/Achisingh)! - Changes the editors default overflow behaviour to align with other multi-line text inputs, supporting scrolling instead of an unbounded height for the field.
+
+### Patch Changes
+
+- Updated dependencies [[`bf70aa64d`](https://github.com/keystonejs/keystone/commit/bf70aa64dad1c62672a82ef5be8efc2203a96029), [`d2483bb4b`](https://github.com/keystonejs/keystone/commit/d2483bb4b1ad58533d86718753c20e0d21d6ee58), [`1d24916b8`](https://github.com/keystonejs/keystone/commit/1d24916b828af5e0d1bd49c56cf75b0086fe3414)]:
+  - @keystone-6/core@2.2.0
+
 ## 4.0.1
 
 ### Patch Changes

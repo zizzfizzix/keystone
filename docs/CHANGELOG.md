@@ -1,5 +1,12 @@
 # @keystone-6/website
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`36ed1e7e1`](https://github.com/keystonejs/keystone/commit/36ed1e7e14b857a14068685c3eda24b3203379d2)]:
+  - @keystone-6/fields-document@5.0.0
+
 ## 0.0.4
 
 ### Patch Changes
